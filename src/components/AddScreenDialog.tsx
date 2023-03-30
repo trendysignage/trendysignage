@@ -7,9 +7,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Box, Paper, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import ComputerIcon from '../computer-monitor-icon.svg'
+import ComputerIcon from '../computer-monitor-icon.svg';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -28,46 +28,52 @@ export default function AddScreenDialog() {
     console.log(event);
   };
   return (
-    <Paper
-      sx={{
-        p: 2,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 240
-      }}>
+    <>
       <Stack direction="row" spacing={2}>
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Button variant="contained" onClick={handleClickOpen}>
           <AddIcon /> Add Screen
         </Button>
       </Stack>
-      <Dialog className='dialog-a' fullWidth={true} maxWidth="md" open={open} onClose={handleClose}>
+      <Dialog className="dialog-a" fullWidth={true} maxWidth="md" open={open} onClose={handleClose}>
         <DialogTitle>
-          <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} variant="h6" component="h6">
+          <Typography
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            variant="h6"
+            component="h6">
             Don&apos;t have a display screen that is ready to use?
           </Typography>
           <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        > <CloseIcon /></IconButton>
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500]
+            }}>
+            {' '}
+            <CloseIcon />
+          </IconButton>
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-          <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} variant="h6" component="h6">
-             Register your screen
-          </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb:"2rem" }}>
-            <img height={100} width={100} src={ComputerIcon} />
+            <Typography
+              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              variant="h6"
+              component="h6">
+              Register your screen
+            </Typography>
+            <Box
+              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: '2rem' }}>
+              <img height={100} width={100} src={ComputerIcon} />
             </Box>
-            <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} variant="h6" component="h6">
-            Enter the 6 character &apos;Screen Registration Code &apos; as shown on your signage
+            <Typography
+              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              variant="h6"
+              component="h6">
+              Enter the 6 character &apos;Screen Registration Code &apos; as shown on your signage
               screen
-          </Typography>
+            </Typography>
           </DialogContentText>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <TextField
@@ -89,6 +95,6 @@ export default function AddScreenDialog() {
           </Box>
         </DialogActions>
       </Dialog>
-    </Paper>
+    </>
   );
 }
