@@ -5,6 +5,7 @@ import {Switch, Route } from 'react-router-dom'
 import './index.css'
 import './chart.css'
 import './step.css'
+import './custom.css'
 
 /// Layout
 import Nav from './layouts/nav'
