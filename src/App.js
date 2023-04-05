@@ -13,9 +13,9 @@ import "./css/style.css";
 
 const SignUp = lazy(() => import('./jsx/pages/Registration'));
 const ForgotPassword = lazy(() => import('./jsx/pages/ForgotPassword'));
-const Login = lazy(() => {
+const Auth = lazy(() => {
     return new Promise(resolve => {
-		setTimeout(() => resolve(import('./jsx/pages/Login')), 500);
+		setTimeout(() => resolve(import('./jsx/pages/Auth')), 500);
 	});
 });
 function App (props) {
@@ -26,7 +26,7 @@ function App (props) {
     
     let routes = (  
         <Switch>
-            <Route path='/login' component={Login} />
+            <Route path='/login' component={Auth} />
             <Route path='/page-register' component={SignUp} />
             <Route path='/page-forgot-password' component={ForgotPassword} />
         </Switch>
