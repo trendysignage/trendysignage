@@ -10,7 +10,7 @@ import assignIcon from "../../../img/assign-icon.png";
 import takeScreenshotIcon from "../../../img/tack-screenshot-icon.png";
 
 
-const ListScreen = () => {
+const ListMedia = () => {
   const [test, settest] = useState(false);
   const [showNewTagModal, setNewTagModal] = useState(false);
   // use effect
@@ -301,4 +301,4 @@ const ListScreen = () => {
   );
 };
 
-export default ListScreen;
+export default ListMedia;

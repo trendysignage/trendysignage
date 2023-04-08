@@ -10,7 +10,6 @@ import { isAuthenticated } from './store/selectors/AuthSelectors';
 import "./vendor/bootstrap-select/dist/css/bootstrap-select.min.css";
 import "./css/style.css";
 
-
 const SignUp = lazy(() => import('./jsx/pages/Registration'));
 const ForgotPassword = lazy(() => import('./jsx/pages/ForgotPassword'));
 const Auth = lazy(() => {

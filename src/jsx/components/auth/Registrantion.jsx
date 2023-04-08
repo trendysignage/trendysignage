@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { loadingToggleAction,loginAction,
 } from '../../../store/actions/AuthActions';
 import eyeOff from '../../../img/eye-off.svg'
@@ -76,5 +76,4 @@ const RegisterPage = (props)=>{
 		</div>
 		</div>)
 }
-
-export default RegisterPage;
+export default withRouter(RegisterPage);

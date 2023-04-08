@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import ListScreen from "./listScreens";
+import ListMedia from "./listMedia";
 import AddScreenModal from "../../modals/AddScreenModal";
 import FilterModal from "../../modals/FilterModal";
 import addImg from "../../../img/add-icon.png";
 import searchIcon from "../../../img/search.png";
 import listIcon from "../../../img/list-icon.png";
 
-const Screen = () => {
+const Media = () => {
   const [showScreenModal, setShowScreenModal] = useState(false);
   const [showFilterModal, setFilterModal] = useState(false);
 
   return (
     <>
       <div className="custom-content-heading d-flex flex-wrap">
-        <h1>Screen</h1>
+        <h1>Media</h1>
       </div>
       <div className="form-head d-flex mb-3 align-items-start">
         <Button
@@ -53,9 +53,9 @@ const Screen = () => {
           setFilterModal={setFilterModal}
         />
       </div>
-      <ListScreen />
+      <ListMedia />
     </>
   );
 };
 
-export default Screen;
+export default Media;

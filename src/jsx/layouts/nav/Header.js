@@ -22,7 +22,7 @@ const Header = ({ onNote }) => {
     }
   };
   return (
-    <div className="header" style={{ zIndex: "11" }}>
+    <div className="header header-custom" style={{ zIndex: "11" }}>
       <div className="header-content">
         <nav className="navbar navbar-expand">
           <div className="collapse navbar-collapse justify-content-between">

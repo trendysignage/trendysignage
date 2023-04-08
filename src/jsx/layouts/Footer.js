@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="footer">
+    <div className="footer footer-custom">
       <div className="copyright">
         <p>
           Copyright © Designed &amp; Developed by{" "}

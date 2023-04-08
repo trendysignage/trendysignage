@@ -1,64 +1,76 @@
-import { Button, Modal } from "react-bootstrap";
-import ComputerIcon from "../../img/computer-monitor-icon.svg";
+import { Button, Modal, Row, Col } from "react-bootstrap";
+import cancelIcon from "../../img/cancel-icon.png";
+
 const AddScreenModal = ({ showScreenModal, setShowScreenModal }) => {
   return (
     <Modal
-      className="fade bd-example-modal-lg mt-4"
+      className="fade bd-example-modal-lg mt-4 custom-modal custom-modal-medium"
       show={showScreenModal}
-      size="lg"
+      size="md"
     >
       <Modal.Header>
-        <Modal.Title>
-          Don't have a display screen that is ready to use?
-        </Modal.Title>
+        <Modal.Title>Add Screen</Modal.Title>
         <Button
           variant=""
           className="close"
           onClick={() => setShowScreenModal(false)}
         >
-          <span>&times;</span>
+          <img className="cancel-icon" src={cancelIcon} alt="cancel-icon" />
         </Button>
       </Modal.Header>
       <Modal.Body>
-        <div className="col-xl-12 col-lg-12 ">
-          <div className="addScreenModalTextContent">
-            <h4>Register your screen</h4>
-          </div>
-
-          <div className="img-bx">
-            <img
-              src={ComputerIcon}
-              alt=""
-              className=" mr-3 card-list-img w-100"
-              width="130"
-              height={130}
-            />
-          </div>
+        <div className="add-screen-paragraph">
+          <p>
+            Want to add new screen? Please fill in some information and continue
+          </p>
         </div>
-        <div className="">
-          <div className="card-header chat-list-header text-center addscreenHeaderSection">
-            Enter the 6 character 'Screen Registration Code ' as shown on your
-            signage screen
-          </div>
-          <div className="addScreenModalTextContent">
-          <div className="col-md-6"><input
-              type="text"
-              className="form-control input-default"
-              placeholder="Enter registration code"
-            /></div>
-            
-          </div>
-        </div>
+        <Row>
+          <Col lg={6} md={6} sm={6} xs={12}>
+            <div className="form-group">
+              <input
+                type="text"
+                className="form-control input-default form-field"
+                placeholder="Screen Name"
+              />
+            </div>
+          </Col>
+          <Col lg={6} md={6} sm={6} xs={12}>
+            <div className="form-group">
+              <input
+                type="text"
+                className="form-control input-default form-field"
+                placeholder="Screen Location"
+              />
+            </div>
+          </Col>
+          <Col lg={12} md={12} sm={12} xs={12}>
+            <div className="form-group">
+              <input
+                type="text"
+                className="form-control input-default form-field"
+                placeholder="Google Location"
+              />
+            </div>
+          </Col>
+          <Col lg={12} md={12} sm={12} xs={12}>
+            <div className="form-group">
+              <input
+                type="text"
+                className="form-control input-default form-field"
+                placeholder="Tags"
+              />
+            </div>
+          </Col>
+        </Row>
       </Modal.Body>
       <Modal.Footer>
         <Button
-          variant="danger light"
+          variant=""
+          type="button"
+          className="btn btn-primary btn-block primary-btn"
           onClick={() => setShowScreenModal(false)}
         >
-          Close
-        </Button>
-        <Button variant="" type="button" className="btn btn-primary">
-          Next
+          Add Screen
         </Button>
       </Modal.Footer>
     </Modal>

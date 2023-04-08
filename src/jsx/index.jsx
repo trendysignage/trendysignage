@@ -11,11 +11,9 @@ import './custom.css'
 import Nav from './layouts/nav'
 import Footer from './layouts/Footer'
 
-/// Dashboard
-import Screen from "./components/screen";
-
 //Scroll To Top
 import ScrollToTop from './layouts/ScrollToTop';
+import routes from '../constants/routes'
 
 
 const Markup = () => {
@@ -25,11 +23,7 @@ const Markup = () => {
   let pagePath = path.split('-').includes('page')
   const [activeEvent, setActiveEvent] = useState(!path)
 
-  const routes = [
-    /// Dashboard
-    { url: "", component: Screen },
-    { url: "screen", component: Screen },
-  ]
+
 
   return (
        <> 
@@ -47,7 +41,7 @@ const Markup = () => {
             )}
             <div
               className={` ${!path && activeEvent ? 'rightside-event' : ''} ${
-                !pagePath ? 'content-body' : ''
+                !pagePath ? 'content-body content-body-custom' : ''
               }`}
             >
               <div

@@ -5,6 +5,16 @@ import React, { Component } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 /// Link
 import { Link } from "react-router-dom";
+import monitorIcon from "../../../img/monitor.png";
+import assetsIcon from "../../../img/assets.png";
+import layoutIcon from "../../../img/layouts.png";
+import pushIcon from "../../../img/calendar.png";
+import integrationIcon from "../../../img/integration.png";
+import reportIcon from "../../../img/report.png";
+import subscriptionIcon from "../../../img/subscription.png";
+import settingIcon from "../../../img/setting.png";
+
+import Logout from "./Logout";
 
 class MM extends Component {
   componentDidMount() {
@@ -45,62 +55,69 @@ class SideBar extends Component {
     path = path[path.length - 1];
     /// Active menu
     let screen = [
-        "", "screen",
-      ], media = ['media'];
+        "", "display",
+      ], media = ['assets'],
+      layouts = ['layouts'],
+      push = ['push'],
+      integrations = ['integrations'],
+      reports = ['reports'],
+      subscriptions = ['subscriptions'],
+      settings = ['settings'];
     return (
-      <div className="deznav">
+      <div className="deznav sidebar-nav-common">
         <PerfectScrollbar className="deznav-scroll">
           <MM className="metismenu" id="menu">    
             <li className={`${screen.includes(path) ? "mm-active" : ""}`}>
-              <Link to="screen" className="ai-icon" >
-                <i className="flaticon-381-television"></i>
-                <span className="nav-text">Screen</span>
+              <Link to="display" className="ai-icon" >
+                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={monitorIcon} alt="menu-icon" /></span>
+                <span className="nav-text">Display</span>
               </Link>
             </li>
             <li className={`${media.includes(path) ? "mm-active" : ""}`}>
-              <Link to="media" className="ai-icon" >
-                <i className="flaticon-381-film-strip-1"></i>
-                <span className="nav-text">Media</span>
+              <Link to="assets" className="ai-icon" >
+                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={assetsIcon} alt="menu-icon" /></span>
+                <span className="nav-text">Assets</span>
               </Link>
             </li>
-            <li className={`${media.includes(path) ? "mm-active" : ""}`}>
-              <Link to="composition" className="ai-icon" >
-                <i className="flaticon-381-edit"></i>
-                <span className="nav-text">Composition</span>
+            <li className={`${layouts.includes(path) ? "mm-active" : ""}`}>
+              <Link to="layouts" className="ai-icon" >
+                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={layoutIcon} alt="menu-icon" /></span>
+                <span className="nav-text">Layouts</span>
               </Link>
             </li>
-            <li className={`${media.includes(path) ? "mm-active" : ""}`}>
-              <Link to="publish" className="ai-icon" >
-                <i className="flaticon-381-fast-forward-1"></i>
-                <span className="nav-text">Publish</span>
+            <li className={`${push.includes(path) ? "mm-active" : ""}`}>
+              <Link to="push" className="ai-icon" >
+                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={pushIcon} alt="menu-icon" /></span>
+                <span className="nav-text">Push</span>
               </Link>
             </li>
-            <li className={`${media.includes(path) ? "mm-active" : ""}`}>
-              <Link to="apps" className="ai-icon" >
-                <i className="flaticon-381-app"></i>
-                <span className="nav-text">Apps</span>
+            <li className={`${integrations.includes(path) ? "mm-active" : ""}`}>
+              <Link to="integrations" className="ai-icon" >
+                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={integrationIcon} alt="menu-icon" /></span>
+                <span className="nav-text">Integrations</span>
               </Link>
             </li>
-            <li className={`${media.includes(path) ? "mm-active" : ""}`}>
+            <li className={`${reports.includes(path) ? "mm-active" : ""}`}>
               <Link to="reports" className="ai-icon" >
-                <i className="flaticon-381-equal"></i>
+                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={reportIcon} alt="menu-icon" /></span>
                 <span className="nav-text">Reports</span>
               </Link>
             </li>
-            <li className={`${media.includes(path) ? "mm-active" : ""}`}>
-              <Link to="plan" className="ai-icon" >
-                <i className="flaticon-381-database"></i>
-                <span className="nav-text">My Plan</span>
+            <li className={`${subscriptions.includes(path) ? "mm-active" : ""}`}>
+              <Link to="subscriptions" className="ai-icon" >
+                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={subscriptionIcon} alt="menu-icon" /></span>
+                <span className="nav-text">My Subscriptions</span>
               </Link>
             </li>
-            <li className={`${media.includes(path) ? "mm-active" : ""}`}>
+            <li className={`${settings.includes(path) ? "mm-active" : ""}`}>
               <Link to="settings" className="ai-icon" >
-                <i className="flaticon-381-settings-5"></i>
+                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={settingIcon} alt="menu-icon" /></span>
                 <span className="nav-text">Settings</span>
               </Link>
             </li>
           </MM>
-
+          <Logout />
+      
 			</PerfectScrollbar>
       </div>
     );
