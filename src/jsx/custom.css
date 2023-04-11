@@ -71,8 +71,8 @@ body {
 .login-form-bx.auth-page .tab-content h3 {
   font-style: normal;
   font-weight: 800;
-  font-size: 48px;
-  line-height: 62px;
+  font-size: 45px;
+  line-height: 55px;
   letter-spacing: 0.01em;
   text-transform: capitalize;
   color: var(--white);
@@ -85,8 +85,8 @@ body {
 .login-form-bx.auth-page .welcome-content-paragraph {
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 30px;
+  font-size: 18px;
+  line-height: 25px;
   letter-spacing: 0.01em;
   color: var(--white);
   opacity: 0.7;
@@ -98,7 +98,7 @@ body {
   padding: 0.75rem 0;
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 20px;
   color: var(--white);
   line-height: 29px;
   font-family: var(--font-stack);
@@ -130,7 +130,7 @@ body {
 .login-form-bx.auth-page .form-control {
   background-color: transparent;
   color: var(--white);
-  height: 53px;
+  height: 49px;
   border: 1px solid #ffffff;
   border-radius: 10px;
   padding: 14px 20px;
@@ -146,11 +146,11 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 16px 20px;
+  padding: 12px 20px;
   border: none;
   font-style: normal;
   font-weight: 800;
-  font-size: 22px;
+  font-size: 19px;
   line-height: 30px;
   letter-spacing: 0.01em;
   color: var(--white);
@@ -167,8 +167,8 @@ body {
 .revover-password {
   font-style: normal;
   font-weight: 600;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 16px;
+  line-height: 15px;
   letter-spacing: 0.01em;
   color: var(--white);
   font-family: var(--font-stack);
@@ -242,7 +242,7 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  padding: 14px 20px;
+  padding: 12px 20px;
   width: 100%;
   font-style: normal;
   font-weight: 500;
@@ -330,6 +330,7 @@ body {
   padding: 32px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .content-body-custom .table-responsive {
   overflow: visible;
@@ -479,6 +480,7 @@ body {
   border-left: none;
   padding: 1rem 0 1rem 0.6rem;
   margin-left: 0;
+  color: var(--white);
 }
 .btn.btn-info.add-screen-btn .add-new-icon img {
   width: 20px;
@@ -486,6 +488,57 @@ body {
   margin-left: 0.3rem;
 }
 .btn.btn-info.add-screen-btn .btn-icon-right .glyph-icon {
+  font-size: 12px;
+}
+
+
+
+
+
+
+
+.btn.add-media-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 20px;
+  min-height: 50px;
+  border-radius: 12px;
+  background: var(--primary);
+  border-color: var(--primary);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15.5px;
+  line-height: 22px;
+  text-align: center;
+  font-family: var(--font-manrope);
+  color: var(--white);
+}
+.btn.add-media-btn:hover,
+.btn.add-media-btn:focus,
+.btn.add-media-btn:active {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  color: var(--white);
+}
+.btn.add-media-btn:not(:disabled):not(.disabled):active {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  color: var(--white);
+}
+.btn.add-media-btn .btn-icon-right {
+  border-left: none;
+  padding: 1rem 0 1rem 0.6rem;
+  margin-left: 0;
+  color: var(--white);
+}
+.btn.add-media-btn .add-new-icon img {
+  width: 20px;
+  height: 20px;
+  margin-left: 0.3rem;
+}
+.btn.add-media-btn .btn-icon-right .glyph-icon {
   font-size: 12px;
 }
 .search-textfield {
@@ -898,6 +951,92 @@ border-radius: 4px;
 /* Screen Page end here */
 
 
+/* Media Page start here */
+
+.empty-media-img {
+  max-width: 350px;
+  margin-bottom: 20px;
+}
+.empty-media-img img {
+  max-width: 350px;
+}
+.empty-media {
+  padding: 50px 0 0;
+  overflow: auto;
+  margin-right: -31px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.empty-media h3  {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 27px;
+  line-height: initial;
+  font-family: var(--font-manrope);
+  color: var(--table-td-color);
+  margin-bottom: 10px;
+}
+.empty-media p  {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--table-td-color);
+  font-family: var(--font-manrope);
+  margin-bottom: 0;
+}
+
+.name-img {
+  width: 40px;
+  height: 40px;
+}
+.name-img img {
+  width: 40px;
+  height: 40px;
+}
+.table.custom-table .td-content.name-td-content {
+  flex-direction: inherit;
+}
+.upload-file-container {
+  border: 1px dashed #C2C2C2;
+border-radius: 4px;
+padding: 30px 20px;
+margin-bottom: 15px;
+}
+.upload-file-container .upload-flie-img {
+width: 80px;
+height: 80px;
+margin-bottom: 8px;
+}
+.upload-file-container .upload-flie-img img {
+  width: 80px;
+  height: 80px;
+  } 
+  .upload-file-container h6 {
+    font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+font-family: var(--font-manrope);
+color: var(--table-td-color);
+  }
+  .upload-file-container  input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    opacity: 0;
+  }
+  .font-weight-500 {
+    font-weight: 500 !important;
+  }
+/* Media page end here */
+
 
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
@@ -923,6 +1062,13 @@ border-radius: 4px;
   .revover-password {
     margin-bottom: 25px;
   }
+  .empty-media-img {
+    max-width: 200px;
+    margin-bottom: 20px;
+  }
+  .empty-media-img img {
+    max-width: 200px;
+  }
 }
 @media (max-width: 1200px) {
   .login-form-bx .box-skew.login-rightpanel .authincation-content {
@@ -938,6 +1084,7 @@ border-radius: 4px;
   .nav-header.navbar-header-custom {
     z-index: 1 !important;
 }
+
 }
 @media (max-width: 991px) {
   .login-center-img {
@@ -989,7 +1136,7 @@ border-radius: 4px;
   top: 41px;
 }
 [data-headerbg="color_1"] .navbar-header-custom.nav-header .hamburger.is-active .line, [data-headerbg="color_1"] .navbar-header-custom.nav-header .hamburger .line {
-  background: var(--primary) !important;
+  background: var(--white) !important;
 }
 #main-wrapper.show.menu-toggle .deznav.sidebar-nav-common {
   left: 0;
@@ -998,6 +1145,12 @@ border-radius: 4px;
 }
 .logout-link li a {
   padding: 14px 10px 14px 20px;
+}
+.sidebar-nav-common.deznav .metismenu > li.mm-active > a {
+  color: #fff;
+}
+.navbar-header-custom.nav-header .brand-logo {
+  justify-content: flex-start;
 }
 }
 

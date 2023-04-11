@@ -1,7 +1,5 @@
-import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
+import { Button, Modal Badge } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
-import tagCloseIcon from "../../img/tag-close-icon.png";
-import { Link } from "react-router-dom";
 
 const FilterModal = ({ showFilterModal, setFilterModal }) => {
   return (
