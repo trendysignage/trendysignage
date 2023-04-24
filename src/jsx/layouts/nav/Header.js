@@ -1,13 +1,26 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
+/// Scroll
+import PerfectScrollbar from "react-perfect-scrollbar";
 
 /// Image
 import profile from "../../../images/profile/pic1.jpg";
+import avatar from "../../../images/avatar/1.jpg";
 import { Dropdown } from "react-bootstrap";
 import LogoutPage from './Logout';
 
 const Header = ({ onNote }) => {
+  const onFullScreen = () => {
+    var elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    }
+  };
   return (
     <div className="header header-custom" style={{ zIndex: "11" }}>
       <div className="header-content">

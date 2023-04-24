@@ -1,0 +1,31 @@
+.tag-preview {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px 0;
+  }
+  
+  .tag-preview > div {
+    background-color: #eee;
+    border-radius: 10px;
+    color: #333;
+    font-size: 14px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .tag-preview > div > span {
+    margin-right: 5px;
+  }
+  
+  .tag-preview > div > button {
+    background-color: transparent;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 5px;
+  }
+  

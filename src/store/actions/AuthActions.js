@@ -1,10 +1,10 @@
 import {
     formatError,
-    login,
     runLogoutTimer,
     saveTokenInLocalStorage,
     signUp,
 } from '../../services/AuthService';
+import { login } from '../../utils/api';
 
 export const SIGNUP_CONFIRMED_ACTION = '[signup action] confirmed signup';
 export const SIGNUP_FAILED_ACTION = '[signup action] failed signup';
@@ -45,23 +45,15 @@ export function loginAction(email, password, history) {
     return (dispatch) => {
         login(email, password)
             .then((response) => {
-                saveTokenInLocalStorage(response.data);
-                runLogoutTimer(
-                    dispatch,
-                    response.data.expiresIn * 1000,
-                    history,
-                );
-                dispatch(loginConfirmedAction(response.data));
+                const token = response.data.data;
+                saveTokenInLocalStorage(token);
+                dispatch(loginConfirmedAction(token));
 				history.push('/');
-				//window.location.reload();
-                
-				//history.pushState('/index');
-                
             })
             .catch((error) => {
-                console.log("error", error)
-                const errorMessage = formatError(error.response.data);
-                dispatch(loginFailedAction(errorMessage));
+                console.log(error)
+                // const errorMessage = formatError(error.response.data);
+                // dispatch(loginFailedAction(errorMessage));
             });
     };
 }

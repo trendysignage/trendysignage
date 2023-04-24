@@ -2,11 +2,11 @@ import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 import tagCloseIcon from "../../img/tag-close-icon.png";
 
-const AddNewTagModal = ({ showNewTagModal, setNewTagModal }) => {
+const AddNewTagModal = ({ setNewTagModal, selected }) => {
   return (
     <Modal
       className="fade bd-example-modal-lg mt-4 custom-modal custom-modal-medium"
-      show={showNewTagModal}
+      show={true}
       size="md"
     >
       <Modal.Header>
@@ -24,8 +24,11 @@ const AddNewTagModal = ({ showNewTagModal, setNewTagModal }) => {
           <p>Type in new name to create your tag</p>
         </div>
         <div className="tag-name-row d-flex flex-wrap">
-          <Badge as="a" href="" className="tag-name" variant="outline-primary">
-            <span className="tag-name-content">My Tag</span>
+
+          {selected !== "" && selected.tags.map((tag) =>{
+            return (
+            <Badge  className="tag-name" variant="outline-primary">
+            <span className="tag-name-content">{tag}</span>
             <span className="tag-close">
               <img
                 className="tag-close-icon"
@@ -34,16 +37,8 @@ const AddNewTagModal = ({ showNewTagModal, setNewTagModal }) => {
               />
             </span>
           </Badge>
-          <Badge as="a" href="" className="tag-name" variant="outline-primary">
-            <span className="tag-name-content">My Tag</span>
-            <span className="tag-close">
-              <img
-                className="tag-close-icon"
-                src={tagCloseIcon}
-                alt="tag-icon"
-              />
-            </span>
-          </Badge>
+          )})}
+          
         </div>
         <Row>
           <Col lg={12} md={12} sm={12} xs={12}>

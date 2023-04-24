@@ -10,7 +10,6 @@ axiosInstance.interceptors.request.use((config) => {
     const token = state.auth.auth.idToken;
     config.params = config.params || {};
     config.params['auth'] = token;
-	console.log(config);
     return config;
 });
 

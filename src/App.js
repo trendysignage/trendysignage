@@ -1,4 +1,5 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 /// Components
 import Index from './jsx/index';
 import { connect, useDispatch } from 'react-redux';
@@ -9,23 +10,26 @@ import { isAuthenticated } from './store/selectors/AuthSelectors';
 /// Style
 import "./vendor/bootstrap-select/dist/css/bootstrap-select.min.css";
 import "./css/style.css";
+import { BASE_URL } from './utils/api';
+// import { socket } from './utils/socket';
+
 
 const SignUp = lazy(() => import('./jsx/pages/Registration'));
 const ForgotPassword = lazy(() => import('./jsx/pages/ForgotPassword'));
-const Auth = lazy(() => {
+const Login = lazy(() => {
     return new Promise(resolve => {
-		setTimeout(() => resolve(import('./jsx/pages/Auth')), 500);
+		setTimeout(() => resolve(import('./jsx/pages/Login')), 500);
 	});
 });
 function App (props) {
+    // const [isConnected, setIsConnected] = useState(socket.connected);
     const dispatch = useDispatch();
     useEffect(() => {
         checkAutoLogin(dispatch, props.history);
     }, [dispatch, props.history]);
-    
     let routes = (  
         <Switch>
-            <Route path='/login' component={Auth} />
+            <Route path='/login' component={Login} />
             <Route path='/page-register' component={SignUp} />
             <Route path='/page-forgot-password' component={ForgotPassword} />
         </Switch>

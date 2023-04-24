@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import ListScreen from "./listScreens";
 import AddScreenModal from "../../modals/AddScreenModal";
 import FilterModal from "../../modals/FilterModal";
-import addImg from "../../../img/add-icon.png";
 import searchIcon from "../../../img/search.png";
 import listIcon from "../../../img/list-icon.png";
+import { getAllScreens } from "../../../utils/api";
 
 const Screen = () => {
   const [showScreenModal, setShowScreenModal] = useState(false);
   const [showFilterModal, setFilterModal] = useState(false);
-
+  const [allScreens, setAllScreens] = useState("");
+  // use effect
+  useEffect(() => {
+    callAllScreenApi();
+  }, []);
+  const callAllScreenApi = async () => {
+    const list = await getAllScreens();
+    setAllScreens(list);
+  };
   return (
     <>
       <div className="custom-content-heading d-flex flex-wrap">
@@ -38,22 +46,26 @@ const Screen = () => {
             />
             <img className="search-icon" src={searchIcon} alt="search" />
           </div>
-          <Button className="ml-2 icon-btn" variant="primary" onClick={() => {
-            setFilterModal(true);
-          }}>
+          <Button
+            className="ml-2 icon-btn"
+            variant="primary"
+            onClick={() => {
+              setFilterModal(true);
+            }}
+          >
             <img className="icon-icon" src={listIcon} alt="list-icon" />
           </Button>
         </div>
-        <AddScreenModal
-          showScreenModal={showScreenModal}
-          setShowScreenModal={setShowScreenModal}
-        />
-             <FilterModal
+        {showScreenModal && (
+          <AddScreenModal setShowScreenModal={setShowScreenModal}  callAllScreenApi={callAllScreenApi}/>
+        )}
+
+        <FilterModal
           showFilterModal={showFilterModal}
           setFilterModal={setFilterModal}
         />
       </div>
-      <ListScreen />
+      <ListScreen allScreens={allScreens} />
     </>
   );
 };

@@ -68,49 +68,49 @@ class SideBar extends Component {
         <PerfectScrollbar className="deznav-scroll">
           <MM className="metismenu" id="menu">    
             <li className={`${screen.includes(path) ? "mm-active" : ""}`}>
-              <Link to="display" className="ai-icon" >
+              <Link to="/display" className="ai-icon" >
                 <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={monitorIcon} alt="menu-icon" /></span>
                 <span className="nav-text">Display</span>
               </Link>
             </li>
             <li className={`${media.includes(path) ? "mm-active" : ""}`}>
-              <Link to="assets" className="ai-icon" >
+              <Link to="/assets" className="ai-icon" >
                 <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={assetsIcon} alt="menu-icon" /></span>
                 <span className="nav-text">Assets</span>
               </Link>
             </li>
             <li className={`${layouts.includes(path) ? "mm-active" : ""}`}>
-              <Link to="layouts" className="ai-icon" >
+              <Link to="/layouts" className="ai-icon" >
                 <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={layoutIcon} alt="menu-icon" /></span>
                 <span className="nav-text">Layouts</span>
               </Link>
             </li>
             <li className={`${push.includes(path) ? "mm-active" : ""}`}>
-              <Link to="push" className="ai-icon" >
+              <Link to="/push" className="ai-icon" >
                 <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={pushIcon} alt="menu-icon" /></span>
                 <span className="nav-text">Push</span>
               </Link>
             </li>
             <li className={`${integrations.includes(path) ? "mm-active" : ""}`}>
-              <Link to="integrations" className="ai-icon" >
+              <Link to="/integrations" className="ai-icon" >
                 <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={integrationIcon} alt="menu-icon" /></span>
                 <span className="nav-text">Integrations</span>
               </Link>
             </li>
             <li className={`${reports.includes(path) ? "mm-active" : ""}`}>
-              <Link to="reports" className="ai-icon" >
+              <Link to="/reports" className="ai-icon" >
                 <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={reportIcon} alt="menu-icon" /></span>
                 <span className="nav-text">Reports</span>
               </Link>
             </li>
             <li className={`${subscriptions.includes(path) ? "mm-active" : ""}`}>
-              <Link to="subscriptions" className="ai-icon" >
+              <Link to="/subscriptions" className="ai-icon" >
                 <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={subscriptionIcon} alt="menu-icon" /></span>
                 <span className="nav-text">My Subscriptions</span>
               </Link>
             </li>
             <li className={`${settings.includes(path) ? "mm-active" : ""}`}>
-              <Link to="settings" className="ai-icon" >
+              <Link to="/settings" className="ai-icon" >
                 <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={settingIcon} alt="menu-icon" /></span>
                 <span className="nav-text">Settings</span>
               </Link>

@@ -1,8 +1,45 @@
 import { Button, Modal } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
-import uploadImg from "../../img/cloud-computing-icon.png";
+import FileUploadWithPreview from "../components/media/fileUploadWithPreview";
+import { useState } from "react";
+import { addMedia } from "../../utils/api";
 
-const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal }) => {
+const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal, callAllMediaApi }) => {
+  const [file, setFile] = useState(null);
+  const [error, setShowError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleUpload = async () => {
+    setIsLoading(true)
+    if (!file) {
+      setIsLoading(false)
+      setShowError("Please select a File")
+      return false;
+    } 
+
+    if (!file.type.includes('image') && !file.type.includes('video')) {
+      setIsLoading(false)
+      setShowError("Please upload an image or video file.")
+      return;
+    }
+    const formData = new FormData();
+    formData.append('file', file);
+    // formData.append('title', file.name);
+    formData.append('properties', bytesToMB(file.size));
+    if (file.type.includes('image')) {
+      formData.append('type', "image");
+    } else if (file.type.includes('video')) {
+      formData.append('type', "video");
+    } else {
+      return false;
+    }
+     await addMedia(formData)
+     setIsLoading(false)
+     callAllMediaApi()
+     setUploadMediaModal(false)
+  };
+  const bytesToMB = (bytes) => {
+    return (bytes / (1024 * 1024)).toFixed(2);
+  };
   return (
     <Modal
       className="fade bd-example-modal-lg mt-4 custom-modal custom-modal-medium"
@@ -20,26 +57,29 @@ const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal }) => {
         </Button>
       </Modal.Header>
       <Modal.Body>
-        <div className="upload-file-container relative d-flex align-items-center justify-content-center flex-column">
-          <div className="upload-flie-img">
-            <img className="upload-file" src={uploadImg} alt="upload-img" />
-          </div>
-          <h6>Click here to upload files</h6>
-          <input type="file" className="upload-file-textfield" />
-        </div>
+
+
+
+     <FileUploadWithPreview file={file}  setFile={setFile} setShowError={setShowError}/>
+    
+        {error && <div className="error text-center font-weight-500">{error}</div>}
         <div class="add-screen-paragraph text-center font-weight-500">
-          <p>We support JPEG, PNG, MP4 dummy text.</p>
+          <p>We support JPEG, PNG, MP4.</p>
         </div>
       </Modal.Body>
       <Modal.Footer>
+      <div className="loader-button-container">
         <Button
           variant=""
           type="button"
-          className="btn btn-primary btn-block primary-btn"
-          onClick={() => setUploadMediaModal(false)}
+          disabled={isLoading}
+          className={`btn btn-primary btn-block primary-btn`}
+          onClick={() => handleUpload()}
         >
-          Upload
+        {isLoading ? <div className="loader"></div> : 'Upload'}
+          
         </Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );
