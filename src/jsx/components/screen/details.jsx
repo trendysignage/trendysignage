@@ -289,7 +289,7 @@ const ScreenDetails = () => {
           <span className="screen-subheading">{screen.name}</span>
 
           <div className="ml-auto d-flex flex-wrap align-items-center">
-            <a className=" btn btn-primary" variant="primary"
+            <a className=" btn btn-primary btn-xs" variant="primary"
                           href={`/web-player?id=${screen.device.deviceToken}`}
                           target="_blank"
                           rel="noreferrer"

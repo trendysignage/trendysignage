@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import WebMain from "./main";
 import { v4 as uuidv4 } from "uuid";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "../../custom.css";
 const Webplayer = () => {
-  const { id } = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
   const [screenId, setScreenId] = useState(id);
 
   useEffect(() => {
