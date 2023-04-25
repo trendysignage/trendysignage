@@ -18,7 +18,7 @@ import Screen from "./components/screen";
 import ScrollToTop from './layouts/ScrollToTop';
 import Media from './components/media'
 import Settings from './components/settings'
-import Webplayer from './components/web-player'
+// import Webplayer from './components/web-player'
 import ScreenDetails from './components/screen/details'
 
 
@@ -36,7 +36,7 @@ const Markup = () => {
     { url: "display", component: Screen },
     { url: "assets", component: Media },
     {url: "settings", component: Settings},
-    {url: "web-player", component: Webplayer},
+    // {url: "web-player", component: Webplayer},
     {url: "display/:id", component: ScreenDetails},
   ]
 

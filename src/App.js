@@ -10,7 +10,7 @@ import { isAuthenticated } from './store/selectors/AuthSelectors';
 /// Style
 import "./vendor/bootstrap-select/dist/css/bootstrap-select.min.css";
 import "./css/style.css";
-import { BASE_URL } from './utils/api';
+import Webplayer from './jsx/components/web-player';
 // import { socket } from './utils/socket';
 
 
@@ -22,10 +22,16 @@ const Login = lazy(() => {
 	});
 });
 function App (props) {
+    let path = window.location.pathname
+    path = path.split('/')
+    path = path[path.length - 1]
     // const [isConnected, setIsConnected] = useState(socket.connected);
     const dispatch = useDispatch();
     useEffect(() => {
-        checkAutoLogin(dispatch, props.history);
+        if(path !== 'web-player'){
+            checkAutoLogin(dispatch, props.history);
+        }
+
     }, [dispatch, props.history]);
     let routes = (  
         <Switch>
@@ -34,7 +40,14 @@ function App (props) {
             <Route path='/page-forgot-password' component={ForgotPassword} />
         </Switch>
     );
-    if (props.isAuthenticated) {
+    if(path === 'web-player'){
+        return (
+    <Switch>
+        <Route path='/web-player' component={Webplayer} />
+    </Switch>
+        )
+    }
+    else if (props.isAuthenticated) {
 		return (
 			<>
                 <Suspense fallback={

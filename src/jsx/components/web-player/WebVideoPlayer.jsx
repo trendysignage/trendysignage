@@ -11,6 +11,7 @@ const WebVideoPlayer = (props) => {
       autoplay: true,
       controls: false,
       muted:true,
+      loop:true,
       src: props.src
     });
     return () => {
