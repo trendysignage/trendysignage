@@ -20,6 +20,12 @@ import Media from './components/media'
 import Settings from './components/settings'
 // import Webplayer from './components/web-player'
 import ScreenDetails from './components/screen/details'
+import Layout from './components/layout/Layout'
+import ChooseLayout from './components/layout/ChooseLayout'
+import CreateComposition from './components/layout/Composition/CreateComposition'
+import Push from './components/push/PushScreen'
+import SelectComparison from './components/push/SelectComparison'
+import EditComposition from './components/layout/Composition/EditComposition'
 
 
 
@@ -36,10 +42,16 @@ const Markup = () => {
     { url: "display", component: Screen },
     { url: "assets", component: Media },
     {url: "settings", component: Settings},
+    {url: "layout", component: Layout},
+    {url: "chooselayout", component: ChooseLayout},
+    {url: "createComposition", component: CreateComposition},
+    {url: "composition/edit", component: EditComposition},
+    { url: "push", component: Push },
+    { url: "SelectComparison", component: SelectComparison },
     // {url: "web-player", component: Webplayer},
     {url: "display/:id", component: ScreenDetails},
   ]
-
+console.log(path)
   return (
        <> 
           <div

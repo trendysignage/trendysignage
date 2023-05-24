@@ -11,6 +11,8 @@ import { isAuthenticated } from './store/selectors/AuthSelectors';
 import "./vendor/bootstrap-select/dist/css/bootstrap-select.min.css";
 import "./css/style.css";
 import Webplayer from './jsx/components/web-player';
+import Layout from './jsx/components/layout/Layout';
+import PushScreen from './jsx/components/push/PushScreen';
 // import { socket } from './utils/socket';
 
 
@@ -38,6 +40,8 @@ function App (props) {
             <Route path='/login' component={Login} />
             <Route path='/page-register' component={SignUp} />
             <Route path='/page-forgot-password' component={ForgotPassword} />
+            <Route path='/layout' component={Layout} />
+            <Route path='/push' component={PushScreen} />
         </Switch>
     );
     if(path === 'web-player'){

@@ -3,6 +3,7 @@ import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 
 const WebVideoPlayer = (props) => {
+
   const videoRef = useRef(null);
   const playerRef = useRef(null);
 
@@ -20,19 +21,18 @@ const WebVideoPlayer = (props) => {
         playerRef.current = null;
       }
     };
-  }, [props]);
+  }, [props.src]);
 
   useEffect(() => {
     if (playerRef.current) {
-        console.log("playerRef.current.src", playerRef.current.src)
       playerRef.current.src({ src: props.src });
     }
   }, [props.src]);
 
   return (
-    <div>
-      <video ref={videoRef} className="video-js" />
-    </div>
+  <> <video ref={videoRef} className="video-js" /></>
+     
+
   );
 };
 

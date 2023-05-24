@@ -33,9 +33,22 @@ const ListMedia = ({ allMedia,callAllMediaApi }) => {
    const handlePublishcOpen = (media)=>{
     setShowPublishPopUp(media);
    }
+ const parseMeta = (media) => {
+  const meta = JSON.parse(media.properties)
+  return (
+  <span className="td-content">
+  {media.type === "image" && <strong>{meta.height} x  {meta.width}</strong>}
+  {media.type === "video" && <strong>{meta.length.toFixed(0)/60} Sec</strong>}
+  <span>{meta.size} MB</span>
+</span>
+  )
+ }
+ const videoMetaDuration = (media)=>{
+  return JSON.parse(media.properties).length.toFixed(0)/60
+ }
   return (
     <>
-      {allMedia !== "" ? (
+      {allMedia && allMedia.length !== 0 ? (
         <Table responsive className="custom-table">
           <thead>
             <tr>
@@ -50,20 +63,16 @@ const ListMedia = ({ allMedia,callAllMediaApi }) => {
           <tbody>
             {allMedia.map((media) => {
               return (
-                <tr>
+                <tr key={media._id}>
                   <td>
                     <span className="td-content d-flex name-td-content">
-                      <span className="name-img mr-2">
+                      <span className={`name-img mr-2  ${media.type === "video" && "videotableName"}`}>
                       {media.type === "image" && <img
                           className="media-img img-fluid"
                           src={`${BASE_URL}${media.title}`}
                           alt="media-img"
                         />}
-                         {media.type === "video" && <video
-                          className="media-img img-fluid"
-                          src={`${BASE_URL}${media.title}`}
-                          alt="media-img"
-                        />}
+                         {media.type === "video" && videoMetaDuration(media)}
                       </span>
                       <span className="name-content d-flex flex-column flex-grow-1">
                         <strong>{media.title.split("/")[media.title.split("/").length -1]}</strong>
@@ -81,10 +90,7 @@ const ListMedia = ({ allMedia,callAllMediaApi }) => {
                     </span>
                   </td>
                   <td>
-                    <span className="td-content">
-                      <strong>{media.properties.split(",")[1]}</strong>
-                      <span>{media.properties.split(",")[0]}</span>
-                    </span>
+                    {parseMeta(media)}
                   </td>
                   <td>
                     {media.tags.map((tag) => {
@@ -193,6 +199,7 @@ const ListMedia = ({ allMedia,callAllMediaApi }) => {
         <PublishMediaModal
           selected={showPublishPopUp}
           setShowPublishPopUp={setShowPublishPopUp}
+          type="media"
         />
       )}
       {deleteModal && <DeleteConfirmation setDeleteModal={setDeleteModal} callbackFunction={handleDelete} text="Are you sure you want to delete?" yes={"Yes Deactivate"}/>}

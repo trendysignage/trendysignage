@@ -25,7 +25,7 @@ const AddNewTagModal = ({ setNewTagModal, selected }) => {
         </div>
         <div className="tag-name-row d-flex flex-wrap">
 
-          {selected !== "" && selected.tags.map((tag) =>{
+          {selected  && selected.tags && selected.tags.map((tag) =>{
             return (
             <Badge  className="tag-name" variant="outline-primary">
             <span className="tag-name-content">{tag}</span>
@@ -66,7 +66,7 @@ const AddNewTagModal = ({ setNewTagModal, selected }) => {
               className="btn btn-primary btn-block primary-btn"
               onClick={() => setNewTagModal(false)}
             >
-              Add Screen
+              Save
             </Button>
           </Col>
         </Row>

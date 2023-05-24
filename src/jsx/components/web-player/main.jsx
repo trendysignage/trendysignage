@@ -1,15 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
-import { addScreenCode, BASE_URL } from "../../../utils/api";
+import { addScreenCode, BASE_URL, getCompositionById } from "../../../utils/api";
 import { Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
 import { io } from "socket.io-client";
 import WebVideoPlayer from "./WebVideoPlayer";
-const WebMain = ({id}) => {
+import CompositionPlayer from "./compositionPlayer";
+import useSWR from 'swr'
+const WebMain = ({id, handleAddClass, onFullScreen}) => {
   const [media, setMedia] = useState("");
   const [code, seCode] = useState("");
   const [contentType, setContentType] = useState("");
+  const initiaload = useRef(true)
   // const [timeout, setApiTimeout] = useState("");
-  const divRef = useRef(null);
+
   const getScreenCode = async () => {
     let timeoutTimer;
     const getContent = await addScreenCode(id);
@@ -17,12 +20,21 @@ const WebMain = ({id}) => {
       if (getContent?.content.length) {
         const getMedia =
           getContent?.content[getContent.content.length - 1].media;
-        setMedia(`${BASE_URL}${getMedia.title}`);
-        setContentType(getMedia.type); 
-        clearTimeout(timeoutTimer)
-        timeoutTimer = setTimeout(() => {
-          getScreenCode();
-        }, 60000);
+          const mediaType =
+          getContent?.content[getContent.content.length - 1].type;
+          
+        if(mediaType === "composition"){
+          setMedia(getMedia);
+          setContentType("composition"); 
+        } else {
+          setMedia(`${BASE_URL}${getMedia.title}`);
+          setContentType(getMedia.type); 
+          clearTimeout(timeoutTimer)
+          timeoutTimer = setTimeout(() => {
+            getScreenCode();
+          }, 60000);
+        }
+
       } else {
         setContentType("default_media");
       }
@@ -43,9 +55,13 @@ const WebMain = ({id}) => {
     // no-op if the socket is already connected
     socket.connect();
     function onReceiveContent(value) {
-        console.log("value:", value)
+    if(initiaload.current === true){
+      initiaload.current = false
+    } else {
       setContentType(null);
       getScreenCode();
+    }
+     
     }
     function onDisconnectDevice(value) {
       setContentType(null);
@@ -54,30 +70,19 @@ const WebMain = ({id}) => {
     socket.on("disconnectDevice", onDisconnectDevice);
     
     socket.on("receiveContent", onReceiveContent);
+    socket.on("receiveComposition", onReceiveContent);
     return () => {
       socket.disconnect();
       socket.off("receiveContent", onReceiveContent);
     };
   }, []);
 
-  const onFullScreen = () => {
-    if (divRef.current) {
-      // divRef.current.requestFullscreen();
-      if (divRef.current.requestFullscreen) {
-        divRef.current.requestFullscreen();
-      } else if (divRef.current.webkitRequestFullscreen) {
-        divRef.current.webkitRequestFullscreen();
-      } else if (divRef.current.msRequestFullscreen) {
-        divRef.current.msRequestFullscreen();
-      }
-    }
-  };
+
 
   return (
-    <Col xl="12">
-      <div>
+    <Col xl="12" >
         <div>
-          <div>
+    
             {" "}
             <button id="Fullscreen" onClick={() => onFullScreen()}>
               <div class="full-text">
@@ -88,9 +93,9 @@ const WebMain = ({id}) => {
                 </div>
               </div>
             </button>
-          </div>
+          
         </div>
-        {<div ref={divRef}>
+        {< >
           {contentType === "code" && (
             <div className="basic-list-group ">
               <div className="main-block">
@@ -164,17 +169,38 @@ const WebMain = ({id}) => {
             </div>
           )}
 
+          {contentType !==null &&  contentType === "composition" && (
+           <GetCompositionPlayer composition={media} handleAddClass={handleAddClass}/>
+          )}
+
           <div class="console-reg" id="consoleReg">
             <p>
               Copy paste above Screen Registration Code in console{" "}
               <em class="ti-arrow-circle-up"></em>
             </p>
           </div>
-        </div>}
-
-      </div>
+        </>}
     </Col>
   );
 };
 
 export default WebMain;
+
+
+
+const GetCompositionPlayer = ({composition,handleAddClass})=>{
+  // const fetcher = (url) => getCompositionById(url);
+  // const { data: composition  } = useSWR(id ? `/vendor/layouts/composition?compositionId=${id}` : null, fetcher);
+ 
+  useEffect(()=>{
+    if(composition && composition?.layout?.screenType){
+      handleAddClass(composition.layout.screenType)
+    }
+  
+  },[composition])
+    return (<>
+    {composition && composition.referenceUrl && <CompositionPlayer  content={composition.zones[0].content} referenceUrl={composition.referenceUrl}/>}
+    </>)
+ 
+  
+}

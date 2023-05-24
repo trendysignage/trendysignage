@@ -143,7 +143,7 @@ function Login (props) {
 							<Link to="/dashboard" className="login-logo">
 								<img src={logo} alt="" className="logo-icon mr-2"/>
 							</Link>
-							<h2 className="m-b10 text-white">Sign In to <br/> Trendyy Website</h2>
+							<h2 className="m-b10 text-white">Sign In to <br/> Trendy Website</h2>
 							<p className="m-b40 text-white">Boost your engagement & productivity, streamline processes, and make faster communications.</p>
 						</div>
 						<div className='login-center-img'>

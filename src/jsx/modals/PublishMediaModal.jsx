@@ -6,7 +6,7 @@ import TableLoader from "../components/TableLoader";
 import '../components/Table.css';
 // import tagCloseIcon from "../../img/tag-close-icon.png";
 
-const PublishMediaModal = ({ setShowPublishPopUp, selected }) => {
+const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
   const [allScreens, setAllScreens] = useState("");
   const [checkedItems, setCheckedItems] = useState({});
   const [checkedValues, setCheckedValues] = useState([]);
@@ -56,9 +56,10 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected }) => {
 
   const handleSubmit = async () => {
    await publishMedia({
-      mediaId: selected._id,
+      id: selected._id,
       screenIds: checkedValues,
       duration: 1,
+      type:type
     });
     setPublished(true);
     // setShowPublishPopUp(false);
@@ -74,7 +75,7 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected }) => {
       size="md"
     >
       <Modal.Header>
-        <Modal.Title>Publish Media</Modal.Title>
+        <Modal.Title>{type==="media" ? "Publish Media" : "Assign Quickplay"}</Modal.Title>
         <Button
           variant=""
           className="close"

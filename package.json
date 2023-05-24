@@ -57,6 +57,7 @@
     "react-dom": "^17.0.1",
     "react-draft-wysiwyg": "^1.14.5",
     "react-dropzone-uploader": "^2.11.0",
+    "react-easy-crop": "^4.7.4",
     "react-gradient-timepicker": "0.0.3",
     "react-input-colorpicker": "^1.0.13",
     "react-linear-gradient-picker": "^1.1.4",
@@ -89,6 +90,7 @@
     "socket.io-client": "^4.6.1",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^10.10.4",
+    "swr": "^2.1.5",
     "uuid": "^9.0.0",
     "web-vitals": "^0.2.4",
     "yup": "^0.32.8"
@@ -116,5 +118,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-video-thumbnail": "^0.1.3"
   }
 }

@@ -31,7 +31,7 @@ const ListScreen = ({ allScreens }) => {
           {allScreens !== "" &&
             allScreens.map((screen) => {
               return (
-                <tr>
+                <tr id={screen._id}>
                   <td>
                     <span className="td-content">
                       <strong>
