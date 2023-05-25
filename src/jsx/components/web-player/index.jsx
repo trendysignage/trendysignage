@@ -37,6 +37,8 @@ const Webplayer = () => {
         divRef.current.webkitRequestFullscreen();
       } else if (divRef.current.msRequestFullscreen) {
         divRef.current.msRequestFullscreen();
+      } else if (divRef.current.mozRequestFullScreen){
+        divRef.current.mozRequestFullScreen();
       }
     }
   };
