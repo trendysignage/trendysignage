@@ -33,15 +33,18 @@ const Webplayer = () => {
       // divRef.current.requestFullscreen();
       if (divRef.current.requestFullscreen) {
         divRef.current.requestFullscreen();
-      } else if (divRef.current.webkitRequestFullscreen) {
+      } 
+      else if (divRef.current.webkitRequestFullscreen) {
         divRef.current.webkitRequestFullscreen();
-      } else if (divRef.current.msRequestFullscreen) {
+      }
+       else if (divRef.current.msRequestFullscreen) {
         divRef.current.msRequestFullscreen();
       } else if (divRef.current.mozRequestFullScreen){
         divRef.current.mozRequestFullScreen();
       }
     }
   };
+
   return (
     <div id={`main-wrapper`} className={`show`}>
       <div ref={divRef} className={`content-body content-body-custom web-player-body ${divClass}-view`}>

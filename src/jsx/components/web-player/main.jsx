@@ -78,13 +78,12 @@ const WebMain = ({id, handleAddClass, onFullScreen}) => {
   }, []);
 
 
-
   return (
-    <Col xl="12" >
+    < >
         <div>
     
             {" "}
-            <button id="Fullscreen" onClick={() => onFullScreen()}>
+            <button id="Fullscreen" onClick={() => onFullScreen()} style={{zIndex:10}}>
               <div class="full-text">
                 <div class="sec-block">
                   {" "}
@@ -173,14 +172,14 @@ const WebMain = ({id, handleAddClass, onFullScreen}) => {
            <GetCompositionPlayer composition={media} handleAddClass={handleAddClass}/>
           )}
 
-          <div class="console-reg" id="consoleReg">
+          <div class="console-reg" id="consoleReg" style={{zIndex:10}}>
             <p>
               Copy paste above Screen Registration Code in console{" "}
               <em class="ti-arrow-circle-up"></em>
             </p>
           </div>
         </>}
-    </Col>
+    </>
   );
 };
 

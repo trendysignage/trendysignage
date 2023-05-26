@@ -1576,10 +1576,10 @@ button#Fullscreen {
   padding: 0;
 }
 .content-body.content-body-custom.web-player-body {
-  max-width: 817px;
+  max-width: 100%;
   width: 100%;
-  height: 450px;
-  margin: 20px auto !important;
+  height: 100%;
+  margin: 0 !important;
 }
 .how-to-register {
   color: #9f9f9f;
@@ -1620,7 +1620,7 @@ button#Fullscreen {
 }
 .image-preview-container img {
   max-width: 100%;
-  height: 440px;
+  height: 100%;
   width: 100%;
   object-fit: contain;
 }
@@ -1656,7 +1656,7 @@ button#Fullscreen {
 
 .video-js {
   width: 100%;
-  height: 420px;
+  height: 100%;
 }
 
 .loader-button-container {
@@ -2418,7 +2418,7 @@ img.single-time-zone {
 
 .basic-list-group.image-preview-container.media-content {
 
-  height: 341.1px;
+  height: 100%;
   /* border: 3px solid #000000; */
   position: relative;
   top: 0px;
