@@ -1581,6 +1581,15 @@ button#Fullscreen {
   height: 100%;
   margin: 0 !important;
 }
+.web-player-body:-webkit-full-screen {
+  width: 100% !important;
+  height: 100% !important;
+}
+.web-player-body:-webkit-full-screen .webplayer-preview-img, 
+.web-player-body:-webkit-full-screen .video-js{
+  width: 100vw;
+  height: 100vh;
+}
 .how-to-register {
   color: #9f9f9f;
   text-decoration: underline;
