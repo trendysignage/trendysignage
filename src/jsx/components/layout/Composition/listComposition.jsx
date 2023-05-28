@@ -14,7 +14,6 @@ const ListComposition = ({ allComposition, mutate }) => {
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [selected, setSelected] = useState("");
 
-  
   const handleDelete = async () => {
     setDeleteModal(false)
     await deleteCompositionById(selected._id);
@@ -22,7 +21,9 @@ const ListComposition = ({ allComposition, mutate }) => {
    };
   return (
     <>
-      <Table responsive className="custom-table screen-table">
+      <Table responsive className="custom-table screen-table" 
+      style={{marginBottom:"36px"}}
+      >
         <thead>
           <tr>
             <th>Composition</th>
@@ -33,13 +34,17 @@ const ListComposition = ({ allComposition, mutate }) => {
             <th>More</th>
           </tr>
         </thead>
-        <tbody>
+
+        <tbody >
           {allComposition &&
             allComposition.map((composition) => {
               const content = composition.zones[0].content[0];
               return (
-                <tr id={composition._id}>
-                <td>
+                
+          
+              <tr key={composition._id} id={composition._id} >
+                <td
+                 >
                     <span className="td-content d-flex name-td-content">
                    
                       <span className={`name-img mr-2  ${content.type === "video" && "videotableName"}`}>
@@ -97,6 +102,9 @@ const ListComposition = ({ allComposition, mutate }) => {
                     <CompositionActions composition={composition} mutate={mutate} setSelected={setSelected} setDeleteModal={setDeleteModal}  />
                   </td>
                 </tr>
+         
+                
+                
               );
             })}
         </tbody>

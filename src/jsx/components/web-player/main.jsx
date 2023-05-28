@@ -12,7 +12,8 @@ const WebMain = ({id, handleAddClass, onFullScreen}) => {
   const [contentType, setContentType] = useState("");
   const initiaload = useRef(true)
   // const [timeout, setApiTimeout] = useState("");
-
+useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
+})
   const getScreenCode = async () => {
     let timeoutTimer;
     const getContent = await addScreenCode(id);

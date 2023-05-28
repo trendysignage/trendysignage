@@ -5,10 +5,12 @@ import {  BASE_URL } from "../../../utils/api";
 const CompositionPlayer = ({ content, referenceUrl }) => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  console.log(currentIndex, "CompositionPlayer .jsx")
   const timeoutRef = useRef("");
   useEffect(() => {
     
     if (content[currentIndex]) {
+      console.log(content[currentIndex], "content[currentIndex] inside if in CompositionPlayer .jsx")
      
       const timeoutDuration = content[currentIndex].duration * 1000;
       timeoutRef.current = setTimeout(() => {

@@ -1590,6 +1590,11 @@ button#Fullscreen {
   width: 100vw;
   height: 100vh;
 }
+
+.basic-list-group{
+  height: 100% ;
+  width: 100% ;
+}
 .how-to-register {
   color: #9f9f9f;
   text-decoration: underline;
