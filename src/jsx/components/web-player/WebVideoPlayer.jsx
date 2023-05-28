@@ -24,18 +24,18 @@ console.log(props, "WebVideoPlayer.jsx props")
     };
   }, [props.src]);
 
-  // useEffect(() => {
-  //   if (playerRef.current) {
-  //     playerRef.current.src({ src: props.src });
-  //   }
-  // }, [props.src]);
-
   useEffect(() => {
-    if (playerRef.current && playerRef.current.tech()) {
-      playerRef.current.tech().src({ src: props.src });
-      playerRef.current.load();
+    if (playerRef.current) {
+      playerRef.current.src({ src: props.src });
     }
   }, [props.src]);
+
+  // useEffect(() => {
+  //   if (playerRef.current && playerRef.current.tech()) {
+  //     playerRef.current.tech().src({ src: props.src });
+  //     playerRef.current.load();
+  //   }
+  // }, [props.src]);
 
 
 
