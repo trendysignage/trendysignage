@@ -10,6 +10,8 @@ const WebMain = ({id, handleAddClass, onFullScreen}) => {
   const [media, setMedia] = useState("");
   const [code, seCode] = useState("");
   const [contentType, setContentType] = useState("");
+  const [isVerified , setIsVerified] = useState(false);
+  console.log(`%c${contentType}`, "font-size:20px;color:red")
   const initiaload = useRef(true)
   // const [timeout, setApiTimeout] = useState("");
 useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
@@ -17,6 +19,8 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
   const getScreenCode = async () => {
     let timeoutTimer;
     const getContent = await addScreenCode(id);
+    console.log(getContent,"llllllll")
+    setIsVerified(getContent?.isVerified)
     if (getContent.isVerified) {
       if (getContent?.content.length) {
         const getMedia =
@@ -32,8 +36,9 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
           setContentType(getMedia.type); 
           clearTimeout(timeoutTimer)
           timeoutTimer = setTimeout(() => {
+            console.log("normal timeout")
             getScreenCode();
-          }, 60000);
+          }, 6000);
         }
 
       } else {
@@ -44,6 +49,16 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
       seCode(getContent.deviceCode);
     }
   };
+  useEffect(() => {
+    if(!isVerified){
+      const interval = setInterval(() => {
+        getScreenCode();
+      }, 1000);
+  
+      return () => clearInterval(interval);
+    }
+    
+  }, [isVerified]);
   const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
   useEffect(() => {
     const socket = io(BASE_URL, {
@@ -54,12 +69,15 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
     });
     getScreenCode();
     // no-op if the socket is already connected
+
     socket.connect();
+
     function onReceiveContent(value) {
+      console.log(value,"socket data")
     if(initiaload.current === true){
       initiaload.current = false
     } else {
-      setContentType(null);
+      //  setContentType(null);
       getScreenCode();
     }
      
@@ -76,7 +94,7 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
       socket.disconnect();
       socket.off("receiveContent", onReceiveContent);
     };
-  }, []);
+  });
 
 
   return (

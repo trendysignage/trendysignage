@@ -23,7 +23,7 @@ export async function getAllMedia() {
   return response.data.data.media;
 }
 export async function getAllComposition() {
-  const response = await fetchClient.get(BASE_URL + `/vendor/layouts/compositions`);
+  const response = await fetchClient.get(BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000`);
 
   return response.data.data;
 }
@@ -87,14 +87,14 @@ export async function publishMedia(postData) {
   }
 }
 
-export async function  deleteScreen(id) {
+export async function deleteScreen(id) {
   return await fetchClient.delete(
     `${BASE_URL}/vendor/display/screen?screenId=${id}`
   );
 }
 
-export async function  getLayouts() {
-  const response =  await fetchClient.get(
+export async function getLayouts() {
+  const response = await fetchClient.get(
     `${BASE_URL}/vendor/layouts`
   );
   return response.data.data;
@@ -151,24 +151,24 @@ export async function uploadBlob(blob) {
 
   const formData = new FormData();
   // Extract filename and extension from the Blob URL
-const url = new URL(blob);
-const pathnameParts = url.pathname.split('/');
-const filenameWithExtension = pathnameParts[pathnameParts.length - 1];
+  const url = new URL(blob);
+  const pathnameParts = url.pathname.split('/');
+  const filenameWithExtension = pathnameParts[pathnameParts.length - 1];
 
-// Append the Blob to the FormData object
-formData.append('file', blobData, filenameWithExtension);
+  // Append the Blob to the FormData object
+  formData.append('file', blobData, filenameWithExtension);
 
 
-const response = await fetchClient.post(
-  `${BASE_URL}/vendor/layouts/upload`,
-  formData,
-  {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  }
-);
-return response.data.data;
+  const response = await fetchClient.post(
+    `${BASE_URL}/vendor/layouts/upload`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return response.data.data;
 
 }
 
