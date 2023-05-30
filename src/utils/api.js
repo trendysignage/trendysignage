@@ -172,6 +172,18 @@ export async function uploadBlob(blob) {
 
 }
 
+export async function pushAddSchedule(postData) {
+
+  try {
+    const response = await fetchClient.post(
+      `${BASE_URL}/vendor/push/schedule`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
 
 
 

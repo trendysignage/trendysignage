@@ -1033,7 +1033,10 @@ body {
   font-weight: 500 !important;
 }
 /* Media page end here */
-
+.schedule-name-input-feild{
+  width: 200px !important;
+  min-width: 150px;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

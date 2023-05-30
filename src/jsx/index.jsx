@@ -26,6 +26,7 @@ import CreateComposition from './components/layout/Composition/CreateComposition
 import Push from './components/push/PushScreen'
 import SelectComparison from './components/push/SelectComparison'
 import EditComposition from './components/layout/Composition/EditComposition'
+import DaySchedule from './components/push/DaySchedule'
 
 
 
@@ -50,6 +51,7 @@ const Markup = () => {
     { url: "SelectComparison", component: SelectComparison },
     // {url: "web-player", component: Webplayer},
     {url: "display/:id", component: ScreenDetails},
+    {url: "dayschedule/:id", component: DaySchedule},
   ]
 console.log(path)
   return (

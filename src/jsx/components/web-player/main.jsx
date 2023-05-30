@@ -219,6 +219,4 @@ const GetCompositionPlayer = ({composition,handleAddClass})=>{
     return (<>
     {composition && composition.referenceUrl && <CompositionPlayer  content={composition.zones[0].content} referenceUrl={composition.referenceUrl}/>}
     </>)
- 
-  
 }
