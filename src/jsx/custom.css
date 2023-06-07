@@ -2019,6 +2019,80 @@ button#Fullscreen {
 .empty-media-img.layout-empty-img img {
   max-width: 300px;
 }
+
+.event-content {
+  display: flex;
+  align-items: center;
+}
+.fullcalendar-main-container{
+
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+height: -webkit-fill-available;
+}
+.day-schedule-fullcalendar-img {
+  
+  overflow: hidden;
+ 
+    max-width: 100px;
+    min-width: 100px;
+    max-height: -webkit-fill-available;
+    min-height: 4px;
+    border-radius: 10px;
+    margin-right: 15px;
+    position: relative;
+    margin-left: 0.5rem;
+    background-color: #dad0d01a;
+}
+
+.event-details {
+  display: flex;
+  flex-direction: row;
+}
+
+.fullcalendar-time{
+  background: white;
+  padding: 10px 14px 8px 14px;
+  background-color: #F8D56D;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 400;
+  
+  min-height: 30px;
+  color: #1E3131;
+  white-space: nowrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  max-height: 100%;
+  overflow: hidden;
+  margin-left: 10px;
+  margin-bottom: 0px;
+  margin-right: 10px;
+
+}
+.fullcalendar-title{
+  color: #1E3131;
+  font-weight: 300;
+  font-size: 14px;
+  max-height: 100%;
+  overflow: hidden;
+}
+.fc-timeGrid-view {
+  background-color: #fff; /* Set the desired background color */
+}
+.fc-timeGridDay-view table table{
+  background-color: #fff; /* Set the desired background color */
+
+}
+.fc-h-event{
+  display: table-row !important;
+}
+.fullcalendar-delete-btn{
+  margin-bottom: 0px;
+  margin-right: 6px;
+}
 @media (max-width: 1024px) {
   html,
   body {

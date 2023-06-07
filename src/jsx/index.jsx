@@ -27,6 +27,10 @@ import Push from './components/push/PushScreen'
 import SelectComparison from './components/push/SelectComparison'
 import EditComposition from './components/layout/Composition/EditComposition'
 import DaySchedule from './components/push/DaySchedule'
+import testDaySchudele from './components/push/TestDaySchudele'
+import TestDaySchudele from './components/push/TestDaySchudele'
+import TestDay from './components/push/TestDay'
+import CopyTestDay from './components/push/CopyTestDay'
 
 
 
@@ -52,6 +56,10 @@ const Markup = () => {
     // {url: "web-player", component: Webplayer},
     {url: "display/:id", component: ScreenDetails},
     {url: "dayschedule/:id", component: DaySchedule},
+    {url: "test", component: TestDaySchudele},
+    {url: "testday", component: TestDay},
+    {url: "copytestday", component: CopyTestDay},
+
   ]
 console.log(path)
   return (

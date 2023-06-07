@@ -6,23 +6,28 @@ import downArrow from "../../../../img/down-arrow.png";
 import { deleteCompositionById, BASE_URL } from "../../../../utils/api";
 import DeleteConfirmation from "../../../modals/DeleteConfirmation";
 import CompositionActions from "./CompositionActions";
-import { getDatetimeIn12Hours, humanReadableFormattedDateString } from "../../../../utils/UtilsService";
-
+import {
+  getDatetimeIn12Hours,
+  humanReadableFormattedDateString,
+} from "../../../../utils/UtilsService";
 
 const ListComposition = ({ allComposition, mutate }) => {
+  console.log(allComposition, "layout page");
   const [deleteModal, setDeleteModal] = useState(false);
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [selected, setSelected] = useState("");
 
   const handleDelete = async () => {
-    setDeleteModal(false)
+    setDeleteModal(false);
     await deleteCompositionById(selected._id);
     mutate();
-   };
+  };
   return (
     <>
-      <Table responsive className="custom-table screen-table" 
-      style={{marginBottom:"36px"}}
+      <Table
+        responsive
+        className="custom-table screen-table"
+        style={{ marginBottom: "36px" }}
       >
         <thead>
           <tr>
@@ -35,25 +40,28 @@ const ListComposition = ({ allComposition, mutate }) => {
           </tr>
         </thead>
 
-        <tbody >
+        <tbody>
           {allComposition &&
             allComposition.map((composition) => {
               const content = composition.zones[0].content[0];
               return (
-                
-          
-              <tr key={composition._id} id={composition._id} >
-                <td
-                 >
+                <tr key={composition._id} id={composition._id}>
+                  <td>
                     <span className="td-content d-flex name-td-content">
-                   
-                      <span className={`name-img mr-2  ${content.type === "video" && "videotableName"}`}>
-                      {content.type === "image" && <img
-                          className="media-img img-fluid"
-                          src={`${BASE_URL}${content.url}`}
-                          alt="media-img"
-                        />}
-                         {content.type === "video" && content.duration.toFixed(0)/60}
+                      <span
+                        className={`name-img mr-2  ${
+                          content.type === "video" && "videotableName"
+                        }`}
+                      >
+                        {content.type === "image" && (
+                          <img
+                            className="media-img img-fluid"
+                            src={`${BASE_URL}${content.url}`}
+                            alt="media-img"
+                          />
+                        )}
+                        {content.type === "video" &&
+                          content.duration.toFixed(0) / 60}
                       </span>
                       <span className="name-content d-flex flex-column flex-grow-1">
                         <strong>{composition.name}</strong>
@@ -62,13 +70,14 @@ const ListComposition = ({ allComposition, mutate }) => {
                     </span>
                   </td>
                   <td>
-                  <span className="td-content">
+                    <span className="td-content">
                       <strong>
-                        {humanReadableFormattedDateString(composition.createdAt)}
+                        {humanReadableFormattedDateString(
+                          composition.createdAt
+                        )}
                       </strong>
                       <span>{getDatetimeIn12Hours(composition.createdAt)}</span>
                     </span>
-            
                   </td>
                   <td> {composition.duration} Sec</td>
                   <td>No Schedule</td>
@@ -99,12 +108,14 @@ const ListComposition = ({ allComposition, mutate }) => {
                     </span>
                   </td>
                   <td>
-                    <CompositionActions composition={composition} mutate={mutate} setSelected={setSelected} setDeleteModal={setDeleteModal}  />
+                    <CompositionActions
+                      composition={composition}
+                      mutate={mutate}
+                      setSelected={setSelected}
+                      setDeleteModal={setDeleteModal}
+                    />
                   </td>
                 </tr>
-         
-                
-                
               );
             })}
         </tbody>
@@ -117,7 +128,14 @@ const ListComposition = ({ allComposition, mutate }) => {
         />
       )}
 
-      {deleteModal && <DeleteConfirmation setDeleteModal={setDeleteModal} callbackFunction={handleDelete} text="Are you sure you want to delete?" yes={"Yes Delete"}/>}
+      {deleteModal && (
+        <DeleteConfirmation
+          setDeleteModal={setDeleteModal}
+          callbackFunction={handleDelete}
+          text="Are you sure you want to delete?"
+          yes={"Yes Delete"}
+        />
+      )}
     </>
   );
 };

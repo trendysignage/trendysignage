@@ -9,7 +9,7 @@ import { getAllComposition } from "../../../utils/api";
 import ListComposition from "./Composition/listComposition";
 const Layout = () => {
   const { data: allComposition, mutate } = useSWR('/vendor/layouts/compositions', getAllComposition);
-
+ 
   return (
     <div>
       <div className="custom-content-heading d-flex flex-wrap">

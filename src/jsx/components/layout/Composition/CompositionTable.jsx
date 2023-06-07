@@ -4,9 +4,14 @@ import { BASE_URL } from "../../../../utils/api";
 
 const CompositionTable = ({allMedia,addComposition}) => {
 
-   const videoMetaDuration = (media)=>{
-    return JSON.parse(media.properties).length.toFixed(0)/60
-   }
+  
+   const videoMetaDuration = (media) => {
+    const properties = JSON.parse(media?.properties);
+    if (properties && properties.length) {
+        return (properties.length.toFixed(0) / 60).toFixed(0);
+    }
+    return null;
+};
   return (
     <>
       <Table responsive className="custom-table screen-table layout-table h-100">

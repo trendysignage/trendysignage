@@ -33,19 +33,29 @@ const ListMedia = ({ allMedia,callAllMediaApi }) => {
    const handlePublishcOpen = (media)=>{
     setShowPublishPopUp(media);
    }
+
+
+
  const parseMeta = (media) => {
-  const meta = JSON.parse(media.properties)
+  const meta = JSON.parse(media.properties);
   return (
-  <span className="td-content">
-  {media.type === "image" && <strong>{meta.height} x  {meta.width}</strong>}
-  {media.type === "video" && <strong>{meta.length.toFixed(0)/60} Sec</strong>}
-  <span>{meta.size} MB</span>
-</span>
-  )
- }
- const videoMetaDuration = (media)=>{
-  return JSON.parse(media.properties).length.toFixed(0)/60
- }
+    <span className="td-content">
+      {media?.type === "image" && <strong>{meta.height} x {meta.width}</strong>}
+      {media?.type === "video" && meta?.length && (
+        <strong>{parseInt((meta.length / 60)*100)/100} Min.</strong>
+      )}
+      {meta?.size && <span>{meta.size} MB</span>}
+    </span>
+  );
+};
+
+const videoMetaDuration = (media) => {
+  const properties = JSON.parse(media?.properties);
+  if (properties && properties.length) {
+    return (properties.length.toFixed(0) / 60).toFixed(0);
+  }
+  return null;
+};
   return (
     <>
       {allMedia && allMedia.length !== 0 ? (
@@ -66,13 +76,13 @@ const ListMedia = ({ allMedia,callAllMediaApi }) => {
                 <tr key={media._id}>
                   <td>
                     <span className="td-content d-flex name-td-content">
-                      <span className={`name-img mr-2  ${media.type === "video" && "videotableName"}`}>
-                      {media.type === "image" && <img
+                      <span className={`name-img mr-2  ${media?.type === "video" && "videotableName"}`}>
+                      {media?.type === "image" && <img
                           className="media-img img-fluid"
-                          src={`${BASE_URL}${media.title}`}
+                          src={`${BASE_URL}${media?.title}`}
                           alt="media-img"
                         />}
-                         {media.type === "video" && videoMetaDuration(media)}
+                         {media?.type === "video" && videoMetaDuration(media)}
                       </span>
                       <span className="name-content d-flex flex-column flex-grow-1">
                         <strong>{media.title.split("/")[media.title.split("/").length -1]}</strong>

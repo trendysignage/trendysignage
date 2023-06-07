@@ -13,6 +13,7 @@ const Media = () => {
   const [showFilterModal, setFilterModal] = useState(false);
   const [showUploadMediaModal, setUploadMediaModal] = useState(false);
   const { data: allMedia, mutate } = useSWR('/vendor/display/media', getAllMedia);
+  console.log(allMedia,"kkkkkkkk media page")
 
   return (
     <>

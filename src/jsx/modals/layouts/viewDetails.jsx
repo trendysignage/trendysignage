@@ -60,7 +60,7 @@ const ViewDetails = ({ setViewDetailsModal, composition }) => {
                           src={`${BASE_URL}${content.url}`}
                           alt="media-img"
                         />}
-                         {content.type === "video" && content.duration.toFixed(0)/60}
+                         {content.type === "video" && content?.duration.toFixed(0)/60}
                       </span>
                       <span className="name-content d-flex flex-column flex-grow-1">
                         <strong>{content.url.split("/")[content.url.split("/").length -1]}</strong>
@@ -70,7 +70,7 @@ const ViewDetails = ({ setViewDetailsModal, composition }) => {
                   </td>
 
                   <td>
-                    <span className="my-phone-tag  ml-1">{(content.duration).toFixed(0)} Sec</span>
+                    <span className="my-phone-tag  ml-1">{(content?.duration).toFixed(0)} Sec</span>
                   </td>
                 </tr>
                 )

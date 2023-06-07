@@ -19,6 +19,9 @@ import SaveCompositionName from "../../../modals/saveCompositionName";
 import UploadMediaModal from "../../../modals/UploadMediaFileModal";
 import { isBlobUrl } from "../../../../utils/UtilsService";
 const CommonComposition = ({ type, composition, layout }) => {
+console.log(layout, "iiiiiiii")
+console.log(composition, "yyyyyy")
+console.log(type ,"hhhhhhh")
   const [showUploadMediaModal, setUploadMediaModal] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [name, setName] = useState(composition ? composition.name : "");
