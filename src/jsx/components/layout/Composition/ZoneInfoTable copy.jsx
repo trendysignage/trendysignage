@@ -7,10 +7,9 @@ import { BASE_URL } from "../../../../utils/api";
 import EditSelectedComposition from "../../../modals/editSelectedComposition";
 
 
-const ZoneInfoTable = ({ content,setContent,setReferenceUrl, layout, handleLayout }) => {
-  console.log("layout",layout)
+const ZoneInfoTable = ({ content,setContent,setReferenceUrl }) => {
+
   const [editSelected, setEditSelected] = useState(null);
-  const [selectedZone, setSelectedZone] = useState("Zone1");
   const handleChange = (event,index) => {
     const newValue = event.target.value.replace(/[^\d]/g, '');
     setContent((prev) => {      
@@ -23,21 +22,6 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl, layout, handleLayou
         return [...updateMedia];
       });
   };
-  const makeZoneColor = (zones) => {
-    const data = {};
-    zones.forEach((item, index) =>{
-      data[item.name] = index == 0 ? true :false;
-    });
-    return data
-  }
-  const [zoneColor, setZoneColor] = useState(makeZoneColor(layout.zones));
-
-  const handleZoneButton = (zone1) => {
-    setZoneColor({...zoneColor,[zone1]:true,[selectedZone]:false});
-    setSelectedZone(zone1)
-    handleLayout(zone1);
-    
-  }
 
   const Duration = (composition,index)=>{
     return(  <div className="tag-container mediaDUrationTag"> <input onChange={(event)=>{ handleChange(event,index)}}  value={Number(composition.duration).toFixed(0)} disabled={composition.type === 'video'}/><span>sec</span></div>)
@@ -49,7 +33,6 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl, layout, handleLayou
     });
     return total.toFixed(0);
   }
-
   const removeComposition =(index)=>{
     setContent((prev) => {      
       const updateMedia = prev.filter((val,key)=> key !== index);
@@ -63,7 +46,6 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl, layout, handleLayou
   }
 
   const editComposition = (index)=>{
-    console.log("index",index)
     setEditSelected(index);
 
   }
@@ -106,48 +88,12 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl, layout, handleLayou
         <thead>
           <tr>
             <th colSpan={4}>
-              {/* <span className="d-flex flex-wrap">
-                <span className="yellow-box">
-                  <div className="zone-layout" style={{backgroundColor:zoneColor['Zone1'] ? "#ffc12b" : ""}}>Z1</div>
-                  <div className="zone-layout" style={{backgroundColor:zoneColor['Zone2']? '#ffc12b' : ""}}>Z2</div>
-                </span>
+              <span className="d-flex flex-wrap">
+                <span className="yellow-box"></span>
                 <span className="zone-section d-flex flex-column">
-                <button onClick={() =>(handleZoneButton("Zone1","Zone2"))} className="zone">Zone1{zoneColor['Zone1'] ? "S" : ""}</button>
-                <button onClick={() =>(handleZoneButton("Zone2","Zone1"))} className="zone">Zone2{zoneColor['Zone2'] ? "S" : ""}</button>
+                  <span className="zone">Zone 1</span>
                   <span className="duration">Duration : {TotalDuration()} sec</span>
                 </span>
-              </span> */}
-              <span className="d-flex flex-wrap">
-                
-                <span className="yellow-box">
-                  {
-                    layout && layout.zones.length == 2
-                    ? 
-                    <>
-                    <div className="zone-layout2" style={{backgroundColor:zoneColor['Zone1'] ? "#ffc12b" : ""}}>Z1</div>
-                    <div className="zone-layout2" style={{backgroundColor:zoneColor['Zone2']? '#ffc12b' : ""}}>Z2</div>
-                    </>
-                    :
-                    <></>
-                  }
-                  {
-                    layout && layout.zones.length == 3
-                    ? 
-                    <>
-                    <div className="zone-layout3" style={{backgroundColor:zoneColor['Zone1'] ? "#ffc12b" : ""}}>Z1</div>
-                    <div className="zone-layout3" style={{backgroundColor:zoneColor['Zone2']? '#ffc12b' : ""}}>Z2</div>
-                    <div className="zone-layout3" style={{backgroundColor:zoneColor['Zone3']? '#ffc12b' : ""}}>Z3</div>
-                    </>
-                    :
-                    <></>
-                  }
-                </span>
-                {
-                  layout && layout.zones.map((item) => {
-                    return <button onClick={() =>(handleZoneButton(item.name))} className="zone">{item.name}</button>
-                  })
-                }
-                <span className="duration">Duration : {TotalDuration()} sec</span>
               </span>
             </th>
           </tr>
@@ -155,7 +101,6 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl, layout, handleLayou
         <tbody>
           {content.map((composition, index) => {
             return (
-              composition.zone == selectedZone ?
               <tr key={composition.id}>
                 <td>{index + 1}.</td>
                 <td>
@@ -194,8 +139,6 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl, layout, handleLayou
                   </span>
                 </td>
               </tr>
-              :
-              <></>
             );
           })}
         </tbody>

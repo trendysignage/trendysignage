@@ -3,9 +3,8 @@ import videojs from 'video.js';
 
 import 'video.js/dist/video-js.css';
 const WebVideoPlayer = (props) => {
-console.log(props, "WebVideoPlayer.jsx props")
+  console.log(props, "WebVideoPlayer.jsx props")
   const videoRef = useRef(null);
-  console.log(videoRef,"WebVideoPlayer .jsx")
   const playerRef = useRef(null);
 
   useEffect(() => {
@@ -16,6 +15,7 @@ console.log(props, "WebVideoPlayer.jsx props")
       loop:true,
       src: props.src
     });
+    console.log("test",playerRef.current, videoRef.current)
     return () => {
       if (playerRef.current) {
         playerRef.current.dispose();

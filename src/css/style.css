@@ -29938,4 +29938,18 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     [data-theme-version="dark"] .footer .copyright p {
       color: #fff; }
 
+.zone-layout2{
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+  background:white;
+}
+
+.zone-layout3{
+  display: inline-block;
+  width: 33%;
+  height: 100%;
+  background:white;
+}
+
 /*# sourceMappingURL=style.css.map */
