@@ -33,7 +33,7 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl, layout, handleLayou
   const [zoneColor, setZoneColor] = useState(makeZoneColor(layout.zones));
 
   const handleZoneButton = (zone1) => {
-    setZoneColor({...zoneColor,[zone1]:true,[selectedZone]:false});
+    setZoneColor({...zoneColor,[selectedZone]:false,[zone1]:true});
     setSelectedZone(zone1)
     handleLayout(zone1);
     
@@ -119,7 +119,7 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl, layout, handleLayou
               </span> */}
               <span className="d-flex flex-wrap">
                 
-                <span className="yellow-box">
+                <span className="yellow-box" style={{backgroundColor : layout && (layout.zones.length == 2 || layout.zones.length == 3 ? '#fff': '#ffc12b')}}>
                   {
                     layout && layout.zones.length == 2
                     ? 
@@ -134,9 +134,9 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl, layout, handleLayou
                     layout && layout.zones.length == 3
                     ? 
                     <>
-                    <div className="zone-layout3" style={{backgroundColor:zoneColor['Zone1'] ? "#ffc12b" : ""}}>Z1</div>
-                    <div className="zone-layout3" style={{backgroundColor:zoneColor['Zone2']? '#ffc12b' : ""}}>Z2</div>
-                    <div className="zone-layout3" style={{backgroundColor:zoneColor['Zone3']? '#ffc12b' : ""}}>Z3</div>
+                    <div className="zone-layout31" style={{backgroundColor:zoneColor['Zone1'] ? "#ffc12b" : ""}}></div>
+                    <div className="zone-layout32" style={{backgroundColor:zoneColor['Zone2']? '#ffc12b' : ""}}></div>
+                    <div className="zone-layout33" style={{backgroundColor:zoneColor['Zone3']? '#ffc12b' : ""}}></div>
                     </>
                     :
                     <></>

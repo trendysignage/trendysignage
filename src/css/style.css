@@ -29945,11 +29945,16 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   background:white;
 }
 
-.zone-layout3{
+.zone-layout31,.zone-layout32{
   display: inline-block;
-  width: 33%;
-  height: 100%;
+  width: 50%;
+  height: 70%;
   background:white;
+}
+.zone-layout33{
+  width: 100%;
+  background:white;
+  height:18%
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -13,6 +13,7 @@ const PreviewComposition = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [current1Index, setCurrent1Index] = useState(0);
+  const [current2Index, setCurrent2Index] = useState(0);
   const timeoutRef = useRef("");
   const timeout1Ref = useRef("");
   const divRef = useRef(null);
@@ -46,6 +47,38 @@ const PreviewComposition = ({
             setCurrent1Index(0);
           } else {
             setCurrent1Index((current1Index) => current1Index + 1);
+          }
+        }, timeout1Duration);
+      }
+    }
+    else if(layout && layout.zones.length == 3){
+      if (contentnew.Zone1[currentIndex]) {
+        const timeoutDuration = contentnew.Zone1[currentIndex].duration * 1000;
+        timeoutRef.current = setTimeout(() => {
+          if(currentIndex === (contentnew.Zone1.length -1) ){
+            setCurrentIndex(0);
+          } else {
+            setCurrentIndex((currentIndex) => currentIndex + 1);
+          }
+        }, timeoutDuration);
+      }
+      if (contentnew.Zone2[current1Index]) {
+        const timeout1Duration = contentnew.Zone2[current1Index].duration * 1000;
+        timeout1Ref.current = setTimeout(() => {
+          if(current1Index === (contentnew.Zone2.length -1) ){
+            setCurrent1Index(0);
+          } else {
+            setCurrent1Index((current1Index) => current1Index + 1);
+          }
+        }, timeout1Duration);
+      }
+      if (contentnew.Zone3[current1Index]) {
+        const timeout1Duration = contentnew.Zone3[current2Index].duration * 1000;
+        timeout1Ref.current = setTimeout(() => {
+          if(current2Index === (contentnew.Zone3.length -1) ){
+            setCurrent2Index(0);
+          } else {
+            setCurrent2Index((current2Index) => current2Index + 1);
           }
         }, timeout1Duration);
       }
@@ -134,8 +167,8 @@ const PreviewComposition = ({
           :
           layout.zones.length == 2
           ?
-          <div style={{display:"inline-block"}}>
-            <div style={{width:"50%",height:"100%"}}>
+          <div>
+            <div style={{width:"50%",height:"100%",display:"inline-block"}}>
               {contentnew.Zone1[currentIndex] && contentnew.Zone1[currentIndex].type === "image" && (
               <div className="basic-list-group image-preview-container media-content">
                 <img
@@ -158,7 +191,7 @@ const PreviewComposition = ({
                 </div>
               )}
             </div>
-            <div style={{width:"50%",height:"100%"}}>
+            <div style={{width:"50%",height:"100%",display:"inline-block"}}>
               {contentnew.Zone2[current1Index] && contentnew.Zone2[current1Index].type === "image" && (
               <div className="basic-list-group image-preview-container media-content">
                 <img
@@ -178,6 +211,80 @@ const PreviewComposition = ({
                   }`}
                 >
                   <WebVideoPlayer src={`http://144.126.143.140:5000/${contentnew.Zone2[currentIndex].url}`}></WebVideoPlayer>
+                </div>
+              )}
+            </div>
+          </div>
+          :
+          layout.zones.length == 3
+          ?
+          <div>
+            <div style={{width:"50%",height:"70%",display:"inline-block"}}>
+              {contentnew.Zone1[currentIndex] && contentnew.Zone1[currentIndex].type === "image" && (
+              <div className="basic-list-group image-preview-container media-content">
+                <img
+                  className="webplayer-preview-img"
+                  style={{
+                    objectFit: `${viewImage === "fitScreen" ? "fill" : "contain"}`,
+                  }}
+                  src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                  alt="media-img"
+                />
+              </div>
+              )}
+              {contentnew.Zone1[currentIndex] && contentnew.Zone1[currentIndex].type === "video"  && (
+                <div
+                  className={`basic-list-group video-container media-content ${viewImage} ${
+                    viewImage === "fitScreen" ? "fitImage" : "containImage"
+                  }`}
+                >
+                  <WebVideoPlayer src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}></WebVideoPlayer>
+                </div>
+              )}
+            </div>
+            <div style={{width:"50%",height:"70%",display:"inline-block"}}>
+              {contentnew.Zone2[current1Index] && contentnew.Zone2[current1Index].type === "image" && (
+              <div className="basic-list-group image-preview-container media-content">
+                <img
+                  className="webplayer-preview-img"
+                  style={{
+                    objectFit: `${viewImage === "fitScreen" ? "fill" : "contain"}`,
+                  }}
+                  src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                  alt="media-img"
+                />
+              </div>
+              )}
+              {contentnew.Zone2[current1Index] && contentnew.Zone2[current1Index].type === "video"  && (
+                <div
+                  className={`basic-list-group video-container media-content ${viewImage} ${
+                    viewImage === "fitScreen" ? "fitImage" : "containImage"
+                  }`}
+                >
+                  <WebVideoPlayer src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}></WebVideoPlayer>
+                </div>
+              )}
+            </div>
+            <div style={{width:"100%",height:"18%", minHeight:"18%"}}>
+              {contentnew.Zone3[current2Index] && contentnew.Zone3[current2Index].type === "image" && (
+              <div className="basic-list-group image-preview-container media-content">
+                <img
+                  className="webplayer-preview-img"
+                  style={{
+                    objectFit: `${viewImage === "fitScreen" ? "fill" : "contain"}`,
+                  }}
+                  src={`http://144.126.143.140:5000/${contentnew.Zone3[current2Index].url}`}
+                  alt="media-img"
+                />
+              </div>
+              )}
+              {contentnew.Zone3[current2Index] && contentnew.Zone3[current2Index].type === "video"  && (
+                <div
+                  className={`basic-list-group video-container media-content ${viewImage} ${
+                    viewImage === "fitScreen" ? "fitImage" : "containImage"
+                  }`}
+                >
+                  <WebVideoPlayer src={`http://144.126.143.140:5000/${contentnew.Zone3[current2Index].url}`}></WebVideoPlayer>
                 </div>
               )}
             </div>
