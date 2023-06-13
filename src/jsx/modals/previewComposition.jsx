@@ -50,8 +50,7 @@ const PreviewComposition = ({
           }
         }, timeout1Duration);
       }
-    }
-    else if(layout && layout.zones.length == 3){
+    }else if(layout && layout.zones.length == 3){
       if (contentnew.Zone1[currentIndex]) {
         const timeoutDuration = contentnew.Zone1[currentIndex].duration * 1000;
         timeoutRef.current = setTimeout(() => {
