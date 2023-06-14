@@ -123,7 +123,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
           contents && contents.zones.length == 1
           ?
           <>
-            {contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "image" && (
+            {contents.zones[0] && contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "image" && (
             <div className="basic-list-group image-preview-container media-content">
               <img
                 className="webplayer-preview-img"
@@ -135,7 +135,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
               />
             </div>
           )}
-          {contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "video" && (
+          {contents.zones[0] && contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "video" && (
             <div
               className={`basic-list-group video-container media-content ${viewImage} ${
                 viewImage === "fitScreen" ? "fitImage" : "containImage"
@@ -150,7 +150,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
           ?
           <div>
             <div style={{width:"50%",height:"100%",display:"inline-block"}}>
-              {contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "image" && (
+              {contents.zones[0] && contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "image" && (
               <div className="basic-list-group image-preview-container media-content">
                 <img
                   className="webplayer-preview-img"
@@ -162,7 +162,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                 />
               </div>
               )}
-              {contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "video"  && (
+              {contents.zones[0] && contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "video"  && (
                 <div
                   className={`basic-list-group video-container media-content ${viewImage} ${
                     viewImage === "fitScreen" ? "fitImage" : "containImage"
@@ -173,7 +173,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
               )}
             </div>
             <div style={{width:"50%",height:"100%",display:"inline-block"}}>
-              {contents.zones[1].content[current1Index] && contents.zones[1].content[current1Index].type === "image" && (
+              {contents.zones[1] && contents.zones[1].content[current1Index] && contents.zones[1].content[current1Index].type === "image" && (
               <div className="basic-list-group image-preview-container media-content">
                 <img
                   className="webplayer-preview-img"
@@ -185,7 +185,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                 />
               </div>
               )}
-              {contents.zones[1].content[current1Index] && contents.zones[1].content[current1Index].type === "video"  && (
+              {contents.zones[1] && contents.zones[1].content[current1Index] && contents.zones[1].content[current1Index].type === "video"  && (
                 <div
                   className={`basic-list-group video-container media-content ${viewImage} ${
                     viewImage === "fitScreen" ? "fitImage" : "containImage"
@@ -201,7 +201,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
           ?
           <div>
             <div style={{width:"50%",height:"70%",display:"inline-block"}}>
-              {contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "image" && (
+              {contents.zones[0] && contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "image" && (
               <div className="basic-list-group image-preview-container media-content">
                 <img
                   className="webplayer-preview-img"
@@ -213,7 +213,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                 />
               </div>
               )}
-              {contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "video"  && (
+              {contents.zones[0] && contents.zones[0].content[currentIndex] && contents.zones[0].content[currentIndex].type === "video"  && (
                 <div
                   className={`basic-list-group video-container media-content ${viewImage} ${
                     viewImage === "fitScreen" ? "fitImage" : "containImage"
@@ -224,7 +224,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
               )}
             </div>
             <div style={{width:"50%",height:"70%",display:"inline-block"}}>
-              {contents.zones[1].content[current1Index] && contents.zones[1].content[current1Index].type === "image" && (
+              {contents.zones[1] && contents.zones[1].content[current1Index] && contents.zones[1].content[current1Index].type === "image" && (
               <div className="basic-list-group image-preview-container media-content">
                 <img
                   className="webplayer-preview-img"
@@ -236,7 +236,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                 />
               </div>
               )}
-              {contents.zones[1].content[current1Index] && contents.zones[1].content[current1Index].type === "video"  && (
+              {contents.zones[1] && contents.zones[1].content[current1Index] && contents.zones[1].content[current1Index].type === "video"  && (
                 <div
                   className={`basic-list-group video-container media-content ${viewImage} ${
                     viewImage === "fitScreen" ? "fitImage" : "containImage"
@@ -247,7 +247,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
               )}
             </div>
             <div style={{width:"100%",height:"18%", minHeight:"18%"}}>
-              {contents.zones[2].content[current2Index] && contents.zones[2].content[current2Index].type === "image" && (
+              {contents.zones[2] && contents.zones[2].content[current2Index] && contents.zones[2].content[current2Index].type === "image" && (
               <div className="basic-list-group image-preview-container media-content">
                 <img
                   className="webplayer-preview-img"
@@ -259,7 +259,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                 />
               </div>
               )}
-              {contents.zones[2].content[current2Index] && contents.zones[2].content[current2Index].type === "video"  && (
+              {contents.zones[2] && contents.zones[2].content[current2Index] && contents.zones[2].content[current2Index].type === "video"  && (
                 <div
                   className={`basic-list-group video-container media-content ${viewImage} ${
                     viewImage === "fitScreen" ? "fitImage" : "containImage"

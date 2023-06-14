@@ -1596,7 +1596,7 @@ button#Fullscreen {
 
 .basic-list-group{
   height: 100% ;
-  width: 100% ;
+  max-width: 100% ;
 }
 .how-to-register {
   color: #9f9f9f;
@@ -2518,7 +2518,7 @@ img.single-time-zone {
 }
 
 .image-preview-editable img.webplayer-preview-img {
-  position: absolute;
+  /* position: absolute; */
   height: 100%;
   width: 100%;
   max-height: 100% !important;
