@@ -2020,10 +2020,10 @@ button#Fullscreen {
   max-width: 300px;
 }
 
-.event-content {
+/* .event-content {
   display: flex;
   align-items: center;
-}
+} */
 .fullcalendar-main-container{
 
 display: flex;
@@ -2047,10 +2047,10 @@ height: -webkit-fill-available;
     background-color: #dad0d01a;
 }
 
-.event-details {
+/* .event-details {
   display: flex;
   flex-direction: row;
-}
+} */
 
 .fullcalendar-time{
   background: white;
@@ -2086,9 +2086,13 @@ height: -webkit-fill-available;
   background-color: #fff; /* Set the desired background color */
 
 }
-.fc-h-event{
-  display: table-row !important;
+.fc-event-radio {
+  margin-right: 5px;
 }
+
+/* .fc-h-event{
+  display: table-row !important;
+} */
 .fullcalendar-delete-btn{
   margin-bottom: 0px;
   margin-right: 6px;
