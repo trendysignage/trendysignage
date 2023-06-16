@@ -627,7 +627,7 @@ export default function SecondMonth() {
   //     });
   //   };
 
-  const handleWeekCellChange = (dayInfo) => {
+  const handleWeekCellChange = (year, month, dayOfWeek) => {
     function getDatesForDayOfWeek(year, month, dayOfWeek) {
       const dates = [];
       const date = new Date(year, month, 1); // Subtract 1 from month since JavaScript months are zero-based
@@ -641,17 +641,13 @@ export default function SecondMonth() {
       return dates;
     }
 
-    const dates = getDatesForDayOfWeek(
-      new Date(dayInfo.date).getFullYear(),
-      new Date(dayInfo.date).getMonth(),
-      new Date(dayInfo.date).getDay()
-    );
+    // const dates = getDatesForDayOfWeek(
+    //   new Date(dayInfo.date).getFullYear(),
+    //   new Date(dayInfo.date).getMonth(),
+    //   new Date(dayInfo.date).getDay()
+    // );
 
-    var options = {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    };
+    const dates = getDatesForDayOfWeek(year, month, dayOfWeek);
 
     dates.forEach((date) => {
       console.log(date, "kkkkkk");
@@ -684,8 +680,12 @@ export default function SecondMonth() {
     });
   };
 
+  function getMonthFromString(mon) {
+    return new Date(Date.parse(mon + " 1, 2012")).getMonth() + 1;
+  }
+
   const renderDayHeader = (dayInfo) => {
-    console.log(dayInfo, "kkkk");
+    console.log(dayInfo, "renderDayHeader console");
     const { date } = dayInfo;
     const checkboxKey = date.toISOString();
     const isChecked = selectedCheckboxes[checkboxKey];
@@ -695,10 +695,20 @@ export default function SecondMonth() {
       return (
         <div>
           <input
+            className="day-checkbox"
             name={`checkbox-${checkboxKey}`}
             type="checkbox"
             checked={isChecked}
-            onChange={() => handleWeekCellChange(dayInfo)}
+            onChange={() => {
+              const monthYrStr = document.querySelector("#fc-dom-2").innerHTML;
+              const monthYrArr = monthYrStr.split(" ");
+              console.log("monthYrArr #696", monthYrArr);
+              console.log(
+                monthYrArr[1],
+                getMonthFromString(monthYrArr[0]),
+                date.getDay()
+              );
+            }}
           />
           {date.toLocaleDateString("en-US", { weekday: "short" })}
         </div>
