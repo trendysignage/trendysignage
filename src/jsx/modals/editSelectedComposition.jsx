@@ -114,10 +114,9 @@ const EditSelectedComposition = ({
         </div>
         {composition && composition.type === "image" && (
           <>
-            {" "}
             <div
               className="basic-list-group image-preview-container media-content image-preview-editable"
-              style={{ border: "1px solid", margin: "1rem" }}
+              style={{ border: "1px solid",marginTop:viewImage == 'crop' ? "50%" : "0%" }}
             >
               {viewImage === "crop" && (
                 <ImageCroper

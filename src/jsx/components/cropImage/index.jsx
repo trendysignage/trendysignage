@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import ReactDOM from "react-dom";
-import Cropper from "react-easy-crop";
+import Cropper from 'react-easy-crop'
 
 import getCroppedImg from "./cropImage";
 import { BASE_URL } from "../../../utils/api";
