@@ -2253,15 +2253,16 @@ img.single-time-zone {
 }
 .yellow-box {
   background: #ffc12b;
-  border: 0.8px solid #1a1a1a;
-  border-radius: 4px;
+  border: 2px solid #1a1a1a;
+  border-radius: 3px;
   width: 80px;
   height: 45px;
   display: inline-block;
   margin-right: 10px;
 }
-.zone {
-  background: #060047;
+
+.zone{
+  background: #fff;
   border-radius: 4px;
   width: 60px;
   height: 24px;
@@ -2271,11 +2272,91 @@ img.single-time-zone {
   font-size: 12px;
   line-height: 16px;
   font-family: var(--font-manrope);
-  color: var(--white);
+  color: var(--black);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0px 1px 3px #00000073;
+  margin-right: 10px;
+  border: 0;
 }
+/* .zone-active {
+  background: #060047;
+  color: var(--white);
+} */
+.zone-active:focus {
+  background: #060047;
+  color: var(--white);
+}
+.top-div{
+ height: 80%;
+ 
+}
+.bottom-div{
+  height: 20%;
+ 
+}
+.third-composition-top-div{
+  height: 80%;
+  width: 50%;
+  display: inline-block;
+}
+
+.third-composition-second-div{
+  height: 80%;
+  width: 50%;
+  display: inline-block;
+}
+.third-composition-third-div{
+  height: 20%;
+}
+
+.third-composition-top-div{
+  height: 80%;
+  width: 50%;
+  display: inline-block;
+}
+
+.third-composition-second-div{
+  height: 80%;
+  width: 50%;
+  display: inline-block;
+}
+.third-composition-third-div{
+  height: 20%;
+}
+
+.fullscreen-mode  .third-composition-top-div div{ 
+  height: 100% !important;
+ 
+}
+
+.fullscreen-mode .third-composition-second-div div{
+  height: 100% !important;
+
+}
+.fullscreen-mode .third-composition-third-div div{
+  height: 100% !important;
+}
+
+
+.fullscreen-mode .top-div div {
+  height: 100% !important;
+}
+
+.fullscreen-mode .bottom-div div{
+
+  height: 100% !important;
+
+}
+.webplayer-composition-full-screen .image-preview-container {
+  height: 100% !important;
+}
+
+.webplayer-composition-full-screen .image-preview-container .webplayer-preview-img{
+  height: 100% !important;
+}
+
 .duration {
   font-style: normal;
   font-weight: 500;
