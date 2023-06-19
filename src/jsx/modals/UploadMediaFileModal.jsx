@@ -6,6 +6,7 @@ import { addMedia } from "../../utils/api";
 
 const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal, callAllMediaApi }) => {
   const [file, setFile] = useState(null);
+  const [fileMeta, setFileMeta] = useState(null);
   const [error, setShowError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const handleUpload = async () => {
@@ -22,9 +23,10 @@ const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal, callAllMe
       return;
     }
     const formData = new FormData();
+    const sendFileMeta = JSON.stringify({...fileMeta,...{size : bytesToMB(file.size)}})
     formData.append('file', file);
     // formData.append('title', file.name);
-    formData.append('properties', bytesToMB(file.size));
+    formData.append('properties', sendFileMeta);
     if (file.type.includes('image')) {
       formData.append('type', "image");
     } else if (file.type.includes('video')) {
@@ -37,6 +39,7 @@ const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal, callAllMe
      callAllMediaApi()
      setUploadMediaModal(false)
   };
+
   const bytesToMB = (bytes) => {
     return (bytes / (1024 * 1024)).toFixed(2);
   };
@@ -60,7 +63,7 @@ const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal, callAllMe
 
 
 
-     <FileUploadWithPreview file={file}  setFile={setFile} setShowError={setShowError}/>
+     <FileUploadWithPreview file={file}  setFile={setFile} setShowError={setShowError} setFileMeta={setFileMeta}/>
     
         {error && <div className="error text-center font-weight-500">{error}</div>}
         <div class="add-screen-paragraph text-center font-weight-500">

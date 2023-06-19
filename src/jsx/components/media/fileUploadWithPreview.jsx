@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import uploadImg from "../../../img/cloud-computing-icon.png";
-function FileUploadWithPreview({ setShowError, setFile }) {
+function FileUploadWithPreview({ setShowError, setFile, setFileMeta }) {
   const [preview, setPreview] = useState(null);
   
   const handleFileChange = (event) => {
@@ -18,9 +18,23 @@ function FileUploadWithPreview({ setShowError, setFile }) {
     reader.readAsDataURL(selectedFile);
 
     reader.onload = function (e) {
+    
       setPreview(e.target.result);
+      
+
     };
   };
+  function handleLoadedMetadata(event) {
+    
+    setFileMeta((prev)=>{
+      return {...prev, ...{
+        height: event.target.height,
+        width: event.target.width,
+        length: event.target.duration
+       }}
+    })
+
+  }
 
   return (
     <div className="upload-file-container relative d-flex align-items-center justify-content-center flex-column">
@@ -44,12 +58,14 @@ function FileUploadWithPreview({ setShowError, setFile }) {
           <>
             {preview.includes("image") ? (
               <img
+               onLoad={handleLoadedMetadata}
                 src={preview}
                 style={{ width: "auto", height: "200px", objectFit: "cover" }}
                 alt="File Preview"
               />
             ) : (
               <video
+                 onLoadedMetadata={handleLoadedMetadata}
                 style={{ width: "auto", height: "200px", objectFit: "cover" }}
                 src={preview}
                 controls

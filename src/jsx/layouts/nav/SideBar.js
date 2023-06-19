@@ -53,11 +53,12 @@ class SideBar extends Component {
     let path = window.location.pathname;
     path = path.split("/");
     path = path[path.length - 1];
+
     /// Active menu
     let screen = [
         "", "display",
       ], media = ['assets'],
-      layouts = ['layouts'],
+      layout = ['layout','chooselayout','createcomposition'],
       push = ['push'],
       integrations = ['integrations'],
       reports = ['reports'],
@@ -79,8 +80,8 @@ class SideBar extends Component {
                 <span className="nav-text">Assets</span>
               </Link>
             </li>
-            <li className={`${layouts.includes(path) ? "mm-active" : ""}`}>
-              <Link to="/layouts" className="ai-icon" >
+            <li className={`${layout.includes(path) ? "mm-active" : ""}`}>
+              <Link to="/layout" className="ai-icon" >
                 <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={layoutIcon} alt="menu-icon" /></span>
                 <span className="nav-text">Layouts</span>
               </Link>

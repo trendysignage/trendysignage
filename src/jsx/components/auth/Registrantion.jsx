@@ -35,7 +35,7 @@ const RegisterPage = (props)=>{
 	return (<div>
 		<div className="mb-4">
 			<h3 className="mb-1 font-w600">Let’s get Started</h3>
-			<p className="welcome-content-paragraph">Enter your basic information to create new account on Trendyy</p>
+			<p className="welcome-content-paragraph">Enter your basic information to create new account on Trendy</p>
 		</div>
 		{props.errorMessage && (
 			<div className='bg-red-300 text-red-900 border border-red-900 p-1 my-2'>

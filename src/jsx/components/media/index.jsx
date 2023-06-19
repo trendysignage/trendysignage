@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import ListMedia from "./listMedia";
 import FilterModal from "../../modals/FilterModal";
@@ -8,20 +8,12 @@ import listIcon from "../../../img/list-icon.png";
 import uploadIcon from "../../../img/upload-icon.png";
 import canvaIcon from "../../../img/canva-icon.png";
 import {  getAllMedia } from "../../../utils/api";
-
+import useSWR from 'swr'
 const Media = () => {
   const [showFilterModal, setFilterModal] = useState(false);
   const [showUploadMediaModal, setUploadMediaModal] = useState(false);
-  const [allMedia, setAllMedia] = useState("");
-  // use effect
-  useEffect(() => {
-    callAllMediaApi();
-  }, []);
-  const callAllMediaApi = async () => {
-    const list = await getAllMedia();
-    setAllMedia(list);
-  };
-
+  const { data: allMedia, mutate } = useSWR('/vendor/display/media', getAllMedia);
+  console.log(allMedia,"kkkkkkkk media page")
 
   return (
     <>
@@ -105,10 +97,10 @@ const Media = () => {
          <UploadMediaModal
           showUploadMediaModal={showUploadMediaModal}
           setUploadMediaModal={setUploadMediaModal}
-          callAllMediaApi={callAllMediaApi}
+          callAllMediaApi={mutate}
         />
       </div>
-      <ListMedia allMedia={allMedia}  callAllMediaApi={callAllMediaApi}/>
+      <ListMedia allMedia={allMedia}  callAllMediaApi={mutate}/>
     </>
   );
 };

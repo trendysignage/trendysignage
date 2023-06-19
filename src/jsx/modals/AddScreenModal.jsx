@@ -118,7 +118,6 @@ const AddScreenModal = ({ setShowScreenModal, callAllScreenApi }) => {
                 <input
                   value={code}
                   type="text"
-                  
                   className={`${codeError ? 'invalid' : ''} form-control input-default form-field`}
                   placeholder="Enter Code"
                   onChange={handleCodeChange}
