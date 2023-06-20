@@ -3,9 +3,12 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from "react-bootstrap";
+import moment from 'moment'
 export default function DesignMonthSchedule() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState([]);
+  const monthList = ['Jan', 'Feb', 'March'];
+  var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const externalEvent = [
     { id: 1, title: "Event 1", start: "2023-06-01", end: "2023-06-02" },
     { id: 2, title: "Event 2", start: "2023-06-03", end: "2023-06-04" },
@@ -14,7 +17,7 @@ export default function DesignMonthSchedule() {
   ];
 
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [isEventSelected, setIsEventSelected] = useState(false);
 
   const handleEventClick = (event) => {
@@ -27,7 +30,6 @@ export default function DesignMonthSchedule() {
   function handleDateCellChange(dateInfo) {
     const checkboxKey = dateInfo.date.toISOString();
     const isChecked = selectedCheckboxes[checkboxKey];
-
     if (isChecked) {
       // Unselecting the checkbox
       setSelectedCheckboxes((prevSelectedCheckboxes) => {
@@ -40,14 +42,15 @@ export default function DesignMonthSchedule() {
         (event) => event.start !== dateInfo.date.toISOString()
       );
 
-      setSelectedEvent(null);
-      setSelectedDate(null);
+      // setSelectedEvent(null);
+      // setSelectedDate(null);
       setEvents(filteredEvents);
     } else {
       // Selecting the checkbox
-      setSelectedCheckboxes((prevSelectedCheckboxes) => ({
-        [checkboxKey]: true,
-      }));
+      setSelectedCheckboxes({...selectedCheckboxes,[checkboxKey]: true})
+      // setSelectedCheckboxes((prevSelectedCheckboxes) => ({
+      //   [checkboxKey]: true,
+      // }));
 
       const existingEvent = events.find(
         (event) => event.start === dateInfo.date.toISOString()
@@ -64,63 +67,105 @@ export default function DesignMonthSchedule() {
     }
   }
 
-  const handleWeekCellChange = (year, month, dayOfWeek) => {
-    function getDatesForDayOfWeek(year, month, dayOfWeek) {
-      const dates = [];
-      const date = new Date(year, month, 1); // Subtract 1 from month since JavaScript months are zero-based
-      const targetDay = dayOfWeek % 7; // Normalize dayOfWeek to 0-6 range (Sunday is 0)
-      while (date.getMonth() === month) {
-        if (date.getDay() === targetDay) {
-          dates.push(new Date(date)); // Push a new Date object to the array
-        }
-        date.setDate(date.getDate() + 1);
-      }
-      return dates;
-    }
+  // const handleWeekCellChange = (day) => {
+  //   function getDatesForDayOfWeek(year, month, dayOfWeek) {
+  //     const dates = [];
+  //     const date = new Date(year, month, 1); // Subtract 1 from month since JavaScript months are zero-based
+  //     const targetDay = dayOfWeek % 7; // Normalize dayOfWeek to 0-6 range (Sunday is 0)
+  //     while (date.getMonth() === month) {
+  //       if (date.getDay() === targetDay) {
+  //         dates.push(new Date(date)); // Push a new Date object to the array
+  //       }
+  //       date.setDate(date.getDate() + 1);
+  //     }
+  //     return dates;
+  //   }
 
-    const dates = getDatesForDayOfWeek(year, month, dayOfWeek);
+  //   const dates = getDatesForDayOfWeek(year, month, dayOfWeek);
 
-    dates.forEach((date) => {
-      console.log(date, "kkkkkk");
+  //   dates.forEach((date) => {
+  //     console.log(date, "kkkkkk");
 
-      // const checkboxKey = inputdate.replace(/\//g, "-");
-      const checkboxKey = date;
+  //     // const checkboxKey = inputdate.replace(/\//g, "-");
+  //     const checkboxKey = date;
 
-      console.log(checkboxKey, "unitqkjn");
+  //     console.log(checkboxKey, "unitqkjn");
 
-      setSelectedCheckboxes((prevSelectedCheckboxes) => ({
-        ...prevSelectedCheckboxes,
-        [checkboxKey]: true,
-      }));
-      console.log(selectedCheckboxes, "sgvyhjmffgbhnj");
+  //     setSelectedCheckboxes((prevSelectedCheckboxes) => ({
+  //       ...prevSelectedCheckboxes,
+  //       [checkboxKey]: true,
+  //     }));
+  //     console.log(selectedCheckboxes, "sgvyhjmffgbhnj");
 
-      // Check if the event already exists for the selected date
-      const existingEvent = events.find(
-        (event) => event.start === date.toISOString().split("T")[0]
-      );
+  //     // Check if the event already exists for the selected date
+  //     const existingEvent = events.find(
+  //       (event) => event.start === date.toISOString().split("T")[0]
+  //     );
 
-      if (!existingEvent) {
-        // Add event to the selected date
-        const eventToAdd = {
-          id: selectedEvent.id,
-          title: selectedEvent.title,
-          start: date.toISOString().split("T")[0],
-        };
-        setEvents((prevEvents) => [...prevEvents, eventToAdd]);
-      }
-    });
-  };
+  //     if (!existingEvent) {
+  //       // Add event to the selected date
+  //       const eventToAdd = {
+  //         id: selectedEvent.id,
+  //         title: selectedEvent.title,
+  //         start: date.toISOString().split("T")[0],
+  //       };
+  //       setEvents((prevEvents) => [...prevEvents, eventToAdd]);
+  //     }
+  //   });
+  // };
+
+  const handleWeek = async (day) => {
+    const dayList = getSundays(days[day]);
+    //console.log("dayList",dayList)
+    const newArray = selectedCheckboxes;
+    //const newArray2 = [];
+    dayList.forEach((item) => {
+      newArray[item.format('YYYY-MM-DD')] = true;
+    })
+
+    //setSelectedCheckboxes({...selectedCheckboxes})
+
+    // console.log(dayList);
+    // dayList.map((item) => {
+    //   console.log(item);
+    //   return setSelectedCheckboxes({...selectedCheckboxes,[item]:true})
+    // });
+    //console.log("newArray",newArray);
+    setSelectedCheckboxes(newArray)
+  }
 
   function getMonthFromString(mon) {
     return new Date(Date.parse(mon + " 1, 2012")).getMonth() + 1;
   }
 
+  function getSundays(dayName) {
+    var startDate = new Date(2023, 5, 1);
+    var endDate = new Date(2023,6, 31);
+    var day = 0;  
+    for (var i = 0; i <= 7; i++) { 
+        if(startDate.toString().indexOf(dayName) !== -1){
+          break;
+        }
+        startDate =  new Date(2023, 5, i);
+    }
+    const result = [];
+    
+    startDate = moment(startDate);
+    endDate = moment(endDate);
+    console.log("endDate",endDate)
+    result.push(startDate);
+    var current = startDate.clone();
+    while (current.day(7 + day).isBefore(endDate)) {
+      console.log("current",current.clone().format('YYYY-MM-DD'))
+      result.push(current.clone());
+    }
+    return result
+  }
+
   const renderDayHeader = (dayInfo) => {
-    console.log(dayInfo, "renderDayHeader console");
     const { date } = dayInfo;
-    const checkboxKey = date.toISOString();
+    const checkboxKey = dayInfo.date.toISOString();
     const isChecked = selectedCheckboxes[checkboxKey];
-    console.log(isChecked, "kkkk");
 
     if (isEventSelected) {
       return (
@@ -130,16 +175,7 @@ export default function DesignMonthSchedule() {
             name={`checkbox-${checkboxKey}`}
             type="checkbox"
             checked={isChecked}
-            onChange={() => {
-              const monthYrStr = document.querySelector("#fc-dom-2").innerHTML;
-              const monthYrArr = monthYrStr.split(" ");
-              console.log("monthYrArr #696", monthYrArr);
-              console.log(
-                monthYrArr[1],
-                getMonthFromString(monthYrArr[0]),
-                date.getDay()
-              );
-            }}
+            onChange={() => {handleWeek(dayInfo.date.getDay())}}
           />
           {date.toLocaleDateString("en-US", { weekday: "short" })}
         </div>
@@ -155,7 +191,7 @@ export default function DesignMonthSchedule() {
     const selectedDateValue = selectedDate ? selectedDate.valueOf() : null;
     const isSelected = selectedDateValue === dateInfo.date.valueOf();
     const isEventSelected = selectedEvent;
-
+    //console.log("dateInfo",dateInfo)
     if (isEventSelected) {
       const checkboxKey = dateInfo.date.toISOString();
       return (
@@ -218,8 +254,15 @@ export default function DesignMonthSchedule() {
       </div>
       <div className="calendar" style={{ float: "left", width: "60%" }}>
         <FullCalendar
+          // plugins={[dayGridPlugin, interactionPlugin]}
+          // initialView="dayGridMonth"
+          
           plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
+            headerToolbar={{
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            }}
           selectable={true}
           events={events}
           dayHeaderContent={renderDayHeader}
@@ -229,11 +272,7 @@ export default function DesignMonthSchedule() {
               <div>{info.event.title}</div>
             </div>
           )}
-          headerToolbar={{
-            start: "title",
 
-            end: "prev,next",
-          }}
         />
       </div>
     </div>
