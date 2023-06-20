@@ -229,74 +229,77 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
           style={{ height: "100vh" }}
           // className="webplayer-composition-full-screen"
         >
-          <div
-            //  style={{ width: "50%", height: "70%", display: "inline-block" }}
-            className="third-composition-top-div"
-          >
-            {contents.zones[0] &&
-              contents.zones[0].content[currentIndex] &&
-              contents.zones[0].content[currentIndex].type === "image" && (
-                <div className="basic-list-group image-preview-container media-content">
-                  <img
-                    className="webplayer-preview-img"
-                    style={{
-                      objectFit: `${
-                        viewImage === "fitScreen" ? "fill" : "contain"
-                      }`,
-                    }}
-                    src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
-                    alt="media-img"
-                  />
-                </div>
-              )}
-            {contents.zones[0] &&
-              contents.zones[0].content[currentIndex] &&
-              contents.zones[0].content[currentIndex].type === "video" && (
-                <div
-                  className={`basic-list-group video-container media-content ${viewImage} ${
-                    viewImage === "fitScreen" ? "fitImage" : "containImage"
-                  }`}
-                >
-                  <WebVideoPlayer
-                    src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
-                  ></WebVideoPlayer>
-                </div>
-              )}
+          <div className="third-compoition-container">
+            <div
+              //  style={{ width: "50%", height: "70%", display: "inline-block" }}
+              className="third-composition-top-div"
+            >
+              {contents.zones[0] &&
+                contents.zones[0].content[currentIndex] &&
+                contents.zones[0].content[currentIndex].type === "image" && (
+                  <div className="basic-list-group image-preview-container media-content">
+                    <img
+                      className="webplayer-preview-img"
+                      style={{
+                        objectFit: `${
+                          viewImage === "fitScreen" ? "fill" : "contain"
+                        }`,
+                      }}
+                      src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                      alt="media-img"
+                    />
+                  </div>
+                )}
+              {contents.zones[0] &&
+                contents.zones[0].content[currentIndex] &&
+                contents.zones[0].content[currentIndex].type === "video" && (
+                  <div
+                    className={`basic-list-group video-container media-content ${viewImage} ${
+                      viewImage === "fitScreen" ? "fitImage" : "containImage"
+                    }`}
+                  >
+                    <WebVideoPlayer
+                      src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                    ></WebVideoPlayer>
+                  </div>
+                )}
+            </div>
+            <div
+              // style={{ width: "50%", height: "70%", display: "inline-block" }}
+              className="third-composition-second-div"
+            >
+              {contents.zones[1] &&
+                contents.zones[1].content[current1Index] &&
+                contents.zones[1].content[current1Index].type === "image" && (
+                  <div className="basic-list-group image-preview-container media-content">
+                    <img
+                      className="webplayer-preview-img"
+                      style={{
+                        objectFit: `${
+                          viewImage === "fitScreen" ? "fill" : "contain"
+                        }`,
+                      }}
+                      src={`http://144.126.143.140:5000/${contents.zones[1].content[current1Index].url}`}
+                      alt="media-img"
+                    />
+                  </div>
+                )}
+              {contents.zones[1] &&
+                contents.zones[1].content[current1Index] &&
+                contents.zones[1].content[current1Index].type === "video" && (
+                  <div
+                    className={`basic-list-group video-container media-content ${viewImage} ${
+                      viewImage === "fitScreen" ? "fitImage" : "containImage"
+                    }`}
+                  >
+                    <WebVideoPlayer
+                      src={`http://144.126.143.140:5000/${contents.zones[1].content[current1Index].url}`}
+                    ></WebVideoPlayer>
+                  </div>
+                )}
+            </div>
           </div>
-          <div
-            // style={{ width: "50%", height: "70%", display: "inline-block" }}
-            className="third-composition-second-div"
-          >
-            {contents.zones[1] &&
-              contents.zones[1].content[current1Index] &&
-              contents.zones[1].content[current1Index].type === "image" && (
-                <div className="basic-list-group image-preview-container media-content">
-                  <img
-                    className="webplayer-preview-img"
-                    style={{
-                      objectFit: `${
-                        viewImage === "fitScreen" ? "fill" : "contain"
-                      }`,
-                    }}
-                    src={`http://144.126.143.140:5000/${contents.zones[1].content[current1Index].url}`}
-                    alt="media-img"
-                  />
-                </div>
-              )}
-            {contents.zones[1] &&
-              contents.zones[1].content[current1Index] &&
-              contents.zones[1].content[current1Index].type === "video" && (
-                <div
-                  className={`basic-list-group video-container media-content ${viewImage} ${
-                    viewImage === "fitScreen" ? "fitImage" : "containImage"
-                  }`}
-                >
-                  <WebVideoPlayer
-                    src={`http://144.126.143.140:5000/${contents.zones[1].content[current1Index].url}`}
-                  ></WebVideoPlayer>
-                </div>
-              )}
-          </div>
+
           <div
             // style={{ width: "100%", height: "30%", minHeight: "18%" }}
             className="third-composition-third-div"

@@ -11,6 +11,12 @@ const EditSelectedComposition = ({
   setEditSelected,
   updateViewType,
 }) => {
+  console.log(
+    composition,
+    "iiii",
+
+    "kkkkkkkkkkkkk"
+  );
   const getDefault = composition.fitToScreen
     ? "fitScreen"
     : composition.crop
@@ -141,20 +147,22 @@ const EditSelectedComposition = ({
                 />
               )}
             </div>{" "}
-            {viewImage === "crop" && ( <div className="controls">
-              <input
-                type="range"
-                value={zoom}
-                min={1}
-                max={3}
-                step={0.1}
-                aria-labelledby="Zoom"
-                onChange={(e) => {
-                  setZoom(e.target.value);
-                }}
-                className="zoom-range"
-              />
-            </div>)}
+            {viewImage === "crop" && (
+              <div className="controls">
+                <input
+                  type="range"
+                  value={zoom}
+                  min={1}
+                  max={3}
+                  step={0.1}
+                  aria-labelledby="Zoom"
+                  onChange={(e) => {
+                    setZoom(e.target.value);
+                  }}
+                  className="zoom-range"
+                />
+              </div>
+            )}
           </>
         )}
         {composition && composition.type === "video" && (
