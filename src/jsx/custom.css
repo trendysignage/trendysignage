@@ -2296,32 +2296,28 @@ img.single-time-zone {
   height: 20%;
  
 }
-.third-composition-top-div{
+.third-compoition-container{
+  display: flex;
   height: 80%;
+}
+.third-composition-top-div{
+  height: 100%;
   width: 50%;
   display: inline-block;
 }
 
 .third-composition-second-div{
-  height: 80%;
+  height: 100%;
   width: 50%;
   display: inline-block;
 }
 .third-composition-third-div{
   height: 20%;
 }
-
-.third-composition-top-div{
-  height: 80%;
-  width: 50%;
-  display: inline-block;
+.third-composition-second-div .media-content{
+  height: 100% !important;
 }
 
-.third-composition-second-div{
-  height: 80%;
-  width: 50%;
-  display: inline-block;
-}
 .third-composition-third-div{
   height: 20%;
 }
@@ -2798,11 +2794,9 @@ thead {
     overflow: auto;
     max-height: calc(100vh - 250px);
 }
-
 .reactEasyCrop_Container{
   top:19% !important;
   bottom:3% !important;
 }
-
 
  
