@@ -6,9 +6,9 @@ import "../../custom.css";
 const Webplayer = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const id = queryParams.get('id');
+  const id = queryParams.get("id");
   const [screenId, setScreenId] = useState(id);
-  const [divClass, setDivClass] = useState('landscape');
+  const [divClass, setDivClass] = useState("landscape");
   const divRef = useRef(null);
   const handleAddClass = (string) => {
     setDivClass(string);
@@ -27,32 +27,53 @@ const Webplayer = () => {
     }
   }, [screenId]);
 
-
   const onFullScreen = () => {
-    if (divRef.current) {
+    console.log(divRef.current, "divRef.currenttttttttt");
+    const className = divRef.current;
+    console.log(className, "class name");
+    if (className.getElementsByClassName("webplayer-composition-full-screen")) {
       // divRef.current.requestFullscreen();
-      if (divRef.current.requestFullscreen) {
-        divRef.current.requestFullscreen();
-      } 
-      else if (divRef.current.webkitRequestFullscreen) {
-        divRef.current.webkitRequestFullscreen();
-      }
-       else if (divRef.current.msRequestFullscreen) {
-        divRef.current.msRequestFullscreen();
-      } else if (divRef.current.mozRequestFullScreen){
-        divRef.current.mozRequestFullScreen();
+      if (className.requestFullscreen) {
+        className.requestFullscreen();
+      } else if (className.webkitRequestFullscreen) {
+        className.webkitRequestFullscreen();
+      } else if (className.msRequestFullscreen) {
+        className.msRequestFullscreen();
+      } else if (className.mozRequestFullScreen) {
+        className.mozRequestFullScreen();
       }
     }
+    // if (divRef.current) {
+    //   // divRef.current.requestFullscreen();
+    //   if (divRef.current.requestFullscreen) {
+    //     divRef.current.requestFullscreen();
+    //   } else if (divRef.current.webkitRequestFullscreen) {
+    //     divRef.current.webkitRequestFullscreen();
+    //   } else if (divRef.current.msRequestFullscreen) {
+    //     divRef.current.msRequestFullscreen();
+    //   } else if (divRef.current.mozRequestFullScreen) {
+    //     divRef.current.mozRequestFullScreen();
+    //   }
+    // }
   };
 
   return (
     <div id={`main-wrapper`} className={`show`}>
-      <div ref={divRef} className={`content-body content-body-custom web-player-body ${divClass}-view`}>
+      <div
+        ref={divRef}
+        className={`content-body content-body-custom web-player-body webplayer-composition-full-screen ${divClass}-view`}
+      >
         <div
           className={`container-fluid`}
           style={{ minHeight: window.screen.height - 60 }}
         >
-          {screenId && <WebMain id={screenId} handleAddClass={handleAddClass} onFullScreen={onFullScreen}/>}
+          {screenId && (
+            <WebMain
+              id={screenId}
+              handleAddClass={handleAddClass}
+              onFullScreen={onFullScreen}
+            />
+          )}
         </div>
       </div>
     </div>

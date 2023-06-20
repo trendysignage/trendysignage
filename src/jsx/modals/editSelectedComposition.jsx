@@ -11,6 +11,7 @@ const EditSelectedComposition = ({
   setEditSelected,
   updateViewType,
 }) => {
+  console.log(`${BASE_URL}${composition.url}`, "kkkkkk");
   const getDefault = composition.fitToScreen
     ? "fitScreen"
     : composition.crop
@@ -114,10 +115,13 @@ const EditSelectedComposition = ({
         </div>
         {composition && composition.type === "image" && (
           <>
-            {" "}
             <div
               className="basic-list-group image-preview-container media-content image-preview-editable"
-              style={{ border: "1px solid", margin: "1rem" }}
+              style={{
+                border: "1px solid",
+                marginTop: viewImage == "crop" ? "0%" : "4%",
+                height: viewImage == "crop" ? "560px" : "560px",
+              }}
             >
               {viewImage === "crop" && (
                 <ImageCroper
@@ -141,20 +145,22 @@ const EditSelectedComposition = ({
                 />
               )}
             </div>{" "}
-            {viewImage === "crop" && ( <div className="controls">
-              <input
-                type="range"
-                value={zoom}
-                min={1}
-                max={3}
-                step={0.1}
-                aria-labelledby="Zoom"
-                onChange={(e) => {
-                  setZoom(e.target.value);
-                }}
-                className="zoom-range"
-              />
-            </div>)}
+            {viewImage === "crop" && (
+              <div className="controls">
+                <input
+                  type="range"
+                  value={zoom}
+                  min={1}
+                  max={3}
+                  step={0.1}
+                  aria-labelledby="Zoom"
+                  onChange={(e) => {
+                    setZoom(e.target.value);
+                  }}
+                  className="zoom-range"
+                />
+              </div>
+            )}
           </>
         )}
         {composition && composition.type === "video" && (
@@ -162,7 +168,7 @@ const EditSelectedComposition = ({
             className={`basic-list-group image-preview-container media-content image-preview-editable ${
               viewImage === "fitScreen" ? "fitImage" : "containImage"
             }`}
-            style={{ border: "1px solid", margin: "1rem" }}
+            style={{ border: "1px solid", marginTop: "15px" }}
           >
             <VideoThumbnail
               videoUrl={`${BASE_URL}/vendor/display/mediaFile?path=${composition.url}`}

@@ -19,19 +19,46 @@ import SaveCompositionName from "../../../modals/saveCompositionName";
 import UploadMediaModal from "../../../modals/UploadMediaFileModal";
 import { isBlobUrl } from "../../../../utils/UtilsService";
 const CommonComposition = ({ type, composition, layout }) => {
-console.log(layout, "iiiiiiii")
-console.log(composition, "yyyyyy")
-console.log(type ,"hhhhhhh")
   const [showUploadMediaModal, setUploadMediaModal] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [name, setName] = useState(composition ? composition.name : "");
   const [namePopUp, setOpenNamePopUp] = useState(false);
+  const [zone, setZone] = useState("Zone1");
+  // const [content, setContent] = useState(
+  //   composition ? composition.zones[0].content : []
+  // );
+  const makeArray = (data) => {
+    const newArray = [];
+    data.forEach((item) => {
+      if(item.content.length > 0){
+        item.content.forEach((item2)=>{
+          newArray.push({...item2,["zone"]:item.name})
+        })
+      }
+    })
+    return newArray
+  }
+  const makeArray2 = (data,size) => {
+    const result = data.reduce(function (r, a) {
+        r[a.zone] = r[a.zone] || [];
+        r[a.zone].push(a);
+        return r;
+    }, Object.create(null));
+    
+    return result;
+  }
   const [content, setContent] = useState(
-    composition ? composition.zones[0].content : []
+    composition ? makeArray(composition.zones) : []
   );
   const [referenceUrl, setReferenceUrl] = useState(
     composition ? composition.referenceUrl : []
   );
+
+  
+
+  const handleLayout = (data) => {
+    setZone(data);
+  }
 
   const { data: allMedia, mutate } = useSWR(
     "/vendor/display/media",
@@ -42,6 +69,8 @@ console.log(type ,"hhhhhhh")
   const addComposition = (media) => {
     setContent((prev) => {
       const meta = JSON.parse(media.properties);
+      const dt = prev.find(o => o.name === zone);
+      
       const createContent = {
         url: `${media.title}`,
         type: media.type,
@@ -50,8 +79,10 @@ console.log(type ,"hhhhhhh")
         crop: false,
         duration: meta.length ? meta.length : 10,
         createdBy: media.createdBy.name,
+        zone
       };
-      return [...prev, { ...createContent }];
+      const newdata = [...prev, { ...createContent }];
+      return newdata;
     });
 
     setReferenceUrl((prev) => {
@@ -68,11 +99,16 @@ console.log(type ,"hhhhhhh")
     const results = await Promise.all(updateFiles);
 
     let zones = [];
+    let zoneNew = makeArray2(content,layout.zones.length);
     layout.zones.forEach((zone, index) => {
+      const contentData = zoneNew[zone.name].map(({zone, ...rest}) => {
+        return rest;
+      });
       zones.push({
         name: zone.name,
         zoneId: zone._id,
-        content: removeCreatedBy(index),
+        //content: removeCreatedBy(index),
+        content:removeCreatedBy(contentData)
       });
     });
     const data = {
@@ -81,6 +117,7 @@ console.log(type ,"hhhhhhh")
       duration: TotalDuration(),
       referenceUrl: results,
     };
+   // console.log("SAVE",data);
     if (type === "create") {
       data.layoutId = layout._id;
       await postComposition(data);
@@ -97,13 +134,15 @@ console.log(type ,"hhhhhhh")
     });
     return total.toFixed(0);
   };
-  function removeCreatedBy() {
-    return content.map((item) => {
+  function removeCreatedBy(data) {
+    return data.map((item) => {
       delete item["createdBy"];
       delete item["_id"];
+      delete item["zone"];
       return item;
     });
   }
+
   return (
     <>
       <div className="custom-content-heading d-flex flex-wrap">
@@ -177,6 +216,8 @@ console.log(type ,"hhhhhhh")
               content={content}
               setContent={setContent}
               setReferenceUrl={setReferenceUrl}
+              layout={layout}
+              handleLayout={handleLayout}
             />
           </Col>
         </Row>
@@ -189,6 +230,7 @@ console.log(type ,"hhhhhhh")
           <PreviewComposition
             setShowPreview={setShowPreview}
             content={content}
+            contentnew={makeArray2(content,2)}
             referenceUrl={referenceUrl}
             layout={layout}
           />
