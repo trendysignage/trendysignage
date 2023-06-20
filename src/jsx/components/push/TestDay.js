@@ -281,7 +281,7 @@ export default function TestDay() {
                                 return (
                                     <tr
                                         key={composition._id}
-                                        className="fc-event fc-h-event  fc-daygrid-event fc-daygrid-block-event "
+                                        className="fc-event  fc-daygrid-event fc-daygrid-block-event "
                                         title={composition.name}
                                         data-id={composition._id}
                                         // data-color={"yellow"}
