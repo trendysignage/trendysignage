@@ -115,7 +115,6 @@ const EditSelectedComposition = ({
         </div>
         {composition && composition.type === "image" && (
           <>
-            {" "}
             <div
               className="basic-list-group image-preview-container media-content image-preview-editable"
               style={{
