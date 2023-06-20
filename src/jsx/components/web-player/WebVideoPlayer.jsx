@@ -3,20 +3,22 @@ import videojs from 'video.js';
 
 import 'video.js/dist/video-js.css';
 const WebVideoPlayer = (props) => {
-console.log(props, "WebVideoPlayer.jsx props")
+  console.log(props, "WebVideoPlayer.jsx props")
   const videoRef = useRef(null);
-  console.log(videoRef,"WebVideoPlayer .jsx")
   const playerRef = useRef(null);
 
   useEffect(() => {
-    playerRef.current = videojs(videoRef.current, {
-      autoplay: true,
-      controls: false,
-      muted:true,
-      loop:true,
-      src: props.src
-    });
+    videoRef.current?.load();
+    // playerRef.current = videojs(videoRef.current, {
+    //   autoplay: true,
+    //   controls: false,
+    //   muted:true,
+    //   loop:true,
+    //   src: props.src
+    // });
+    // console.log("test",playerRef.current, videoRef.current)
     return () => {
+      videoRef.current?.load();
       if (playerRef.current) {
         playerRef.current.dispose();
         playerRef.current = null;
@@ -81,13 +83,12 @@ console.log(props, "WebVideoPlayer.jsx props")
   //   };
   // }, []);
   return (
-  <> <video ref={videoRef} className="video-js" /></>
+  //<> <video ref={videoRef} className="video-js" /></>
   // <> <video ref={videoRef}   className="video-js" </video></>
 
-//   <video ref={videoRef} className="video-js">
-//   <source src={props.src} type="video/mp4" />
-//   Your browser does not support the video tag.
-// </video>
+    <video ref={videoRef} className="video-js" autoPlay muted loop>
+      <source src={props.src} type="video/mp4" />
+    </video>
   );
 };
 
