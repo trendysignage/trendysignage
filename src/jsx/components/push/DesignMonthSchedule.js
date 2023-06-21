@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -20,6 +20,9 @@ export default function DesignMonthSchedule() {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [isEventSelected, setIsEventSelected] = useState(false);
 
+  useEffect(() => {
+    console.log("Dsd");
+  },[selectedCheckboxes])
   const handleEventClick = (event) => {
     setSelectedEvent(event);
     setSelectedDate(null); // Reset selected date
@@ -28,7 +31,7 @@ export default function DesignMonthSchedule() {
   };
 
   function handleDateCellChange(dateInfo) {
-    const checkboxKey = dateInfo.date.toISOString();
+    const checkboxKey = dateInfo;
     const isChecked = selectedCheckboxes[checkboxKey];
     if (isChecked) {
       // Unselecting the checkbox
@@ -39,7 +42,7 @@ export default function DesignMonthSchedule() {
       });
 
       const filteredEvents = events.filter(
-        (event) => event.start !== dateInfo.date.toISOString()
+        (event) => event.start !== dateInfo
       );
 
       // setSelectedEvent(null);
@@ -53,14 +56,14 @@ export default function DesignMonthSchedule() {
       // }));
 
       const existingEvent = events.find(
-        (event) => event.start === dateInfo.date.toISOString()
+        (event) => event.start === dateInfo
       );
 
       if (!existingEvent) {
         const event = {
           id: selectedEvent.id,
           title: selectedEvent.title,
-          start: dateInfo.date.toISOString(),
+          start: dateInfo,
         };
         setEvents((prevEvents) => [...prevEvents, event]);
       }
@@ -114,34 +117,29 @@ export default function DesignMonthSchedule() {
   //   });
   // };
 
-  const handleWeek = async (day) => {
-    const dayList = getSundays(days[day]);
-    //console.log("dayList",dayList)
+  const handleWeek = async (day, dayInfo) => {
+    const dayList = getSundays(days[day], day);
     const newArray = selectedCheckboxes;
-    //const newArray2 = [];
     dayList.forEach((item) => {
-      newArray[item.format('YYYY-MM-DD')] = true;
+      if(newArray[item.format('YYYY-MM-DD')] !== undefined){
+        delete newArray[item.format('YYYY-MM-DD')];
+      }else{
+        newArray[item.format('YYYY-MM-DD')] = true;
+      }
+      
+      handleDateCellChange(item.format('YYYY-MM-DD'))
     })
-
-    //setSelectedCheckboxes({...selectedCheckboxes})
-
-    // console.log(dayList);
-    // dayList.map((item) => {
-    //   console.log(item);
-    //   return setSelectedCheckboxes({...selectedCheckboxes,[item]:true})
-    // });
-    //console.log("newArray",newArray);
-    setSelectedCheckboxes(newArray)
+    setSelectedCheckboxes(newArray);
   }
 
   function getMonthFromString(mon) {
     return new Date(Date.parse(mon + " 1, 2012")).getMonth() + 1;
   }
 
-  function getSundays(dayName) {
+  function getSundays(dayName, dayId) {
     var startDate = new Date(2023, 5, 1);
-    var endDate = new Date(2023,6, 31);
-    var day = 0;  
+    var endDate = new Date(2023,5, 31);
+    var day = dayId;  
     for (var i = 0; i <= 7; i++) { 
         if(startDate.toString().indexOf(dayName) !== -1){
           break;
@@ -152,17 +150,16 @@ export default function DesignMonthSchedule() {
     
     startDate = moment(startDate);
     endDate = moment(endDate);
-    console.log("endDate",endDate)
     result.push(startDate);
     var current = startDate.clone();
     while (current.day(7 + day).isBefore(endDate)) {
-      console.log("current",current.clone().format('YYYY-MM-DD'))
       result.push(current.clone());
     }
     return result
   }
 
   const renderDayHeader = (dayInfo) => {
+    
     const { date } = dayInfo;
     const checkboxKey = dayInfo.date.toISOString();
     const isChecked = selectedCheckboxes[checkboxKey];
@@ -175,7 +172,7 @@ export default function DesignMonthSchedule() {
             name={`checkbox-${checkboxKey}`}
             type="checkbox"
             checked={isChecked}
-            onChange={() => {handleWeek(dayInfo.date.getDay())}}
+            onChange={() => {handleWeek(dayInfo.date.getDay(), dayInfo)}}
           />
           {date.toLocaleDateString("en-US", { weekday: "short" })}
         </div>
@@ -191,16 +188,18 @@ export default function DesignMonthSchedule() {
     const selectedDateValue = selectedDate ? selectedDate.valueOf() : null;
     const isSelected = selectedDateValue === dateInfo.date.valueOf();
     const isEventSelected = selectedEvent;
-    //console.log("dateInfo",dateInfo)
     if (isEventSelected) {
       const checkboxKey = dateInfo.date.toISOString();
+      const checkDate = checkboxKey.split('T')[0];
+      const lastDate = moment(checkDate, 'YYYY-MM-DD').add("days",1).format('YYYY-MM-DD');
+
       return (
         <div className="month-schedule-checkbox">
           <input
-            name={`checkbox-${checkboxKey}`}
+            name={`checkbox-${lastDate}`}
             type="checkbox"
-            checked={isSelected || selectedCheckboxes[checkboxKey]}
-            onChange={() => handleDateCellChange(dateInfo)}
+            checked={isSelected || selectedCheckboxes[lastDate] || selectedCheckboxes[lastDate]}
+            onChange={() => handleDateCellChange(lastDate)}
           />
           {dateInfo.dayNumberText}
         </div>
@@ -209,33 +208,23 @@ export default function DesignMonthSchedule() {
     return dateInfo.dayNumberText;
   };
 
+  const handlePublish = (e) => {
+    e.preventDefault();
+    console.log(selectedCheckboxes)
+  }
+
   return (
     <div className="fullcalendar-box">
       <div className="d-flex justify-content-end">
-        <Button className="mr-2" variant="info add-screen-btn">
+        <Button className="mr-2" 
+          onClick={(e)=>{handlePublish(e)}}
+          variant="info add-screen-btn">
           Publish
         </Button>
       </div>
 
       <div className="event-list">
         <h3>Day Sequence</h3>
-        {/* <ul>
-          {externalEvent.map((event, i) => (
-            <li
-              key={i}
-              onClick={() => handleEventClick(event)}
-              style={{
-                cursor: "pointer",
-                fontWeight:
-                  selectedEvent && selectedEvent.id === event.id
-                    ? "bold"
-                    : "normal",
-              }}
-            >
-              {event.title}
-            </li>
-          ))}
-        </ul> */}
         {externalEvent.map((event, i) => (
           <div
             key={i}
@@ -254,15 +243,8 @@ export default function DesignMonthSchedule() {
       </div>
       <div className="calendar" style={{ float: "left", width: "60%" }}>
         <FullCalendar
-          // plugins={[dayGridPlugin, interactionPlugin]}
-          // initialView="dayGridMonth"
-          
           plugins={[dayGridPlugin, interactionPlugin]}
-            headerToolbar={{
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            }}
+          initialView="dayGridMonth"
           selectable={true}
           events={events}
           dayHeaderContent={renderDayHeader}
