@@ -74,9 +74,9 @@ const PreviewComposition = ({
           }
         }, timeout1Duration);
       }
-      if (contentnew.Zone3 && contentnew.Zone3[current1Index]) {
+      if (contentnew.Zone3 && contentnew.Zone3[current2Index]) {
         const timeout1Duration =
-          contentnew.Zone3[current2Index].duration * 1000;
+          contentnew.Zone3[current2Index]?.duration * 1000;
         timeout1Ref.current = setTimeout(() => {
           if (current2Index === contentnew.Zone3.length - 1) {
             setCurrent2Index(0);
