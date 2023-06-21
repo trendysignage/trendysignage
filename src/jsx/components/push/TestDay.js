@@ -26,11 +26,12 @@ const MyCustomPlugin = createPlugin({
 
 export default function TestDay() {
   const [events, setEvents] = useState([]);
-
-  console.log(events, "events events");
+  const [eventsId, setEventsId] = useState("");
+  //   console.log(events, "eventsevents");
+  //   console.log(events, "events events");
   const history = useHistory();
   const { id } = useParams();
-  console.log(id, "testday id");
+  //   console.log(id, "testday id");
 
   const { data: allComposition, mutate } = useSWR(
     "/vendor/layouts/compositions",
@@ -43,13 +44,16 @@ export default function TestDay() {
     new Draggable(draggableEl, {
       itemSelector: ".fc-event",
       eventData: function (eventEl) {
+        // console.log(eventEl, "eventEl eventEl");
         let id = eventEl.dataset.id;
+        let sourceId = eventEl.getAttribute("sourceId");
         let title = eventEl.getAttribute("title");
         let color = "#FFE494";
         let custom = eventEl.dataset.custom;
 
         return {
           id: id,
+          sourceId,
           title: title,
           color: color,
           custom: custom,
@@ -61,39 +65,52 @@ export default function TestDay() {
 
   // handle event receive
   const handleEventReceive = (eventInfo) => {
-    console.log(eventInfo, "handleEventReceivehandleEventReceive");
-
+    // console.log(eventInfo, "handleEventReceivehandleEventReceive");
     const { id } = eventInfo.draggedEl.dataset;
-    const timing = eventInfo.draggedEl.getAttribute("data-timing");
-    const timeText = eventInfo.timeText; // Store eventInfo.timeText in a variable
-
+    // const timing = eventInfo.draggedEl.getAttribute("data-timing");
+    // const timeText = eventInfo.timeText; // Store eventInfo.timeText in a variable
     const newEvent = {
       id: id,
-      timing: timing,
-      start: eventInfo.date,
-      end: eventInfo.date,
-      timeText: timeText, // Include the timeText property
+      //   timing: timing,
+
+      //   timeText: timeText, // Include the timeText property
     };
     setEvents([...events, newEvent]);
   };
-  console.log(events, "lllll");
   // handle deletion of an event
 
   const handleEventClick = (info) => {
-    console.log(info, "sssss");
+    // console.log(info, "sssss");
     info.event.remove();
   };
+  function reciveTime(value) {
+    // console.log(value);
+    return value;
+  }
   function moveToMonth() {
-    history.push("/design-month-schedule");
+    // history.push("/design-month-schedule");
+    const element = document.getElementsByClassName("fc-event-main");
+    console.log(element, "element element");
   }
   function renderEventContent(eventInfo) {
     console.log(eventInfo, "eventInfo inside renderEventContent");
     const { event } = eventInfo;
-    const { title, timeText } = event;
+    const { title } = event;
+    reciveTime(eventInfo.timeText);
+    console.log(
+      eventInfo.event.sourceId,
+      "eventInfo.sourceId eventInfo.sourceId"
+    );
+    // const newEvent = {
+    //   id: eventInfo.sourceId,
+    //   timing: eventInfo.timeText,
 
+    //   //   timeText: timeText, // Include the timeText property
+    // };
+    // setEvents([...events, newEvent]);
     return (
       <>
-        <div className="fullcalendar-main-container">
+        <div className={`fullcalendar-main-container ${eventInfo.sourceId}`}>
           <img
             src={event.extendedProps.custom}
             className="day-schedule-fullcalendar-img"
@@ -112,6 +129,7 @@ export default function TestDay() {
       </>
     );
   }
+  //   console.log(allComposition, "allComposition allComposition");
   return (
     <div className="App">
       <div className="d-flex justify-content-end">
@@ -150,7 +168,7 @@ export default function TestDay() {
                       key={composition._id}
                       className="fc-event  fc-daygrid-event fc-daygrid-block-event "
                       title={composition.name}
-                      data-id={composition._id}
+                      sourceId={composition._id}
                       // data-color={"yellow"}
                       data-custom={`${BASE_URL}${content.url}`}
                       style={{
