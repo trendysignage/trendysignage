@@ -3,7 +3,8 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from "react-bootstrap";
-import moment from 'moment'
+import moment from 'moment';
+import {pushAddDates} from '../../../utils/api';
 export default function DesignMonthSchedule() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState([]);
@@ -21,122 +22,113 @@ export default function DesignMonthSchedule() {
   const [isEventSelected, setIsEventSelected] = useState(false);
 
   useEffect(() => {
-    console.log("Dsd");
-  },[selectedCheckboxes])
+  },[selectedCheckboxes]);
+
   const handleEventClick = (event) => {
+    setEvents([])
     setSelectedEvent(event);
     setSelectedDate(null); // Reset selected date
-    setSelectedCheckboxes({});
+    setSelectedCheckboxes([]);
     setIsEventSelected(true); // Set isEventSelected to true
   };
 
-  function handleDateCellChange(dateInfo) {
+  function handleDateCellChange(dateInfo, isWk) {
     const checkboxKey = dateInfo;
+    const dt = new Date(dateInfo);
     const isChecked = selectedCheckboxes[checkboxKey];
-    if (isChecked) {
-      // Unselecting the checkbox
-      setSelectedCheckboxes((prevSelectedCheckboxes) => {
-        const updatedCheckboxes = { ...prevSelectedCheckboxes };
-        delete updatedCheckboxes[checkboxKey];
-        return updatedCheckboxes;
-      });
+    if(isWk){
+      if (!isChecked) {
+        // Unselecting the checkbox
+        setSelectedCheckboxes((prevSelectedCheckboxes) => {
+          const updatedCheckboxes = { ...prevSelectedCheckboxes };
+          delete updatedCheckboxes[checkboxKey];
+          return updatedCheckboxes;
+        });
+        setEvents((current) =>
+        current.filter((event) => event.start !== dateInfo));
+      } else {
+        // Selecting the checkbox
+        setSelectedCheckboxes({...selectedCheckboxes,[checkboxKey]: true})  
+        const existingEvent = events.find(
+          (event) => event.start === dateInfo
+        );
+  
+        if (!existingEvent) {
+          const event = {
+            id: selectedEvent.id,
+            title: selectedEvent.title,
+            start: dateInfo,
+          };
+          setEvents((prevEvents) => [...prevEvents, event]);
+        }
+      }
+    }else{
+      if (isChecked) {
+        setSelectedCheckboxes((prevSelectedCheckboxes) => {
+          const updatedCheckboxes = { ...prevSelectedCheckboxes };
+          delete updatedCheckboxes[checkboxKey];
+          updatedCheckboxes[days[dt.getDay()]] = false;
+          return updatedCheckboxes;
+        });
+        //setSelectedCheckboxes({...selectedCheckboxes,[days[dt.getDay()]] : false})
+  
+        const filteredEvents = events.filter(
+          (event) => event.start !== dateInfo
+        );
+        setEvents(filteredEvents);
+      } else {
+        
+        const dayList = getSundays(days[dt.getDay()], dt.getDay());
+        let ct = false;
 
-      const filteredEvents = events.filter(
-        (event) => event.start !== dateInfo
-      );
+        dayList.forEach((item) => {
+          if(selectedCheckboxes[item.format("YYYY-MM-DD")] && selectedCheckboxes[item.format("YYYY-MM-DD")] !== undefined){
+            ct = true;
+          }else{
+            ct = false;
+          }
+        })
+        setSelectedCheckboxes({...selectedCheckboxes,[checkboxKey]: true, [days[dt.getDay()]]: (ct==true ? true : selectedCheckboxes[dt.getDay()])})
+        const existingEvent = events.find(
+          (event) => event.start === dateInfo
+        );
 
-      // setSelectedEvent(null);
-      // setSelectedDate(null);
-      setEvents(filteredEvents);
-    } else {
-      // Selecting the checkbox
-      setSelectedCheckboxes({...selectedCheckboxes,[checkboxKey]: true})
-      // setSelectedCheckboxes((prevSelectedCheckboxes) => ({
-      //   [checkboxKey]: true,
-      // }));
-
-      const existingEvent = events.find(
-        (event) => event.start === dateInfo
-      );
-
-      if (!existingEvent) {
-        const event = {
-          id: selectedEvent.id,
-          title: selectedEvent.title,
-          start: dateInfo,
-        };
-        setEvents((prevEvents) => [...prevEvents, event]);
+        if (!existingEvent) {
+          const event = {
+            id: selectedEvent.id,
+            title: selectedEvent.title,
+            start: dateInfo,
+          };
+          setEvents((prevEvents) => [...prevEvents, event]);
+        }
       }
     }
+    
   }
 
-  // const handleWeekCellChange = (day) => {
-  //   function getDatesForDayOfWeek(year, month, dayOfWeek) {
-  //     const dates = [];
-  //     const date = new Date(year, month, 1); // Subtract 1 from month since JavaScript months are zero-based
-  //     const targetDay = dayOfWeek % 7; // Normalize dayOfWeek to 0-6 range (Sunday is 0)
-  //     while (date.getMonth() === month) {
-  //       if (date.getDay() === targetDay) {
-  //         dates.push(new Date(date)); // Push a new Date object to the array
-  //       }
-  //       date.setDate(date.getDate() + 1);
-  //     }
-  //     return dates;
-  //   }
-
-  //   const dates = getDatesForDayOfWeek(year, month, dayOfWeek);
-
-  //   dates.forEach((date) => {
-  //     console.log(date, "kkkkkk");
-
-  //     // const checkboxKey = inputdate.replace(/\//g, "-");
-  //     const checkboxKey = date;
-
-  //     console.log(checkboxKey, "unitqkjn");
-
-  //     setSelectedCheckboxes((prevSelectedCheckboxes) => ({
-  //       ...prevSelectedCheckboxes,
-  //       [checkboxKey]: true,
-  //     }));
-  //     console.log(selectedCheckboxes, "sgvyhjmffgbhnj");
-
-  //     // Check if the event already exists for the selected date
-  //     const existingEvent = events.find(
-  //       (event) => event.start === date.toISOString().split("T")[0]
-  //     );
-
-  //     if (!existingEvent) {
-  //       // Add event to the selected date
-  //       const eventToAdd = {
-  //         id: selectedEvent.id,
-  //         title: selectedEvent.title,
-  //         start: date.toISOString().split("T")[0],
-  //       };
-  //       setEvents((prevEvents) => [...prevEvents, eventToAdd]);
-  //     }
-  //   });
-  // };
-
-  const handleWeek = async (day, dayInfo) => {
+  const handleWeek = async (e,day, dayInfo, iswk=true) => {
     const dayList = getSundays(days[day], day);
     const newArray = selectedCheckboxes;
-    dayList.forEach((item) => {
-      if(newArray[item.format('YYYY-MM-DD')] !== undefined){
-        delete newArray[item.format('YYYY-MM-DD')];
-      }else{
+    if(e.target.checked){
+      dayList.forEach((item) => {
         newArray[item.format('YYYY-MM-DD')] = true;
-      }
-      
-      handleDateCellChange(item.format('YYYY-MM-DD'))
-    })
+        handleDateCellChange(item.format('YYYY-MM-DD'), iswk);
+        newArray[days[day]] = true;
+      })
+    }else{
+      dayList.forEach((item) => {
+        if(newArray[item.format('YYYY-MM-DD')] !== undefined){
+          delete newArray[item.format('YYYY-MM-DD')];
+        }
+        handleDateCellChange(item.format('YYYY-MM-DD'), iswk)
+        newArray[days[day]] = false;
+      })
+    }
     setSelectedCheckboxes(newArray);
   }
 
-  function getMonthFromString(mon) {
-    return new Date(Date.parse(mon + " 1, 2012")).getMonth() + 1;
-  }
-
   function getSundays(dayName, dayId) {
+    const result = [];
     var startDate = new Date(2023, 5, 1);
     var endDate = new Date(2023,5, 31);
     var day = dayId;  
@@ -146,8 +138,6 @@ export default function DesignMonthSchedule() {
         }
         startDate =  new Date(2023, 5, i);
     }
-    const result = [];
-    
     startDate = moment(startDate);
     endDate = moment(endDate);
     result.push(startDate);
@@ -162,17 +152,18 @@ export default function DesignMonthSchedule() {
     
     const { date } = dayInfo;
     const checkboxKey = dayInfo.date.toISOString();
-    const isChecked = selectedCheckboxes[checkboxKey];
+    //const isChecked = selectedCheckboxes[checkboxKey];
 
     if (isEventSelected) {
       return (
         <div>
           <input
-            className="day-checkbox"
+            className={`day-checkbox checkbox-day-${dayInfo.date.getDay()}`}
             name={`checkbox-${checkboxKey}`}
             type="checkbox"
-            checked={isChecked}
-            onChange={() => {handleWeek(dayInfo.date.getDay(), dayInfo)}}
+            id={`checkbox-${checkboxKey}`}
+            checked={selectedCheckboxes[days[dayInfo.date.getDay()]]}
+            onChange={(e) => {handleWeek(e,dayInfo.date.getDay(), dayInfo)}}
           />
           {date.toLocaleDateString("en-US", { weekday: "short" })}
         </div>
@@ -198,8 +189,8 @@ export default function DesignMonthSchedule() {
           <input
             name={`checkbox-${lastDate}`}
             type="checkbox"
-            checked={isSelected || selectedCheckboxes[lastDate] || selectedCheckboxes[lastDate]}
-            onChange={() => handleDateCellChange(lastDate)}
+            checked={isSelected || selectedCheckboxes[lastDate]}
+            onChange={() => handleDateCellChange(lastDate, false)}
           />
           {dateInfo.dayNumberText}
         </div>
@@ -208,9 +199,17 @@ export default function DesignMonthSchedule() {
     return dateInfo.dayNumberText;
   };
 
-  const handlePublish = (e) => {
+  const handlePublish = async (e) => {
     e.preventDefault();
-    console.log(selectedCheckboxes)
+    const dates = Object.keys(selectedCheckboxes).filter(i => i !== 'Sun' && i !== 'Mon' && i !== 'Tue' && i !== 'Wed' && i !== 'Thu' && i !== 'Fri' && i !== 'Sat');
+    const payload = {
+      scheduleId:"645363389219a12d3f8b6ded",
+      sequenceId:"6453ad2d569da534fa16e07a",
+      dates
+    }
+    const res = await pushAddDates(payload);
+    console.log(res)
+
   }
 
   return (
