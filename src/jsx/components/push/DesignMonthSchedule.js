@@ -127,16 +127,20 @@ export default function DesignMonthSchedule() {
     setSelectedCheckboxes(newArray);
   }
 
-  function getSundays(dayName, dayId) {
+  const getSundays = (dayName, dayId) => {
     const result = [];
-    var startDate = new Date(2023, 5, 1);
-    var endDate = new Date(2023,5, 31);
+    var startDate = new Date();
+    const cMonth = startDate.getMonth();
+    const cYear = startDate.getFullYear();
+    var endDate = new Date(cYear, (cMonth), 31);
+    console.log(startDate, endDate)
     var day = dayId;  
     for (var i = 0; i <= 7; i++) { 
         if(startDate.toString().indexOf(dayName) !== -1){
           break;
         }
-        startDate =  new Date(2023, 5, i);
+        startDate =  new Date(cYear, (cMonth), i);
+        console.log(startDate, i)
     }
     startDate = moment(startDate);
     endDate = moment(endDate);
@@ -183,12 +187,21 @@ export default function DesignMonthSchedule() {
       const checkboxKey = dateInfo.date.toISOString();
       const checkDate = checkboxKey.split('T')[0];
       const lastDate = moment(checkDate, 'YYYY-MM-DD').add("days",1).format('YYYY-MM-DD');
+      let disablePrp = false;
+      // if(moment(checkDate, 'YYYY-MM-DD').add("days",2) < moment()){
+      //   console.log("Make Disable", moment(checkDate, 'YYYY-MM-DD').add("days",2), moment());
+      //   disablePrp = true;
+      // }else{
+      //   console.log("Make enable");
+      // }
+
 
       return (
         <div className="month-schedule-checkbox">
           <input
-            name={`checkbox-${lastDate}`}
+            name={`checkbox-${lastDate} ${disablePrp == true ? "disabled-checkbox" : ""}`}
             type="checkbox"
+            //disabled={disablePrp}
             checked={isSelected || selectedCheckboxes[lastDate]}
             onChange={() => handleDateCellChange(lastDate, false)}
           />
@@ -248,6 +261,7 @@ export default function DesignMonthSchedule() {
           events={events}
           dayHeaderContent={renderDayHeader}
           dayCellContent={renderDateCell}
+          //validRange={{"start":moment().format('YYYY-MM-DD'),'end':null}}
           eventContent={(info) => (
             <div className="month-schedule-event">
               <div>{info.event.title}</div>
