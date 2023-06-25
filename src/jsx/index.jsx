@@ -59,7 +59,7 @@ const Markup = () => {
     { url: "display/:id", component: ScreenDetails },
     { url: "dayschedule/:id", component: DaySchedule },
     { url: "test", component: TestDaySchudele },
-    { url: "testday", component: TestDay },
+    { url: "testday/:id/:schedulename", component: TestDay },
     { url: "copytestday", component: CopyTestDay },
     { url: "monthschedule", component: MonthSchedule },
     { url: "copymonthschedule", component: CopyMonthSchedule },

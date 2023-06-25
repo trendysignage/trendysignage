@@ -23,11 +23,12 @@ export async function getAllMedia() {
   return response.data.data.media;
 }
 export async function getAllComposition() {
-  const response = await fetchClient.get(BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000`);
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000`
+  );
 
   return response.data.data;
 }
-
 
 export function addScreen(data) {
   return fetchClient.post(`${BASE_URL}/vendor/display/screen`, data);
@@ -69,13 +70,10 @@ export async function addMedia(formData) {
   );
 }
 export async function deleteMedia(id) {
-  await fetchClient.delete(
-    `${BASE_URL}/vendor/display/media?mediaId=${id}`
-  );
+  await fetchClient.delete(`${BASE_URL}/vendor/display/media?mediaId=${id}`);
 }
 
 export async function publishMedia(postData) {
-
   try {
     const response = await fetchClient.post(
       `${BASE_URL}/vendor/display/publish`,
@@ -94,13 +92,10 @@ export async function deleteScreen(id) {
 }
 
 export async function getLayouts() {
-  const response = await fetchClient.get(
-    `${BASE_URL}/vendor/layouts`
-  );
+  const response = await fetchClient.get(`${BASE_URL}/vendor/layouts`);
   return response.data.data;
 }
 export async function postComposition(postData) {
-
   try {
     const response = await fetchClient.post(
       `${BASE_URL}/vendor/layouts/composition`,
@@ -113,7 +108,6 @@ export async function postComposition(postData) {
 }
 
 export async function putComposition(postData) {
-
   try {
     const response = await fetchClient.put(
       `${BASE_URL}/vendor/layouts/composition`,
@@ -137,27 +131,24 @@ export async function getCompositionById(url) {
 }
 
 export async function getMedia(path) {
-  const response = await fetchClient.get(`${BASE_URL}/vendor/display/mediaFile?path=${path}`);
+  const response = await fetchClient.get(
+    `${BASE_URL}/vendor/display/mediaFile?path=${path}`
+  );
   return response.data.data;
 }
 
-
 export async function uploadBlob(blob) {
-
-
-  const imageResponse = await fetchClient.get(blob, { responseType: 'blob' });
+  const imageResponse = await fetchClient.get(blob, { responseType: "blob" });
   const blobData = imageResponse.data;
-
 
   const formData = new FormData();
   // Extract filename and extension from the Blob URL
   const url = new URL(blob);
-  const pathnameParts = url.pathname.split('/');
+  const pathnameParts = url.pathname.split("/");
   const filenameWithExtension = pathnameParts[pathnameParts.length - 1];
 
   // Append the Blob to the FormData object
-  formData.append('file', blobData, filenameWithExtension);
-
+  formData.append("file", blobData, filenameWithExtension);
 
   const response = await fetchClient.post(
     `${BASE_URL}/vendor/layouts/upload`,
@@ -169,11 +160,9 @@ export async function uploadBlob(blob) {
     }
   );
   return response.data.data;
-
 }
 
 export async function pushAddSchedule(postData) {
-
   try {
     const response = await fetchClient.post(
       `${BASE_URL}/vendor/push/schedule`,
@@ -199,5 +188,17 @@ export async function pushAddDates(postData) {
   }
 }
 
+
+export async function saveSequence(postData) {
+  try {
+    const response = await fetchClient.post(
+      `${BASE_URL}/vendor/push/sequence`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
 
 

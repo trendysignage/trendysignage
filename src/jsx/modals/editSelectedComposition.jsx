@@ -11,7 +11,6 @@ const EditSelectedComposition = ({
   setEditSelected,
   updateViewType,
 }) => {
-  console.log(`${BASE_URL}${composition.url}`, "kkkkkk");
   const getDefault = composition.fitToScreen
     ? "fitScreen"
     : composition.crop
