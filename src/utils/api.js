@@ -174,6 +174,18 @@ export async function pushAddSchedule(postData) {
   }
 }
 
+export async function pushAddDates(postData) {
+  try {
+    const response = await fetchClient.post(
+      `${BASE_URL}/vendor/push/dates`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function saveSequence(postData) {
   try {
     const response = await fetchClient.post(
