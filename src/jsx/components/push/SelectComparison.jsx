@@ -217,8 +217,10 @@ const SelectComparison = () => {
       name: scheduleName,
       screens: checkedValues,
     }).then((res) => {
+      console.log(res, "res schedule name");
       if (res.data.statusCode === 200) {
-        history.push(`/testday/${res.data.data._id}`);
+        console.log(res.data.data.name);
+        history.push(`/testday/${res.data.data._id}/${res.data.data.name}`);
       }
     });
   };
