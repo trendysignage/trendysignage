@@ -10,6 +10,7 @@ const PreviewComposition = ({
   contentnew,
   layout,
   referenceUrl,
+  referenceUrlArray
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [current1Index, setCurrent1Index] = useState(0);
@@ -18,7 +19,6 @@ const PreviewComposition = ({
   const timeout1Ref = useRef("");
   const divRef = useRef(null);
   useEffect(() => {
-    console.log("contentnew", contentnew);
     if (layout && layout.zones.length == 1) {
       if (contentnew.Zone1[currentIndex]) {
         const timeoutDuration = contentnew.Zone1[currentIndex].duration * 1000;
@@ -116,9 +116,24 @@ const PreviewComposition = ({
     : content[currentIndex].crop
     ? "crop"
     : "aspectRation";
-  const url = isBlobUrl(referenceUrl[currentIndex])
-    ? referenceUrl[currentIndex]
-    : `${BASE_URL}${referenceUrl[currentIndex]}`;
+  // const url = isBlobUrl(referenceUrl[currentIndex])
+  //   ? referenceUrl[currentIndex]
+  //   : `${BASE_URL}${referenceUrl[currentIndex]}`;
+  const url = referenceUrlArray.Zone1 && referenceUrlArray.Zone1[currentIndex]
+     ? (isBlobUrl(referenceUrlArray.Zone1[currentIndex])
+       ? referenceUrlArray.Zone1[currentIndex]
+       : `${BASE_URL}${referenceUrlArray.Zone1[currentIndex]}`)
+     : "";
+  const url1 = referenceUrlArray.Zone2 && referenceUrlArray.Zone2[current1Index]
+  ? (isBlobUrl(referenceUrlArray.Zone2[current1Index])
+    ? referenceUrlArray.Zone2[current1Index]
+    : `${BASE_URL}${referenceUrlArray.Zone2[current1Index]}`)
+  : "";
+  
+  const url2 = referenceUrlArray.Zone3 && referenceUrlArray.Zone3[current2Index]
+  ? (isBlobUrl(referenceUrlArray.Zone3[current2Index])
+    ? referenceUrlArray.Zone3[current2Index]
+    : `${BASE_URL}${referenceUrlArray.Zone3[current2Index]}`):"";
 
   return (
     <Modal
@@ -185,7 +200,8 @@ const PreviewComposition = ({
                           viewImage === "fitScreen" ? "fill" : "contain"
                         }`,
                       }}
-                      src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                      //src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                      src={url}
                       alt="media-img"
                     />
                   </div>
@@ -200,7 +216,8 @@ const PreviewComposition = ({
                     style={{ height: "100%" }}
                   >
                     <WebVideoPlayer
-                      src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                      //src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                      src={url}
                     ></WebVideoPlayer>
                   </div>
                 )}
@@ -220,7 +237,8 @@ const PreviewComposition = ({
                           viewImage === "fitScreen" ? "fill" : "contain"
                         }`,
                       }}
-                      src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                      //src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                      src={url1}
                       alt="media-img"
                     />
                   </div>
@@ -235,7 +253,8 @@ const PreviewComposition = ({
                     style={{ height: "100%" }}
                   >
                     <WebVideoPlayer
-                      src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                      //src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                      src={url1}
                     ></WebVideoPlayer>
                   </div>
                 )}
@@ -258,7 +277,8 @@ const PreviewComposition = ({
                             viewImage === "fitScreen" ? "fill" : "contain"
                           }`,
                         }}
-                        src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                        // src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                        src={url}
                         alt="media-img"
                       />
                     </div>
@@ -271,7 +291,8 @@ const PreviewComposition = ({
                       }`}
                     >
                       <WebVideoPlayer
-                        src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                        //src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                        src={url}
                       ></WebVideoPlayer>
                     </div>
                   )}
@@ -287,7 +308,8 @@ const PreviewComposition = ({
                             viewImage === "fitScreen" ? "fill" : "contain"
                           }`,
                         }}
-                        src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                        //src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                        src={url1}
                         alt="media-img"
                       />
                     </div>
@@ -300,7 +322,8 @@ const PreviewComposition = ({
                       }`}
                     >
                       <WebVideoPlayer
-                        src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                        //src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                        src={url1}
                       ></WebVideoPlayer>
                     </div>
                   )}
@@ -318,7 +341,8 @@ const PreviewComposition = ({
                           viewImage === "fitScreen" ? "fill" : "contain"
                         }`,
                       }}
-                      src={`http://144.126.143.140:5000/${contentnew.Zone3[current2Index].url}`}
+                      //src={`http://144.126.143.140:5000/${contentnew.Zone3[current2Index].url}`}
+                      src={url2}
                       alt="media-img"
                     />
                   </div>
@@ -331,7 +355,8 @@ const PreviewComposition = ({
                     }`}
                   >
                     <WebVideoPlayer
-                      src={`http://144.126.143.140:5000/${contentnew.Zone3[current2Index].url}`}
+                      //src={`http://144.126.143.140:5000/${contentnew.Zone3[current2Index].url}`}
+                      src={url}
                     ></WebVideoPlayer>
                   </div>
                 )}

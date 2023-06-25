@@ -47,6 +47,30 @@ const CommonComposition = ({ type, composition, layout }) => {
     
     return result;
   }
+  const makeArrayReference = (referenceUrl) => {
+    const result = [];
+    const Zone1 = [];
+    const Zone2 = [];
+    const Zone3 = [];
+    referenceUrl.forEach((i) => {
+      const item = i.split("**");
+
+      if(item[1] == 'Zone1'){
+        Zone1.push(item[0]);
+        result['Zone1'] = Zone1;
+      }
+      if(item[1] == 'Zone2'){
+        Zone2.push(item[0]);
+        result['Zone2'] = Zone2;
+      }
+      if(item[1] == 'Zone3'){
+        Zone3.push(item[0]);
+        result['Zone3'] = Zone3;
+      }
+    })
+    
+    return result;
+  }
   const [content, setContent] = useState(
     composition ? makeArray(composition.zones) : []
   );
@@ -84,15 +108,16 @@ const CommonComposition = ({ type, composition, layout }) => {
       const newdata = [...prev, { ...createContent }];
       return newdata;
     });
-
     setReferenceUrl((prev) => {
-      return [...prev, media.title];
+      return [...prev, media.title+"**"+zone];
     });
   };
   const saveComposition = async () => {
     const updateFiles = referenceUrl.map(async (url) => {
       if (isBlobUrl(url)) {
-        return await uploadBlob(url);
+        const urlItem = url.split("**");
+        const uri = await uploadBlob(urlItem[0]);
+        return uri+"**"+urlItem[1]
       }
       return url;
     });
@@ -117,7 +142,6 @@ const CommonComposition = ({ type, composition, layout }) => {
       duration: TotalDuration(),
       referenceUrl: results,
     };
-   // console.log("SAVE",data);
     if (type === "create") {
       data.layoutId = layout._id;
       await postComposition(data);
@@ -232,6 +256,7 @@ const CommonComposition = ({ type, composition, layout }) => {
             content={content}
             contentnew={makeArray2(content,2)}
             referenceUrl={referenceUrl}
+            referenceUrlArray = {makeArrayReference(referenceUrl)}
             layout={layout}
           />
         )}

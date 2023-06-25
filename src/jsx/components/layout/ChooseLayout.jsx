@@ -77,9 +77,7 @@ const ChooseLayout = () => {
               return (
                 <Col lg="4" md="4" sm="6" xs="12" key={layout._id}>
                   <Link
-                           to={
-                      layout.title === "Single Zone Potrait" ? `/createcomposition?id=${layout._id}`
-                     : "#"}
+                           to={`/createcomposition?id=${layout._id}`}
                   >
                     <div className="layout-selected-column">
                       <div className="layout-selected-img text-center">

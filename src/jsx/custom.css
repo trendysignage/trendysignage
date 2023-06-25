@@ -2359,6 +2359,16 @@ img.single-time-zone {
   margin-right: 10px;
 }
 
+.yellow-box-portrait {
+  background: #ffc12b;
+  border: 2px solid #1a1a1a;
+  border-radius: 3px;
+  width: 70px;
+  height: 100px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
 .zone{
   background: #fff;
   border-radius: 4px;
