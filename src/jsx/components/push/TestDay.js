@@ -193,10 +193,9 @@ export default function TestDay() {
 
     await saveSequence(outputObject).then((res) => {
       console.log(res, "res save schedule");
-      //   if (res.data.statusCode === 200) {
-      //     console.log(res.data.data.name);
-      //     history.push(`/testday/${res.data.data._id}/${res.data.data.name}`);
-      //   }
+      if (res.data.statusCode === 200) {
+        history.push(`/design-month-schedule/${id}`);
+      }
     });
   }
   function moveToMonth() {

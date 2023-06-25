@@ -64,7 +64,7 @@ const Markup = () => {
     { url: "monthschedule", component: MonthSchedule },
     { url: "copymonthschedule", component: CopyMonthSchedule },
     { url: "secondmonth", component: SecondMonth },
-    { url: "design-month-schedule", component: DesignMonthSchedule },
+    { url: "design-month-schedule/:id", component: DesignMonthSchedule },
   ];
   console.log(path);
   return (

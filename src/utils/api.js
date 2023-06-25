@@ -197,3 +197,9 @@ export async function saveSequence(postData) {
     return false;
   }
 }
+export async function getAllDaySequence(scheduleId) {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/push/sequenceList?scheduleId=${scheduleId}`
+  );
+  return response.data.data;
+}

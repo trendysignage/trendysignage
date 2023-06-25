@@ -2906,5 +2906,7 @@ thead {
   top:19% !important;
   bottom:3% !important;
 }
-
+.disabled-checkbox{
+  display: none;
+}
  
