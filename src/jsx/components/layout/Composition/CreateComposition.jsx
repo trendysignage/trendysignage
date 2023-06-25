@@ -8,7 +8,6 @@ const CreateComposition = () => {
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get('id');
   const { data: layouts } = useSWR("/vendor/layouts", getLayouts);
-  console.log(layouts, "CreateComposition layout")
   const layout = layouts ? layouts.find((layout)=> layout._id === id) : null;
  return <>{layout && <CommonComposition type="create" layout={layout}/>}</>
 };

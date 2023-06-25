@@ -5,6 +5,7 @@ import editBtnImg from "../../../../img/edit-btn.png";
 import deleteBtnImg from "../../../../img/delete-btn.png";
 import { BASE_URL } from "../../../../utils/api";
 import EditSelectedComposition from "../../../modals/editSelectedComposition";
+import { reference } from "@popperjs/core";
 
 
 const ZoneInfoTable = ({ content,setContent,setReferenceUrl }) => {
@@ -39,7 +40,7 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl }) => {
       return [...updateMedia];
     });
 
-    setReferenceUrl((prev) => {      
+    setReferenceUrl((prev) => { 
       const updateUrl = prev.filter((val,key)=> key !== index);
       return [...updateUrl];
     })
@@ -64,7 +65,7 @@ const ZoneInfoTable = ({ content,setContent,setReferenceUrl }) => {
         return [...updateMedia];
       });
 
-      setReferenceUrl((prev) => {      
+      setReferenceUrl((prev) => {     
         const updateMedia = prev.map((val,key)=>{
           if(key === editSelected){
             return ImgUrl;
