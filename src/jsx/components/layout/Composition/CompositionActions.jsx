@@ -18,20 +18,19 @@ const CompositionActions = ({
   composition,
   mutate,
   setDeleteModal,
-  setSelected
+  setSelected,
 }) => {
   const [duplicateModal, setDuplicateModal] = useState(false);
   const [viewDetailsModal, setViewDetailsModal] = useState(false);
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
   const createComposition = async (name) => {
-   let setZone = [];
+    let setZone = [];
 
-   composition.zones.forEach(zone => {
-   const setContent = [];
-   
-    zone.content.forEach((content)=>{
-      setContent.push(
-        {
+    composition.zones.forEach((zone) => {
+      const setContent = [];
+
+      zone.content.forEach((content) => {
+        setContent.push({
           url: content.url,
           type: content.type,
           maintainAspectRatio: content.maintainAspectRatio,
@@ -39,21 +38,17 @@ const CompositionActions = ({
           crop: content.crop,
           duration: content.duration,
           // createdBy: composition.createdBy,
-        }
-      )
-    })
+        });
+      });
 
-    const data =   {
-      name: zone.name,
-      zoneId: zone.zoneId,
-      content:  setContent
-    }
-    setZone.push(data)
-    
-    
-   });
-    
-   
+      const data = {
+        name: zone.name,
+        zoneId: zone.zoneId,
+        content: setContent,
+      };
+      setZone.push(data);
+    });
+
     const data = {
       name: name,
       layoutId: composition.layout._id,
@@ -62,9 +57,9 @@ const CompositionActions = ({
       duration: composition.duration,
       referenceUrl: composition.referenceUrl,
     };
-//  console.log(data)
+    //  console.log(data)
     await postComposition(data);
-    mutate()
+    mutate();
     setDuplicateModal(false);
   };
   return (
@@ -81,7 +76,13 @@ const CompositionActions = ({
           </span>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item href="#" className="dropdown-list-item" onClick={()=>{setViewDetailsModal(true)}}>
+          <Dropdown.Item
+            href="#"
+            className="dropdown-list-item"
+            onClick={() => {
+              setViewDetailsModal(true);
+            }}
+          >
             <div className="d-flex">
               <div className="dropdown-list-icon">
                 <img
@@ -99,9 +100,13 @@ const CompositionActions = ({
             </div>
           </Dropdown.Item>
 
-          <Dropdown.Item href="#" className="dropdown-list-item" onClick={()=>{
-            setShowPublishPopUp(true)
-          }}>
+          <Dropdown.Item
+            href="#"
+            className="dropdown-list-item"
+            onClick={() => {
+              setShowPublishPopUp(true);
+            }}
+          >
             <div className="d-flex">
               <div className="dropdown-list-icon">
                 <img
@@ -195,12 +200,10 @@ const CompositionActions = ({
       )}
       {viewDetailsModal && (
         <ViewDetails
-         
           setViewDetailsModal={setViewDetailsModal}
           composition={composition}
         />
       )}
-      
       {showPublishPopUp && (
         <PublishMediaModal
           selected={composition}

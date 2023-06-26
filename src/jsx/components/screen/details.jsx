@@ -29,6 +29,7 @@ const ScreenDetails = () => {
   const history = useHistory();
   const { id } = useParams();
   const [screen, setScreen] = useState("");
+
   const [activeDefault, setActiveDefault] = useState("");
   const [deleteModal, setDeleteModal] = useState(false);
   const [showQuickPlayModal, setQuickPlayModal] = useState(false);
@@ -46,7 +47,7 @@ const ScreenDetails = () => {
       })
     );
   };
-
+  console.log(screen, "details screen ");
   const handleDelete = async () => {
     setDeleteModal(false);
     await deleteScreen(id);
@@ -320,7 +321,8 @@ const ScreenDetails = () => {
 
             <Button
               className="ml-2 screen-icon-btn btn btn-primary"
-              variant="primary" onClick={() => {
+              variant="primary"
+              onClick={() => {
                 setQuickPlayModal(true);
               }}
             >
@@ -332,7 +334,7 @@ const ScreenDetails = () => {
             </Button>
             <Button
               className="ml-2 screen-icon-btn btn btn-primary"
-              variant="primary" 
+              variant="primary"
               onClick={() => {
                 setWindowsModal(true);
               }}
@@ -423,22 +425,22 @@ const ScreenDetails = () => {
         </div>
 
         <QuickPlayModal
-        showQuickPlayModal={showQuickPlayModal}
-              setQuickPlayModal={setQuickPlayModal}
-              handleQuickPlay={handleQuickPlay}
-            />
+          showQuickPlayModal={showQuickPlayModal}
+          setQuickPlayModal={setQuickPlayModal}
+          handleQuickPlay={handleQuickPlay}
+        />
 
-<WindowsModal
-        showWindowsModal={showWindowsModal}
-        setWindowsModal={setWindowsModal}
-              handleWindows={handleWindows}
-            />
+        <WindowsModal
+          showWindowsModal={showWindowsModal}
+          setWindowsModal={setWindowsModal}
+          handleWindows={handleWindows}
+        />
 
-<UpdateModal
-        showUpdateModal={showUpdateModal}
-        setUpdateModal={setUpdateModal}
-              handleUpdate={handleUpdate}
-            />
+        <UpdateModal
+          showUpdateModal={showUpdateModal}
+          setUpdateModal={setUpdateModal}
+          handleUpdate={handleUpdate}
+        />
       </div>
     </>
   );

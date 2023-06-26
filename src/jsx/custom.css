@@ -1102,6 +1102,7 @@ top: 0;
   width: 100%;
   position: absolute;
   bottom: -25px;
+  color: #000;
 }
 .month-schedule-event div{
   border-left: 3px solid rgb(224, 137, 46);
@@ -1126,6 +1127,7 @@ top: 0;
   float: left;
   width: 40%;
   margin-top: 10px;
+  margin-right: 15px;
 
 }
 .event-list h3{
@@ -2388,10 +2390,10 @@ img.single-time-zone {
   margin-right: 10px;
   border: 0;
 }
-/* .zone-active {
-  background: #060047;
-  color: var(--white);
-} */
+.zone-active {
+  background: #060047 !important;
+  color: var(--white) !important;
+}
 .zone-active:focus {
   background: #060047;
   color: var(--white);
@@ -2908,5 +2910,8 @@ thead {
 }
 .disabled-checkbox{
   display: none;
+}
+ .fc-h-event{
+  background-color: transparent !important;
 }
  

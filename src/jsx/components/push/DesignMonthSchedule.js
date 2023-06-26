@@ -6,7 +6,8 @@ import { Button } from "react-bootstrap";
 import moment from "moment";
 import { getAllDaySequence, pushAddDates } from "../../../utils/api";
 import { useParams, useHistory } from "react-router-dom";
-
+import edit from "../../../img/edit-composition.png";
+import deleteIcon from "../../../img/delete-icon.png";
 export default function DesignMonthSchedule() {
   const history = useHistory();
   const { id } = useParams();
@@ -14,7 +15,7 @@ export default function DesignMonthSchedule() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState([]);
   const [daySequence, setDaySequence] = useState([]);
-
+  console.log(daySequence, "daySequence");
   const monthList = ["Jan", "Feb", "March"];
   var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const externalEvent = [
@@ -133,9 +134,14 @@ export default function DesignMonthSchedule() {
     const newArray = selectedCheckboxes;
     if (e.target.checked) {
       dayList.forEach((item) => {
-        newArray[item.format("YYYY-MM-DD")] = true;
-        handleDateCellChange(item.format("YYYY-MM-DD"), iswk);
-        newArray[days[day]] = true;
+        if (
+          moment(item._d).format("YYYY-MM-DD") >=
+          moment(new Date()).format("YYYY-MM-DD")
+        ) {
+          newArray[item.format("YYYY-MM-DD")] = true;
+          handleDateCellChange(item.format("YYYY-MM-DD"), iswk);
+          newArray[days[day]] = true;
+        }
       });
     } else {
       dayList.forEach((item) => {
@@ -286,17 +292,39 @@ export default function DesignMonthSchedule() {
             onClick={() => handleEventClick(event)}
           >
             <div className="d-flex align-items-center px-2 py-4 justify-content-between">
-              <span>{event.name}</span>
-              <span className="total-composition">Contains 1 compositions</span>
-              <span>E</span>
-              <span>D</span>
+              <span>
+                {event.name?.length > 4
+                  ? event.name.slice(0, 4) + "..."
+                  : event.name}
+              </span>
+
+              <span className="total-composition">
+                Contains {event.timings.length} compositions
+              </span>
+              <span>
+                <img
+                  src={edit}
+                  className="dropdown-list-img img-fluid"
+                  height="25px"
+                  width="25px"
+                />
+              </span>
+              <span>
+                <img
+                  src={deleteIcon}
+                  className="dropdown-list-img img-fluid"
+                  height="30px"
+                  width="30px"
+                />
+              </span>
               <span className="add-btn">Add to Calendar </span>
             </div>
           </div>
         ))}
       </div>
-      <div className="calendar" style={{ float: "left", width: "60%" }}>
+      <div className="calendar" style={{ float: "left", width: "55%" }}>
         <FullCalendar
+          className="month-schedule"
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           selectable={true}
@@ -306,7 +334,11 @@ export default function DesignMonthSchedule() {
           //validRange={{"start":moment().format('YYYY-MM-DD'),'end':null}}
           eventContent={(info) => (
             <div className="month-schedule-event">
-              <div>{info.event.title}</div>
+              <div>
+                {info.event.title.length > 5
+                  ? info.event.title.slice(0, 5) + "..."
+                  : info.event.title}
+              </div>
             </div>
           )}
         />

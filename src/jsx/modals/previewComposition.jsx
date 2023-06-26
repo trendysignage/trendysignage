@@ -121,12 +121,14 @@ const PreviewComposition = ({
   // const url = isBlobUrl(referenceUrl[currentIndex])
   //   ? referenceUrl[currentIndex]
   //   : `${BASE_URL}${referenceUrl[currentIndex]}`;
+
   const url =
     referenceUrlArray.Zone1 && referenceUrlArray.Zone1[currentIndex]
       ? isBlobUrl(referenceUrlArray.Zone1[currentIndex])
         ? referenceUrlArray.Zone1[currentIndex]
         : `${BASE_URL}${referenceUrlArray.Zone1[currentIndex]}`
       : "";
+
   const url1 =
     referenceUrlArray.Zone2 && referenceUrlArray.Zone2[current1Index]
       ? isBlobUrl(referenceUrlArray.Zone2[current1Index])

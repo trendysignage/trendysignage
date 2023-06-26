@@ -227,7 +227,7 @@ const SelectComparison = () => {
   return (
     <>
       <div className="custom-content-heading selected-heading d-flex flex-wrap">
-        <h1>Select Composition</h1>
+        <h1>Select Screen</h1>
 
         <div className="search-textfield search-selected ml-auto d-flex flex-wrap align-items-center">
           <div className="form-group mb-0">

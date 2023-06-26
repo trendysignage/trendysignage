@@ -24,65 +24,65 @@ const CommonComposition = ({ type, composition, layout }) => {
   const [name, setName] = useState(composition ? composition.name : "");
   const [namePopUp, setOpenNamePopUp] = useState(false);
   const [zone, setZone] = useState("Zone1");
+
   // const [content, setContent] = useState(
   //   composition ? composition.zones[0].content : []
   // );
   const makeArray = (data) => {
     const newArray = [];
     data.forEach((item) => {
-      if(item.content.length > 0){
-        item.content.forEach((item2)=>{
-          newArray.push({...item2,["zone"]:item.name})
-        })
+      if (item.content.length > 0) {
+        item.content.forEach((item2) => {
+          newArray.push({ ...item2, ["zone"]: item.name });
+        });
       }
-    })
-    return newArray
-  }
-  const makeArray2 = (data,size) => {
+    });
+    return newArray;
+  };
+  const makeArray2 = (data, size) => {
     const result = data.reduce(function (r, a) {
-        r[a.zone] = r[a.zone] || [];
-        r[a.zone].push(a);
-        return r;
+      r[a.zone] = r[a.zone] || [];
+      r[a.zone].push(a);
+      return r;
     }, Object.create(null));
-    
+
     return result;
-  }
+  };
   const makeArrayReference = (referenceUrl) => {
     const result = [];
     const Zone1 = [];
     const Zone2 = [];
     const Zone3 = [];
+
     referenceUrl.forEach((i) => {
       const item = i.split("**");
 
-      if(item[1] == 'Zone1'){
+      if (item[1] == "Zone1") {
         Zone1.push(item[0]);
-        result['Zone1'] = Zone1;
+        result["Zone1"] = Zone1;
       }
-      if(item[1] == 'Zone2'){
+      if (item[1] == "Zone2") {
         Zone2.push(item[0]);
-        result['Zone2'] = Zone2;
+        result["Zone2"] = Zone2;
       }
-      if(item[1] == 'Zone3'){
+      if (item[1] == "Zone3") {
         Zone3.push(item[0]);
-        result['Zone3'] = Zone3;
+        result["Zone3"] = Zone3;
       }
-    })
-    
+    });
+
     return result;
-  }
+  };
   const [content, setContent] = useState(
     composition ? makeArray(composition.zones) : []
   );
   const [referenceUrl, setReferenceUrl] = useState(
     composition ? composition.referenceUrl : []
   );
-
-  
-
+  console.log(referenceUrl, "referenceUrl");
   const handleLayout = (data) => {
     setZone(data);
-  }
+  };
 
   const { data: allMedia, mutate } = useSWR(
     "/vendor/display/media",
@@ -93,8 +93,8 @@ const CommonComposition = ({ type, composition, layout }) => {
   const addComposition = (media) => {
     setContent((prev) => {
       const meta = JSON.parse(media.properties);
-      const dt = prev.find(o => o.name === zone);
-      
+      const dt = prev.find((o) => o.name === zone);
+
       const createContent = {
         url: `${media.title}`,
         type: media.type,
@@ -103,13 +103,13 @@ const CommonComposition = ({ type, composition, layout }) => {
         crop: false,
         duration: meta.length ? meta.length : 10,
         createdBy: media.createdBy.name,
-        zone
+        zone,
       };
       const newdata = [...prev, { ...createContent }];
       return newdata;
     });
     setReferenceUrl((prev) => {
-      return [...prev, media.title+"**"+zone];
+      return [...prev, media.title + "**" + zone];
     });
   };
   const saveComposition = async () => {
@@ -117,23 +117,23 @@ const CommonComposition = ({ type, composition, layout }) => {
       if (isBlobUrl(url)) {
         const urlItem = url.split("**");
         const uri = await uploadBlob(urlItem[0]);
-        return uri+"**"+urlItem[1]
+        return uri + "**" + urlItem[1];
       }
       return url;
     });
     const results = await Promise.all(updateFiles);
 
     let zones = [];
-    let zoneNew = makeArray2(content,layout.zones.length);
+    let zoneNew = makeArray2(content, layout.zones.length);
     layout.zones.forEach((zone, index) => {
-      const contentData = zoneNew[zone.name].map(({zone, ...rest}) => {
+      const contentData = zoneNew[zone.name].map(({ zone, ...rest }) => {
         return rest;
       });
       zones.push({
         name: zone.name,
         zoneId: zone._id,
         //content: removeCreatedBy(index),
-        content:removeCreatedBy(contentData)
+        content: removeCreatedBy(contentData),
       });
     });
     const data = {
@@ -188,6 +188,7 @@ const CommonComposition = ({ type, composition, layout }) => {
           </Button>
           <Button
             onClick={() => {
+              console.log(content, "conteettttnnnnn", zone);
               if (content.length) {
                 setOpenNamePopUp(true);
               }
@@ -254,9 +255,9 @@ const CommonComposition = ({ type, composition, layout }) => {
           <PreviewComposition
             setShowPreview={setShowPreview}
             content={content}
-            contentnew={makeArray2(content,2)}
+            contentnew={makeArray2(content, 2)}
             referenceUrl={referenceUrl}
-            referenceUrlArray = {makeArrayReference(referenceUrl)}
+            referenceUrlArray={makeArrayReference(referenceUrl)}
             layout={layout}
           />
         )}

@@ -94,11 +94,16 @@ export default function TestDay() {
   const handleEventReceive = (eventInfo) => {
     console.log(eventInfo, "handleEventReceivehandleEventReceive");
     const id = eventInfo.event._def.sourceId;
+
+    let splittime = (Number(renderTime.split(":")[0]) + 1).toString();
+
+    if (splittime.length < 2) {
+      splittime = "0" + splittime;
+    }
+
     const time =
-      renderTime +
-      " - " +
-      "0" +
-      (Number(renderTime.split(":")[0]) + 1 + ":" + renderTime.split(":")[1]);
+      renderTime + " - " + splittime + ":" + renderTime.split(":")[1];
+
     const newEvent = {
       id: id,
       timing: time,
