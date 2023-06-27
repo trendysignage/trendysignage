@@ -139,7 +139,7 @@ export default function DesignMonthSchedule() {
           moment(new Date()).format("YYYY-MM-DD")
         ) {
           newArray[checkboxKey] = true;
-          handleDateCellChange(checkboxKey, iswk);
+          handleDateCellChange(item.format("YYYY-MM-DD"), iswk);
           newArray[days[day]] = true;
         }
       });
@@ -150,7 +150,7 @@ export default function DesignMonthSchedule() {
         if (newArray[checkboxKey] !== undefined) {
           delete newArray[checkboxKey];
         }
-        handleDateCellChange(checkboxKey, iswk);
+        handleDateCellChange(item.format("YYYY-MM-DD"), iswk);
         newArray[days[day]] = false;
       });
     }
@@ -367,7 +367,7 @@ export default function DesignMonthSchedule() {
           initialView="dayGridMonth"
           selectable={true}
           events={events}
-          // dayHeaderContent={renderDayHeader}
+          dayHeaderContent={renderDayHeader}
           dayCellContent={renderDateCell}
           //validRange={{"start":moment().format('YYYY-MM-DD'),'end':null}}
           datesSet={(arg) => getCurrentMonth(arg)}
