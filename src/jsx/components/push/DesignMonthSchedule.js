@@ -15,6 +15,7 @@ export default function DesignMonthSchedule() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState([]);
   const [daySequence, setDaySequence] = useState([]);
+  console.log(daySequence, "daySequence");
   var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const externalEvent = [
     { id: 1, title: "Event 1", start: "2023-06-01", end: "2023-06-02" },
@@ -37,7 +38,7 @@ export default function DesignMonthSchedule() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [isEventSelected, setIsEventSelected] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(0)
+  const [currentMonth, setCurrentMonth] = useState(0);
 
   useEffect(() => {}, [selectedCheckboxes]);
 
@@ -50,7 +51,7 @@ export default function DesignMonthSchedule() {
   };
 
   function handleDateCellChange(dateInfo, isWk) {
-    const checkboxKey = dateInfo+"*****"+selectedEvent._id;
+    const checkboxKey = dateInfo + "*****" + selectedEvent._id;
     const dt = new Date(dateInfo);
     const isChecked = selectedCheckboxes[checkboxKey];
     if (isWk) {
@@ -131,7 +132,8 @@ export default function DesignMonthSchedule() {
     const newArray = selectedCheckboxes;
     if (e.target.checked) {
       dayList.forEach((item) => {
-        const checkboxKey = item.format("YYYY-MM-DD")+"*****"+selectedEvent._id;
+        const checkboxKey =
+          item.format("YYYY-MM-DD") + "*****" + selectedEvent._id;
         if (
           moment(item._d).format("YYYY-MM-DD") >=
           moment(new Date()).format("YYYY-MM-DD")
@@ -142,9 +144,9 @@ export default function DesignMonthSchedule() {
         }
       });
     } else {
-      
       dayList.forEach((item) => {
-        const checkboxKey = item.format("YYYY-MM-DD")+"*****"+selectedEvent._id;
+        const checkboxKey =
+          item.format("YYYY-MM-DD") + "*****" + selectedEvent._id;
         if (newArray[checkboxKey] !== undefined) {
           delete newArray[checkboxKey];
         }
@@ -222,11 +224,10 @@ export default function DesignMonthSchedule() {
       }
       let checker = false;
       daySequence.forEach((i) => {
-        if(selectedCheckboxes[lastDate+"*****"+i._id] !== undefined){
+        if (selectedCheckboxes[lastDate + "*****" + i._id] !== undefined) {
           checker = true;
         }
-        
-      })
+      });
 
       return (
         <div className="month-schedule-checkbox">
@@ -246,28 +247,26 @@ export default function DesignMonthSchedule() {
   };
 
   const makePublishData = (data) => {
-
-    const result = []; 
+    const result = [];
     daySequence.forEach((item) => {
       const newA = [];
       data.forEach((items, i) => {
         const spl = items.split("*****");
         const dt = spl[0];
-        const sq = spl [1];
-        if(sq === item._id){
+        const sq = spl[1];
+        if (sq === item._id) {
           newA.push(dt);
         }
-      })
-      if(newA.length > 0){
+      });
+      if (newA.length > 0) {
         result.push({
-          sequenceId : item._id,
-          dates : newA
-        })
+          sequenceId: item._id,
+          dates: newA,
+        });
       }
-    })
+    });
     return result;
-    
-  }
+  };
 
   const handlePublish = async (e) => {
     e.preventDefault();
@@ -284,26 +283,28 @@ export default function DesignMonthSchedule() {
     const publishData = makePublishData(dates);
     const payload = {
       scheduleId: id,
-      data:publishData,
+      scheduleArray: publishData,
     };
-    console.log("payload",payload);
-    await pushAddDates(payload);
+    console.log("payload", payload);
+    await pushAddDates(payload).then((res) => {
+      if (res.data.statusCode === 200) {
+        history.push(`/push`);
+      }
+    });
   };
 
-  const getCurrentMonth = (arg)  => {
-    const startDate = arg.view.activeStart
-    if (arg.view.type === 'dayGridMonth'){
-        setCurrentMonth(startDate.getMonth() + 1)
-        return
+  const getCurrentMonth = (arg) => {
+    const startDate = arg.view.activeStart;
+    if (arg.view.type === "dayGridMonth") {
+      setCurrentMonth(startDate.getMonth() + 1);
+      return;
     }
-    if( arg.view.type === 'dayGridDay'){
-        startDate.setDate(startDate.getDate() + 8)
-        setCurrentMonth(startDate.getMonth() + 1)
-        return
+    if (arg.view.type === "dayGridDay") {
+      startDate.setDate(startDate.getDate() + 8);
+      setCurrentMonth(startDate.getMonth() + 1);
+      return;
     }
-
-    
-}
+  };
 
   return (
     <div className="fullcalendar-box">
