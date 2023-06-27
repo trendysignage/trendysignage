@@ -1,46 +1,51 @@
 import React, { useEffect, useState, useRef } from "react";
-import { addScreenCode, BASE_URL, getCompositionById } from "../../../utils/api";
+import {
+  addScreenCode,
+  BASE_URL,
+  getCompositionById,
+} from "../../../utils/api";
 import { Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
 import { io } from "socket.io-client";
 import WebVideoPlayer from "./WebVideoPlayer";
 import CompositionPlayer from "./compositionPlayer";
-import useSWR from 'swr'
-const WebMain = ({id, handleAddClass, onFullScreen}) => {
+import useSWR from "swr";
+const WebMain = ({ id, handleAddClass, onFullScreen }) => {
   const [media, setMedia] = useState("");
+  console.log(media, "media");
   const [code, seCode] = useState("");
   const [contentType, setContentType] = useState("");
-  const [isVerified , setIsVerified] = useState(false);
-  console.log(`%c${contentType}`, "font-size:20px;color:red")
-  const initiaload = useRef(true)
+  const [isVerified, setIsVerified] = useState(false);
+  console.log(`%c${contentType}`, "font-size:20px;color:red");
+  const initiaload = useRef(true);
   // const [timeout, setApiTimeout] = useState("");
-useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
-})
+  useEffect(() => {
+    console.log(contentType, "contentType check inside main.jsx");
+  });
   const getScreenCode = async () => {
     let timeoutTimer;
     const getContent = await addScreenCode(id);
-    console.log(getContent,"llllllll")
-    setIsVerified(getContent?.isVerified)
+    console.log(getContent, "llllllll");
+    setIsVerified(getContent?.isVerified);
     if (getContent.isVerified) {
       if (getContent?.content.length) {
         const getMedia =
           getContent?.content[getContent.content.length - 1].media;
-          const mediaType =
+        const mediaType =
           getContent?.content[getContent.content.length - 1].type;
-          
-        if(mediaType === "composition"){
+
+        if (mediaType === "composition") {
           setMedia(getMedia);
-          setContentType("composition"); 
+          setContentType("composition");
         } else {
           setMedia(`${BASE_URL}${getMedia.title}`);
-          setContentType(getMedia.type); 
-          clearTimeout(timeoutTimer)
+          setContentType(getMedia.type);
+          clearTimeout(timeoutTimer);
           timeoutTimer = setTimeout(() => {
-            console.log("normal timeout")
+            console.log("normal timeout");
             getScreenCode();
           }, 6000);
         }
-
       } else {
         setContentType("default_media");
       }
@@ -50,14 +55,13 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
     }
   };
   useEffect(() => {
-    if(!isVerified){
+    if (!isVerified) {
       const interval = setInterval(() => {
         getScreenCode();
       }, 1000);
-  
+
       return () => clearInterval(interval);
     }
-    
   }, [isVerified]);
   const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
   useEffect(() => {
@@ -73,21 +77,20 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
     socket.connect();
 
     function onReceiveContent(value) {
-      console.log(value,"socket data")
-    if(initiaload.current === true){
-      initiaload.current = false
-    } else {
-      //  setContentType(null);
-      getScreenCode();
-    }
-     
+      console.log(value, "socket data");
+      if (initiaload.current === true) {
+        initiaload.current = false;
+      } else {
+        //  setContentType(null);
+        getScreenCode();
+      }
     }
     function onDisconnectDevice(value) {
       setContentType(null);
       getScreenCode();
     }
     socket.on("disconnectDevice", onDisconnectDevice);
-    
+
     socket.on("receiveContent", onReceiveContent);
     socket.on("receiveComposition", onReceiveContent);
     return () => {
@@ -96,24 +99,26 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
     };
   });
 
-
   return (
-    < >
-        <div>
-    
-            {" "}
-            <button id="Fullscreen" onClick={() => onFullScreen()} style={{zIndex:10}}>
-              <div class="full-text">
-                <div class="sec-block">
-                  {" "}
-                  <i class="fa fa-expand"></i>
-                  <p>View Full Screen</p>
-                </div>
-              </div>
-            </button>
-          
-        </div>
-        {< >
+    <>
+      <div>
+        {" "}
+        <button
+          id="Fullscreen"
+          onClick={() => onFullScreen()}
+          style={{ zIndex: 10 }}
+        >
+          <div class="full-text">
+            <div class="sec-block">
+              {" "}
+              <i class="fa fa-expand"></i>
+              <p>View Full Screen</p>
+            </div>
+          </div>
+        </button>
+      </div>
+      {
+        <>
           {contentType === "code" && (
             <div className="basic-list-group ">
               <div className="main-block">
@@ -157,7 +162,7 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
               </div>
             </div>
           )}
-          {contentType !==null &&  contentType === "image" && (
+          {contentType !== null && contentType === "image" && (
             <div className="basic-list-group image-preview-container media-content">
               <img
                 className="webplayer-preview-img"
@@ -166,9 +171,9 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
               />
             </div>
           )}
-          {contentType !==null &&  contentType === "video" && (
+          {contentType !== null && contentType === "video" && (
             <div className="basic-list-group video-container media-content">
-            <WebVideoPlayer src={media}></WebVideoPlayer>
+              <WebVideoPlayer src={media}></WebVideoPlayer>
               {/* <video
                 title="video"
                 width="100%"
@@ -187,36 +192,45 @@ useEffect(()=>{  console.log(contentType, "contentType check inside main.jsx")
             </div>
           )}
 
-          {contentType !==null &&  contentType === "composition" && (
-           <GetCompositionPlayer composition={media} handleAddClass={handleAddClass}/>
+          {contentType !== null && contentType === "composition" && (
+            <GetCompositionPlayer
+              composition={media}
+              handleAddClass={handleAddClass}
+            />
           )}
 
-          <div class="console-reg" id="consoleReg" style={{zIndex:10}}>
+          <div class="console-reg" id="consoleReg" style={{ zIndex: 10 }}>
             <p>
               Copy paste above Screen Registration Code in console{" "}
               <em class="ti-arrow-circle-up"></em>
             </p>
           </div>
-        </>}
+        </>
+      }
     </>
   );
 };
 
 export default WebMain;
 
-
-
-const GetCompositionPlayer = ({composition,handleAddClass})=>{
+const GetCompositionPlayer = ({ composition, handleAddClass }) => {
   // const fetcher = (url) => getCompositionById(url);
   // const { data: composition  } = useSWR(id ? `/vendor/layouts/composition?compositionId=${id}` : null, fetcher);
- 
-  useEffect(()=>{
-    if(composition && composition?.layout?.screenType){
-      handleAddClass(composition.layout.screenType)
+
+  useEffect(() => {
+    if (composition && composition?.layout?.screenType) {
+      handleAddClass(composition.layout.screenType);
     }
-  
-  },[composition])
-    return (<>
-    {composition && composition.referenceUrl && <CompositionPlayer  contents={composition} content={composition.zones[0].content} referenceUrl={composition.referenceUrl}/>}
-    </>)
-}
+  }, [composition]);
+  return (
+    <>
+      {composition && composition.referenceUrl && (
+        <CompositionPlayer
+          contents={composition}
+          content={composition.zones[0].content}
+          referenceUrl={composition.referenceUrl}
+        />
+      )}
+    </>
+  );
+};

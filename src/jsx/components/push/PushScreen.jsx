@@ -101,8 +101,8 @@ const PushScreen = () => {
             <th>Name</th>
             <th>Date Added</th>
             <th>Screens Assigned</th>
-            {/* <th>Start Date</th>
-            <th>End Date</th> */}
+            <th>Start Date</th>
+            <th>End Date</th>
           </tr>
         </thead>
 
@@ -110,16 +110,17 @@ const PushScreen = () => {
           {scheduleData &&
             scheduleData.map((composition) => {
               console.log(composition, "yyyyyy");
-              // const length = composition?.sequence?.length - 1;
-              // const maxDt =
-              //   Math.max(
-              //     ...composition.sequence[length].dates.map((el) => {
-              //       if (el) return new Date(el);
-              //     })
-              //   ) ?? "";
-              // const beforeDt = moment(new Date(maxDt)).format("YYYY-MM-DD");
-              // const formatDt = moment(beforeDt).format("YYYY-MM-DD");
-              // console.log(formatDt, "jjjjjjjjj");
+
+              const maxDates = composition.sequence.reduce((max, obj) => {
+                const parseDts = obj.dates.map((dt) => new Date(dt));
+                const objMax =
+                  obj.dates.length > 0 ? Math.max(...parseDts) : null;
+                return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
+              }, null);
+              const formatedDt = moment(new Date(maxDates)).format(
+                "YYYY-MM-DD"
+              );
+
               return (
                 <tr key={composition._id}>
                   <td>{composition.name}</td>
@@ -134,14 +135,16 @@ const PushScreen = () => {
                     </span>
                   </td>
                   <td> {composition.screens?.length}</td>
-                  {/* <td>
+
+                  <td>
                     {
                       composition?.sequence[0]?.timings[0]?.startTime?.split(
                         "T"
                       )[0]
                     }
-                  </td> */}
-                  {/* <td>{formatDt}</td> */}
+                  </td>
+
+                  <td>{formatedDt}</td>
                 </tr>
               );
             })}

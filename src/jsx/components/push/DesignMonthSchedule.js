@@ -367,7 +367,7 @@ export default function DesignMonthSchedule() {
           initialView="dayGridMonth"
           selectable={true}
           events={events}
-          dayHeaderContent={renderDayHeader}
+          // dayHeaderContent={renderDayHeader}
           dayCellContent={renderDateCell}
           //validRange={{"start":moment().format('YYYY-MM-DD'),'end':null}}
           datesSet={(arg) => getCurrentMonth(arg)}
