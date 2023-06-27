@@ -137,7 +137,7 @@ export default function DesignMonthSchedule() {
           moment(new Date()).format("YYYY-MM-DD")
         ) {
           newArray[checkboxKey] = true;
-          handleDateCellChange(checkboxKey, iswk);
+          handleDateCellChange(item.format("YYYY-MM-DD"), iswk);
           newArray[days[day]] = true;
         }
       });
@@ -148,7 +148,7 @@ export default function DesignMonthSchedule() {
         if (newArray[checkboxKey] !== undefined) {
           delete newArray[checkboxKey];
         }
-        handleDateCellChange(checkboxKey, iswk);
+        handleDateCellChange(item.format("YYYY-MM-DD"), iswk);
         newArray[days[day]] = false;
       });
     }
