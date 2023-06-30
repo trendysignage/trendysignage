@@ -208,3 +208,16 @@ export async function getAllSchedule() {
   const response = await fetchClient.get(BASE_URL + `/vendor/push/schedules`);
   return response;
 }
+
+export async function deleteSequence(sequenceId, scheduleId) {
+  const response = await fetchClient.delete(
+    `${BASE_URL}/vendor/push/sequence?scheduleId=${scheduleId}&sequenceId=${sequenceId}`
+  );
+  return response;
+}
+export async function deleteSchedule(scheduleId) {
+  const response = await fetchClient.delete(
+    `${BASE_URL}/vendor/push/schedule?scheduleId=${scheduleId}`
+  );
+  return response;
+}

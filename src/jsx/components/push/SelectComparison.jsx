@@ -158,7 +158,6 @@ import { useParams, useHistory } from "react-router-dom";
 
 const SelectComparison = () => {
   const history = useHistory();
-
   const [allScreens, setAllScreens] = useState("");
   const [checkedItems, setCheckedItems] = useState({});
   const [checkedValues, setCheckedValues] = useState([]);
@@ -212,7 +211,6 @@ const SelectComparison = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("kkkkk");
     await pushAddSchedule({
       name: scheduleName,
       screens: checkedValues,
@@ -255,7 +253,8 @@ const SelectComparison = () => {
           onChange={(e) => setScheduleName(e.target.value)}
           required
         />
-        <Button className="con-btn " variant="primary" type="submit">
+
+        <Button className="mr-2" variant="info add-screen-btn" type="submit">
           Save
         </Button>
       </form>

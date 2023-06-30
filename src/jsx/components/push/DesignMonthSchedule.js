@@ -4,7 +4,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from "react-bootstrap";
 import moment from "moment";
-import { getAllDaySequence, pushAddDates } from "../../../utils/api";
+import {
+  deleteSequence,
+  getAllDaySequence,
+  pushAddDates,
+} from "../../../utils/api";
 import { useParams, useHistory } from "react-router-dom";
 import edit from "../../../img/edit-composition.png";
 import deleteIcon from "../../../img/delete-icon.png";
@@ -15,14 +19,11 @@ export default function DesignMonthSchedule() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState([]);
   const [daySequence, setDaySequence] = useState([]);
+  const [activeCard, setActiveCard] = useState(false);
+  const [selectedButtonIndex, setSelectedButtonIndex] = useState(null);
+
   console.log(daySequence, "daySequence");
   var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const externalEvent = [
-    { id: 1, title: "Event 1", start: "2023-06-01", end: "2023-06-02" },
-    { id: 2, title: "Event 2", start: "2023-06-03", end: "2023-06-04" },
-    { id: 3, title: "Event 3", start: "2023-06-05", end: "2023-06-06" },
-    { id: 4, title: "Event 4", start: "2023-06-07", end: "2023-06-08" },
-  ];
 
   const callAllDaySequence = async (id) => {
     // setLoading(true);
@@ -187,7 +188,7 @@ export default function DesignMonthSchedule() {
 
     if (isEventSelected) {
       return (
-        <div>
+        <div className="month-schedule-header-checkbox">
           <input
             className={`day-checkbox checkbox-day-${dayInfo.date.getDay()} month--${currentMonth}`}
             name={`checkbox-${checkboxKey}`}
@@ -306,6 +307,18 @@ export default function DesignMonthSchedule() {
     }
   };
 
+  const handleDeleteSequesce = async (sequenceId, id) => {
+    await deleteSequence(sequenceId, id).then((res) => {
+      if (res.data.statusCode === 200) {
+        callAllDaySequence(id);
+      }
+    });
+  };
+
+  const handleButtonClick = (index) => {
+    setSelectedButtonIndex(index);
+    // Perform any other logic specific to the clicked button
+  };
   return (
     <div className="fullcalendar-box">
       <div className="d-flex justify-content-end">
@@ -322,42 +335,61 @@ export default function DesignMonthSchedule() {
 
       <div className="event-list">
         <h3>Day Sequence</h3>
-        {daySequence.map((event, i) => (
-          <div
-            key={i}
-            className="month-schedule-list mt-4"
-            onClick={() => handleEventClick(event)}
-          >
-            <div className="d-flex align-items-center px-2 py-4 justify-content-between">
-              <span>
-                {event.name?.length > 4
-                  ? event.name.slice(0, 4) + "..."
-                  : event.name}
-              </span>
+        {daySequence.map((event, i) => {
+          return (
+            <div
+              key={i}
+              className="month-schedule-list mt-4"
+              onClick={() => {
+                handleButtonClick(i);
+                handleEventClick(event);
+                // setActiveCard(true);
+              }}
+            >
+              <div
+                className="d-flex align-items-center px-2 py-4 justify-content-between"
+                style={{
+                  boxShadow:
+                    selectedButtonIndex === i
+                      ? "rgba(0, 0, 0, 0.16) 0px 3px 6px"
+                      : "",
+                }}
+                // className={
+                //   selectedButtonIndex === i
+                //     ? "zone zone-active "
+                //     : "zone"
+                // }
+              >
+                <span>
+                  {event.name?.length > 4
+                    ? event.name.slice(0, 4) + "..."
+                    : event.name}
+                </span>
 
-              <span className="total-composition">
-                Contains {event.timings.length} compositions
-              </span>
-              <span>
-                <img
-                  src={edit}
-                  className="dropdown-list-img img-fluid"
-                  height="25px"
-                  width="25px"
-                />
-              </span>
-              <span>
-                <img
-                  src={deleteIcon}
-                  className="dropdown-list-img img-fluid"
-                  height="30px"
-                  width="30px"
-                />
-              </span>
-              <span className="add-btn">Add to Calendar </span>
+                <span className="total-composition">
+                  Contains {event.timings.length} compositions
+                </span>
+                <span>
+                  <img
+                    src={edit}
+                    className="dropdown-list-img img-fluid"
+                    height="25px"
+                    width="25px"
+                  />
+                </span>
+                <span onClick={() => handleDeleteSequesce(event._id, id)}>
+                  <img
+                    src={deleteIcon}
+                    className="dropdown-list-img img-fluid"
+                    height="30px"
+                    width="30px"
+                  />
+                </span>
+                <span className="add-btn">Add to Calendar </span>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <div className="calendar" style={{ float: "left", width: "55%" }}>
         <FullCalendar

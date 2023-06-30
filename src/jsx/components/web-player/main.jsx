@@ -60,7 +60,9 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
         getScreenCode();
       }, 1000);
 
-      return () => clearInterval(interval);
+      return () => {
+        clearInterval(interval); // Clear the interval when component unmounts
+      };
     }
   }, [isVerified]);
   const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
