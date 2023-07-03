@@ -4,7 +4,7 @@ import scheduleIcon from "../../../img/schedule-icon.png";
 import quickPlayIcon from "../../../img/quickplay-icon.png";
 import defaultComparisonIcon from "../../../img/comparison-icon.png";
 import { Link } from "react-router-dom";
-import { Table, Dropdown } from "react-bootstrap";
+import { Button, Table, Dropdown } from "react-bootstrap";
 import { deleteSchedule, getAllSchedule } from "../../../utils/api";
 import { useEffect } from "react";
 import {
@@ -17,6 +17,7 @@ import deleteIcon from "../../../img/delete-icon.png";
 
 const PushScreen = () => {
   const [scheduleData, setScheduleData] = useState([]);
+  const [showPublishBtn, setShowPublishBtn] = useState(false);
   async function getSchedule() {
     await getAllSchedule().then((res) => {
       console.log(res, "res push screen");
@@ -73,7 +74,6 @@ const PushScreen = () => {
   function findEndTime(value) {
     // console.log(value, "valurrrrrr");
     if (!value || value === undefined) {
-      console.log("first jjjj");
       return "time not find";
     }
     if (value != undefined) {
@@ -82,67 +82,111 @@ const PushScreen = () => {
   }
   return (
     <>
-      <div className="custom-content-heading d-flex flex-wrap flex-column">
-        <h1 className="mb-1">Push</h1>
-        <p className="three-layout-paragrapgh">
-          How would you like to publish your content?
-        </p>
+      <div className="custom-content-heading d-flex flex-wrap flex-row align-items-center justify-content-between">
+        <div>
+          <h1 className="mb-1">Push</h1>
+          <p className="three-layout-paragrapgh">
+            How would you like to publish your content?
+          </p>
+        </div>
+        {scheduleData.length !== 0 && (
+          <Button
+            className=""
+            variant="info add-screen-btn"
+            type="button"
+            onClick={() => setShowPublishBtn(true)}
+          >
+            Publish
+          </Button>
+        )}
       </div>
 
-      <div className="layout-row push-row mb-5">
-        <Row>
-          <Col lg="4" md="4" sm="12" xs="12">
+      <div className="layout-row push-row mb-4">
+        {showPublishBtn && (
+          <div className="d-flex mb-2 mt-3">
             <Link
               to={{
                 pathname: `/SelectComparison`,
               }}
             >
+              <Button
+                className="mr-3 push-screen-btn"
+                variant="info "
+                type="button"
+              >
+                Schedule
+              </Button>
+            </Link>
+
+            <Button
+              className="mr-3 push-screen-btn"
+              variant="info "
+              type="button"
+            >
+              Quickplay
+            </Button>
+            <Button className="push-screen-btn" variant="info " type="button">
+              Default Composition
+            </Button>
+          </div>
+        )}
+        {scheduleData.length === 0 && (
+          <Row>
+            <Col lg="4" md="4" sm="12" xs="12">
+              <Link
+                to={{
+                  pathname: `/SelectComparison`,
+                }}
+              >
+                <div className="push-column text-center">
+                  <div className="push-column-icon d-flex align-items-center justify-content-center">
+                    <img
+                      className="layout-select-img"
+                      src={scheduleIcon}
+                      alt="menu-icon"
+                    />
+                  </div>
+                  <h6>Schedule</h6>
+                  <p>
+                    Scheduled content gets displayed only for time you choose
+                  </p>
+                </div>
+              </Link>
+            </Col>
+            <Col lg="4" md="4" sm="12" xs="12">
               <div className="push-column text-center">
                 <div className="push-column-icon d-flex align-items-center justify-content-center">
                   <img
                     className="layout-select-img"
-                    src={scheduleIcon}
+                    src={quickPlayIcon}
                     alt="menu-icon"
                   />
                 </div>
-                <h6>Schedule</h6>
-                <p>Scheduled content gets displayed only for time you choose</p>
+                <h6>Quickplay</h6>
+                <p>
+                  Quickplay let's you display content instantly. Can be used
+                  Emergency cases
+                </p>
               </div>
-            </Link>
-          </Col>
-          <Col lg="4" md="4" sm="12" xs="12">
-            <div className="push-column text-center">
-              <div className="push-column-icon d-flex align-items-center justify-content-center">
-                <img
-                  className="layout-select-img"
-                  src={quickPlayIcon}
-                  alt="menu-icon"
-                />
+            </Col>
+            <Col lg="4" md="4" sm="12" xs="12">
+              <div className="push-column text-center">
+                <div className="push-column-icon d-flex align-items-center justify-content-center">
+                  <img
+                    className="layout-select-img"
+                    src={defaultComparisonIcon}
+                    alt="menu-icon"
+                  />
+                </div>
+                <h6>Default Composition</h6>
+                <p>
+                  Default content keeps on playing irrespective of the time when
+                  there is no active
+                </p>
               </div>
-              <h6>Quickplay</h6>
-              <p>
-                Quickplay let's you display content instantly. Can be used
-                Emergency cases
-              </p>
-            </div>
-          </Col>
-          <Col lg="4" md="4" sm="12" xs="12">
-            <div className="push-column text-center">
-              <div className="push-column-icon d-flex align-items-center justify-content-center">
-                <img
-                  className="layout-select-img"
-                  src={defaultComparisonIcon}
-                  alt="menu-icon"
-                />
-              </div>
-              <h6>Default Composition</h6>
-              <p>
-                Default content keeps on playing irrespective of the time when
-                there is no active
-              </p>
-            </div>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        )}
       </div>
 
       <Table
