@@ -18,10 +18,14 @@ import deleteIcon from "../../../img/delete-icon.png";
 const PushScreen = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const [showPublishBtn, setShowPublishBtn] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   async function getSchedule() {
+    setLoading(true);
     await getAllSchedule().then((res) => {
       console.log(res, "res push screen");
       setScheduleData(res.data.data);
+      setLoading(false);
     });
   }
   console.log(scheduleData, "ooooooooo");
@@ -130,7 +134,7 @@ const PushScreen = () => {
             </Button>
           </div>
         )}
-        {scheduleData.length === 0 && (
+        {scheduleData.length === 0 && !loading && (
           <Row>
             <Col lg="4" md="4" sm="12" xs="12">
               <Link
