@@ -100,51 +100,59 @@ export default function TestDay() {
 
   // handle event receive
   const handleEventReceive = (eventInfo) => {
-    console.log("ee",eventInfo)
+    console.log("ee", eventInfo);
     const id = eventInfo.event._def.sourceId;
+    console.log(renderTime, "renderTimeeeee");
+
+    const [startTime, endTime] = renderTime.split(" - ");
+
+    const formattedStartTime = startTime.padStart(5, "0");
+    const formattedEndTime =
+      endTime.length === 5 ? endTime : endTime.padStart(5, "0");
+
+    const timeRange = `${formattedStartTime} - ${formattedEndTime}`;
+
+    console.log(timeRange, "timeRangeeee");
+
     const newEvent = {
       id: id,
-      timing: renderTime,
-      defId:eventInfo.event._def.defId
+      timing: timeRange,
+      defId: eventInfo.event._def.defId,
     };
-    setEvents(events => [...events, newEvent]);
-    setDef({...def, [eventInfo.event._def.defId]:true});
+    setEvents((events) => [...events, newEvent]);
+    setDef({ ...def, [eventInfo.event._def.defId]: true });
   };
   // handle deletion of an event
 
   const handleEventClick = (info) => {
     console.log(info, "sssss");
     const defId = info.event._def.defId;
-    setEvents((current) =>
-          current.filter((event) => event.defId !== defId)
-        );
+    setEvents((current) => current.filter((event) => event.defId !== defId));
     info.event.remove();
   };
   async function handleSubmit(e) {
     e.preventDefault();
     const scheduleId = id;
     const name = schedulename;
-    
-    
+
     // setSequence(outputObject);
     // console.log(sequence, "outputObject");
     // e.preventDefault();
 
-
     const timings = events.map((item) => {
       return {
-        composition:item.id,
+        composition: item.id,
         startTime:
-              new Date().toISOString().slice(0, 10) +
-              "T" +
-              item.timing.split(" - ")[0] +
-              ":00Z",
+          new Date().toISOString().slice(0, 10) +
+          "T" +
+          item.timing.split(" - ")[0] +
+          ":00Z",
         endTime:
-        new Date().toISOString().slice(0, 10) +
-        "T" +
-        item.timing.split(" - ")[1] +
-        ":00Z",
-      }
+          new Date().toISOString().slice(0, 10) +
+          "T" +
+          item.timing.split(" - ")[1] +
+          ":00Z",
+      };
     });
     const payload = {
       scheduleId: scheduleId,
@@ -152,7 +160,7 @@ export default function TestDay() {
       timings,
     };
 
-    console.log("payload",payload)
+    console.log("payload", payload);
 
     await saveSequence(payload).then((res) => {
       console.log(res, "res save schedule");
@@ -165,15 +173,19 @@ export default function TestDay() {
     history.push("/design-month-schedule");
   }
   function renderEventContent(eventInfo) {
-    console.log("eventInfo",eventInfo)
+    console.log("eventInfo", eventInfo);
     const { event } = eventInfo;
     const { title } = event;
     const checkTime = eventInfo.timeText.split(" - ");
-    if(!checkTime[1]){
-      const secondTime = parseInt(checkTime[0].split(":")[0])+1+":"+checkTime[0].split(":")[1];
-      eventInfo.timeText = checkTime[0]+" - "+secondTime
+    if (!checkTime[1]) {
+      const secondTime =
+        parseInt(checkTime[0].split(":")[0]) +
+        1 +
+        ":" +
+        checkTime[0].split(":")[1];
+      eventInfo.timeText = checkTime[0] + " - " + secondTime;
     }
-    if(!def[eventInfo.event._def.defId]){
+    if (!def[eventInfo.event._def.defId]) {
       setRenderTime(eventInfo.timeText);
     }
     return (
@@ -334,7 +346,9 @@ export default function TestDay() {
             dayMaxEvents={false}
             droppable={true}
             eventReceive={handleEventReceive}
-            eventAdd={(arg) => {console.log("add",arg)}}
+            eventAdd={(arg) => {
+              console.log("add", arg);
+            }}
             slotEventOverlap={false}
             eventOverlap={false}
             eventContent={renderEventContent}
