@@ -2,8 +2,11 @@ import React from "react";
 import weather from "../../../img/weather.svg";
 import { Dropdown } from "react-bootstrap";
 import menuIcon from "../../../img/menu-icon.png";
+import UrlAppModal from "../../modals/UrlAppModal";
+import { useState } from "react";
 
 export default function Integrations() {
+  const [showUrlApp, setShowUrlApp] = useState(false);
   return (
     <>
       <div className="custom-content-heading d-flex flex-wrap flex-column">
@@ -54,7 +57,12 @@ export default function Integrations() {
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          <div className="d-flex align-items-center justify-content-center">
+          <div
+            className="d-flex align-items-center justify-content-center"
+            onClick={() => {
+              setShowUrlApp(true);
+            }}
+          >
             <div className="text-center">
               <img className="mb-3" src={weather} />
               <p>URL APP</p>
@@ -109,7 +117,7 @@ export default function Integrations() {
           <div className="d-flex align-items-center justify-content-center">
             <div className="text-center">
               <img className="mb-3" src={weather} />
-              <p>URL APP</p>
+              <p> APP</p>
             </div>
           </div>
         </div>
@@ -270,6 +278,11 @@ export default function Integrations() {
           </div>
         </div>
       </div>
+
+      <UrlAppModal
+        setShowUrlApp={() => setShowUrlApp(false)}
+        show={showUrlApp}
+      />
     </>
   );
 }

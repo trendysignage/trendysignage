@@ -1218,7 +1218,28 @@ height: 196px;
   background: #b3005e !important;
   color: #fff;
 }
-
+.url-app-form{
+  border-right: 2px dashed;
+}
+.url-app-form-icon{
+  background: rgba(179, 0, 94, 0.13);
+}
+.app-modal .modal-content{
+  border-radius: 18px;
+}
+.app-option > div{
+  padding: 10px;
+  border-radius: 10px;
+}
+.app-modal-heading{
+  font-size: 20px !important;
+}
+.url-app-form label{
+  font-size: 16px;
+    font-weight: 500;
+   
+    color: #1A1A1A;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;
