@@ -9,27 +9,19 @@ import { useParams, useHistory } from "react-router-dom";
 import edit from "../../../img/edit-composition.png";
 import deleteIcon from "../../../img/delete-icon.png";
 import da from "date-fns/locale/da/index.js";
+import { toast } from 'react-toastify';
 export default function DesignMonthSchedule() {
   const history = useHistory();
   const { id } = useParams();
   const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState([]);
   const [daySequence, setDaySequence] = useState([]);
-  console.log(daySequence, "daySequence");
   var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const externalEvent = [
-    { id: 1, title: "Event 1", start: "2023-06-01", end: "2023-06-02" },
-    { id: 2, title: "Event 2", start: "2023-06-03", end: "2023-06-04" },
-    { id: 3, title: "Event 3", start: "2023-06-05", end: "2023-06-06" },
-    { id: 4, title: "Event 4", start: "2023-06-07", end: "2023-06-08" },
-  ];
 
   const callAllDaySequence = async (id) => {
-    // setLoading(true);
     const list = await getAllDaySequence(id);
-    // setLoading(false);
-    // setAllScreens(list);
     setDaySequence(list.sequence);
+    console.log("sdsds",list);
   };
   useEffect(() => {
     callAllDaySequence(id);
@@ -280,12 +272,30 @@ export default function DesignMonthSchedule() {
         i !== "Fri" &&
         i !== "Sat"
     );
+    
     const publishData = makePublishData(dates);
+    if(!publishData || publishData.length == 0){
+      toast.error('Please select at least one date', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      return false;
+
+    }
     const payload = {
       scheduleId: id,
       scheduleArray: publishData,
     };
-    console.log("payload", payload);
+
+
+    console.log("payload", payload, publishData.length);
     await pushAddDates(payload).then((res) => {
       if (res.data.statusCode === 200) {
         history.push(`/push`);
@@ -307,81 +317,84 @@ export default function DesignMonthSchedule() {
   };
 
   return (
-    <div className="fullcalendar-box">
-      <div className="d-flex justify-content-end">
-        <Button
-          className="mr-2"
-          onClick={(e) => {
-            handlePublish(e);
-          }}
-          variant="info add-screen-btn"
-        >
-          Publish
-        </Button>
-      </div>
-
-      <div className="event-list">
-        <h3>Day Sequence</h3>
-        {daySequence.map((event, i) => (
-          <div
-            key={i}
-            className="month-schedule-list mt-4"
-            onClick={() => handleEventClick(event)}
+    <>
+      
+      <div className="fullcalendar-box">
+        <div className="d-flex justify-content-end">
+          <Button
+            className="mr-2"
+            onClick={(e) => {
+              handlePublish(e);
+            }}
+            variant="info add-screen-btn"
           >
-            <div className="d-flex align-items-center px-2 py-4 justify-content-between">
-              <span>
-                {event.name?.length > 4
-                  ? event.name.slice(0, 4) + "..."
-                  : event.name}
-              </span>
+            Publish
+          </Button>
+        </div>
 
-              <span className="total-composition">
-                Contains {event.timings.length} compositions
-              </span>
-              <span>
-                <img
-                  src={edit}
-                  className="dropdown-list-img img-fluid"
-                  height="25px"
-                  width="25px"
-                />
-              </span>
-              <span>
-                <img
-                  src={deleteIcon}
-                  className="dropdown-list-img img-fluid"
-                  height="30px"
-                  width="30px"
-                />
-              </span>
-              <span className="add-btn">Add to Calendar </span>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="calendar" style={{ float: "left", width: "55%" }}>
-        <FullCalendar
-          className="month-schedule"
-          weekends={true}
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          selectable={true}
-          events={events}
-          dayHeaderContent={renderDayHeader}
-          dayCellContent={renderDateCell}
-          //validRange={{"start":moment().format('YYYY-MM-DD'),'end':null}}
-          datesSet={(arg) => getCurrentMonth(arg)}
-          eventContent={(info) => (
-            <div className="month-schedule-event">
-              <div>
-                {info.event.title.length > 5
-                  ? info.event.title.slice(0, 5) + "..."
-                  : info.event.title}
+        <div className="event-list">
+          <h3>Day Sequence</h3>
+          {daySequence.map((event, i) => (
+            <div
+              key={i}
+              className="month-schedule-list mt-4"
+              onClick={() => handleEventClick(event)}
+            >
+              <div className="d-flex align-items-center px-2 py-4 justify-content-between">
+                <span>
+                  {event.name?.length > 4
+                    ? event.name.slice(0, 4) + "..."
+                    : event.name}
+                </span>
+
+                <span className="total-composition">
+                  Contains {event.timings.length} compositions
+                </span>
+                <span>
+                  <img
+                    src={edit}
+                    className="dropdown-list-img img-fluid"
+                    height="25px"
+                    width="25px"
+                  />
+                </span>
+                <span>
+                  <img
+                    src={deleteIcon}
+                    className="dropdown-list-img img-fluid"
+                    height="30px"
+                    width="30px"
+                  />
+                </span>
+                <span className="add-btn">Add to Calendar </span>
               </div>
             </div>
-          )}
-        />
+          ))}
+        </div>
+        <div className="calendar" style={{ float: "left", width: "55%" }}>
+          <FullCalendar
+            className="month-schedule"
+            weekends={true}
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            selectable={true}
+            events={events}
+            dayHeaderContent={renderDayHeader}
+            dayCellContent={renderDateCell}
+            //validRange={{"start":moment().format('YYYY-MM-DD'),'end':null}}
+            datesSet={(arg) => getCurrentMonth(arg)}
+            eventContent={(info) => (
+              <div className="month-schedule-event">
+                <div>
+                  {info.event.title.length > 5
+                    ? info.event.title.slice(0, 5) + "..."
+                    : info.event.title}
+                </div>
+              </div>
+            )}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
