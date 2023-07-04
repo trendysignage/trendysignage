@@ -10,6 +10,7 @@ import {
   getAllComposition,
   getAllMedia,
   saveSequence,
+  getAllDaySequence
 } from "../../../utils/api";
 import {
   getDatetimeIn12Hours,
@@ -41,6 +42,30 @@ export default function TestDay() {
     "/vendor/layouts/compositions",
     getAllComposition
   );
+
+
+  const callSingleDaySequence = async (id) => {
+    const list = await getAllDaySequence(id);
+    setSequence(list.sequence);
+    //const listTimings = [];
+    if(list && list.sequence && list.sequence[0] && list.sequence[0].timings){
+      const listTimings = list.sequence[0].timings.map((item) => {
+        const sT = item.startTime.split("T")[1].split(':');
+        const eT = item.endTime.split("T")[1].split(':');
+        return {
+          id: item.composition._id,
+          timing: sT[0]+":"+sT[1]+" - "+eT[0]+":"+eT[1],
+          //defId: eventInfo.event._def.defId,
+        };
+      })
+      setEvents(listTimings);
+    }
+  };
+
+  useEffect(() => {
+    callSingleDaySequence(id);
+  }, [id]);
+
   let timeFormet = {
     hour: "2-digit",
     minute: "2-digit",
@@ -70,7 +95,7 @@ export default function TestDay() {
         };
       },
     });
-  }, []);
+  }, [events]);
   function eventFunction(info) {
     //const newArray = events;
     const id = info.el.fcSeg.eventRange.def.sourceId;
@@ -83,36 +108,16 @@ export default function TestDay() {
       }
     });
     setEvents(newArr);
-    // const data = newArray.find((item) => {
-    //   item.defId = defId
-    // });
-    // console.log("Sdsd",data);
-    // const newEvent = {
-    //   id,
-    //   timing: info.el.innerText.split("\n\n")[1],
-    //   defId
-    // };
-    //newArray.push(newEvent);
-    //newArray[id] = newEvent;
-    //setEvents(newArray);
-    //setEvents(events => [...events, newEvent]);
   }
-
   // handle event receive
   const handleEventReceive = (eventInfo) => {
-    console.log("ee", eventInfo);
     const id = eventInfo.event._def.sourceId;
-    console.log(renderTime, "renderTimeeeee");
-
     const [startTime, endTime] = renderTime.split(" - ");
-
     const formattedStartTime = startTime.padStart(5, "0");
     const formattedEndTime =
       endTime.length === 5 ? endTime : endTime.padStart(5, "0");
 
     const timeRange = `${formattedStartTime} - ${formattedEndTime}`;
-
-    console.log(timeRange, "timeRangeeee");
 
     const newEvent = {
       id: id,
@@ -122,8 +127,6 @@ export default function TestDay() {
     setEvents((events) => [...events, newEvent]);
     setDef({ ...def, [eventInfo.event._def.defId]: true });
   };
-  // handle deletion of an event
-
   const handleEventClick = (info) => {
     console.log(info, "sssss");
     const defId = info.event._def.defId;
@@ -209,7 +212,6 @@ export default function TestDay() {
       </>
     );
   }
-  //   console.log(allComposition, "allComposition allComposition");
   return (
     <div className="App">
       {renderTime && (

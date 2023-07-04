@@ -35,6 +35,7 @@ import MonthSchedule from "./components/push/MonthSchedule";
 import CopyMonthSchedule from "./components/push/CopyMonthSchedule";
 import SecondMonth from "./components/push/SecondMonth";
 import DesignMonthSchedule from "./components/push/DesignMonthSchedule";
+import ViewSchedule from './components/push/viewSchedule';
 
 const Markup = () => {
   let path = window.location.pathname;
