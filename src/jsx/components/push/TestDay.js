@@ -10,6 +10,7 @@ import {
   getAllComposition,
   getAllMedia,
   saveSequence,
+  getAllDaySequence
 } from "../../../utils/api";
 import {
   getDatetimeIn12Hours,
@@ -30,23 +31,42 @@ const MyCustomPlugin = createPlugin({
 });
 
 export default function TestDay() {
-  const [events, setEvents] = useState({});
+  const [events, setEvents] = useState([]);
+  const [def, setDef] = useState([]);
   const [sequence, setSequence] = useState([]);
-  console.log(sequence, "top");
-  //   const [mergedArray, setMergedArray] = useState(events);
-  //   console.log(mergedArray, "mergedArray");
-  const [eventsId, setEventsId] = useState("");
   const [renderTime, setRenderTime] = useState("");
-  console.log(events, "eventsevents");
-  //   console.log(resizeEvents, "resizeEvents");
-  //   console.log(events, "events events");
   const history = useHistory();
   const { id, schedulename } = useParams();
+  const [sqName, setSqName] = useState("");
 
   const { data: allComposition, mutate } = useSWR(
     "/vendor/layouts/compositions",
     getAllComposition
   );
+
+
+  const callSingleDaySequence = async (id) => {
+    const list = await getAllDaySequence(id);
+    setSequence(list.sequence);
+    //const listTimings = [];
+    if(list && list.sequence && list.sequence[0] && list.sequence[0].timings){
+      const listTimings = list.sequence[0].timings.map((item) => {
+        const sT = item.startTime.split("T")[1].split(':');
+        const eT = item.endTime.split("T")[1].split(':');
+        return {
+          id: item.composition._id,
+          timing: sT[0]+":"+sT[1]+" - "+eT[0]+":"+eT[1],
+          //defId: eventInfo.event._def.defId,
+        };
+      })
+      setEvents(listTimings);
+    }
+  };
+
+  useEffect(() => {
+    callSingleDaySequence(id);
+  }, [id]);
+
   let timeFormet = {
     hour: "2-digit",
     minute: "2-digit",
@@ -58,9 +78,9 @@ export default function TestDay() {
     new Draggable(draggableEl, {
       itemSelector: ".fc-event",
       eventData: function (eventEl) {
-        console.log(eventEl, "eventEl eventEl");
         let id = eventEl.dataset.id;
         let sourceId = eventEl.getAttribute("sourceId");
+        let publicId = eventEl.getAttribute("publicId");
         let title = eventEl.getAttribute("title");
         let color = "#FFE494";
         let custom = eventEl.dataset.custom;
@@ -68,6 +88,7 @@ export default function TestDay() {
         return {
           id: id,
           sourceId,
+          publicId,
           title: title,
           color: color,
           custom: custom,
@@ -75,128 +96,77 @@ export default function TestDay() {
         };
       },
     });
-  }, []);
+  }, [events]);
   function eventFunction(info) {
-    console.log(info, "info inside eventFunction");
-
-    const newArray = events;
+    //const newArray = events;
     const id = info.el.fcSeg.eventRange.def.sourceId;
-    const newEvent = {
-      id,
-      timing: info.el.innerText.split("\n\n")[1],
-    };
-    newArray[id] = newEvent;
-    setEvents(newArray);
-    console.log(events, "newEvent newEvent");
+    const defId = info.event._def.defId;
+    let newArr = events.map((item, i) => {
+      if (item.defId == defId) {
+        return { ...item, ["timing"]: info.el.innerText.split("\n\n")[1] };
+      } else {
+        return item;
+      }
+    });
+    setEvents(newArr);
   }
-
   // handle event receive
   const handleEventReceive = (eventInfo) => {
-    console.log(eventInfo, "handleEventReceivehandleEventReceive");
     const id = eventInfo.event._def.sourceId;
+    const [startTime, endTime] = renderTime.split(" - ");
+    const formattedStartTime = startTime.padStart(5, "0");
+    const formattedEndTime =
+      endTime.length === 5 ? endTime : endTime.padStart(5, "0");
 
-    let splittime = (Number(renderTime.split(":")[0]) + 1).toString();
-
-    if (splittime.length < 2) {
-      splittime = "0" + splittime;
-    }
-
-    const time =
-      renderTime + " - " + splittime + ":" + renderTime.split(":")[1];
+    const timeRange = `${formattedStartTime} - ${formattedEndTime}`;
 
     const newEvent = {
       id: id,
-      timing: time,
+      timing: timeRange,
+      defId: eventInfo.event._def.defId,
     };
-    setEvents({ ...events, [id]: newEvent });
+    setEvents((events) => [...events, newEvent]);
+    setDef({ ...def, [eventInfo.event._def.defId]: true });
   };
-  // handle deletion of an event
-
   const handleEventClick = (info) => {
     console.log(info, "sssss");
-
-    const compositionToDelete = info.event._def.sourceId;
-    const deleteTiming = events;
-    delete deleteTiming[compositionToDelete];
-    setEvents(deleteTiming);
-    // console.log(compositionToDelete, "compositionToDelete id");
-    // sequence.timings = sequence?.timings?.filter(
-    //   (timing) => timing.composition !== compositionToDelete
-    // );
-    console.log(events, "inside delete");
-
-    // console.log(sequence, "when remove");
-    // setSequence(sequence);
+    const defId = info.event._def.defId;
+    setEvents((current) => current.filter((event) => event.defId !== defId));
     info.event.remove();
   };
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
     const scheduleId = id;
-    const name = schedulename;
-    const timing = [];
+   // const name = schedulename;
 
-    Object.keys(events).forEach(function (key) {
-      timing.push({
-        composition: events[key].id,
-        startTime:
-          new Date().toISOString().slice(0, 10) +
-          "T" +
-          events[key].timing.split(" - ")[0] +
-          ":00Z",
-        endTime:
-          new Date().toISOString().slice(0, 10) +
-          "T" +
-          events[key].timing.split(" - ")[1] +
-          ":00Z",
-      });
-    });
-
-    // events.forEach((item, i) =>
-    //   timing.push({
-    //     composition: item.id,
-    //     startTime:
-    //       new Date().toISOString().slice(0, 10) +
-    //       "T" +
-    //       item.timing.split(" - ")[0] +
-    //       ":00Z",
-    //     endTime:
-    //       new Date().toISOString().slice(0, 10) +
-    //       "T" +
-    //       item.timing.split(" - ")[1] +
-    //       ":00Z",
-    //   })
-    // );
-    // console.log(first)
-    // const timings = Object.values(events)?.map((composition) => {
-    //   const startTime =
-    //     new Date().toISOString().slice(0, 10) +
-    //     "T" +
-    //     composition.timing.split(" - ")[0] +
-    //     ":00Z";
-    //   const endTime =
-    //     new Date().toISOString().slice(0, 10) +
-    //     "T" +
-    //     composition.timing.split(" - ")[1] +
-    //     ":00Z";
-
-    //   return {
-    //     composition: composition.id,
-    //     startTime: startTime,
-    //     endTime: endTime,
-    //   };
-    // });
-
-    const outputObject = {
-      scheduleId: scheduleId,
-      name: name,
-      timings: timing,
-    };
-
-    console.log(outputObject, "yyyy");
     // setSequence(outputObject);
     // console.log(sequence, "outputObject");
     // e.preventDefault();
 
-    await saveSequence(outputObject).then((res) => {
+    const timings = events.map((item) => {
+      return {
+        composition: item.id,
+        startTime:
+          new Date().toISOString().slice(0, 10) +
+          "T" +
+          item.timing.split(" - ")[0] +
+          ":00Z",
+        endTime:
+          new Date().toISOString().slice(0, 10) +
+          "T" +
+          item.timing.split(" - ")[1] +
+          ":00Z",
+      };
+    });
+    const payload = {
+      scheduleId: scheduleId,
+      name: sqName,
+      timings,
+    };
+
+    console.log("payload", payload);
+
+    await saveSequence(payload).then((res) => {
       console.log(res, "res save schedule");
       if (res.data.statusCode === 200) {
         history.push(`/design-month-schedule/${id}`);
@@ -205,11 +175,21 @@ export default function TestDay() {
   }
 
   function renderEventContent(eventInfo) {
+    console.log("eventInfo", eventInfo);
     const { event } = eventInfo;
     const { title } = event;
-
-    setRenderTime(eventInfo.timeText);
-
+    const checkTime = eventInfo.timeText.split(" - ");
+    if (!checkTime[1]) {
+      const secondTime =
+        parseInt(checkTime[0].split(":")[0]) +
+        1 +
+        ":" +
+        checkTime[0].split(":")[1];
+      eventInfo.timeText = checkTime[0] + " - " + secondTime;
+    }
+    if (!def[eventInfo.event._def.defId]) {
+      setRenderTime(eventInfo.timeText);
+    }
     return (
       <>
         <div className={`fullcalendar-main-container`}>
@@ -231,15 +211,22 @@ export default function TestDay() {
       </>
     );
   }
-  //   console.log(allComposition, "allComposition allComposition");
   return (
     <div className="App">
+      <input
+          type="text"
+          className=" schedule-name-input-feild form-control input-default "
+          placeholder="Schedule Name"
+          value={sqName}
+          onChange={(e) => setSqName(e.target.value)}
+          required
+        />
       {renderTime && (
         <div className="d-flex justify-content-end">
           <Button
             className="mr-2"
             variant="info add-screen-btn"
-            onClick={() => handleSubmit()}
+            onClick={(e) => handleSubmit(e)}
           >
             Save Sequence
           </Button>
@@ -368,6 +355,9 @@ export default function TestDay() {
             dayMaxEvents={false}
             droppable={true}
             eventReceive={handleEventReceive}
+            eventAdd={(arg) => {
+              console.log("add", arg);
+            }}
             slotEventOverlap={false}
             eventOverlap={false}
             eventContent={renderEventContent}

@@ -13,6 +13,7 @@ import { useParams, useHistory } from "react-router-dom";
 import edit from "../../../img/edit-composition.png";
 import deleteIcon from "../../../img/delete-icon.png";
 import da from "date-fns/locale/da/index.js";
+import { toast } from 'react-toastify';
 export default function DesignMonthSchedule() {
   const history = useHistory();
   const { id } = useParams();
@@ -26,11 +27,9 @@ export default function DesignMonthSchedule() {
   var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const callAllDaySequence = async (id) => {
-    // setLoading(true);
     const list = await getAllDaySequence(id);
-    // setLoading(false);
-    // setAllScreens(list);
     setDaySequence(list.sequence);
+    console.log("sdsds",list);
   };
   useEffect(() => {
     callAllDaySequence(id);
@@ -281,12 +280,30 @@ export default function DesignMonthSchedule() {
         i !== "Fri" &&
         i !== "Sat"
     );
+    
     const publishData = makePublishData(dates);
+    if(!publishData || publishData.length == 0){
+      toast.error('Please select at least one date', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      return false;
+
+    }
     const payload = {
       scheduleId: id,
       scheduleArray: publishData,
     };
-    console.log("payload", payload);
+
+
+    console.log("payload", payload, publishData.length);
     await pushAddDates(payload).then((res) => {
       if (res.data.statusCode === 200) {
         history.push(`/push`);
@@ -320,21 +337,25 @@ export default function DesignMonthSchedule() {
     // Perform any other logic specific to the clicked button
   };
   return (
-    <div className="fullcalendar-box">
-      <div className="d-flex justify-content-end">
-        <Button
-          className="mr-2"
-          onClick={(e) => {
-            handlePublish(e);
-          }}
-          variant="info add-screen-btn"
-        >
-          Publish
-        </Button>
-      </div>
+    <>
+      
+      <div className="fullcalendar-box">
+        <div className="d-flex justify-content-end">
+          <Button
+            className="mr-2"
+            onClick={(e) => {
+              handlePublish(e);
+            }}
+            variant="info add-screen-btn"
+          >
+            Publish
+          </Button>
+        </div>
 
-      <div className="event-list">
-        <h3>Day Sequence</h3>
+        <div className="event-list">
+          <h3>Day Sequence</h3>
+
+
         {daySequence.map((event, i) => {
           return (
             <div
@@ -392,28 +413,30 @@ export default function DesignMonthSchedule() {
         })}
       </div>
       <div className="calendar" style={{ float: "left", width: "55%" }}>
-        <FullCalendar
-          className="month-schedule"
-          weekends={true}
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          selectable={true}
-          events={events}
-          dayHeaderContent={renderDayHeader}
-          dayCellContent={renderDateCell}
-          //validRange={{"start":moment().format('YYYY-MM-DD'),'end':null}}
-          datesSet={(arg) => getCurrentMonth(arg)}
-          eventContent={(info) => (
-            <div className="month-schedule-event">
-              <div>
-                {info.event.title.length > 5
-                  ? info.event.title.slice(0, 5) + "..."
-                  : info.event.title}
+          <FullCalendar
+            className="month-schedule"
+            weekends={true}
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            selectable={true}
+            events={events}
+            dayHeaderContent={renderDayHeader}
+            dayCellContent={renderDateCell}
+            //validRange={{"start":moment().format('YYYY-MM-DD'),'end':null}}
+            datesSet={(arg) => getCurrentMonth(arg)}
+            eventContent={(info) => (
+              <div className="month-schedule-event">
+                <div>
+                  {info.event.title.length > 5
+                    ? info.event.title.slice(0, 5) + "..."
+                    : info.event.title}
+                </div>
               </div>
-            </div>
-          )}
-        />
+            )}
+          />
+        </div>
+        
       </div>
-    </div>
+    </>
   );
 }
