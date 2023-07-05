@@ -37,6 +37,7 @@ export default function TestDay() {
   const [renderTime, setRenderTime] = useState("");
   const history = useHistory();
   const { id, schedulename } = useParams();
+  const [sqName, setSqName] = useState("");
 
   const { data: allComposition, mutate } = useSWR(
     "/vendor/layouts/compositions",
@@ -136,7 +137,7 @@ export default function TestDay() {
   async function handleSubmit(e) {
     e.preventDefault();
     const scheduleId = id;
-    const name = schedulename;
+   // const name = schedulename;
 
     // setSequence(outputObject);
     // console.log(sequence, "outputObject");
@@ -159,7 +160,7 @@ export default function TestDay() {
     });
     const payload = {
       scheduleId: scheduleId,
-      name: name,
+      name: sqName,
       timings,
     };
 
@@ -214,6 +215,14 @@ export default function TestDay() {
   }
   return (
     <div className="App">
+      <input
+          type="text"
+          className=" schedule-name-input-feild form-control input-default "
+          placeholder="Schedule Name"
+          value={sqName}
+          onChange={(e) => setSqName(e.target.value)}
+          required
+        />
       {renderTime && (
         <div className="d-flex justify-content-end">
           <Button
