@@ -4,12 +4,8 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from "react-bootstrap";
 import moment from "moment";
-import { getAllDaySequence, pushAddDates } from "../../../utils/api";
+import { getAllDaySequence } from "../../../utils/api";
 import { useParams, useHistory } from "react-router-dom";
-import edit from "../../../img/edit-composition.png";
-import deleteIcon from "../../../img/delete-icon.png";
-import da from "date-fns/locale/da/index.js";
-import { toast } from 'react-toastify';
 export default function ViewSchedule() {
   const history = useHistory();
   const { id } = useParams();
