@@ -173,9 +173,7 @@ export default function TestDay() {
       }
     });
   }
-  function moveToMonth() {
-    history.push("/design-month-schedule");
-  }
+
   function renderEventContent(eventInfo) {
     console.log("eventInfo", eventInfo);
     const { event } = eventInfo;

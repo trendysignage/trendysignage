@@ -4,7 +4,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from "react-bootstrap";
 import moment from "moment";
-import { getAllDaySequence, pushAddDates } from "../../../utils/api";
+import {
+  deleteSequence,
+  getAllDaySequence,
+  pushAddDates,
+} from "../../../utils/api";
 import { useParams, useHistory } from "react-router-dom";
 import edit from "../../../img/edit-composition.png";
 import deleteIcon from "../../../img/delete-icon.png";
@@ -16,6 +20,10 @@ export default function DesignMonthSchedule() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState([]);
   const [daySequence, setDaySequence] = useState([]);
+  const [activeCard, setActiveCard] = useState(false);
+  const [selectedButtonIndex, setSelectedButtonIndex] = useState(null);
+
+  console.log(daySequence, "daySequence");
   var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const callAllDaySequence = async (id) => {
@@ -179,7 +187,7 @@ export default function DesignMonthSchedule() {
 
     if (isEventSelected) {
       return (
-        <div>
+        <div className="month-schedule-header-checkbox">
           <input
             className={`day-checkbox checkbox-day-${dayInfo.date.getDay()} month--${currentMonth}`}
             name={`checkbox-${checkboxKey}`}
@@ -316,6 +324,18 @@ export default function DesignMonthSchedule() {
     }
   };
 
+  const handleDeleteSequesce = async (sequenceId, id) => {
+    await deleteSequence(sequenceId, id).then((res) => {
+      if (res.data.statusCode === 200) {
+        callAllDaySequence(id);
+      }
+    });
+  };
+
+  const handleButtonClick = (index) => {
+    setSelectedButtonIndex(index);
+    // Perform any other logic specific to the clicked button
+  };
   return (
     <>
       
@@ -334,13 +354,33 @@ export default function DesignMonthSchedule() {
 
         <div className="event-list">
           <h3>Day Sequence</h3>
-          {daySequence.map((event, i) => (
+
+
+        {daySequence.map((event, i) => {
+          return (
             <div
               key={i}
               className="month-schedule-list mt-4"
-              onClick={() => handleEventClick(event)}
+              onClick={() => {
+                handleButtonClick(i);
+                handleEventClick(event);
+                // setActiveCard(true);
+              }}
             >
-              <div className="d-flex align-items-center px-2 py-4 justify-content-between">
+              <div
+                className="d-flex align-items-center px-2 py-4 justify-content-between"
+                style={{
+                  boxShadow:
+                    selectedButtonIndex === i
+                      ? "rgba(0, 0, 0, 0.16) 0px 3px 6px"
+                      : "",
+                }}
+                // className={
+                //   selectedButtonIndex === i
+                //     ? "zone zone-active "
+                //     : "zone"
+                // }
+              >
                 <span>
                   {event.name?.length > 4
                     ? event.name.slice(0, 4) + "..."
@@ -358,7 +398,7 @@ export default function DesignMonthSchedule() {
                     width="25px"
                   />
                 </span>
-                <span>
+                <span onClick={() => handleDeleteSequesce(event._id, id)}>
                   <img
                     src={deleteIcon}
                     className="dropdown-list-img img-fluid"
@@ -369,9 +409,10 @@ export default function DesignMonthSchedule() {
                 <span className="add-btn">Add to Calendar </span>
               </div>
             </div>
-          ))}
-        </div>
-        <div className="calendar" style={{ float: "left", width: "55%" }}>
+          );
+        })}
+      </div>
+      <div className="calendar" style={{ float: "left", width: "55%" }}>
           <FullCalendar
             className="month-schedule"
             weekends={true}
@@ -394,6 +435,7 @@ export default function DesignMonthSchedule() {
             )}
           />
         </div>
+        
       </div>
     </>
   );
