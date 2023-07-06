@@ -14,6 +14,7 @@ import {
 import moment from "moment";
 import menuIcon from "../../../img/menu-icon.png";
 import deleteIcon from "../../../img/delete-icon.png";
+import edit from "../../../img/edit-composition.png";
 import { useHistory } from "react-router-dom";
 
 const PushScreen = () => {
@@ -30,7 +31,6 @@ const PushScreen = () => {
       setLoading(false);
     });
   }
-  console.log(scheduleData, "ooooooooo");
   useEffect(() => {
     getSchedule();
   }, []);
@@ -41,6 +41,11 @@ const PushScreen = () => {
       }
     });
   };
+
+  const handleEditSchedule = (e, id) => {
+    e.preventDefault();
+    history.push(`/design-month-schedule/${id}`);
+  }
 
   function convertTimestampTo12HourFormat(timestamp) {
     if (!timestamp) {
@@ -247,8 +252,6 @@ const PushScreen = () => {
                 composition?.sequence[composition?.sequence.length - 1]
               );
 
-              console.log(endTime, "endTime");
-
               return (
                 <tr key={composition._id}>
                   <td>{composition.name}</td>
@@ -296,11 +299,31 @@ const PushScreen = () => {
                         </span>
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
+                      <Dropdown.Item
+                          href={`/design-month-schedule/${composition._id}`}
+                          className="dropdown-list-item"
+                        >
+                          <div className="d-flex">
+                            <div className="dropdown-list-icon">
+                              <img
+                                className="dropdown-list-img img-fluid"
+                                src={edit}
+                                alt="menu-icon"
+                              />
+                            </div>
+                            <div className="dropdown-menu-list">
+                              <span className="menu-heading">Edit</span>
+                              <span className="menu-description">
+                                Get to know more about screen info
+                              </span>
+                            </div>
+                          </div>
+                        </Dropdown.Item>
                         <Dropdown.Item
                           href="#"
                           className="dropdown-list-item"
-                          onClick={() => {
-                            handleDeleteSchedule(composition._id);
+                          onClick={(e) => {
+                            handleDeleteSchedule(e,composition._id);
                           }}
                         >
                           <div className="d-flex">
