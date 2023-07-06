@@ -1240,6 +1240,11 @@ height: 196px;
    
     color: #1A1A1A;
 }
+.url-app-form-icon h1{
+  font-size: 34px;
+  font-weight: 600;
+  color: #060047;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

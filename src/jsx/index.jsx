@@ -36,6 +36,7 @@ import CopyMonthSchedule from "./components/push/CopyMonthSchedule";
 import SecondMonth from "./components/push/SecondMonth";
 import DesignMonthSchedule from "./components/push/DesignMonthSchedule";
 import Integrations from "./components/integrations";
+import Reports from "./components/reports";
 
 const Markup = () => {
   let path = window.location.pathname;
@@ -67,6 +68,8 @@ const Markup = () => {
     { url: "secondmonth", component: SecondMonth },
     { url: "design-month-schedule/:id", component: DesignMonthSchedule },
     { url: "integrations", component: Integrations },
+
+    { url: "reports", component: Reports },
   ];
   console.log(path);
   return (

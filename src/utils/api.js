@@ -221,3 +221,20 @@ export async function deleteSchedule(scheduleId) {
   );
   return response;
 }
+
+export async function assignDefaultComposition(postData) {
+  try {
+    const response = await fetchClient.put(
+      `${BASE_URL}/vendor/profile/defaultComposition`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function vendorProfile() {
+  const response = await fetchClient.get(BASE_URL + `/vendor/profile`);
+  return response;
+}

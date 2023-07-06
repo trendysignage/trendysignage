@@ -16,6 +16,7 @@ const UrlAppModal = ({ setShowUrlApp, show }) => {
       className="fade bd-example-modal-lg mt-4 app-modal"
       show={show}
       size="xl"
+      centered
     >
       <Modal.Header className="border-0">
         <Modal.Title className="mr-auto app-modal-heading">
@@ -48,14 +49,14 @@ const UrlAppModal = ({ setShowUrlApp, show }) => {
               placeholder="App Name"
               required
             />
-            <label className="mt-2">URL</label>
+            <label className="mt-3">URL</label>
             <input
               type="text"
               className="  form-control "
               placeholder="https://example.com"
               required
             />
-            <label className="mt-2">Cache</label>
+            <label className="mt-3">Cache</label>
             {/* <input
               type="text"
               className="  form-control "
