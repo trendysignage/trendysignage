@@ -204,6 +204,8 @@ export async function getAllDaySequence(scheduleId) {
   return response.data.data;
 }
 
+
+
 export async function getAllSchedule() {
   const response = await fetchClient.get(BASE_URL + `/vendor/push/schedules`);
   return response;
