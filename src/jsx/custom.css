@@ -1160,6 +1160,8 @@ top: -1px;
   width: 40%;
   margin-top: 10px;
   margin-right: 15px;
+  height: 600px;
+  overflow-y: auto;
 
 }
 .event-list h3{
@@ -1244,6 +1246,23 @@ height: 196px;
   font-size: 34px;
   font-weight: 600;
   color: #060047;
+}
+.fc-scrollgrid-section-body:hover{
+  background-color: #fff !important;
+
+}
+.fc-scrollgrid-section-body tr:hover{
+  background-color: #fff !important;
+
+}
+.view-schedule-fullcalender  .fc-highlight{
+  background: rgba(188, 232, 241, 1) !important;
+}
+.view-schedule-list{
+  font-weight: 500;
+}
+.view-schedule-time .total-composition {
+  background: rgb(255, 233, 210);
 }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {

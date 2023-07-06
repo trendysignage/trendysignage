@@ -204,8 +204,6 @@ export async function getAllDaySequence(scheduleId) {
   return response.data.data;
 }
 
-
-
 export async function getAllSchedule() {
   const response = await fetchClient.get(BASE_URL + `/vendor/push/schedules`);
   return response;
@@ -238,5 +236,15 @@ export async function assignDefaultComposition(postData) {
 
 export async function vendorProfile() {
   const response = await fetchClient.get(BASE_URL + `/vendor/profile`);
+  return response;
+}
+
+export async function getReports(startDate, endDate) {
+  console.log(startDate, endDate, "startDate, endDate");
+  const response = await fetchClient.get(
+    BASE_URL +
+      `/vendor/profile/uptimeReport?page=0&limit=1000&startDate=${startDate}&endDate=${endDate}`
+  );
+
   return response;
 }

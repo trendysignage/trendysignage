@@ -1,13 +1,9 @@
 import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
-import icon from "../../img/link-alt 1.svg";
-import { Table } from "react-bootstrap";
-import downArrow from "../../img/down-arrow.png";
 
-import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useEffect, useState } from "react";
-import { assignDefaultComposition, BASE_URL } from "../../utils/api";
+import { getReports } from "../../utils/api";
 
 const GenerateReportModal = ({
   close,
@@ -33,7 +29,17 @@ const GenerateReportModal = ({
   ];
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedOptionaa, setSelectedOptionaa] = useState(null);
-
+  const [dailyDate, setDailyDate] = useState("");
+  const [customStartDate, setCustomStartDate] = useState("");
+  const [customEndDate, setCustomEndDate] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  useEffect(() => {
+    setStartDate(dailyDate);
+    setEndDate(dailyDate);
+  }, [dailyDate]);
+  console.log(startDate, endDate, "ooooo");
+  console.log(dailyDate, "dailyDate");
   console.log(selectedOption?.value, "iiiioo");
   const yearOptions = [];
   const currentYear = new Date().getFullYear();
@@ -54,35 +60,55 @@ const GenerateReportModal = ({
       };
     },
   };
-  //   const numberOfDays = new Date(
-  //     yearOptions?.value,
-  //     new Date(monthOptions?.value + " 1," + yearOptions?.value).getMonth() + 1,
-  //     0
-  //   ).getDate();
 
-  //   // Create the start date
-  //   const startDate = new Date(
-  //     yearOptions?.value,
-  //     new Date(monthOptions?.value + " 1," + yearOptions?.value).getMonth(),
-  //     2
-  //   )
-  //     .toISOString()
-  //     .split("T")[0];
+  useEffect(() => {
+    if (selectedOption !== null && selectedOptionaa !== null) {
+      const numberOfDays = new Date(
+        selectedOptionaa?.value,
+        new Date(
+          selectedOption?.value + " 1," + selectedOptionaa?.value
+        ).getMonth() + 1,
+        0
+      ).getDate();
 
-  //   // Create the end date
-  //   const endDate = new Date(
-  //     yearOptions?.value,
-  //     new Date(
-  //       monthOptions?.value + " " + numberOfDays + "," + yearOptions?.value
-  //     ).getMonth(),
-  //     numberOfDays + 1
-  //   )
-  //     .toISOString()
-  //     .split("T")[0];
-  //   useEffect(()=>{})
+      // Create the start date
+      const startDate = new Date(
+        selectedOptionaa?.value,
+        new Date(
+          selectedOption?.value + " 1," + selectedOptionaa?.value
+        ).getMonth(),
+        2
+      )
+        .toISOString()
+        .split("T")[0];
 
-  //   console.log(yearOptions, "yearOptionsyearOptions");
-  //   console.log(selectedOption, "selectedOptionselectedOption");
+      // Create the end date
+      const endDate = new Date(
+        selectedOptionaa?.value,
+        new Date(
+          selectedOption?.value +
+            " " +
+            numberOfDays +
+            "," +
+            selectedOptionaa?.value
+        ).getMonth(),
+        numberOfDays + 1
+      )
+        .toISOString()
+        .split("T")[0];
+      console.log(startDate, endDate, "oooooooo");
+    }
+  }, [selectedOption, selectedOptionaa]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await getReports(startDate, endDate).then((res) => {
+      console.log(res, "res schedule getReports");
+      //   if (res.data.statusCode === 200) {
+      //     console.log(res.data.data.name);
+      //     history.push(`/testday/${res.data.data._id}/${res.data.data.name}`);
+      //   }
+    });
+  };
   return (
     <>
       <Modal
@@ -107,17 +133,15 @@ const GenerateReportModal = ({
             />
           </Button>
         </Modal.Header>
-        <Modal.Body>
-          <form
-            // onSubmit={handleSubmit}
-            className="row"
-          >
+        <Modal.Body style={{ paddingBottom: "15px" }}>
+          <form onSubmit={handleSubmit} className="row">
             <div className="form-group col-12 mb-0  url-app-form border-0">
               <label>Daily</label>
               <input
                 type="date"
                 className="  form-control "
                 placeholder="App Name"
+                onChange={(e) => setDailyDate(e.target.value)}
                 required
               />
 
@@ -148,29 +172,33 @@ const GenerateReportModal = ({
               <label className="mt-3">Custom</label>
               <div className="row">
                 <div className="col-6">
-                  <input type="date" className="  form-control " required />
+                  <input
+                    type="date"
+                    className="  form-control "
+                    onChange={(e) => setCustomStartDate(e.target.value)}
+                  />
                 </div>
                 <div className="col-6">
-                  <input type="date" className="form-control " required />
+                  <input
+                    type="date"
+                    className="form-control "
+                    onChange={(e) => setCustomEndDate(e.target.value)}
+                  />
                 </div>
               </div>
             </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer className="border-0 mb-2">
-          <Row className="w-100 m-0">
-            <Col lg={12} md={12} sm={12} xs={12} className="pl-2 pr-0">
+            <div className="w-100 mt-3">
               <Button
                 variant=""
-                type="button"
+                type="submit"
                 className="btn btn-primary btn-block primary-btn"
                 //   onClick={() => setNewTagModal(false)}
               >
                 Continue
               </Button>
-            </Col>
-          </Row>
-        </Modal.Footer>
+            </div>
+          </form>
+        </Modal.Body>
       </Modal>
     </>
   );

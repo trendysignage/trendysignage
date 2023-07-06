@@ -10,7 +10,7 @@ import {
   getAllComposition,
   getAllMedia,
   saveSequence,
-  getAllDaySequence
+  getAllDaySequence,
 } from "../../../utils/api";
 import {
   getDatetimeIn12Hours,
@@ -44,21 +44,20 @@ export default function TestDay() {
     getAllComposition
   );
 
-
   const callSingleDaySequence = async (id) => {
     const list = await getAllDaySequence(id);
     setSequence(list.sequence);
     //const listTimings = [];
-    if(list && list.sequence && list.sequence[0] && list.sequence[0].timings){
+    if (list && list.sequence && list.sequence[0] && list.sequence[0].timings) {
       const listTimings = list.sequence[0].timings.map((item) => {
-        const sT = item.startTime.split("T")[1].split(':');
-        const eT = item.endTime.split("T")[1].split(':');
+        const sT = item.startTime.split("T")[1].split(":");
+        const eT = item.endTime.split("T")[1].split(":");
         return {
           id: item.composition._id,
-          timing: sT[0]+":"+sT[1]+" - "+eT[0]+":"+eT[1],
+          timing: sT[0] + ":" + sT[1] + " - " + eT[0] + ":" + eT[1],
           //defId: eventInfo.event._def.defId,
         };
-      })
+      });
       setEvents(listTimings);
     }
   };
@@ -137,7 +136,7 @@ export default function TestDay() {
   async function handleSubmit(e) {
     e.preventDefault();
     const scheduleId = id;
-   // const name = schedulename;
+    // const name = schedulename;
 
     // setSequence(outputObject);
     // console.log(sequence, "outputObject");
@@ -213,7 +212,8 @@ export default function TestDay() {
   }
   return (
     <div className="App">
-      <input
+      <div className="d-flex justify-content-between align-items-center">
+        <input
           type="text"
           className=" schedule-name-input-feild form-control input-default "
           placeholder="Schedule Name"
@@ -221,17 +221,18 @@ export default function TestDay() {
           onChange={(e) => setSqName(e.target.value)}
           required
         />
-      {renderTime && (
-        <div className="d-flex justify-content-end">
-          <Button
-            className="mr-2"
-            variant="info add-screen-btn"
-            onClick={(e) => handleSubmit(e)}
-          >
-            Save Sequence
-          </Button>
-        </div>
-      )}
+        {renderTime && (
+          <div className="d-flex justify-content-end">
+            <Button
+              className="mr-2"
+              variant="info add-screen-btn"
+              onClick={(e) => handleSubmit(e)}
+            >
+              Save Sequence
+            </Button>
+          </div>
+        )}
+      </div>
 
       <div>
         <div style={{ float: "left", width: "50%", height: "100vh" }}>

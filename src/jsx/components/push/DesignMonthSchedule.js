@@ -13,7 +13,7 @@ import { useParams, useHistory } from "react-router-dom";
 import edit from "../../../img/edit-composition.png";
 import deleteIcon from "../../../img/delete-icon.png";
 import da from "date-fns/locale/da/index.js";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 export default function DesignMonthSchedule() {
   const history = useHistory();
   const { id } = useParams();
@@ -29,7 +29,7 @@ export default function DesignMonthSchedule() {
   const callAllDaySequence = async (id) => {
     const list = await getAllDaySequence(id);
     setDaySequence(list.sequence);
-    console.log("sdsds",list);
+    console.log("sdsds", list);
   };
   useEffect(() => {
     callAllDaySequence(id);
@@ -280,10 +280,10 @@ export default function DesignMonthSchedule() {
         i !== "Fri" &&
         i !== "Sat"
     );
-    
+
     const publishData = makePublishData(dates);
-    if(!publishData || publishData.length == 0){
-      toast.error('Please select at least one date', {
+    if (!publishData || publishData.length == 0) {
+      toast.error("Please select at least one date", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -295,13 +295,11 @@ export default function DesignMonthSchedule() {
       });
 
       return false;
-
     }
     const payload = {
       scheduleId: id,
       scheduleArray: publishData,
     };
-
 
     console.log("payload", payload, publishData.length);
     await pushAddDates(payload).then((res) => {
@@ -338,7 +336,6 @@ export default function DesignMonthSchedule() {
   };
   return (
     <>
-      
       <div className="fullcalendar-box">
         <div className="d-flex justify-content-end">
           <Button
@@ -353,66 +350,70 @@ export default function DesignMonthSchedule() {
         </div>
 
         <div className="event-list">
-          <h3>Day Sequence</h3>
+          <div className="d-flex align-items-center justify-content-between pb-4">
+            <h3 className="p-0">Day Sequence</h3>
+            <Button className="mr-2" variant="info add-screen-btn">
+              Create New
+            </Button>
+          </div>
 
-
-        {daySequence.map((event, i) => {
-          return (
-            <div
-              key={i}
-              className="month-schedule-list mt-4"
-              onClick={() => {
-                handleButtonClick(i);
-                handleEventClick(event);
-                // setActiveCard(true);
-              }}
-            >
+          {daySequence.map((event, i) => {
+            return (
               <div
-                className="d-flex align-items-center px-2 py-4 justify-content-between"
-                style={{
-                  boxShadow:
-                    selectedButtonIndex === i
-                      ? "rgba(0, 0, 0, 0.16) 0px 3px 6px"
-                      : "",
+                key={i}
+                className="month-schedule-list mt-4"
+                onClick={() => {
+                  handleButtonClick(i);
+                  handleEventClick(event);
+                  // setActiveCard(true);
                 }}
-                // className={
-                //   selectedButtonIndex === i
-                //     ? "zone zone-active "
-                //     : "zone"
-                // }
               >
-                <span>
-                  {event.name?.length > 4
-                    ? event.name.slice(0, 4) + "..."
-                    : event.name}
-                </span>
+                <div
+                  className="d-flex align-items-center px-2 py-4 justify-content-between"
+                  style={{
+                    boxShadow:
+                      selectedButtonIndex === i
+                        ? "rgba(0, 0, 0, 0.16) 0px 3px 6px"
+                        : "",
+                  }}
+                  // className={
+                  //   selectedButtonIndex === i
+                  //     ? "zone zone-active "
+                  //     : "zone"
+                  // }
+                >
+                  <span>
+                    {event.name?.length > 4
+                      ? event.name.slice(0, 4) + "..."
+                      : event.name}
+                  </span>
 
-                <span className="total-composition">
-                  Contains {event.timings.length} compositions
-                </span>
-                <span>
-                  <img
-                    src={edit}
-                    className="dropdown-list-img img-fluid"
-                    height="25px"
-                    width="25px"
-                  />
-                </span>
-                <span onClick={() => handleDeleteSequesce(event._id, id)}>
-                  <img
-                    src={deleteIcon}
-                    className="dropdown-list-img img-fluid"
-                    height="30px"
-                    width="30px"
-                  />
-                </span>
-                <span className="add-btn">Add to Calendar </span>
+                  <span className="total-composition">
+                    Contains {event.timings.length} compositions
+                  </span>
+                  <span>
+                    <img
+                      src={edit}
+                      className="dropdown-list-img img-fluid"
+                      height="25px"
+                      width="25px"
+                    />
+                  </span>
+                  <span onClick={() => handleDeleteSequesce(event._id, id)}>
+                    <img
+                      src={deleteIcon}
+                      className="dropdown-list-img img-fluid"
+                      height="30px"
+                      width="30px"
+                    />
+                  </span>
+                  <span className="add-btn">Add to Calendar </span>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-      <div className="calendar" style={{ float: "left", width: "55%" }}>
+            );
+          })}
+        </div>
+        <div className="calendar" style={{ float: "left", width: "55%" }}>
           <FullCalendar
             className="month-schedule"
             weekends={true}
@@ -435,7 +436,6 @@ export default function DesignMonthSchedule() {
             )}
           />
         </div>
-        
       </div>
     </>
   );

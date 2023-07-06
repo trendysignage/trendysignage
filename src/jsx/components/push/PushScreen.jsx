@@ -14,8 +14,10 @@ import {
 import moment from "moment";
 import menuIcon from "../../../img/menu-icon.png";
 import deleteIcon from "../../../img/delete-icon.png";
+import { useHistory } from "react-router-dom";
 
 const PushScreen = () => {
+  const history = useHistory();
   const [scheduleData, setScheduleData] = useState([]);
   const [showPublishBtn, setShowPublishBtn] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -311,6 +313,31 @@ const PushScreen = () => {
                             </div>
                             <div className="dropdown-menu-list">
                               <span className="menu-heading">Delete</span>
+                              <span className="menu-description">
+                                Get to know more about screen info
+                              </span>
+                            </div>
+                          </div>
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          href="#"
+                          className="dropdown-list-item"
+                          onClick={() => {
+                            history.push(`/push/view/${composition._id}`);
+                          }}
+                        >
+                          <div className="d-flex">
+                            <div className="dropdown-list-icon">
+                              <img
+                                className="dropdown-list-img img-fluid"
+                                src={deleteIcon}
+                                alt="menu-icon"
+                              />
+                            </div>
+                            <div className="dropdown-menu-list">
+                              <span className="menu-heading">
+                                View Schedule
+                              </span>
                               <span className="menu-description">
                                 Get to know more about screen info
                               </span>
