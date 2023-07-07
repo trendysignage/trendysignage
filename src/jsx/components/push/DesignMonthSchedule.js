@@ -28,41 +28,44 @@ export default function DesignMonthSchedule() {
   const [isEventSelected, setIsEventSelected] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(0);
 
-  console.log(daySequence, "daySequence");
   var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-  const callAllDaySequence = async (id) => {
-    const list = await getAllDaySequence(id);
-    setDaySequence(list.sequence);
-    const datesList = [];
-    list.sequence.forEach((item) => {
-      handleEventClick(item);
-      setSelectedEvent(item);
-      item.dates.forEach((item2) => {
-        datesList.push(item2.split("T")[0]+"*****"+item._id)
-      })
-      //console.log("selectedEvent",selectedEvent)
-      handlCustomeWeek(datesList, item, true);
-    });
-  };
-  useEffect(() => {
-    callAllDaySequence(id);
-  }, [id]);
-
-
-  //useEffect(() => {}, [selectedCheckboxes]);
 
   const handleEventClick = (event) => {
     //setEvents([]);
     setSelectedEvent(event);
     setSelectedDate(null); // Reset selected date
     //setSelectedCheckboxes([]);
-    setIsEventSelected(true); // Set isEventSelected to true
+    setIsEventSelected(true);
   };
 
-  function handleDateCellChange(dateInfo, isWk, isCustom=false) {
+  const callAllDaySequence = async (id) => {
+    const list = await getAllDaySequence(id);
+    setDaySequence(list.sequence);
+    console.log("list.sequence",list.sequence);
+    list.sequence.forEach((item) => {
+      if(item.dates && item.dates.length > 0){
+        console.log("isLoading:true")
+        const datesList = [];
+        item.dates.forEach((item2) => {
+          datesList.push(item2.split("T")[0]+"*****"+item._id)
+        })
+        //console.log("selectedEvent",selectedEvent)
+        handlCustomeWeek(datesList, item, true);
+        }
+    });
+    console.log("isLoading:false")
+  };
+  useEffect(() => {
+    callAllDaySequence(id);
+  }, [id]);
+
+
+  useEffect(() => {}, [selectedCheckboxes,selectedEvent]);
+
+  
+
+  function handleDateCellChange(dateInfo, isWk, isCustom=false,ev={}) {
     if(!isCustom){
-      console.log("eve",events,selectedEvent)
       const checkboxKey = dateInfo + "*****" + selectedEvent._id;
       const dt = new Date(dateInfo);
       const isChecked = selectedCheckboxes[checkboxKey];
@@ -140,20 +143,19 @@ export default function DesignMonthSchedule() {
     }else{
       const checkboxKey = dateInfo;
       setSelectedCheckboxes({ ...selectedCheckboxes, [checkboxKey]: true });
-      // const existingEvent = events.find((event) => event.start === dateInfo);
-
-      // if (!existingEvent) {
-      //   const event = {
-      //     id: selectedEvent._id,
-      //     title: selectedEvent.name,
-      //     start: dateInfo,
-      //   };
-      //   setEvents((prevEvents) => [...prevEvents, event]);
-      // }
+      const existingEvent = events.find((event) => event.start === dateInfo.split("*****")[0]);
+      if (!existingEvent) {
+        const event = {
+          id: ev._id,
+          title: ev.name,
+          start: dateInfo.split("*****")[0],
+        };
+        setEvents((prevEvents) => [...prevEvents, event]);
+      }
     }
   }
 
-  const handlCustomeWeek = async (dayList,iswk = true) => {
+  const handlCustomeWeek = async (dayList,ev,iswk = true) => {
     const newArray = selectedCheckboxes;
     dayList.forEach((item) => {
       const checkboxKey = item;
@@ -162,10 +164,11 @@ export default function DesignMonthSchedule() {
         moment(new Date()).format("YYYY-MM-DD")
       ) {
         newArray[checkboxKey] = true;
-        handleDateCellChange(item, true, true);
+        handleDateCellChange(item, true, true, ev);
       }
     });
     setSelectedCheckboxes(newArray);
+    handleEventClick(ev)
   };
 
   const handleWeek = async (e, day, dayInfo, iswk = true) => {
@@ -312,42 +315,42 @@ export default function DesignMonthSchedule() {
   const handlePublish = async (e) => {
     e.preventDefault();
 
-    console.log("selectedCheckboxes",selectedCheckboxes);
+    //console.log("selectedCheckboxes",selectedCheckboxes);
 
-    // const dates = Object.keys(selectedCheckboxes).filter(
-    //   (i) =>
-    //     i !== "Sun" &&
-    //     i !== "Mon" &&
-    //     i !== "Tue" &&
-    //     i !== "Wed" &&
-    //     i !== "Thu" &&
-    //     i !== "Fri" &&
-    //     i !== "Sat"
-    // );
-    // const publishData = makePublishData(dates);
-    // if (!publishData || publishData.length == 0) {
-    //   toast.error("Please select at least one date", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
+    const dates = Object.keys(selectedCheckboxes).filter(
+      (i) =>
+        i !== "Sun" &&
+        i !== "Mon" &&
+        i !== "Tue" &&
+        i !== "Wed" &&
+        i !== "Thu" &&
+        i !== "Fri" &&
+        i !== "Sat"
+    );
+    const publishData = makePublishData(dates);
+    if (!publishData || publishData.length == 0) {
+      toast.error("Please select at least one date", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
 
-    //   return false;
-    // }
-    // const payload = {
-    //   scheduleId: id,
-    //   scheduleArray: publishData,
-    // };
-    // await pushAddDates(payload).then((res) => {
-    //   if (res.data.statusCode === 200) {
-    //     history.push(`/push`);
-    //   }
-    // });
+      return false;
+    }
+    const payload = {
+      scheduleId: id,
+      scheduleArray: publishData,
+    };
+    await pushAddDates(payload).then((res) => {
+      if (res.data.statusCode === 200) {
+        history.push(`/push`);
+      }
+    });
   };
 
   const getCurrentMonth = (arg) => {
@@ -413,8 +416,8 @@ export default function DesignMonthSchedule() {
                   className="d-flex align-items-center px-2 py-4 justify-content-between"
                   style={{
                     boxShadow:
-                      selectedButtonIndex === i
-                        ? "rgba(0, 0, 0, 0.16) 0px 3px 6px"
+                    selectedEvent && selectedEvent._id && selectedEvent._id === event._id
+                        ? "rgba(0, 0, 0, 0.5) 0px 10px 6px"
                         : "",
                   }}
                   // className={
