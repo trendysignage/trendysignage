@@ -4,7 +4,7 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import defaultComparisonIcon from "../../../img/default-comparison-icon.png";
+import { toast } from "react-toastify";
 import {
   BASE_URL,
   getAllComposition,
@@ -136,12 +136,6 @@ export default function TestDay() {
   async function handleSubmit(e) {
     e.preventDefault();
     const scheduleId = id;
-    // const name = schedulename;
-
-    // setSequence(outputObject);
-    // console.log(sequence, "outputObject");
-    // e.preventDefault();
-
     const timings = events.map((item) => {
       return {
         composition: item.id,
@@ -157,13 +151,39 @@ export default function TestDay() {
           ":00Z",
       };
     });
+    if (!sqName) {
+      toast.error("Please enter sequence name", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      return false;
+    }
+    if (!id) {
+      toast.error("something went wrong", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      return false;
+    }
     const payload = {
       scheduleId: scheduleId,
       name: sqName,
       timings,
     };
-
-    console.log("payload", payload);
 
     await saveSequence(payload).then((res) => {
       console.log(res, "res save schedule");
