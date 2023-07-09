@@ -378,6 +378,11 @@ export default function DesignMonthSchedule() {
     setSelectedButtonIndex(index);
     // Perform any other logic specific to the clicked button
   };
+
+  const handleEditSequesce = (e, seqId, schId) => {
+    e.preventDefault();
+    history.push(`/push/sequence/${schId}/${seqId}`);
+  }
   return (
     <>
       <div className="fullcalendar-box">
@@ -435,7 +440,7 @@ export default function DesignMonthSchedule() {
                   <span className="total-composition">
                     Contains {event.timings.length} compositions
                   </span>
-                  <span>
+                  <span onClick={(e) => handleEditSequesce(e,event._id, id)}>
                     <img
                       src={edit}
                       className="dropdown-list-img img-fluid"

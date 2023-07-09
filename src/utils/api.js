@@ -197,6 +197,18 @@ export async function saveSequence(postData) {
     return false;
   }
 }
+
+export async function updateSequence(postData) {
+  try {
+    const response = await fetchClient.put(
+      `${BASE_URL}/vendor/push/sequence`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
 export async function getAllDaySequence(scheduleId) {
   const response = await fetchClient.get(
     BASE_URL + `/vendor/push/sequenceList?scheduleId=${scheduleId}`
@@ -247,4 +259,11 @@ export async function getReports(startDate, endDate) {
   );
 
   return response;
+}
+
+export async function getSingleSequence(scheduleId,seqId) {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/push/sequence?scheduleId=${scheduleId}&sequenceId=${seqId}`
+  );
+  return response.data.data;
 }
