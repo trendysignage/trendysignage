@@ -3057,4 +3057,9 @@ thead {
  .fc-h-event{
   background-color: transparent !important;
 }
+
+.fc-v-event{
+  background-color: rgb(255, 228, 148) !important;
+  border-color: rgb(255, 228, 148) !important;
+}
  

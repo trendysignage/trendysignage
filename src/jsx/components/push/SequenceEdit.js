@@ -9,8 +9,9 @@ import {
   BASE_URL,
   getAllComposition,
   getAllMedia,
-  saveSequence,
+  updateSequence,
   getAllDaySequence,
+  getSingleSequence,
 } from "../../../utils/api";
 import {
   getDatetimeIn12Hours,
@@ -30,13 +31,13 @@ const MyCustomPlugin = createPlugin({
   // other plugin options
 });
 
-export default function TestDay() {
+export default function SequenceTime() {
   const [events, setEvents] = useState([]);
   const [def, setDef] = useState([]);
   const [sequence, setSequence] = useState([]);
   const [renderTime, setRenderTime] = useState("");
   const history = useHistory();
-  const { id, schedulename } = useParams();
+  const { schId, seqId } = useParams({26:true});
   const [sqName, setSqName] = useState("");
 
   const { data: allComposition, mutate } = useSWR(
@@ -44,27 +45,44 @@ export default function TestDay() {
     getAllComposition
   );
 
-  const callSingleDaySequence = async (id) => {
-    const list = await getAllDaySequence(id);
-    setSequence(list.sequence);
-    //const listTimings = [];
-    if (list && list.sequence && list.sequence[0] && list.sequence[0].timings) {
-      const listTimings = list.sequence[0].timings.map((item) => {
+  const callSingleDaySequence = async (schId) => {
+    const seqData = await getSingleSequence(schId, seqId)
+    if (seqData && seqData.sequence && seqData.sequence[0] && seqData.sequence[0].timings) {
+      const listTimings = [];
+      let defArray = {};
+      setSqName(seqData.sequence[0].name)
+      let defId = 105;
+      seqData.sequence[0].timings.forEach((item) => {
+        defId = defId + +1;
+        defArray = {...defArray,[defId]:true}
         const sT = item.startTime.split("T")[1].split(":");
         const eT = item.endTime.split("T")[1].split(":");
-        return {
+        const data = {
           id: item.composition._id,
+          sourceId: item.composition._id,
+          publicId: item.composition._id,
+          title:item.composition.name,
+          name:item.composition.name,
+          startTime:sT[0] + ":" + sT[1],
+          endTime:eT[0] + ":" + eT[1],
           timing: sT[0] + ":" + sT[1] + " - " + eT[0] + ":" + eT[1],
-          //defId: eventInfo.event._def.defId,
-        };
+          image:`${BASE_URL}${item.composition.zones[0].content[0]}`,
+          extendedProps:{
+            custom:`${BASE_URL}${item.composition.zones[0].content[0].url}`,
+            defId: defId.toString()
+          },
+          _def:{
+            defId: defId.toString()
+          },
+          defId: defId.toString()
+        }
+        //handleEventReceive(data)
+        listTimings.push(data);
       });
+      setDef(defArray);
       setEvents(listTimings);
     }
   };
-
-  useEffect(() => {
-    callSingleDaySequence(id);
-  }, [id]);
 
   let timeFormet = {
     hour: "2-digit",
@@ -73,6 +91,7 @@ export default function TestDay() {
   };
   // load external events
   useEffect(() => {
+    callSingleDaySequence(schId);
     let draggableEl = document.getElementById("external-events");
     new Draggable(draggableEl, {
       itemSelector: ".fc-event",
@@ -95,22 +114,39 @@ export default function TestDay() {
         };
       },
     });
-  }, [events]);
+  }, [schId]);
+
   function eventFunction(info) {
     //const newArray = events;
     const id = info.el.fcSeg.eventRange.def.sourceId;
-    const defId = info.event._def.defId;
+    const defId = info.event._def.extendedProps.defId != undefined ? info.event._def.extendedProps.defId : info.event._def.defId ;
+    //console.log("resize",id,defId,def)
     let newArr = events.map((item, i) => {
+     // console.log(item.defId,defId)
       if (item.defId == defId) {
-        return { ...item, ["timing"]: info.el.innerText.split("\n\n")[1] };
+        if(item.startTime && item.endTime){
+         // console.log("time",info.el.innerText.split("\n\n")[1])
+          return { ...item,
+            ["timing"]: info.el.innerText.split("\n\n")[1],
+            ['startTime']:info.el.innerText.split("\n\n")[1].split(" - ")[0],
+            ['endTime']:info.el.innerText.split("\n\n")[1].split(" - ")[1]
+          };
+        }else{
+          return { ...item,
+            ["timing"]: info.el.innerText.split("\n\n")[1]
+          };
+        }
       } else {
         return item;
       }
     });
+   // console.log("resize",newArr)
     setEvents(newArr);
   }
   // handle event receive
+  
   const handleEventReceive = (eventInfo) => {
+    //console.log("eventInfo",eventInfo)
     const id = eventInfo.event._def.sourceId;
     const [startTime, endTime] = renderTime.split(" - ");
     const formattedStartTime = startTime.padStart(5, "0");
@@ -124,18 +160,20 @@ export default function TestDay() {
       timing: timeRange,
       defId: eventInfo.event._def.defId,
     };
+  
     setEvents((events) => [...events, newEvent]);
     setDef({ ...def, [eventInfo.event._def.defId]: true });
   };
+
   const handleEventClick = (info) => {
-    console.log(info, "sssss");
-    const defId = info.event._def.defId;
+    const defId = info.event._def.extendedProps.defId != undefined ? info.event._def.extendedProps.defId : info.event._def.defId ;
     setEvents((current) => current.filter((event) => event.defId !== defId));
     info.event.remove();
   };
+
   async function handleSubmit(e) {
     e.preventDefault();
-    const scheduleId = id;
+    const scheduleId = schId;
     const timings = events.map((item) => {
       return {
         composition: item.id,
@@ -165,7 +203,7 @@ export default function TestDay() {
 
       return false;
     }
-    if (!id) {
+    if (!schId) {
       toast.error("something went wrong", {
         position: "top-right",
         autoClose: 5000,
@@ -181,20 +219,22 @@ export default function TestDay() {
     }
     const payload = {
       scheduleId: scheduleId,
+      sequenceId:seqId,
       name: sqName,
       timings,
     };
 
-    await saveSequence(payload).then((res) => {
-      console.log(res, "res save schedule");
+    //console.log("payload",def,events,payload,renderTime)
+
+    await updateSequence(payload).then((res) => {
       if (res.data.statusCode === 200) {
-        history.push(`/design-month-schedule/${id}`);
+        history.push(`/design-month-schedule/${schId}`);
       }
     });
   }
 
   function renderEventContent(eventInfo) {
-    console.log("eventInfo", eventInfo);
+    console.log("eventInfo",eventInfo)
     const { event } = eventInfo;
     const { title } = event;
     const checkTime = eventInfo.timeText.split(" - ");
@@ -206,9 +246,16 @@ export default function TestDay() {
         checkTime[0].split(":")[1];
       eventInfo.timeText = checkTime[0] + " - " + secondTime;
     }
-    if (!def[eventInfo.event._def.defId]) {
-      setRenderTime(eventInfo.timeText);
+    if(event._def.extendedProps.defId != undefined){
+      if (!def[eventInfo.event._def.extendedProps.defId]) {
+        setRenderTime(eventInfo.timeText);
+      }
+    }else{
+      if (!def[eventInfo.event._def.defId]) {
+        setRenderTime(eventInfo.timeText);
+      }
     }
+    
     return (
       <>
         <div className={`fullcalendar-main-container`}>
@@ -230,6 +277,7 @@ export default function TestDay() {
       </>
     );
   }
+
   return (
     <div className="App">
       <div className="d-flex justify-content-between align-items-center">
@@ -241,7 +289,16 @@ export default function TestDay() {
           onChange={(e) => setSqName(e.target.value)}
           required
         />
-        {renderTime && (
+        <div className="d-flex justify-content-end">
+            <Button
+              className="mr-2"
+              variant="info add-screen-btn"
+              onClick={(e) => handleSubmit(e)}
+            >
+              Update Sequence
+            </Button>
+          </div>
+        {/* {renderTime && (
           <div className="d-flex justify-content-end">
             <Button
               className="mr-2"
@@ -251,7 +308,7 @@ export default function TestDay() {
               Save Sequence
             </Button>
           </div>
-        )}
+        )} */}
       </div>
 
       <div>
@@ -376,9 +433,6 @@ export default function TestDay() {
             dayMaxEvents={false}
             droppable={true}
             eventReceive={handleEventReceive}
-            eventAdd={(arg) => {
-              console.log("add", arg);
-            }}
             slotEventOverlap={false}
             eventOverlap={false}
             eventContent={renderEventContent}

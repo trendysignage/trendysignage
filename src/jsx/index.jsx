@@ -38,6 +38,7 @@ import DesignMonthSchedule from "./components/push/DesignMonthSchedule";
 import ViewSchedule from './components/push/viewSchedule';
 import Integrations from "./components/integrations";
 import Reports from "./components/reports";
+import SequenceTime from "./components/push/SequenceEdit";
 
 const Markup = () => {
   let path = window.location.pathname;
@@ -62,7 +63,7 @@ const Markup = () => {
     { url: "display/:id", component: ScreenDetails },
     { url: "dayschedule/:id", component: DaySchedule },
     { url: "test", component: TestDaySchudele },
-    { url: "testday/:id/:schedulename", component: TestDay },
+    { url: "testday/:id", component: TestDay },
     { url: "copytestday", component: CopyTestDay },
     { url: "monthschedule", component: MonthSchedule },
     { url: "copymonthschedule", component: CopyMonthSchedule },
@@ -70,6 +71,7 @@ const Markup = () => {
     { url: "design-month-schedule/:id", component: DesignMonthSchedule },
     { url: "push/view/:id", component: ViewSchedule },
     { url: "integrations", component: Integrations },
+    { url: "push/sequence/:schId/:seqId", component:SequenceTime },
 
     { url: "reports", component: Reports },
   ];
