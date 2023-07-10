@@ -1226,6 +1226,18 @@ height: 196px;
 .url-app-form-icon{
   background: rgba(179, 0, 94, 0.13);
 }
+.rss-feed-app-form-icon{
+  background: rgba(247, 215, 153, 0.13);
+}
+.scroll-text-app-form-icon{
+  background: rgba(179, 0, 94, 0.13);
+}
+.weather-app-form-icon{
+  background: rgba(113, 170, 255, 0.13);
+}
+.text-app-form-icon{
+  background: rgba(113, 170, 255, 0.13);
+}
 .app-modal .modal-content{
   border-radius: 18px;
 }
