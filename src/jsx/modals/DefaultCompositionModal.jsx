@@ -100,7 +100,11 @@ const DefaultCompositionModal = ({
                         setCompositionId(composition._id);
                         setDuration(composition.duration);
                       }}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        cursor: "pointer",
+                        background:
+                          composition._id === compositionId ? "#f5f5f5" : "",
+                      }}
                     >
                       <td>
                         <span className="td-content d-flex name-td-content">

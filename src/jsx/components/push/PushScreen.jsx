@@ -20,6 +20,7 @@ import { useHistory } from "react-router-dom";
 const PushScreen = () => {
   const history = useHistory();
   const [scheduleData, setScheduleData] = useState([]);
+  console.log(scheduleData, "llllll");
   const [showPublishBtn, setShowPublishBtn] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -45,7 +46,7 @@ const PushScreen = () => {
   const handleEditSchedule = (e, id) => {
     e.preventDefault();
     history.push(`/design-month-schedule/${id}`);
-  }
+  };
 
   function convertTimestampTo12HourFormat(timestamp) {
     if (!timestamp) {
@@ -83,12 +84,13 @@ const PushScreen = () => {
   }
 
   function findEndTime(value) {
-    // console.log(value, "valurrrrrr");
+    console.log(value, "valurrrrrr");
     if (!value || value === undefined) {
       return "time not find";
     }
-    if (value != undefined) {
-      return value.timings[value.timings.length - 1].endTime;
+    console.log("first hhhhhhhh");
+    if (value !== undefined) {
+      return value?.timings[value.timings.length - 1]?.endTime;
     }
   }
   return (
@@ -299,7 +301,7 @@ const PushScreen = () => {
                         </span>
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                      <Dropdown.Item
+                        <Dropdown.Item
                           href={`/design-month-schedule/${composition._id}`}
                           className="dropdown-list-item"
                         >
@@ -323,7 +325,7 @@ const PushScreen = () => {
                           href="#"
                           className="dropdown-list-item"
                           onClick={(e) => {
-                            handleDeleteSchedule(e,composition._id);
+                            handleDeleteSchedule(e, composition._id);
                           }}
                         >
                           <div className="d-flex">

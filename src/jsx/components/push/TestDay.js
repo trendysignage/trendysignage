@@ -232,27 +232,30 @@ export default function TestDay() {
   }
   return (
     <div className="App">
-      <div className="d-flex justify-content-between align-items-center">
-        <input
-          type="text"
-          className=" schedule-name-input-feild form-control input-default "
-          placeholder="Schedule Name"
-          value={sqName}
-          onChange={(e) => setSqName(e.target.value)}
-          required
-        />
-        {renderTime && (
-          <div className="d-flex justify-content-end">
-            <Button
-              className="mr-2"
-              variant="info add-screen-btn"
-              onClick={(e) => handleSubmit(e)}
-            >
-              Save Sequence
-            </Button>
-          </div>
-        )}
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div className="d-flex justify-content-between align-items-center">
+          <input
+            type="text"
+            className=" schedule-name-input-feild form-control input-default "
+            placeholder="Schedule Name"
+            value={sqName}
+            onChange={(e) => setSqName(e.target.value)}
+            required
+          />
+          {renderTime && (
+            <div className="d-flex justify-content-end">
+              <Button
+                className="mr-2"
+                type="submit"
+                variant="info add-screen-btn"
+                // onClick={(e) => handleSubmit(e)}
+              >
+                Save Sequence
+              </Button>
+            </div>
+          )}
+        </div>
+      </form>
 
       <div>
         <div style={{ float: "left", width: "50%", height: "100vh" }}>

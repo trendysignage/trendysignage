@@ -427,7 +427,7 @@ export default function DesignMonthSchedule() {
                       selectedEvent &&
                       selectedEvent._id &&
                       selectedEvent._id === event._id
-                        ? "rgba(0, 0, 0, 0.5) 0px 10px 6px"
+                        ? "rgba(0, 0, 0, 0.5) 0px 4px 12px"
                         : "",
                   }}
                   // className={
