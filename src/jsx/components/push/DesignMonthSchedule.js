@@ -4,7 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from "react-bootstrap";
 import moment from "moment";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import {
   deleteSequence,
   getAllDaySequence,
@@ -41,31 +41,28 @@ export default function DesignMonthSchedule() {
   const callAllDaySequence = async (id) => {
     const list = await getAllDaySequence(id);
     setDaySequence(list.sequence);
-    console.log("list.sequence",list.sequence);
+    console.log("list.sequence", list.sequence);
     list.sequence.forEach((item) => {
-      if(item.dates && item.dates.length > 0){
-        console.log("isLoading:true")
+      if (item.dates && item.dates.length > 0) {
+        console.log("isLoading:true");
         const datesList = [];
         item.dates.forEach((item2) => {
-          datesList.push(item2.split("T")[0]+"*****"+item._id)
-        })
+          datesList.push(item2.split("T")[0] + "*****" + item._id);
+        });
         //console.log("selectedEvent",selectedEvent)
         handlCustomeWeek(datesList, item, true);
-        }
+      }
     });
-    console.log("isLoading:false")
+    console.log("isLoading:false");
   };
   useEffect(() => {
     callAllDaySequence(id);
   }, [id]);
 
+  useEffect(() => {}, [selectedCheckboxes, selectedEvent]);
 
-  useEffect(() => {}, [selectedCheckboxes,selectedEvent]);
-
-  
-
-  function handleDateCellChange(dateInfo, isWk, isCustom=false,ev={}) {
-    if(!isCustom){
+  function handleDateCellChange(dateInfo, isWk, isCustom = false, ev = {}) {
+    if (!isCustom) {
       const checkboxKey = dateInfo + "*****" + selectedEvent._id;
       const dt = new Date(dateInfo);
       const isChecked = selectedCheckboxes[checkboxKey];
@@ -83,7 +80,9 @@ export default function DesignMonthSchedule() {
         } else {
           // Selecting the checkbox
           setSelectedCheckboxes({ ...selectedCheckboxes, [checkboxKey]: true });
-          const existingEvent = events.find((event) => event.start === dateInfo);
+          const existingEvent = events.find(
+            (event) => event.start === dateInfo
+          );
 
           if (!existingEvent) {
             const event = {
@@ -128,7 +127,9 @@ export default function DesignMonthSchedule() {
             [days[dt.getDay()]]:
               ct == true ? true : selectedCheckboxes[dt.getDay()],
           });
-          const existingEvent = events.find((event) => event.start === dateInfo);
+          const existingEvent = events.find(
+            (event) => event.start === dateInfo
+          );
 
           if (!existingEvent) {
             const event = {
@@ -140,10 +141,12 @@ export default function DesignMonthSchedule() {
           }
         }
       }
-    }else{
+    } else {
       const checkboxKey = dateInfo;
       setSelectedCheckboxes({ ...selectedCheckboxes, [checkboxKey]: true });
-      const existingEvent = events.find((event) => event.start === dateInfo.split("*****")[0]);
+      const existingEvent = events.find(
+        (event) => event.start === dateInfo.split("*****")[0]
+      );
       if (!existingEvent) {
         const event = {
           id: ev._id,
@@ -155,7 +158,7 @@ export default function DesignMonthSchedule() {
     }
   }
 
-  const handlCustomeWeek = async (dayList,ev,iswk = true) => {
+  const handlCustomeWeek = async (dayList, ev, iswk = true) => {
     const newArray = selectedCheckboxes;
     dayList.forEach((item) => {
       const checkboxKey = item;
@@ -168,7 +171,7 @@ export default function DesignMonthSchedule() {
       }
     });
     setSelectedCheckboxes(newArray);
-    handleEventClick(ev)
+    handleEventClick(ev);
   };
 
   const handleWeek = async (e, day, dayInfo, iswk = true) => {
@@ -382,7 +385,7 @@ export default function DesignMonthSchedule() {
   const handleEditSequesce = (e, seqId, schId) => {
     e.preventDefault();
     history.push(`/push/sequence/${schId}/${seqId}`);
-  }
+  };
   return (
     <>
       <div className="fullcalendar-box">
@@ -401,8 +404,8 @@ export default function DesignMonthSchedule() {
         <div className="event-list">
           <div className="d-flex align-items-center justify-content-between pb-4">
             <h3 className="p-0">Day Sequence</h3>
-            <Link to={`/testday/${id}/hasd`} className="mr-2" variant="info add-screen-btn">
-              Create New
+            <Link to={`/testday/${id}`} className="mr-2">
+              <Button variant="info add-screen-btn">Create New</Button>
             </Link>
           </div>
 
@@ -421,7 +424,9 @@ export default function DesignMonthSchedule() {
                   className="d-flex align-items-center px-2 py-4 justify-content-between"
                   style={{
                     boxShadow:
-                    selectedEvent && selectedEvent._id && selectedEvent._id === event._id
+                      selectedEvent &&
+                      selectedEvent._id &&
+                      selectedEvent._id === event._id
                         ? "rgba(0, 0, 0, 0.5) 0px 10px 6px"
                         : "",
                   }}
@@ -440,7 +445,7 @@ export default function DesignMonthSchedule() {
                   <span className="total-composition">
                     Contains {event.timings.length} compositions
                   </span>
-                  <span onClick={(e) => handleEditSequesce(e,event._id, id)}>
+                  <span onClick={(e) => handleEditSequesce(e, event._id, id)}>
                     <img
                       src={edit}
                       className="dropdown-list-img img-fluid"

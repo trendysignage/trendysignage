@@ -21,17 +21,16 @@ class MM extends Component {
     this.$el = this.el;
     this.mm = new MetisMenu(this.$el);
   }
-  componentWillUnmount() {
+  componentWillUnmount() {}
+  render() {
+    return (
+      <div className="mm-wrapper">
+        <ul className="metismenu" ref={(el) => (this.el = el)}>
+          {this.props.children}
+        </ul>
+      </div>
+    );
   }
-    render() {
-        return (
-            <div className="mm-wrapper">
-                <ul className="metismenu" ref={(el) => (this.el = el)}>
-                    {this.props.children}
-                </ul>
-            </div>
-        );
-    }
 }
 
 class SideBar extends Component {
@@ -55,71 +54,127 @@ class SideBar extends Component {
     path = path[path.length - 1];
 
     /// Active menu
-    let screen = [
-        "", "display",
-      ], media = ['assets'],
-      layout = ['layout','chooselayout','createcomposition'],
-      push = ['push'],
-      integrations = ['integrations'],
-      reports = ['reports'],
-      subscriptions = ['subscriptions'],
-      settings = ['settings'];
+    let screen = ["", "display"],
+      media = ["assets"],
+      layout = ["layout", "chooselayout", "createcomposition"],
+      push = ["push"],
+      integrations = ["integrations"],
+      reports = ["reports"],
+      subscriptions = ["subscriptions"],
+      settings = ["settings"];
     return (
       <div className="deznav sidebar-nav-common">
         <PerfectScrollbar className="deznav-scroll">
-          <MM className="metismenu" id="menu">    
+          <MM className="metismenu" id="menu">
             <li className={`${screen.includes(path) ? "mm-active" : ""}`}>
-              <Link to="/display" className="ai-icon" >
-                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={monitorIcon} alt="menu-icon" /></span>
+              <Link to="/display" className="ai-icon">
+                <span className="nav-menu-icon">
+                  {" "}
+                  <img
+                    className="sidebar-menu-icon"
+                    src={monitorIcon}
+                    alt="menu-icon"
+                  />
+                </span>
                 <span className="nav-text">Display</span>
               </Link>
             </li>
             <li className={`${media.includes(path) ? "mm-active" : ""}`}>
-              <Link to="/assets" className="ai-icon" >
-                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={assetsIcon} alt="menu-icon" /></span>
+              <Link to="/assets" className="ai-icon">
+                <span className="nav-menu-icon">
+                  {" "}
+                  <img
+                    className="sidebar-menu-icon"
+                    src={assetsIcon}
+                    alt="menu-icon"
+                  />
+                </span>
                 <span className="nav-text">Assets</span>
               </Link>
             </li>
             <li className={`${layout.includes(path) ? "mm-active" : ""}`}>
-              <Link to="/layout" className="ai-icon" >
-                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={layoutIcon} alt="menu-icon" /></span>
+              <Link to="/layout" className="ai-icon">
+                <span className="nav-menu-icon">
+                  {" "}
+                  <img
+                    className="sidebar-menu-icon"
+                    src={layoutIcon}
+                    alt="menu-icon"
+                  />
+                </span>
                 <span className="nav-text">Layouts</span>
               </Link>
             </li>
             <li className={`${push.includes(path) ? "mm-active" : ""}`}>
-              <Link to="/push" className="ai-icon" >
-                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={pushIcon} alt="menu-icon" /></span>
+              <Link to="/push" className="ai-icon">
+                <span className="nav-menu-icon">
+                  {" "}
+                  <img
+                    className="sidebar-menu-icon"
+                    src={pushIcon}
+                    alt="menu-icon"
+                  />
+                </span>
                 <span className="nav-text">Push</span>
               </Link>
             </li>
             <li className={`${integrations.includes(path) ? "mm-active" : ""}`}>
-              <Link to="/integrations" className="ai-icon" >
-                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={integrationIcon} alt="menu-icon" /></span>
+              <Link to="#" className="ai-icon">
+                <span className="nav-menu-icon">
+                  {" "}
+                  <img
+                    className="sidebar-menu-icon"
+                    src={integrationIcon}
+                    alt="menu-icon"
+                  />
+                </span>
                 <span className="nav-text">Integrations</span>
               </Link>
             </li>
             <li className={`${reports.includes(path) ? "mm-active" : ""}`}>
-              <Link to="/reports" className="ai-icon" >
-                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={reportIcon} alt="menu-icon" /></span>
+              <Link to="/reports" className="ai-icon">
+                <span className="nav-menu-icon">
+                  {" "}
+                  <img
+                    className="sidebar-menu-icon"
+                    src={reportIcon}
+                    alt="menu-icon"
+                  />
+                </span>
                 <span className="nav-text">Reports</span>
               </Link>
             </li>
-            <li className={`${subscriptions.includes(path) ? "mm-active" : ""}`}>
-              <Link to="/subscriptions" className="ai-icon" >
-                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={subscriptionIcon} alt="menu-icon" /></span>
+            <li
+              className={`${subscriptions.includes(path) ? "mm-active" : ""}`}
+            >
+              <Link to="/subscriptions" className="ai-icon">
+                <span className="nav-menu-icon">
+                  {" "}
+                  <img
+                    className="sidebar-menu-icon"
+                    src={subscriptionIcon}
+                    alt="menu-icon"
+                  />
+                </span>
                 <span className="nav-text">My Subscriptions</span>
               </Link>
             </li>
             <li className={`${settings.includes(path) ? "mm-active" : ""}`}>
-              <Link to="/settings" className="ai-icon" >
-                <span className="nav-menu-icon"> <img className="sidebar-menu-icon" src={settingIcon} alt="menu-icon" /></span>
+              <Link to="/settings" className="ai-icon">
+                <span className="nav-menu-icon">
+                  {" "}
+                  <img
+                    className="sidebar-menu-icon"
+                    src={settingIcon}
+                    alt="menu-icon"
+                  />
+                </span>
                 <span className="nav-text">Settings</span>
               </Link>
             </li>
           </MM>
           <Logout />
-      
-			</PerfectScrollbar>
+        </PerfectScrollbar>
       </div>
     );
   }
