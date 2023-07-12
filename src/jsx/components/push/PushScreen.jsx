@@ -35,13 +35,15 @@ const PushScreen = () => {
   useEffect(() => {
     getSchedule();
   }, []);
-  const handleDeleteSchedule = async (id) => {
-    await deleteSchedule(id).then((res) => {
+  function handleDeleteSchedule(id) {
+    console.log(id, "idddddd");
+    console.log("mmmmmmm");
+    deleteSchedule(id).then((res) => {
       if (res.data.statusCode === 200) {
         getSchedule();
       }
     });
-  };
+  }
 
   const handleEditSchedule = (e, id) => {
     e.preventDefault();
@@ -324,8 +326,9 @@ const PushScreen = () => {
                         <Dropdown.Item
                           href="#"
                           className="dropdown-list-item"
-                          onClick={(e) => {
-                            handleDeleteSchedule(e, composition._id);
+                          onClick={() => {
+                            handleDeleteSchedule(composition._id);
+                            console.log("oooo");
                           }}
                         >
                           <div className="d-flex">
