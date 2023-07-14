@@ -5,40 +5,60 @@ import { useState } from "react";
 import { addMedia } from "../../utils/api";
 
 const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal, callAllMediaApi }) => {
-  const [file, setFile] = useState(null);
-  const [fileMeta, setFileMeta] = useState(null);
+  const [file, setFile] = useState([]);
+  const [fileMeta, setFileMeta] = useState([]);
   const [error, setShowError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [keyImg, setKeyImg] = useState(null);
+  const [previewList, setPreviewList] = useState([]);
   const handleUpload = async () => {
+    let c = 0;
+    //setKeyImg(c)
+    for(let item of file){
+      await handleSingleUpload(item, c)
+      c++;      
+    }
+    setIsLoading(false)
+    callAllMediaApi()
+    setUploadMediaModal(false)
+    setPreviewList([]);
+    setFile([])
+  };
+  const handleSingleUpload = async (item, c) => {
     setIsLoading(true)
-    if (!file) {
+    setKeyImg(c)
+    // const filePre = previewList;
+    // filePre[c].isLoading = true;
+    // setPreviewList(filePre);
+    if (!item) {
       setIsLoading(false)
       setShowError("Please select a File")
       return false;
     } 
 
-    if (!file.type.includes('image') && !file.type.includes('video')) {
+    if (!item.type.includes('image') && !item.type.includes('video')) {
       setIsLoading(false)
       setShowError("Please upload an image or video file.")
       return;
     }
     const formData = new FormData();
-    const sendFileMeta = JSON.stringify({...fileMeta,...{size : bytesToMB(file.size)}})
-    formData.append('file', file);
-    // formData.append('title', file.name);
+
+    const sendFileMeta = JSON.stringify({...fileMeta[c],...{size : bytesToMB(item.size)}})
+    console.log(sendFileMeta)
+    formData.append('file', item);
     formData.append('properties', sendFileMeta);
-    if (file.type.includes('image')) {
+    if (item.type.includes('image')) {
       formData.append('type', "image");
-    } else if (file.type.includes('video')) {
+    } else if (item.type.includes('video')) {
       formData.append('type', "video");
     } else {
       return false;
     }
-     await addMedia(formData)
-     setIsLoading(false)
-     callAllMediaApi()
-     setUploadMediaModal(false)
-  };
+    await addMedia(formData)
+    // const fileMetaUpdated = previewList;
+    // fileMetaUpdated[c].isLoading = false;
+    // setFileMeta(fileMetaUpdated)
+  }
 
   const bytesToMB = (bytes) => {
     return (bytes / (1024 * 1024)).toFixed(2);
@@ -63,7 +83,7 @@ const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal, callAllMe
 
 
 
-     <FileUploadWithPreview file={file}  setFile={setFile} setShowError={setShowError} setFileMeta={setFileMeta}/>
+     <FileUploadWithPreview isLoading={isLoading} setPreviewList={setPreviewList} previewList={previewList} file={file}  setFile={setFile} setShowError={setShowError} setFileMeta={setFileMeta} keyImg={keyImg} fileMeta={fileMeta}/>
     
         {error && <div className="error text-center font-weight-500">{error}</div>}
         <div class="add-screen-paragraph text-center font-weight-500">
