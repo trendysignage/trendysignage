@@ -5,12 +5,13 @@ import downArrow from "../../../img/down-arrow.png";
 import menuIcon from "../../../img/menu-icon.png";
 import defaultComparisonIcon from "../../../img/default-comparison-icon.png";
 import emptyMediaImg from "../../../img/addmedia-empty-img.png";
-import nameAvatar from "../../../img/assets-avatar-img.png";
+import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
 import deleteIcon from "../../../img/delete-icon.png";
 import {
   getDatetimeIn12Hours,
   humanReadableFormattedDateString,
 } from "../../../utils/UtilsService";
+import cancelIcon from "../../../img/cancel-icon.png";
 import DeleteConfirmation from "../../modals/DeleteConfirmation";
 import { deleteMedia, BASE_URL } from "../../../utils/api";
 import PublishMediaModal from "../../modals/PublishMediaModal";
@@ -20,6 +21,9 @@ const ListMedia = ({ allMedia,callAllMediaApi }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState("");
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
+  const [preview, setPreview] = useState(false)
+  const [imgUrl, setImgUrl] = useState(null)
+  const [imgType, setImgType] = useState(null)
   
   // use effect
 
@@ -33,6 +37,13 @@ const ListMedia = ({ allMedia,callAllMediaApi }) => {
    const handlePublishcOpen = (media)=>{
     setShowPublishPopUp(media);
    }
+  
+
+  const showPreview = (img, type) => {
+    setImgType(type)
+    setImgUrl(img)
+    setPreview(true)
+  }
 
 
 
@@ -58,6 +69,33 @@ const videoMetaDuration = (media) => {
 };
   return (
     <>
+    <Modal
+      className="fade bd-example-modal-lg mt-4 custom-modal quick-modal custom-modal-medium"
+      show={preview}
+      size="md"
+    >
+      <Modal.Header>
+        <Modal.Title className="mr-auto">
+          Image Preview
+        </Modal.Title>
+        <Button
+          variant=""
+          className="close"
+          onClick={() => setPreview(false)}
+        >
+          <img className="cancel-icon" src={cancelIcon} alt="cancel-icon" />
+        </Button>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="flex-wrap align-items-center">
+          {imgType && imgType === 'image' && <img src={`${BASE_URL}${imgUrl}`} style={{width:"100%",height:'100%'}} />}
+          {imgType && imgType === 'video' && <video className="video-js" autoPlay muted loop style={{width:"100%",height:'100%'}}>
+      <source src={`${BASE_URL}${imgUrl}`} type="video/mp4" />
+    </video>}
+          
+        </div>
+      </Modal.Body>
+    </Modal>
       {allMedia && allMedia.length !== 0 ? (
         <Table responsive className="custom-table">
           <thead>
@@ -77,12 +115,16 @@ const videoMetaDuration = (media) => {
                   <td>
                     <span className="td-content d-flex name-td-content">
                       <span className={`name-img mr-2  ${media?.type === "video" && "videotableName"}`}>
-                      {media?.type === "image" && <img
+                      {media?.type === "image" && <button 
+                        onClick={() => {showPreview(media.title,media.type)}}
+                      >
+                      <img
                           className="media-img img-fluid"
                           src={`${BASE_URL}${media?.title}`}
                           alt="media-img"
-                        />}
-                         {media?.type === "video" && videoMetaDuration(media)}
+                        />
+                        </button>}
+                         {media?.type === "video" && <button onClick={() => {showPreview(media.title,media.type)}}>{videoMetaDuration(media)}</button>}
                       </span>
                       <span className="name-content d-flex flex-column flex-grow-1">
                         <strong>{media.title.split("/")[media.title.split("/").length -1]}</strong>

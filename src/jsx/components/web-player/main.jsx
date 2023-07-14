@@ -48,23 +48,24 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
         }
       } else {
         setContentType("default_media");
+        setMedia(getContent.defaultComposition.media);
       }
     } else {
       setContentType("code");
       seCode(getContent.deviceCode);
     }
   };
-  useEffect(() => {
-    if (!isVerified) {
-      const interval = setInterval(() => {
-        getScreenCode();
-      }, 1000);
+  // useEffect(() => {
+  //   if (!isVerified) {
+  //     const interval = setInterval(() => {
+  //       getScreenCode();
+  //     }, 1000);
 
-      return () => {
-        clearInterval(interval); // Clear the interval when component unmounts
-      };
-    }
-  }, [isVerified]);
+  //     return () => {
+  //       clearInterval(interval); // Clear the interval when component unmounts
+  //     };
+  //   }
+  // }, [isVerified]);
   const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
   useEffect(() => {
     const socket = io(BASE_URL, {
@@ -92,7 +93,6 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
       getScreenCode();
     }
     socket.on("disconnectDevice", onDisconnectDevice);
-
     socket.on("receiveContent", onReceiveContent);
     socket.on("receiveComposition", onReceiveContent);
     return () => {
@@ -185,13 +185,19 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
             </div>
           )}
           {contentType === "default_media" && (
-            <div className="basic-list-group image-preview-container media-content">
-              <img
-                className="webplayer-preview-img"
-                src={defaultMediaUrl}
-                alt="media-img"
-              />
-            </div>
+            <>
+            <GetCompositionPlayer
+              composition={media}
+              handleAddClass={handleAddClass}
+            />
+            </>
+            // <div className="basic-list-group image-preview-container media-content">
+            //   <img
+            //     className="webplayer-preview-img"
+            //     src={defaultMediaUrl}
+            //     alt="media-img"
+            //   />
+            // </div>
           )}
 
           {contentType !== null && contentType === "composition" && (
