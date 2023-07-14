@@ -4,15 +4,12 @@ import cancelIcon from "../../img/cancel-icon.png";
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import { getReports } from "../../utils/api";
+import { useHistory } from "react-router-dom";
+import ReportsList from "../components/reports/reportsList";
 
-const GenerateReportModal = ({
-  close,
-  show,
-
-  reportType,
-}) => {
+const GenerateReportModal = ({ close, show, reportType, type }) => {
   console.log(reportType, "kkmkmkk");
-
+  const history = useHistory();
   const monthOptions = [
     { value: "Jan", label: "January" },
     { value: "Feb", label: "February" },
@@ -30,10 +27,28 @@ const GenerateReportModal = ({
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedOptionaa, setSelectedOptionaa] = useState(null);
   const [dailyDate, setDailyDate] = useState("");
-  const [customStartDate, setCustomStartDate] = useState("");
-  const [customEndDate, setCustomEndDate] = useState("");
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [dailyShow, setDailyShow] = useState(false);
+  const [monthlyShow, setMonthlyShow] = useState(false);
+  const [customShow, setCustomShow] = useState(false);
+
+  const handleClick = (event) => {
+    setDailyShow((current) => !current);
+    setMonthlyShow(false);
+    setCustomShow(false);
+  };
+  const handleClickMonthly = (event) => {
+    setMonthlyShow((current) => !current);
+    setDailyShow(false);
+    setCustomShow(false);
+  };
+  const handleClickCustom = (event) => {
+    setCustomShow((current) => !current);
+    setMonthlyShow(false);
+    setDailyShow(false);
+  };
   useEffect(() => {
     setStartDate(dailyDate);
     setEndDate(dailyDate);
@@ -96,18 +111,16 @@ const GenerateReportModal = ({
       )
         .toISOString()
         .split("T")[0];
+      setStartDate(startDate);
+      setEndDate(endDate);
       console.log(startDate, endDate, "oooooooo");
     }
   }, [selectedOption, selectedOptionaa]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await getReports(startDate, endDate).then((res) => {
-      console.log(res, "res schedule getReports");
-      //   if (res.data.statusCode === 200) {
-      //     console.log(res.data.data.name);
-      //     history.push(`/testday/${res.data.data._id}/${res.data.data.name}`);
-      //   }
-    });
+    history.push(
+      `/reports-list?startDate=${startDate}&endDate=${endDate}&type=${type}`
+    );
   };
   return (
     <>
@@ -136,54 +149,67 @@ const GenerateReportModal = ({
         <Modal.Body style={{ paddingBottom: "15px" }}>
           <form onSubmit={handleSubmit} className="row">
             <div className="form-group col-12 mb-0  url-app-form border-0">
-              <label>Daily</label>
-              <input
-                type="date"
-                className="  form-control "
-                placeholder="App Name"
-                onChange={(e) => setDailyDate(e.target.value)}
-                required
-              />
-
-              <label className="mt-3">Monthly</label>
-              <div className="row">
-                <div className="col-6">
-                  <Select
-                    defaultValue={selectedOption}
-                    onChange={setSelectedOption}
-                    options={monthOptions}
-                    styles={colourStyles}
-                    placeholder="month"
-                    className="app-option"
-                  />
-                </div>
-                <div className="col-6">
-                  <Select
-                    defaultValue={selectedOptionaa}
-                    onChange={setSelectedOptionaa}
-                    options={yearOptions}
-                    styles={colourStyles}
-                    placeholder="year"
-                    className="app-option"
-                  />
-                </div>
+              <div onClick={() => handleClick()}>
+                {" "}
+                <label>Daily</label>
+                <input
+                  type="date"
+                  className="  form-control "
+                  placeholder="App Name"
+                  onChange={(e) => setDailyDate(e.target.value)}
+                  required
+                  disabled={customShow || monthlyShow}
+                />
               </div>
 
-              <label className="mt-3">Custom</label>
-              <div className="row">
-                <div className="col-6">
-                  <input
-                    type="date"
-                    className="  form-control "
-                    onChange={(e) => setCustomStartDate(e.target.value)}
-                  />
-                </div>
-                <div className="col-6">
-                  <input
-                    type="date"
-                    className="form-control "
-                    onChange={(e) => setCustomEndDate(e.target.value)}
-                  />
+              <div onClick={() => handleClickMonthly()}>
+                <>
+                  <label className="mt-3">Monthly</label>
+                  <div className="row">
+                    <div className="col-6">
+                      <Select
+                        defaultValue={selectedOption}
+                        onChange={setSelectedOption}
+                        options={monthOptions}
+                        styles={colourStyles}
+                        placeholder="month"
+                        className="app-option"
+                        isDisabled={dailyShow || customShow}
+                      />
+                    </div>
+                    <div className="col-6">
+                      <Select
+                        defaultValue={selectedOptionaa}
+                        onChange={setSelectedOptionaa}
+                        options={yearOptions}
+                        styles={colourStyles}
+                        placeholder="year"
+                        className="app-option"
+                        isDisabled={dailyShow || customShow}
+                      />
+                    </div>
+                  </div>
+                </>
+              </div>
+              <div onClick={() => handleClickCustom()}>
+                <label className="mt-3">Custom</label>
+                <div className="row">
+                  <div className="col-6">
+                    <input
+                      type="date"
+                      className="  form-control "
+                      onChange={(e) => setStartDate(e.target.value)}
+                      disabled={dailyShow || monthlyShow}
+                    />
+                  </div>
+                  <div className="col-6">
+                    <input
+                      type="date"
+                      className="form-control "
+                      onChange={(e) => setEndDate(e.target.value)}
+                      disabled={dailyShow || monthlyShow}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

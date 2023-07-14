@@ -2,38 +2,36 @@ import React, { useState } from "react";
 import uploadImg from "../../../img/cloud-computing-icon.png";
 function FileUploadWithPreview({ setShowError, setFile, setFileMeta }) {
   const [preview, setPreview] = useState(null);
-  
+
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
-   
+
     if (!selectedFile) {
       setFile(null);
       setPreview(null);
       return;
     }
-    setShowError(null)
+    setShowError(null);
     setFile(selectedFile);
 
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile);
 
     reader.onload = function (e) {
-    
       setPreview(e.target.result);
-      
-
     };
   };
   function handleLoadedMetadata(event) {
-    
-    setFileMeta((prev)=>{
-      return {...prev, ...{
-        height: event.target.height,
-        width: event.target.width,
-        length: event.target.duration
-       }}
-    })
-
+    setFileMeta((prev) => {
+      return {
+        ...prev,
+        ...{
+          height: event.target.height,
+          width: event.target.width,
+          length: event.target.duration,
+        },
+      };
+    });
   }
 
   return (
@@ -46,7 +44,7 @@ function FileUploadWithPreview({ setShowError, setFile, setFileMeta }) {
           <h6>Click here to upload files</h6>
         </>
       )}
-      <div>
+      <div className="w-100">
         <input
           type="file"
           accept="image/*,video/*"
@@ -58,14 +56,14 @@ function FileUploadWithPreview({ setShowError, setFile, setFileMeta }) {
           <>
             {preview.includes("image") ? (
               <img
-               onLoad={handleLoadedMetadata}
+                onLoad={handleLoadedMetadata}
                 src={preview}
-                style={{ width: "auto", height: "200px", objectFit: "cover" }}
+                style={{ width: "100%", height: "200px", objectFit: "contain" }}
                 alt="File Preview"
               />
             ) : (
               <video
-                 onLoadedMetadata={handleLoadedMetadata}
+                onLoadedMetadata={handleLoadedMetadata}
                 style={{ width: "auto", height: "200px", objectFit: "cover" }}
                 src={preview}
                 controls
@@ -73,7 +71,6 @@ function FileUploadWithPreview({ setShowError, setFile, setFileMeta }) {
             )}
           </>
         )}
-        
       </div>
     </div>
   );

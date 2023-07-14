@@ -1238,7 +1238,35 @@ height: 196px;
 .text-app-form-icon{
   background: rgba(113, 170, 255, 0.13);
 }
-
+.clock-app-form-icon{
+  background: rgba(222, 78, 58, 0.13);
+}
+.stocks-app-form-icon{
+  background: rgba(128, 195, 38, 0.10);
+}
+.qr-code-app-form-icon{
+  background: rgba(221, 91, 169, 0.10);
+}
+.air-quality-app-form-icon{
+  background: rgba(91, 221, 143, 0.10);
+}
+.youtube-app-form-icon{
+  background: rgba(255, 0, 0, 0.10);
+}
+.youtube-info{
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.50);
+}
+.youtube-info ul li{
+  list-style: inside;
+}
+.add-content-bulletinboard{
+  border-radius: 8px;
+  border: 0.8px solid rgba(0, 0, 0, 0.50);
+  padding: 15px;
+  color: #000000;
+}
 .app-modal .modal-content{
   border-radius: 18px;
 }
