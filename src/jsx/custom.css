@@ -1305,6 +1305,31 @@ height: 196px;
 .view-schedule-time .total-composition {
   background: rgb(255, 233, 210);
 }
+.media-list-img-zoom{
+  position: relative;
+  cursor: pointer;
+}
+.media-list-img-zoom-plus {
+  position: absolute !important;
+
+visibility: hidden;
+
+}
+.media-list-img-zoom:hover  .media-list-img-zoom-plus{
+
+  font-size: 29px !important;
+  font-weight: 600 !important;
+
+  left: 0 !important;
+  right: 0 !important;
+
+  width: 15px !important;
+  margin: auto !important;
+
+  color: #fff !important;
+top: 13px !important;
+  visibility: visible;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;
