@@ -3049,6 +3049,11 @@ thead {
   box-shadow:none;
 }
 
+.activeType{
+  color:white !important;
+  background: #b3005e !important;
+}
+
 
   .table-responsive {
     overflow: auto;

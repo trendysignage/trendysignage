@@ -221,6 +221,23 @@ export async function getAllSchedule() {
   return response;
 }
 
+export async function getQuickPlay() {
+  const response = await fetchClient.get(BASE_URL + `/vendor/push/quickplay`);
+  return response;
+}
+
+export async function setQuickplay(postData) {
+  try {
+    const response = await fetchClient.post(
+      `${BASE_URL}/vendor/push/quickplay`,
+      postData
+    );
+    return response.data.statusCode === 200;
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function deleteSequence(sequenceId, scheduleId) {
   const response = await fetchClient.delete(
     `${BASE_URL}/vendor/push/sequence?scheduleId=${scheduleId}&sequenceId=${sequenceId}`
@@ -230,6 +247,13 @@ export async function deleteSequence(sequenceId, scheduleId) {
 export async function deleteSchedule(scheduleId) {
   const response = await fetchClient.delete(
     `${BASE_URL}/vendor/push/schedule?scheduleId=${scheduleId}`
+  );
+  return response;
+}
+
+export async function deleteQuickPlay(quickPlayId) {
+  const response = await fetchClient.delete(
+    `${BASE_URL}/vendor/push/quickplay?id=${quickPlayId}`
   );
   return response;
 }
