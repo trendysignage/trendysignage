@@ -1327,8 +1327,14 @@ visibility: hidden;
   margin: auto !important;
 
   color: #fff !important;
-top: 13px !important;
+  top: 13px !important;
   visibility: visible;
+}
+.add-file-media{
+  width: 140px !important;
+    font-size: 14px !important;
+    padding: 10px !important;
+    height: 50px !important;
 }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
@@ -3094,6 +3100,11 @@ thead {
   border-radius: 0;
   padding: 5px;
   box-shadow:none;
+}
+
+.activeType{
+  color:white !important;
+  background: #b3005e !important;
 }
 
 

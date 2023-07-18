@@ -1,13 +1,14 @@
 import { Button, Modal, Row, Col, Badge, Table } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 import { useEffect, useState } from "react";
-import { getAllScreens, publishMedia } from "../../utils/api";
+import { getAllScreens, publishMedia, setQuickplay } from "../../utils/api";
 import TableLoader from "../components/TableLoader";
 import '../components/Table.css';
 // import tagCloseIcon from "../../img/tag-close-icon.png";
 
 const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
   const [allScreens, setAllScreens] = useState("");
+  const [name, setName] = useState("")
   const [checkedItems, setCheckedItems] = useState({});
   const [checkedValues, setCheckedValues] = useState([]);
   const [published, setPublished] = useState(false);
@@ -61,6 +62,12 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
       duration: 600,
       type:type
     });
+    await setQuickplay({
+      name,
+      compositionId: selected._id,
+      screens: checkedValues,
+      duration: 600
+    });
     setPublished(true);
     // setShowPublishPopUp(false);
   };
@@ -88,6 +95,16 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
       {published && <Modal.Body><div style={{display:"flex", alignItems:"center", justifyContent:"center"}}><h3>Media Published</h3></div></Modal.Body>}
       {!published && (
         <Modal.Body>
+          <div className="mb-3 mr-3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="quickplayname"
+                      onChange={(e) => {setName(e.target.value)}}
+                      required="true"
+                      placeholder="Name..."
+                    />
+                  </div>
           <Table responsive>
             <thead>
               <tr>
@@ -173,7 +190,7 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
             </Col>
             <Col lg={6} md={6} sm={6} xs={6} className="pl-2 pr-0">
               <Button
-                disabled={checkedValues.length === 0}
+                disabled={checkedValues.length === 0 || name == null || name === ''}
                 variant=""
                 type="button"
                 className="btn btn-primary btn-block primary-btn"

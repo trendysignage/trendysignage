@@ -5,7 +5,7 @@ import quickPlayIcon from "../../../img/quickplay-icon.png";
 import defaultComparisonIcon from "../../../img/comparison-icon.png";
 import { Link } from "react-router-dom";
 import { Button, Table, Dropdown } from "react-bootstrap";
-import { deleteSchedule, getAllSchedule } from "../../../utils/api";
+import { deleteSchedule, getAllSchedule, getQuickPlay, deleteQuickPlay } from "../../../utils/api";
 import { useEffect } from "react";
 import {
   getDatetimeIn12Hours,
@@ -20,8 +20,9 @@ import { useHistory } from "react-router-dom";
 const PushScreen = () => {
   const history = useHistory();
   const [scheduleData, setScheduleData] = useState([]);
-  console.log(scheduleData, "llllll");
+  const [quickPlayData, setQuickPlayData] = useState([]);
   const [showPublishBtn, setShowPublishBtn] = useState(false);
+  const [publishType, setPublishType] = useState(null);
   const [loading, setLoading] = useState(false);
 
   async function getSchedule() {
@@ -32,15 +33,34 @@ const PushScreen = () => {
       setLoading(false);
     });
   }
+  async function getQuickplay() {
+    setLoading(true);
+    await getQuickPlay().then((res) => {
+      console.log(res, "res Quickplay");
+      setQuickPlayData(res.data.data);
+      setLoading(false);
+    });
+  }
   useEffect(() => {
     getSchedule();
-  }, []);
+    if(publishType && publishType === 'quickplay'){
+      getQuickplay()
+    }
+  }, [publishType]);
+
   function handleDeleteSchedule(id) {
-    console.log(id, "idddddd");
-    console.log("mmmmmmm");
     deleteSchedule(id).then((res) => {
       if (res.data.statusCode === 200) {
         getSchedule();
+      }
+    });
+  }
+
+  const handleDeleteQuickPlay = (e,id) => {
+    e.preventDefault();
+    deleteQuickPlay(id).then((res) => {
+      if (res.data.statusCode === 200) {
+        getQuickplay();
       }
     });
   }
@@ -86,11 +106,9 @@ const PushScreen = () => {
   }
 
   function findEndTime(value) {
-    console.log(value, "valurrrrrr");
     if (!value || value === undefined) {
       return "time not find";
     }
-    console.log("first hhhhhhhh");
     if (value !== undefined) {
       return value?.timings[value.timings.length - 1]?.endTime;
     }
@@ -109,7 +127,7 @@ const PushScreen = () => {
             className=""
             variant="info add-screen-btn"
             type="button"
-            onClick={() => setShowPublishBtn(true)}
+            onClick={() => setShowPublishBtn(!showPublishBtn)}
           >
             Publish
           </Button>
@@ -134,13 +152,14 @@ const PushScreen = () => {
             </Link>
 
             <Button
-              className="mr-3 push-screen-btn"
+              className={publishType === 'quickplay' ? 'mr-3 activeType': 'mr-3 push-screen-btn'}
               variant="info "
               type="button"
+              onClick={(e)=>{setPublishType("quickplay")}}
             >
               Quickplay
             </Button>
-            <Button className="push-screen-btn" variant="info " type="button">
+            <Button className="push-screen-btn" variant="info " type="button" onClick={(e)=>{setPublishType("defaultComposition")}}>
               Default Composition
             </Button>
           </div>
@@ -203,8 +222,111 @@ const PushScreen = () => {
           </Row>
         )}
       </div>
+      { publishType && publishType === 'quickplay' && 
+        <Table
+          responsive
+          className="custom-table screen-table"
+          style={{ height: "100%" }}
+          id="external-events"
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date Added</th>
+              <th>Screens Assigned</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>more</th>
+            </tr>
+          </thead>
 
-      <Table
+          <tbody>
+          {quickPlayData &&
+            quickPlayData.map((composition) => {
+              return (
+                <tr key={composition._id}>
+                  <td>{composition.name}</td>
+                  <td>
+                    <span className="td-content">
+                      <strong>
+                        {humanReadableFormattedDateString(
+                          composition.createdAt
+                        )}
+                      </strong>
+                      <span>{getDatetimeIn12Hours(composition.createdAt)}</span>
+                    </span>
+                  </td>
+                  <td> {composition.screens?.length}</td>
+
+                  <td>
+                    <span className="td-content">
+                      <strong>
+                        {humanReadableFormattedDateString(
+                          composition.createdAt
+                        )}
+                      </strong>
+                      <span>{getDatetimeIn12Hours(composition.createdAt)}</span>
+                    </span>
+                  </td>
+
+                  <td>
+                    <span className="td-content">
+                      <strong>
+                        {humanReadableFormattedDateString(
+                          composition.createdAt
+                        )}
+                      </strong>
+                      <span>{moment(composition.createdAt).add(10,'minutes').format(
+                "hh:mm A"
+              )}</span>
+                    </span>
+                  </td>
+                  <td>
+                    <Dropdown className="dropdown-toggle-menu">
+                      <Dropdown.Toggle variant="" className="p-0  mb-2">
+                        <span className="table-menu-icon">
+                          <img
+                            className="menu-img img-fluid"
+                            src={menuIcon}
+                            alt="menu-icon"
+                          />
+                        </span>
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item
+                          href="#"
+                          className="dropdown-list-item"
+                          onClick={(e) => {
+                            handleDeleteQuickPlay(e,composition._id);
+                          }}
+                        >
+                          <div className="d-flex">
+                            <div className="dropdown-list-icon">
+                              <img
+                                className="dropdown-list-img img-fluid"
+                                src={deleteIcon}
+                                alt="menu-icon"
+                              />
+                            </div>
+                            <div className="dropdown-menu-list">
+                              <span className="menu-heading">Delete</span>
+                              <span className="menu-description">
+                                Get to know more about screen info
+                              </span>
+                            </div>
+                          </div>
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
+        </Table>}
+      {
+        !publishType && 
+        <Table
         responsive
         className="custom-table screen-table"
         style={{ height: "100%" }}
@@ -224,7 +346,6 @@ const PushScreen = () => {
         <tbody>
           {scheduleData &&
             scheduleData.map((composition) => {
-              console.log(composition, "yyyyyy");
 
               const maxDates = composition.sequence.reduce((max, obj) => {
                 const parseDts = obj.dates.map((dt) => new Date(dt));
@@ -379,7 +500,8 @@ const PushScreen = () => {
               );
             })}
         </tbody>
-      </Table>
+        </Table>
+      }
     </>
   );
 };
