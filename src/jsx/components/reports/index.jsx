@@ -8,6 +8,8 @@ import GenerateReportModal from "../../modals/generateReportModal";
 const Reports = () => {
   const [showGenerateModal, setShowGenerateModal] = useState(false);
   const [reportType, setReportType] = useState("");
+  const [type, setType] = useState("");
+
   return (
     <>
       <div className="custom-content-heading d-flex flex-wrap ">
@@ -27,6 +29,7 @@ const Reports = () => {
           onClick={() => {
             setReportType("media-report");
             setShowGenerateModal(true);
+            setType("Media Report");
           }}
         >
           <div className="push-column text-center">
@@ -49,6 +52,7 @@ const Reports = () => {
           onClick={() => {
             setReportType("uptime-report");
             setShowGenerateModal(true);
+            setType("Uptime Report");
           }}
         >
           <div className="push-column text-center">
@@ -71,6 +75,7 @@ const Reports = () => {
           onClick={() => {
             setReportType("audit-logs");
             setShowGenerateModal(true);
+            setType("Audit Logs");
           }}
         >
           <div className="push-column text-center">
@@ -86,6 +91,7 @@ const Reports = () => {
         close={() => setShowGenerateModal(false)}
         show={showGenerateModal}
         reportType={reportType}
+        type={type}
       />
     </>
   );

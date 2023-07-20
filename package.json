@@ -78,6 +78,7 @@
     "react-star-ratings-component": "^1.0.1",
     "react-summernote": "^2.0.2",
     "react-svg-map": "^2.1.2",
+    "react-switch": "^7.0.0",
     "react-table": "^7.7.0",
     "react-times": "^3.1.12",
     "react-toastify": "^6.1.0",
@@ -99,7 +100,7 @@
     "yup": "^0.32.8"
   },
   "scripts": {
-    "start": "react-scripts --openssl-legacy-provider start",
+    "start": "react-scripts start",
     "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
