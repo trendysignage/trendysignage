@@ -270,6 +270,30 @@ export async function assignDefaultComposition(postData) {
   }
 }
 
+export async function setDefaultComposition(postData) {
+  try {
+    const response = await fetchClient.post(
+      `${BASE_URL}/vendor/push/defaultComposition`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function getDefaultComposition(postData) {
+  try {
+    const response = await fetchClient.get(
+      `${BASE_URL}/vendor/push/defaultComposition`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function vendorProfile() {
   const response = await fetchClient.get(BASE_URL + `/vendor/profile`);
   return response;
