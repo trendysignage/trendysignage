@@ -8,10 +8,12 @@ import defaultComparisonIcon from "../../../img/default-comparison-icon.png";
 import assignIcon from "../../../img/assign-icon.png";
 import takeScreenshotIcon from "../../../img/tack-screenshot-icon.png";
 import { Link } from "react-router-dom";
+import CompositionListModel from "../../modals/CompolistionListModel";
 
 const ListScreen = ({ allScreens }) => {
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [selectedScreen, setSelectedScreen] = useState("");
+  const [showPublishPopUp, setShowPublishPopUp] = useState(false);
 
   return (
     <>
@@ -124,7 +126,13 @@ const ListScreen = ({ allScreens }) => {
                             </div>
                           </Link>
                         </Dropdown.Item>
-                        <Dropdown.Item href="#" className="dropdown-list-item">
+                        <Dropdown.Item 
+                          onClick={() => {
+                            setShowPublishPopUp(true);
+                            setSelectedScreen(screen._id)
+                          }}
+                          className="dropdown-list-item"
+                        >
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
                               <img
@@ -194,6 +202,13 @@ const ListScreen = ({ allScreens }) => {
           setNewTagModal={setNewTagModal}
           allScreens={allScreens}
           selected={selectedScreen}
+        />
+      )}
+      {showPublishPopUp && (
+        <CompositionListModel
+         selected={selectedScreen}
+          setShowPublishPopUp={setShowPublishPopUp}
+          type="composition"
         />
       )}
     </>
