@@ -1,5 +1,5 @@
 import fetchClient from "./fetchClient";
-
+import axios from 'axios'
 export const BASE_URL = "http://144.126.143.140:5000";
 
 export function login(email, password) {
@@ -315,3 +315,105 @@ export async function getSingleSequence(scheduleId,seqId) {
   );
   return response.data.data;
 }
+
+export async function getUsers() {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/profile/users`
+  );
+  return response.data.data;
+}
+
+export async function addUsers(postdata) {
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/profile/users`,postdata
+  );
+  return response;
+  
+}
+
+export async function updateUsers(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/profile/users`,postdata
+  );
+  return response.data.data;
+}
+
+export async function deleteUsers(userId) {
+  const response = await fetchClient.delete(
+    BASE_URL + `/vendor/profile/users?userId=${userId}`
+  );
+  return response.data.data;
+}
+
+export async function getGroups() {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/profile/groups`
+  );
+  return response.data.data;
+}
+
+export async function addGroups(postdata) {
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/profile/groups`,postdata
+  );
+  return response;
+  
+}
+
+export async function updateGroups(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/profile/groups`,postdata
+  );
+  return response.data.data;
+}
+
+export async function deleteGroups(groupId) {
+  const response = await fetchClient.delete(
+    BASE_URL + `/vendor/profile/groups?groupId=${groupId}`
+  );
+  return response.data.data;
+}
+
+export async function getRoles() {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/profile/roles`
+  );
+  return response.data.data;
+}
+
+export async function updateRoles(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/profile/roles`,postdata
+  );
+  return response.data.data;
+}
+
+export async function getDeviceProfile() {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/profile/deviceProfile`
+  );
+  return response.data.data;
+}
+
+export async function addDeviceProfile(postdata) {
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/profile/deviceProfile`,postdata
+  );
+  return response;
+  
+}
+
+export async function updateDeviceProfile(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/profile/deviceProfile`,postdata
+  );
+  return response.data.data;
+}
+
+export async function deleteDeviceProfile(userId) {
+  const response = await fetchClient.delete(
+    BASE_URL + `/vendor/profile/deviceProfile?profileId=${userId}`
+  );
+  return response.data.data;
+}
+

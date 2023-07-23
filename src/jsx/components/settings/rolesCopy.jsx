@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Table, Dropdown, Button, Modal, Row, Col, Badge } from "react-bootstrap";
-import {updateRoles} from '../../../utils/api';
-import { toast } from "react-toastify";
-import { Editor } from "draft-js";
 
 const Roles = ({ roles, setIsRefresh, isRefresh }) => {
 
@@ -18,60 +15,37 @@ useEffect(() => {
 },[makeRefresh, rolesData])
 
 
-const handleChange = async(e, set, section, type, val) => {
+const handleChange = (e, set, section, type, val) => {
     
   e.preventDefault();
   console.log(set, section, type, val,rolesData[set][section][type])
   rolesData[set][section][type] = val;
-  await setRolesData(rolesData);
+  setRolesData(rolesData);
   setMakeRefresh(true);
-}
-
-const handleRoles = async(e) => {
-    e.preventDefault();
-    console.log(rolesData);
-    await updateRoles(rolesData)
-        .then(response => {
-            //setError(null);
-        toast.success("Roles has been updated successfully !!!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            });
-            setIsRefresh(true)
-        }).catch(function (error) {
-            //setError(error.response.data.message)
-        });
 }
 
 
   return (
     <>
-        <button className="btn btn-sm btn-success" onClick={(e) => {handleRoles(e)}}>Update</button>
-        <Row className="w-100" style={{marginTop:'10px'}}>
+        <Row className="w-100 m-0">
           <Col lg={3} md={3} sm={3} xs={3} className="pl-0 pr-2">
             <div>
                 <button 
-                    className={`btn btn-sm ${rolesType === 'OPERATOR' ? 'btn-success': ''}`}
+                    className="btn btn-sm btn-info"
                     onClick={(e) => {setRolesType("OPERATOR")}}
                 >Operator</button>
             </div>
             <div>
                 <button 
-                    className={`btn btn-sm ${rolesType === 'MANAGER' ? 'btn-success': ''}`}
+                    className="btn btn-sm btn-info"
                     onClick={(e) => {setRolesType("MANAGER")}}
                 >Manager</button>
             </div>
             <div>
                 <button
-                    className={`btn btn-sm ${rolesType === 'EDITOR' ? 'btn-success': ''}`}
+                    className="btn btn-sm btn-info"
                     onClick={(e) => {setRolesType("EDITOR")}}
-                >Editor</button>
+                >Editorial</button>
             </div>
             
           </Col>
