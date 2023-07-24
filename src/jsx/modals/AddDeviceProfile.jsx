@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
 import cancelIcon from "../../img/cancel-icon.png";
-import tagCloseIcon from "../../img/tag-close-icon.png";
-import Select from "react-select";
-import { BASE_URL, addDeviceProfile } from "../../utils/api";
+import { BASE_URL, addDeviceProfile, updateDeviceProfile } from "../../utils/api";
 import { toast } from "react-toastify";
 import AddMedia from "../modals/AddMedia";
 import DragMove from "./DragMove";
 import Switch from "react-switch";
-const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh }) => {
+const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh, profileData, setProfileData, type }) => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [openMedia, setOpenMedia] = useState(false);
@@ -19,74 +16,126 @@ const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh }) => {
   const [width, setWidth] = useState(0);
   const [healthIndicator, setHealthIndicator] = useState(false);
   const [viewPort, setViewPort] = useState("portrait");
-  const [translate, setTranslate] = useState({
-    x: 0,
-    y: 0,
-  });
-  const handleChangeDate = (nextChecked) => {
-    console.log(nextChecked, "yyyy");
-    setHealthIndicator(nextChecked);
-  };
-  const handleDragMove = (e) => {
-    setTranslate({
-      x: translate.x + e.movementX,
-      y: translate.y + e.movementY,
-    });
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let err = "";
-    if (name === "") {
-      err = "Name is Required";
-    }
-    if (err !== "") {
-      setError(err);
-      return false;
-    } else {
-      setError("");
-    }
-
-    const payLoad = {
-      name,
-      screenHealthIndicator: healthIndicator,
-      orientation: viewPort,
-      width,
-      height,
-      x: translate.x,
-      y: translate.y,
-      title: selectedMedia ? selectedMedia.title : "",
-      type: selectedMedia ? selectedMedia.type : "",
-    };
-
-    await addDeviceProfile(payLoad)
-      .then((response) => {
-        //setError(null);
-        toast.success("Device Profile has been added successfully !!!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+  useEffect(() => {
+    if(profileData){ 
+        setSelectedMedia({
+            title:profileData.logo.title,
+            type:profileData.logo.type
         });
-        setIsRefresh(true);
-        setShowProfileModel(false);
-      })
-      .catch(function (error) {
-        setError(error.response.data.message);
-      });
-    console.log("payLoad", payLoad);
-  };
-
-  const videoMetaDuration = (media) => {
-    const properties = JSON.parse(media?.properties);
-    if (properties && properties.length) {
-      return (properties.length.toFixed(0) / 60).toFixed(0);
+        setWidth(profileData.logo.dimensions.width);
+        setHeight(profileData.logo.dimensions.height);
+        setViewPort(profileData.logo.orientation);
+        setTranslate({
+            x:profileData.logo.coordinates.x,
+            y:profileData.logo.coordinates.y
+        })
+        setHealthIndicator(profileData.screenHealthIndicator);
+        setName(profileData.name)
+        console.log("profileData",profileData);
     }
-    return null;
-  };
+},[profileData]);
+
+    const [translate, setTranslate] = useState({
+        x: 0,
+        y: 0,
+    });
+    const handleChangeDate = (nextChecked) => {
+        console.log(nextChecked, "yyyy");
+        setHealthIndicator(nextChecked);
+    };
+    const handleDragMove = (e) => {
+        setTranslate({
+        x: translate.x + e.movementX,
+        y: translate.y + e.movementY,
+        });
+    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let err = "";
+        if (name === "") {
+            err = "Name is Required";
+        }
+        if (err !== "") {
+            setError(err);
+            return false;
+        } else {
+            setError("");
+        }
+
+        
+
+        if(type && type == 'edit'){
+            const payLoad = {
+                name,
+                screenHealthIndicator: healthIndicator,
+                orientation: viewPort,
+                width,
+                height,
+                x: translate.x,
+                y: translate.y,
+                title: selectedMedia ? selectedMedia.title : "",
+                type: selectedMedia ? selectedMedia.type : "",
+                profileId:profileData._id
+            };
+            await updateDeviceProfile(payLoad)
+            .then((response) => {
+                //setError(null);
+                toast.success("Device Profile has been Updated successfully !!!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
+                setIsRefresh(true);
+                setShowProfileModel(false);
+            })
+            .catch(function (error) {
+                setError(error.response.data.message);
+            });
+        }else{
+            const payLoad = {
+                name,
+                screenHealthIndicator: healthIndicator,
+                orientation: viewPort,
+                width,
+                height,
+                x: translate.x,
+                y: translate.y,
+                title: selectedMedia ? selectedMedia.title : "",
+                type: selectedMedia ? selectedMedia.type : "",
+            };
+            await addDeviceProfile(payLoad)
+            .then((response) => {
+                //setError(null);
+                toast.success("Device Profile has been added successfully !!!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
+                setIsRefresh(true);
+                setShowProfileModel(false);
+            })
+            .catch(function (error) {
+                setError(error.response.data.message);
+            });
+        }
+    }
+    const videoMetaDuration = (media) => {
+        const properties = JSON.parse(media?.properties);
+        if (properties && properties.length) {
+        return (properties.length.toFixed(0) / 60).toFixed(0);
+        }
+        return null;
+    };
 
   return (
     <>
@@ -101,7 +150,7 @@ const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh }) => {
       />
       <Modal className="" show={open} size="xl">
         <Modal.Header>
-          <Modal.Title>Add Profile</Modal.Title>
+          <Modal.Title>{type && type == 'edit' ? 'Update ' : 'Add '} Profile</Modal.Title>
           <Button
             variant=""
             className="close"
@@ -135,19 +184,9 @@ const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh }) => {
                 />
               </div>
               <div className="form-group">
-                {/* <Form.Check // prettier-ignore
-                        type="switch"
-                        id="custom-switch"
-                        label="Health Indicator"
-                        defaultValue={healthIndicator}
-                        onChange={(e) => {setHealthIndicator(e.target.checked)}}
-                    /> */}
                 <Switch
                   onColor="#B3005E"
                   onChange={handleChangeDate}
-                  //   onChange={(e) => {
-                  //     setHealthIndicator(e.target.checked);
-                  //   }}
                   checked={healthIndicator}
                   className="react-switch"
                   required={true}
@@ -196,16 +235,6 @@ const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh }) => {
                             {videoMetaDuration(selectedMedia)}
                           </button>
                         )}
-                      </span>
-                      <span className="name-content d-flex flex-column flex-grow-1">
-                        <strong>
-                          {
-                            selectedMedia.title.split("/")[
-                              selectedMedia.title.split("/").length - 1
-                            ]
-                          }
-                        </strong>
-                        <span>{selectedMedia.createdBy.name}</span>
                       </span>
                     </span>
                     <button

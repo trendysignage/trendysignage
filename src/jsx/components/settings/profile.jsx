@@ -1,52 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { Table, Dropdown } from "react-bootstrap";
-import AddNewTagModal from "../../modals/AddNewTagModal";
-import downArrow from "../../../img/down-arrow.png";
 import menuIcon from "../../../img/menu-icon.png";
-import veiwDetailIcon from "../../../img/view-detail-icon.png";
-import defaultComparisonIcon from "../../../img/default-comparison-icon.png";
 import assignIcon from "../../../img/assign-icon.png";
 import takeScreenshotIcon from "../../../img/tack-screenshot-icon.png";
-import { deleteUsers, updateUsers } from "../../../utils/api";
+import { deleteDeviceProfile } from "../../../utils/api";
 import {
-    getDatetimeIn12Hours,
     humanReadableFormattedDateString,
   } from "../../../utils/UtilsService";
 import { toast } from "react-toastify";
-import AddUserModal from '../../modals/AddUserModal';
+import AddDeviceProfile from '../../modals/AddDeviceProfile';
+import SelectScreenModal from "../../modals/SelectScreenModal";
 
 const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh }) => {
-//   const [showNewTagModal, setNewTagModal] = useState(false);
-//   const [selectedScreen, setSelectedScreen] = useState("");
-//   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
-const [showAddUserModel, setShowAddUserModel] = useState(false);
+
+const [showProfileModel, setShowProfileModel] = useState(false);
 const [profileData, setProfileData] = useState(null);
+const [showPublishPopUp, setShowPublishPopUp] = useState(false);
+const [selected, setSelected] = useState(null);
 
-// const deleteuserRecord = async (e, id) => {
-//   e.preventDefault();
-//   await deleteUsers(id);
-//   toast.success("User has been deleted successfully !!!", {
-//     position: "top-right",
-//     autoClose: 5000,
-//     hideProgressBar: false,
-//     closeOnClick: true,
-//     pauseOnHover: true,
-//     draggable: true,
-//     progress: undefined,
-//     theme: "light",
-//   });
-//   setIsRefresh(!isRefresh);
-// }
 
-// const handleEditiUser = (e, item) => {
-//   e.preventDefault();
-//   setShowAddUserModel(true);
-//   setUser(item)
-//   console.log("Add User")
-// }
+const handleEditiUser = (e, item) => {
+  e.preventDefault();
+  setShowProfileModel(true);
+  setProfileData(item)
+  console.log("Update Profile")
+}
+
+const handleAssignScreen = (e, id) => {
+    e.preventDefault();
+    setShowPublishPopUp(true);
+    setSelected(id)
+    console.log("Assign Screen")
+  }
+
+const handleDelete = async(e, id) => {
+    e.preventDefault();
+    await deleteDeviceProfile(id);
+    toast.success("Profile has been deleted successfully !!!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+    setIsRefresh(!isRefresh);
+}
+
 
   return (
     <>
+     <AddDeviceProfile
+        open={showProfileModel}
+        setShowProfileModel={setShowProfileModel}
+        setIsRefresh={setIsRefresh}
+        profileData={profileData}
+        setProfileData={setProfileData}
+        type="edit"
+      />
+      <SelectScreenModal 
+        showPublishPopUp={showPublishPopUp}
+        setShowPublishPopUp={setShowPublishPopUp}
+        selected={selected}
+      />
       <Table responsive className="custom-table screen-table">
         <thead>
           <tr>
@@ -84,7 +102,7 @@ const [profileData, setProfileData] = useState(null);
                       <Dropdown.Menu>
                         
                         <Dropdown.Item 
-                         // onClick={(e) => {handleEditiUser(e, item)}}
+                         onClick={(e) => {handleEditiUser(e, item)}}
                            className="dropdown-list-item">
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
@@ -100,7 +118,7 @@ const [profileData, setProfileData] = useState(null);
                           </div>
                         </Dropdown.Item>
                         <Dropdown.Item 
-                           //onClick={(e)=>{deleteuserRecord(e, item._id)}}
+                           onClick={(e)=>{handleAssignScreen(e, item._id)}}
                            className="dropdown-list-item">
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
@@ -116,7 +134,7 @@ const [profileData, setProfileData] = useState(null);
                           </div>
                         </Dropdown.Item>
                         <Dropdown.Item 
-                           //onClick={(e)=>{deleteuserRecord(e, item._id)}}
+                           onClick={(e)=>{handleDelete(e, item._id)}}
                            className="dropdown-list-item">
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
