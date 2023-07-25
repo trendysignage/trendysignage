@@ -84,6 +84,51 @@ const RssFeedAppModal = ({ setShowUrlApp, show }) => {
             />
           </div>
           <div className="col-6 ">
+            <div className="d-flex">
+              {" "}
+              <div className="form-check mr-4">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="viewImage"
+                  value="aspectRation"
+                  id="aspectRation"
+                  // onChange={handleOptionChange}
+                  // defaultChecked={viewImage === "aspectRation"}
+                />
+                <label className="form-check-label mt-0" htmlFor="aspectRation">
+                  Landscape
+                </label>
+              </div>
+              <div className="form-check mr-4">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="viewImage"
+                  value="aspectRation"
+                  id="aspectRation"
+                  // onChange={handleOptionChange}
+                  // defaultChecked={viewImage === "aspectRation"}
+                />
+                <label className="form-check-label mt-0" htmlFor="aspectRation">
+                  Portrait
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="viewImage"
+                  value="aspectRation"
+                  id="aspectRation"
+                  // onChange={handleOptionChange}
+                  // defaultChecked={viewImage === "aspectRation"}
+                />
+                <label className="form-check-label mt-0" htmlFor="aspectRation">
+                  Footer
+                </label>
+              </div>
+            </div>
             <div className="d-flex justify-content-center align-items-center h-100 rss-feed-app-form-icon">
               <div className="text-center">
                 <img src={icon} width="60px" height="60px" className="mb-3" />
