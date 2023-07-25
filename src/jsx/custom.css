@@ -1337,6 +1337,36 @@ visibility: hidden;
     padding: 10px !important;
     height: 50px !important;
 }
+.setting-page-btn{
+  font-size: 16px !important;
+  height: 44px !important;
+  padding-top: 9px !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+.role-btn-bg{
+background-color: #060047 !important;
+color: #fff !important;
+}
+.add-device-profile-img{
+  height: 50px;
+  width: 50px;
+  background-color: #dad0d01a;
+}
+.add-device-potrait {
+  display: flex;
+  gap: 2rem;
+  color: #000;
+  cursor: pointer;
+}
+.add-device-potrait div{
+  border-bottom: 2px solid #fff;
+  padding-bottom: 5px;
+}
+.add-device-potrait .active{
+color: #ca046c;
+border-bottom: 2px solid #ca046c;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

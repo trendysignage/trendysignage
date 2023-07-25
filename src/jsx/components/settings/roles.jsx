@@ -38,7 +38,7 @@ const Roles = ({ roles, setIsRefresh, isRefresh }) => {
     await updateRoles(rolesData)
       .then((response) => {
         //setError(null);
-        toast.success("Roles has been updated successfully !!!", {
+        toast.success("Roles has been updated successfully !", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -59,7 +59,7 @@ const Roles = ({ roles, setIsRefresh, isRefresh }) => {
     <>
       <div className="d-flex mb-4">
         <button
-          className="btn  btn-success btn btn-primary  primary-btn "
+          className="btn  btn-success btn btn-primary  primary-btn setting-page-btn "
           onClick={(e) => {
             handleRoles(e);
           }}
@@ -68,11 +68,11 @@ const Roles = ({ roles, setIsRefresh, isRefresh }) => {
         </button>
       </div>
       <Row className="w-100" style={{ marginTop: "10px" }}>
-        <Col lg={3} md={3} sm={3} xs={3} className="pl-0 pr-2">
+        <Col lg={3} md={3} sm={3} xs={3} className="pl-0 pr-2 card">
           <div>
             <button
-              className={`btn btn-sm ${
-                rolesType === "OPERATOR" ? "btn-success" : ""
+              className={`btn btn-sm w-100 text-left ${
+                rolesType === "OPERATOR" ? "btn-success role-btn-bg" : ""
               }`}
               onClick={(e) => {
                 setRolesType("OPERATOR");
@@ -83,8 +83,8 @@ const Roles = ({ roles, setIsRefresh, isRefresh }) => {
           </div>
           <div>
             <button
-              className={`btn btn-sm ${
-                rolesType === "MANAGER" ? "btn-success" : ""
+              className={`btn btn-sm w-100 text-left ${
+                rolesType === "MANAGER" ? "btn-success role-btn-bg" : ""
               }`}
               onClick={(e) => {
                 setRolesType("MANAGER");
@@ -95,8 +95,8 @@ const Roles = ({ roles, setIsRefresh, isRefresh }) => {
           </div>
           <div>
             <button
-              className={`btn btn-sm ${
-                rolesType === "EDITOR" ? "btn-success" : ""
+              className={`btn btn-sm w-100 text-left ${
+                rolesType === "EDITOR" ? "btn-success role-btn-bg" : ""
               }`}
               onClick={(e) => {
                 setRolesType("EDITOR");

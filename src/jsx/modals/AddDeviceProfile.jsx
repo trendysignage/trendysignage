@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
-import { BASE_URL, addDeviceProfile, updateDeviceProfile } from "../../utils/api";
+import {
+  BASE_URL,
+  addDeviceProfile,
+  updateDeviceProfile,
+} from "../../utils/api";
 import { toast } from "react-toastify";
 import AddMedia from "../modals/AddMedia";
 import DragMove from "./DragMove";
 import Switch from "react-switch";
-const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh, profileData, setProfileData, type }) => {
+import upload from "../../img/uplaod.svg";
+
+const AddDeviceProfile = ({
+  open,
+  setShowProfileModel,
+  setIsRefresh,
+  profileData,
+  setProfileData,
+  type,
+}) => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [openMedia, setOpenMedia] = useState(false);
@@ -17,125 +30,123 @@ const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh, profileData
   const [healthIndicator, setHealthIndicator] = useState(false);
   const [viewPort, setViewPort] = useState("portrait");
   useEffect(() => {
-    if(profileData){ 
-        setSelectedMedia({
-            title:profileData.logo.title,
-            type:profileData.logo.type
-        });
-        setWidth(profileData.logo.dimensions.width);
-        setHeight(profileData.logo.dimensions.height);
-        setViewPort(profileData.logo.orientation);
-        setTranslate({
-            x:profileData.logo.coordinates.x,
-            y:profileData.logo.coordinates.y
-        })
-        setHealthIndicator(profileData.screenHealthIndicator);
-        setName(profileData.name)
-        console.log("profileData",profileData);
+    if (profileData) {
+      setSelectedMedia({
+        title: profileData.logo.title,
+        type: profileData.logo.type,
+      });
+      setWidth(profileData.logo.dimensions.width);
+      setHeight(profileData.logo.dimensions.height);
+      setViewPort(profileData.logo.orientation);
+      setTranslate({
+        x: profileData.logo.coordinates.x,
+        y: profileData.logo.coordinates.y,
+      });
+      setHealthIndicator(profileData.screenHealthIndicator);
+      setName(profileData.name);
+      console.log("profileData", profileData);
     }
-},[profileData]);
+  }, [profileData]);
 
-    const [translate, setTranslate] = useState({
-        x: 0,
-        y: 0,
+  const [translate, setTranslate] = useState({
+    x: 0,
+    y: 0,
+  });
+  const handleChangeDate = (nextChecked) => {
+    console.log(nextChecked, "yyyy");
+    setHealthIndicator(nextChecked);
+  };
+  const handleDragMove = (e) => {
+    setTranslate({
+      x: translate.x + e.movementX,
+      y: translate.y + e.movementY,
     });
-    const handleChangeDate = (nextChecked) => {
-        console.log(nextChecked, "yyyy");
-        setHealthIndicator(nextChecked);
-    };
-    const handleDragMove = (e) => {
-        setTranslate({
-        x: translate.x + e.movementX,
-        y: translate.y + e.movementY,
-        });
-    };
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        let err = "";
-        if (name === "") {
-            err = "Name is Required";
-        }
-        if (err !== "") {
-            setError(err);
-            return false;
-        } else {
-            setError("");
-        }
-
-        
-
-        if(type && type == 'edit'){
-            const payLoad = {
-                name,
-                screenHealthIndicator: healthIndicator,
-                orientation: viewPort,
-                width,
-                height,
-                x: translate.x,
-                y: translate.y,
-                title: selectedMedia ? selectedMedia.title : "",
-                type: selectedMedia ? selectedMedia.type : "",
-                profileId:profileData._id
-            };
-            await updateDeviceProfile(payLoad)
-            .then((response) => {
-                //setError(null);
-                toast.success("Device Profile has been Updated successfully !!!", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                });
-                setIsRefresh(true);
-                setShowProfileModel(false);
-            })
-            .catch(function (error) {
-                setError(error.response.data.message);
-            });
-        }else{
-            const payLoad = {
-                name,
-                screenHealthIndicator: healthIndicator,
-                orientation: viewPort,
-                width,
-                height,
-                x: translate.x,
-                y: translate.y,
-                title: selectedMedia ? selectedMedia.title : "",
-                type: selectedMedia ? selectedMedia.type : "",
-            };
-            await addDeviceProfile(payLoad)
-            .then((response) => {
-                //setError(null);
-                toast.success("Device Profile has been added successfully !!!", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                });
-                setIsRefresh(true);
-                setShowProfileModel(false);
-            })
-            .catch(function (error) {
-                setError(error.response.data.message);
-            });
-        }
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let err = "";
+    if (name === "") {
+      err = "Name is Required";
     }
-    const videoMetaDuration = (media) => {
-        const properties = JSON.parse(media?.properties);
-        if (properties && properties.length) {
-        return (properties.length.toFixed(0) / 60).toFixed(0);
-        }
-        return null;
-    };
+    if (err !== "") {
+      setError(err);
+      return false;
+    } else {
+      setError("");
+    }
+
+    if (type && type == "edit") {
+      const payLoad = {
+        name,
+        screenHealthIndicator: healthIndicator,
+        orientation: viewPort,
+        width,
+        height,
+        x: translate.x,
+        y: translate.y,
+        title: selectedMedia ? selectedMedia.title : "",
+        type: selectedMedia ? selectedMedia.type : "",
+        profileId: profileData._id,
+      };
+      await updateDeviceProfile(payLoad)
+        .then((response) => {
+          //setError(null);
+          toast.success("Device Profile has been Updated successfully !!!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setIsRefresh(true);
+          setShowProfileModel(false);
+        })
+        .catch(function (error) {
+          setError(error.response.data.message);
+        });
+    } else {
+      const payLoad = {
+        name,
+        screenHealthIndicator: healthIndicator,
+        orientation: viewPort,
+        width,
+        height,
+        x: translate.x,
+        y: translate.y,
+        title: selectedMedia ? selectedMedia.title : "",
+        type: selectedMedia ? selectedMedia.type : "",
+      };
+      await addDeviceProfile(payLoad)
+        .then((response) => {
+          //setError(null);
+          toast.success("Device Profile has been added successfully !!!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setIsRefresh(true);
+          setShowProfileModel(false);
+        })
+        .catch(function (error) {
+          setError(error.response.data.message);
+        });
+    }
+  };
+  const videoMetaDuration = (media) => {
+    const properties = JSON.parse(media?.properties);
+    if (properties && properties.length) {
+      return (properties.length.toFixed(0) / 60).toFixed(0);
+    }
+    return null;
+  };
 
   return (
     <>
@@ -150,7 +161,9 @@ const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh, profileData
       />
       <Modal className="" show={open} size="xl">
         <Modal.Header>
-          <Modal.Title>{type && type == 'edit' ? 'Update ' : 'Add '} Profile</Modal.Title>
+          <Modal.Title>
+            {type && type == "edit" ? "Update " : "Add "} Profile
+          </Modal.Title>
           <Button
             variant=""
             className="close"
@@ -183,7 +196,7 @@ const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh, profileData
                   }}
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group pt-2">
                 <Switch
                   onColor="#B3005E"
                   onChange={handleChangeDate}
@@ -192,20 +205,18 @@ const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh, profileData
                   required={true}
                 />
               </div>
-              <div className="form-group">
-                <button
+              <div className="form-group d-flex pt-2">
+                {/* <button
                   onClick={(e) => {
                     setOpenMedia(true);
                   }}
                   className="btn btn-primary  primary-btn btn"
                 >
                   Add Image
-                </button>
-              </div>
-              <div>
-                {selectedMedia && (
-                  <div>
-                    <span className="td-content d-flex name-td-content mb-3">
+                </button> */}
+                <div className="mr-4 add-device-profile-img">
+                  {selectedMedia && (
+                    <span className="td-content d-flex name-td-content mb-3 ">
                       <span
                         className={`name-img mr-2  ${
                           selectedMedia?.type === "video" && "videotableName"
@@ -237,30 +248,43 @@ const AddDeviceProfile = ({ open, setShowProfileModel, setIsRefresh, profileData
                         )}
                       </span>
                     </span>
-                    <button
-                      onClick={(e) => {
-                        setViewPort("portrait");
-                      }}
-                      className={`btn  mr-2 ${
-                        viewPort == "portrait"
-                          ? " btn-primary  primary-btn "
-                          : ""
-                      }`}
-                    >
-                      Potrait
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        setViewPort("landscape");
-                      }}
-                      className={`btn  ${
-                        viewPort == "landscape"
-                          ? " btn-primary  primary-btn "
-                          : ""
-                      }`}
-                    >
-                      Landscape
-                    </button>
+                  )}
+                </div>
+
+                <img
+                  onClick={(e) => {
+                    setOpenMedia(true);
+                  }}
+                  src={upload}
+                  alt="icon"
+                  height="35px"
+                  width="35px"
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+              <div>
+                {selectedMedia && (
+                  <div>
+                    <div className="add-device-potrait ">
+                      <div
+                        onClick={(e) => {
+                          setViewPort("portrait");
+                        }}
+                        className={`${viewPort == "portrait" ? " active" : ""}`}
+                      >
+                        Potrait
+                      </div>
+                      <div
+                        onClick={(e) => {
+                          setViewPort("landscape");
+                        }}
+                        className={`${
+                          viewPort == "landscape" ? " active" : ""
+                        }`}
+                      >
+                        Landscape
+                      </div>
+                    </div>
                     <div className="form-controle">
                       <label className="mt-3">X</label>
                       <div className="form-group">

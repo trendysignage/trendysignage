@@ -169,7 +169,7 @@ const Settings = () => {
         <>
           <div className="d-flex mb-4">
             <button
-              className="btn  btn-success btn btn-primary  primary-btn "
+              className="btn-sm  btn-success btn btn-primary  primary-btn setting-page-btn "
               onClick={(e) => {
                 handleUser(e);
               }}
@@ -188,7 +188,7 @@ const Settings = () => {
         <>
           <div className="d-flex mb-4">
             <button
-              className="btn  btn-success btn btn-primary  primary-btn "
+              className="btn  btn-success btn btn-primary  primary-btn  setting-page-btn"
               onClick={(e) => {
                 handleGroup(e);
               }}
@@ -216,7 +216,7 @@ const Settings = () => {
         <>
           <div className="d-flex mb-4">
             <button
-              className="btn  btn-success btn btn-primary  primary-btn "
+              className="btn  btn-success btn btn-primary  primary-btn setting-page-btn"
               onClick={(e) => {
                 handleDevice(e);
               }}
