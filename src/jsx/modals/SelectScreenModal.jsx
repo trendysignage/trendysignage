@@ -1,22 +1,30 @@
 import { Button, Modal, Row, Col, Badge, Table } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 import { useEffect, useState } from "react";
-import { getAllScreens, publishMedia, setQuickplay } from "../../utils/api";
+import { getAllScreens, assignScreenProfile } from "../../utils/api";
 import TableLoader from "../components/TableLoader";
 import '../components/Table.css';
-// import tagCloseIcon from "../../img/tag-close-icon.png";
+import { toast } from "react-toastify";
 
-const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected}) => {
+const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected, setIsRefresh,selectedScreen, setSelectedScreen}) => {
   const [allScreens, setAllScreens] = useState("");
   const [name, setName] = useState("")
   const [checkedItems, setCheckedItems] = useState({});
-  const [checkedValues, setCheckedValues] = useState([]);
+  const [checkedValues, setCheckedValues] = useState(selectedScreen);
   const [published, setPublished] = useState(false);
   const [loading, setLoading] = useState(false);
   // use effect
   useEffect(() => {
+    if(selectedScreen){
+        setCheckedValues(selectedScreen);
+        const newCheckedItems = {};
+        selectedScreen.forEach((item) => {
+            newCheckedItems[item] = true;
+        });
+        setCheckedItems(newCheckedItems);
+    }
     callAllScreenApi();
-  }, []);
+  }, [selectedScreen]);
 
   const callAllScreenApi = async () => {
     setLoading(true);
@@ -26,6 +34,10 @@ const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected}) =
   };
 
   const handleCheckboxChange = (event) => {
+    // const newA = checkedValues;
+    // checkedValues.filter((i) => {
+    //     return i==event.target.name
+    // })
     const newCheckedItems = {
       ...checkedItems,
       [event.target.name]: event.target.checked,
@@ -56,15 +68,28 @@ const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected}) =
   };
 
   const handleSubmit = async () => {
-    console.log(selected, checkedItems, checkedValues);
-    // await setQuickplay({
-    //   name,
-    //   compositionId: selected._id,
-    //   screens: checkedValues,
-    //   duration: 600
-    // });
-    //setPublished(true);
-    // setShowPublishPopUp(false);
+    await assignScreenProfile({
+        profileId:selected,
+        screens: checkedValues,
+    })
+    .then((response) => {
+        //setError(null);
+        toast.success("Screen has been assigned to Profile successfully !!!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        setIsRefresh(true);
+        setShowPublishPopUp(false);
+    })
+    .catch(function (error) {
+        //setError(error.response.data.message);
+    });
   };
   return (
 <>
@@ -185,7 +210,7 @@ const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected}) =
             </Col>
             <Col lg={6} md={6} sm={6} xs={6} className="pl-2 pr-0">
               <Button
-                disabled={checkedValues.length === 0}
+                disabled={checkedValues.length == 0}
                 variant=""
                 type="button"
                 className="btn btn-primary btn-block primary-btn"

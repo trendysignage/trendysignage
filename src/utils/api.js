@@ -417,3 +417,11 @@ export async function deleteDeviceProfile(userId) {
   return response.data.data;
 }
 
+export async function assignScreenProfile(postdata) {
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/profile/assign`,postdata
+  );
+  return response;
+  
+}
+

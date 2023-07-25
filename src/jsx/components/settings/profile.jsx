@@ -17,6 +17,7 @@ const [showProfileModel, setShowProfileModel] = useState(false);
 const [profileData, setProfileData] = useState(null);
 const [showPublishPopUp, setShowPublishPopUp] = useState(false);
 const [selected, setSelected] = useState(null);
+const [selectedScreen, setSelectedScreen] = useState([]);
 
 
 const handleEditiUser = (e, item) => {
@@ -26,10 +27,11 @@ const handleEditiUser = (e, item) => {
   console.log("Update Profile")
 }
 
-const handleAssignScreen = (e, id) => {
+const handleAssignScreen = (e, id, item) => {
     e.preventDefault();
     setShowPublishPopUp(true);
     setSelected(id)
+    setSelectedScreen(item.screens)
     console.log("Assign Screen")
   }
 
@@ -64,6 +66,8 @@ const handleDelete = async(e, id) => {
         showPublishPopUp={showPublishPopUp}
         setShowPublishPopUp={setShowPublishPopUp}
         selected={selected}
+        setIsRefresh={setIsRefresh}
+        selectedScreen={selectedScreen} setSelectedScreen={setSelectedScreen}
       />
       <Table responsive className="custom-table screen-table">
         <thead>
@@ -87,7 +91,7 @@ const handleDelete = async(e, id) => {
                   </td>
                   <td>{humanReadableFormattedDateString(item.createdAt)}</td>
                   <td>{humanReadableFormattedDateString(item.updatedAt)}</td>
-                  <td>0</td>
+                  <td>{item.screens.length}</td>
                   <td>
                     <Dropdown className="dropdown-toggle-menu">
                       <Dropdown.Toggle variant="" className="p-0  mb-2">
@@ -118,7 +122,7 @@ const handleDelete = async(e, id) => {
                           </div>
                         </Dropdown.Item>
                         <Dropdown.Item 
-                           onClick={(e)=>{handleAssignScreen(e, item._id)}}
+                           onClick={(e)=>{handleAssignScreen(e, item._id, item)}}
                            className="dropdown-list-item">
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
