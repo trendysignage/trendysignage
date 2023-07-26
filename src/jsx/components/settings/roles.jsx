@@ -107,7 +107,7 @@ const Roles = ({ roles, setIsRefresh, isRefresh }) => {
           </div>
         </Col>
         <Col lg={9} md={9} sm={9} xs={9} className="pl-2 pr-0">
-          <Table responsive className="custom-table screen-table">
+          <Table responsive className="custom-table screen-table roles-table">
             <thead>
               <tr>
                 <th>Permission</th>
