@@ -308,6 +308,24 @@ export async function getReports(startDate, endDate) {
 
   return response;
 }
+export async function getReportsAudit(startDate, endDate) {
+  console.log(startDate, endDate, "startDate, endDate");
+  const response = await fetchClient.get(
+    BASE_URL +
+      `/vendor/profile/auditReport?page=0&limit=1000&startDate=${startDate}&endDate=${endDate}`
+  );
+
+  return response;
+}
+export async function getReportsMedia(startDate, endDate) {
+  console.log(startDate, endDate, "startDate, endDate");
+  const response = await fetchClient.get(
+    BASE_URL +
+      `/vendor/profile/mediaReport?page=0&limit=1000&startDate=${startDate}&endDate=${endDate}`
+  );
+
+  return response;
+}
 
 export async function getSingleSequence(scheduleId,seqId) {
   const response = await fetchClient.get(
