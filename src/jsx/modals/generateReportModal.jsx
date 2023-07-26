@@ -121,7 +121,9 @@ const GenerateReportModal = ({ close, show, reportType, type }) => {
     history.push(
       `/reports-list?startDate=${startDate}&endDate=${endDate}&type=${type}`
     );
+    close();
   };
+
   return (
     <>
       <Modal

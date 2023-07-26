@@ -3,15 +3,22 @@ import { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { getReports } from "../../../utils/api";
 import { Button, Table, Dropdown } from "react-bootstrap";
+import GenerateReportModal from "../../modals/generateReportModal";
 
 export default function ReportsList() {
   const history = useHistory();
+  const [dropValue, setDropValue] = useState("Select");
+  const [showGenerateModal, setShowGenerateModal] = useState(false);
 
   let params = new URLSearchParams(history.location.search);
   let startDate = params.get("startDate");
   let endDate = params.get("endDate");
   let type = params.get("type");
   const [reportData, setReportData] = useState([]);
+  const handleDropDown = (e, data) => {
+    e.preventDefault();
+    setDropValue(data);
+  };
   useEffect(() => {
     console.log(startDate, endDate, "semnd api");
     getReports(startDate, endDate).then((res) => {
@@ -27,9 +34,46 @@ export default function ReportsList() {
   return (
     <>
       {" "}
-      <div className="custom-content-heading ">
+      <div className="custom-content-heading d-flex align-items-center">
         <div>
           <h1 className="mb-4">{type}</h1>
+        </div>
+        <div className=" ml-auto d-flex flex-wrap align-items-center">
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="outline-primary"
+              size="sm"
+              className="mt-1 mb-2"
+            >
+              {dropValue}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={(e) => {
+                  handleDropDown(e, "Monthly");
+                  setShowGenerateModal(true);
+                }}
+              >
+                Monthly
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={(e) => {
+                  handleDropDown(e, "Daily");
+                  setShowGenerateModal(true);
+                }}
+              >
+                Daily
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={(e) => {
+                  handleDropDown(e, "Custom");
+                  setShowGenerateModal(true);
+                }}
+              >
+                Custom
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </div>
       <Table
@@ -82,6 +126,12 @@ export default function ReportsList() {
         </tbody>
         {reportData?.length === 0 && <h3 className="mt-5">No Report Found</h3>}
       </Table>
+      <GenerateReportModal
+        close={() => setShowGenerateModal(false)}
+        show={showGenerateModal}
+        reportType=""
+        type={type}
+      />
     </>
   );
 }
