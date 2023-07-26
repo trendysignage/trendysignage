@@ -119,7 +119,7 @@ const GenerateReportModal = ({ close, show, reportType, type }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     history.push(
-      `/reports-list?startDate=${startDate}&endDate=${endDate}&type=${type}`
+      `/reports-list?startDate=${startDate}&endDate=${endDate}&type=${type}&report=${reportType}`
     );
     close();
   };
@@ -159,7 +159,7 @@ const GenerateReportModal = ({ close, show, reportType, type }) => {
                   className="  form-control "
                   placeholder="App Name"
                   onChange={(e) => setDailyDate(e.target.value)}
-                  required
+                  //required
                   disabled={customShow || monthlyShow}
                 />
               </div>
