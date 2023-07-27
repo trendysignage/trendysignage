@@ -1,16 +1,27 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import { getReports } from "../../../utils/api";
-import { Button, Table, Dropdown } from "react-bootstrap";
-import GenerateReportModal from "../../modals/generateReportModal";
+import { Table } from "react-bootstrap";
+import Datatable from "react-data-table-component";
 
 export default function Uptime({reportData}) {
+
+    const columns = [
+        {
+            name : "Screen",
+            selector : (row) => row?.name
+        },
+        {
+            name : "Total Uptime",
+            selector : (row) => row.loop
+        },
+        {
+            name : "Total Avg Time",
+            selector : (row) => row.duration
+        },
+    ];
 
 
   return (
     <>
-      <span>Hello</span>
       <Table
         responsive
         className="custom-table screen-table"

@@ -3,12 +3,28 @@ import { Button, Table, Dropdown } from "react-bootstrap";
 import {
     humanReadableFormattedDateString,
   } from "../../../utils/UtilsService";
+import Datatable from "react-data-table-component";
 export default function Media({reportData}) {
+
+    const columns = [
+        {
+            name : "Media",
+            selector : (row) => row?.mediaObject?._id
+        },
+        {
+            name : "Loop Count",
+            selector : (row) => row.loop
+        },
+        {
+            name : "Duration",
+            selector : (row) => row.duration
+        },
+    ];
 
 
   return (
     <>
-      <Table
+      {/* <Table
         responsive
         className="custom-table screen-table"
         style={{ height: "100%" }}
@@ -35,7 +51,8 @@ export default function Media({reportData}) {
             })}
         </tbody>
         {reportData?.length === 0 && <h3 className="mt-5">No Report Found</h3>}
-      </Table>
+      </Table> */}
+      <Datatable columns={columns} data={reportData} pagination />
     </>
   );
 }
