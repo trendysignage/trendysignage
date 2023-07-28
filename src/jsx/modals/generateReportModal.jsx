@@ -1,61 +1,33 @@
-import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 
 import Select from "react-select";
 import { useEffect, useState } from "react";
-import { getReports } from "../../utils/api";
 import { useHistory } from "react-router-dom";
-import ReportsList from "../components/reports/reportsList";
+import moment from "moment";
 
-const GenerateReportModal = ({ close, show, reportType, type }) => {
-  console.log(reportType, "kkmkmkk");
+const GenerateReportModal = ({ close, show, reportType, type, setFilter, filter }) => {
   const history = useHistory();
   const monthOptions = [
-    { value: "Jan", label: "January" },
-    { value: "Feb", label: "February" },
-    { value: "Mar", label: "March" },
-    { value: "Apr", label: "April" },
-    { value: "May", label: "May" },
-    { value: "Jun", label: "June" },
-    { value: "Jul", label: "July" },
-    { value: "Aug", label: "August" },
-    { value: "Sep", label: "September" },
-    { value: "Oct", label: "October" },
-    { value: "Nov", label: "November" },
-    { value: "Dec", label: "December" },
+    { value: "01", label: "January" },
+    { value: "02", label: "February" },
+    { value: "03", label: "March" },
+    { value: "04", label: "April" },
+    { value: "05", label: "May" },
+    { value: "06", label: "June" },
+    { value: "07", label: "July" },
+    { value: "08", label: "August" },
+    { value: "09", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" },
   ];
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedOptionaa, setSelectedOptionaa] = useState(null);
-  const [dailyDate, setDailyDate] = useState("");
-
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [filterType, setFilterType] = useState("daily");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [dailyShow, setDailyShow] = useState(false);
-  const [monthlyShow, setMonthlyShow] = useState(false);
-  const [customShow, setCustomShow] = useState(false);
 
-  const handleClick = (event) => {
-    setDailyShow((current) => !current);
-    setMonthlyShow(false);
-    setCustomShow(false);
-  };
-  const handleClickMonthly = (event) => {
-    setMonthlyShow((current) => !current);
-    setDailyShow(false);
-    setCustomShow(false);
-  };
-  const handleClickCustom = (event) => {
-    setCustomShow((current) => !current);
-    setMonthlyShow(false);
-    setDailyShow(false);
-  };
-  useEffect(() => {
-    setStartDate(dailyDate);
-    setEndDate(dailyDate);
-  }, [dailyDate]);
-  console.log(startDate, endDate, "ooooo");
-  console.log(dailyDate, "dailyDate");
-  console.log(selectedOption?.value, "iiiioo");
   const yearOptions = [];
   const currentYear = new Date().getFullYear();
 
@@ -77,51 +49,30 @@ const GenerateReportModal = ({ close, show, reportType, type }) => {
   };
 
   useEffect(() => {
-    if (selectedOption !== null && selectedOptionaa !== null) {
-      const numberOfDays = new Date(
-        selectedOptionaa?.value,
-        new Date(
-          selectedOption?.value + " 1," + selectedOptionaa?.value
-        ).getMonth() + 1,
-        0
-      ).getDate();
-
-      // Create the start date
-      const startDate = new Date(
-        selectedOptionaa?.value,
-        new Date(
-          selectedOption?.value + " 1," + selectedOptionaa?.value
-        ).getMonth(),
-        2
-      )
-        .toISOString()
-        .split("T")[0];
-
-      // Create the end date
-      const endDate = new Date(
-        selectedOptionaa?.value,
-        new Date(
-          selectedOption?.value +
-            " " +
-            numberOfDays +
-            "," +
-            selectedOptionaa?.value
-        ).getMonth(),
-        numberOfDays + 1
-      )
-        .toISOString()
-        .split("T")[0];
-      setStartDate(startDate);
-      setEndDate(endDate);
-      console.log(startDate, endDate, "oooooooo");
-    }
-  }, [selectedOption, selectedOptionaa]);
+    getCurrentDate();
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    history.push(
-      `/reports-list?startDate=${startDate}&endDate=${endDate}&type=${type}`
-    );
+    let sDate = startDate;
+    let eDate = endDate;
+    if(filterType == 'monthly'){
+      sDate = `${selectedYear.value}-${selectedMonth.value}-01`;
+      eDate = `${selectedYear.value}-${selectedMonth.value}-31`;
+    }
+    setFilter({
+      startDate:sDate, endDate:eDate, filterType, selectedMonth, selectedYear
+    })
+    close();
   };
+
+  const getCurrentDate = () => {
+    let cDate = moment();
+    setSelectedMonth({value:cDate.format('MM'), label:cDate.format('MMMM')})
+    setSelectedYear({value:cDate.format('YYYY'), label:cDate.format('YYYY')});
+    setStartDate(cDate.format('YYYY-MM-DD'));
+    setEndDate(cDate.format('YYYY-MM-DD'));
+  }
+
   return (
     <>
       <Modal
@@ -149,49 +100,70 @@ const GenerateReportModal = ({ close, show, reportType, type }) => {
         <Modal.Body style={{ paddingBottom: "15px" }}>
           <form onSubmit={handleSubmit} className="row">
             <div className="form-group col-12 mb-0  url-app-form border-0">
-              <div onClick={() => handleClick()}>
+              <div>
                 {" "}
+                <input
+                  type="radio"
+                  //className="form-control "
+                  checked={filterType == 'daily'}
+                  onChange={(e) => setFilterType('daily')}
+                />
                 <label>Daily</label>
                 <input
                   type="date"
                   className="  form-control "
+                  defaultValue={startDate}
                   placeholder="App Name"
-                  onChange={(e) => setDailyDate(e.target.value)}
-                  required
-                  disabled={customShow || monthlyShow}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  required={filterType == 'daily'}
+                  readOnly={filterType !== 'daily'}
                 />
               </div>
 
-              <div onClick={() => handleClickMonthly()}>
+              <div>
                 <>
+                  <input
+                    type="radio"
+                    //className="form-control "
+                    checked={filterType == 'monthly'}
+                    onChange={(e) => setFilterType('monthly')}
+                  />
                   <label className="mt-3">Monthly</label>
                   <div className="row">
                     <div className="col-6">
                       <Select
-                        defaultValue={selectedOption}
-                        onChange={setSelectedOption}
+                        value={selectedMonth}
+                        onChange={setSelectedMonth}
                         options={monthOptions}
                         styles={colourStyles}
                         placeholder="month"
                         className="app-option"
-                        isDisabled={dailyShow || customShow}
+                        isDisabled={filterType !== 'monthly'}
+                        required={filterType == 'monthly'}
                       />
                     </div>
                     <div className="col-6">
                       <Select
-                        defaultValue={selectedOptionaa}
-                        onChange={setSelectedOptionaa}
+                        value={selectedYear}
+                        onChange={setSelectedYear}
                         options={yearOptions}
                         styles={colourStyles}
                         placeholder="year"
                         className="app-option"
-                        isDisabled={dailyShow || customShow}
+                        isDisabled={filterType !== 'monthly'}
+                        required={filterType == 'monthly'}
                       />
                     </div>
                   </div>
                 </>
               </div>
-              <div onClick={() => handleClickCustom()}>
+              <div>
+                <input
+                  type="radio"
+                  //className="form-control "
+                  checked={filterType == 'custom'}
+                  onChange={(e) => setFilterType('custom')}
+                />
                 <label className="mt-3">Custom</label>
                 <div className="row">
                   <div className="col-6">
@@ -199,7 +171,9 @@ const GenerateReportModal = ({ close, show, reportType, type }) => {
                       type="date"
                       className="  form-control "
                       onChange={(e) => setStartDate(e.target.value)}
-                      disabled={dailyShow || monthlyShow}
+                      readOnly={filterType !== 'custom'}
+                      defaultValue={startDate}
+                      required={filterType == 'custom'}
                     />
                   </div>
                   <div className="col-6">
@@ -207,7 +181,9 @@ const GenerateReportModal = ({ close, show, reportType, type }) => {
                       type="date"
                       className="form-control "
                       onChange={(e) => setEndDate(e.target.value)}
-                      disabled={dailyShow || monthlyShow}
+                      readOnly={filterType !== 'custom'}
+                      required={filterType == 'custom'}
+                      defaultValue={endDate}
                     />
                   </div>
                 </div>
