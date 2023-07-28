@@ -4,40 +4,67 @@ import FileUploadWithPreview from "../components/media/fileUploadWithPreview";
 import { useState } from "react";
 import { addMedia } from "../../utils/api";
 
-const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal, callAllMediaApi }) => {
-  const [file, setFile] = useState(null);
-  const [fileMeta, setFileMeta] = useState(null);
+const UploadMediaModal = ({
+  showUploadMediaModal,
+  setUploadMediaModal,
+  callAllMediaApi,
+}) => {
+  const [file, setFile] = useState([]);
+  const [fileMeta, setFileMeta] = useState([]);
   const [error, setShowError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [keyImg, setKeyImg] = useState(null);
+  const [previewList, setPreviewList] = useState([]);
   const handleUpload = async () => {
-    setIsLoading(true)
-    if (!file) {
-      setIsLoading(false)
-      setShowError("Please select a File")
+    let c = 0;
+    //setKeyImg(c)
+    for (let item of file) {
+      await handleSingleUpload(item, c);
+      c++;
+    }
+    setIsLoading(false);
+    callAllMediaApi();
+    setUploadMediaModal(false);
+    setPreviewList([]);
+    setFile([]);
+  };
+  const handleSingleUpload = async (item, c) => {
+    setIsLoading(true);
+    setKeyImg(c);
+    // const filePre = previewList;
+    // filePre[c].isLoading = true;
+    // setPreviewList(filePre);
+    if (!item) {
+      setIsLoading(false);
+      setShowError("Please select a File");
       return false;
-    } 
+    }
 
-    if (!file.type.includes('image') && !file.type.includes('video')) {
-      setIsLoading(false)
-      setShowError("Please upload an image or video file.")
+    if (!item.type.includes("image") && !item.type.includes("video")) {
+      setIsLoading(false);
+      setShowError("Please upload an image or video file.");
       return;
     }
     const formData = new FormData();
-    const sendFileMeta = JSON.stringify({...fileMeta,...{size : bytesToMB(file.size)}})
-    formData.append('file', file);
-    // formData.append('title', file.name);
-    formData.append('properties', sendFileMeta);
-    if (file.type.includes('image')) {
-      formData.append('type', "image");
-    } else if (file.type.includes('video')) {
-      formData.append('type', "video");
+
+    const sendFileMeta = JSON.stringify({
+      ...fileMeta[c],
+      ...{ size: bytesToMB(item.size) },
+    });
+    console.log(sendFileMeta);
+    formData.append("file", item);
+    formData.append("properties", sendFileMeta);
+    if (item.type.includes("image")) {
+      formData.append("type", "image");
+    } else if (item.type.includes("video")) {
+      formData.append("type", "video");
     } else {
       return false;
     }
-     await addMedia(formData)
-     setIsLoading(false)
-     callAllMediaApi()
-     setUploadMediaModal(false)
+    await addMedia(formData);
+    // const fileMetaUpdated = previewList;
+    // fileMetaUpdated[c].isLoading = false;
+    // setFileMeta(fileMetaUpdated)
   };
 
   const bytesToMB = (bytes) => {
@@ -60,28 +87,36 @@ const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal, callAllMe
         </Button>
       </Modal.Header>
       <Modal.Body>
+        <FileUploadWithPreview
+          isLoading={isLoading}
+          setPreviewList={setPreviewList}
+          previewList={previewList}
+          file={file}
+          setFile={setFile}
+          setShowError={setShowError}
+          setFileMeta={setFileMeta}
+          keyImg={keyImg}
+          fileMeta={fileMeta}
+        />
 
-
-
-     <FileUploadWithPreview file={file}  setFile={setFile} setShowError={setShowError} setFileMeta={setFileMeta}/>
-    
-        {error && <div className="error text-center font-weight-500">{error}</div>}
+        {error && (
+          <div className="error text-center font-weight-500">{error}</div>
+        )}
         <div class="add-screen-paragraph text-center font-weight-500">
           <p>We support JPEG, PNG, MP4.</p>
         </div>
       </Modal.Body>
       <Modal.Footer>
-      <div className="loader-button-container">
-        <Button
-          variant=""
-          type="button"
-          disabled={isLoading}
-          className={`btn btn-primary btn-block primary-btn`}
-          onClick={() => handleUpload()}
-        >
-        {isLoading ? <div className="loader"></div> : 'Upload'}
-          
-        </Button>
+        <div className="loader-button-container">
+          <Button
+            variant=""
+            type="button"
+            disabled={isLoading}
+            className={`btn btn-primary btn-block primary-btn`}
+            onClick={() => handleUpload()}
+          >
+            {isLoading ? <div className="loader"></div> : "Upload"}
+          </Button>
         </div>
       </Modal.Footer>
     </Modal>

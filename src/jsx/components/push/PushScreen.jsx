@@ -5,7 +5,7 @@ import quickPlayIcon from "../../../img/quickplay-icon.png";
 import defaultComparisonIcon from "../../../img/comparison-icon.png";
 import { Link } from "react-router-dom";
 import { Button, Table, Dropdown } from "react-bootstrap";
-import { deleteSchedule, getAllSchedule } from "../../../utils/api";
+import { deleteSchedule, getAllSchedule, getQuickPlay, deleteQuickPlay, getDefaultComposition, getAllScreens, getAllComposition ,setDefaultComposition} from "../../../utils/api";
 import { useEffect } from "react";
 import {
   getDatetimeIn12Hours,
@@ -16,13 +16,37 @@ import menuIcon from "../../../img/menu-icon.png";
 import deleteIcon from "../../../img/delete-icon.png";
 import edit from "../../../img/edit-composition.png";
 import { useHistory } from "react-router-dom";
+import TableLoader from "../../components/TableLoader";
 
 const PushScreen = () => {
   const history = useHistory();
   const [scheduleData, setScheduleData] = useState([]);
-  console.log(scheduleData, "llllll");
+  const [quickPlayData, setQuickPlayData] = useState([]);
+  const [defaultData, setDefaultData] = useState([]);
   const [showPublishBtn, setShowPublishBtn] = useState(false);
+  const [publishType, setPublishType] = useState("schedule");
   const [loading, setLoading] = useState(false);
+  const [showDefaultScreen, setShowDefaultScreen] = useState(false);
+  const [showDefaultComp, setShowDefaultComp] = useState(false);
+  const [checkedItems, setCheckedItems] = useState({});
+  const [checkedValues, setCheckedValues] = useState([]);
+  const [checkedValuesComp, setCheckedValuesComp] = useState(null);
+  const [allComposition, setAllComposition] = useState([]);
+  const [allScreens, setAllScreens] = useState("");
+
+
+  const callAllScreenApi = async () => {
+    const list = await getAllScreens();
+    setAllScreens(list);
+  };
+
+  const getAllCompositionList = async () => {
+    setLoading(true);
+    const list = await getAllComposition();
+    console.log("lsit",list)
+    setAllComposition(list);
+    setLoading(false);
+  };
 
   async function getSchedule() {
     setLoading(true);
@@ -32,15 +56,50 @@ const PushScreen = () => {
       setLoading(false);
     });
   }
+  async function getQuickplay() {
+    setLoading(true);
+    await getQuickPlay().then((res) => {
+      console.log(res, "res Quickplay");
+      setQuickPlayData(res.data.data);
+      setLoading(false);
+    });
+  }
+  async function getDefault() {
+    setLoading(true);
+    await getDefaultComposition().then((res) => {
+      console.log(res.data, "res Default");
+      setDefaultData(res.data.data);
+      setLoading(false);
+    });
+  }
   useEffect(() => {
     getSchedule();
-  }, []);
+    callAllScreenApi();
+    getAllCompositionList();
+    if(publishType && publishType === 'schedule'){
+      getSchedule();
+    }
+    if(publishType && publishType === 'quickplay'){
+      getQuickplay();
+    }
+    if(publishType && publishType === 'defaultComposition'){
+      getDefault();
+    }
+  }, [publishType]);
+
   function handleDeleteSchedule(id) {
-    console.log(id, "idddddd");
-    console.log("mmmmmmm");
     deleteSchedule(id).then((res) => {
       if (res.data.statusCode === 200) {
         getSchedule();
+      }
+    });
+  }
+
+  const handleDeleteQuickPlay = (e,id) => {
+    e.preventDefault();
+    deleteQuickPlay(id).then((res) => {
+      if (res.data.statusCode === 200) {
+        getQuickplay();
       }
     });
   }
@@ -49,6 +108,11 @@ const PushScreen = () => {
     e.preventDefault();
     history.push(`/design-month-schedule/${id}`);
   };
+
+  const handleDefaultScreen = (e) => {
+    e.preventDefault();
+    setShowDefaultScreen(true);
+  }
 
   function convertTimestampTo12HourFormat(timestamp) {
     if (!timestamp) {
@@ -86,15 +150,103 @@ const PushScreen = () => {
   }
 
   function findEndTime(value) {
-    console.log(value, "valurrrrrr");
     if (!value || value === undefined) {
       return "time not find";
     }
-    console.log("first hhhhhhhh");
     if (value !== undefined) {
       return value?.timings[value.timings.length - 1]?.endTime;
     }
   }
+
+  const handleCheckboxChange = (event, type) => {
+    if(type == 'screen'){
+      const newCheckedItems = {
+        ...checkedItems,
+        [event.target.name]: event.target.checked,
+      };
+      const selectedScreens = [];
+      for (const key in newCheckedItems) {
+        if (newCheckedItems[key] === true) {
+          selectedScreens.push(key);
+        }
+      }
+      setCheckedValues(selectedScreens);
+      setCheckedItems(newCheckedItems);
+    }
+    else{
+      setCheckedValuesComp(event.target.name);
+    }
+  };
+
+  const handleSelectAllChange = (event) => {
+    const newCheckedItems = {};
+    allScreens.forEach((item) => {
+      newCheckedItems[item._id] = event.target.checked;
+    });
+    const selectedScreens = [];
+    for (const key in newCheckedItems) {
+      if (newCheckedItems[key] === true) {
+        selectedScreens.push(key);
+      }
+    }
+    setCheckedValues(selectedScreens);
+    setCheckedItems(newCheckedItems);
+  };
+
+  const handleProceed = (e, type) => {
+    if(type == 'screen'){
+      e.preventDefault();
+      setShowDefaultComp(true);
+      setShowDefaultScreen(false);
+    }
+  }
+
+  const handleProceedComp = async (e, type) => {
+    e.preventDefault();
+    console.log(checkedValues, checkedItems, checkedValuesComp);
+    await setDefaultComposition({
+      screens:checkedValues,
+      compositionId: checkedValuesComp
+    });
+    setShowDefaultComp(false);
+    setShowDefaultScreen(false);
+    setShowPublishBtn(!showPublishBtn)
+    setCheckedItems([]);
+    setCheckedValues([]);
+    setCheckedValuesComp(null)
+    setPublishType('defaultComposition')
+
+  }
+
+  const handlePublish = (e) => {
+    e.preventDefault();
+    if(showPublishBtn === true){
+      setShowDefaultComp(false);
+      setShowDefaultScreen(false);
+      setCheckedItems([]);
+      setCheckedValues([]);
+      setCheckedValuesComp(null)
+      setPublishType('schedule')
+    }
+    setShowPublishBtn(!showPublishBtn)
+  }
+
+  // const handleSubmit = async () => {
+  //  await publishMedia({
+  //     id: selected._id,
+  //     screenIds: checkedValues,
+  //     duration: 600,
+  //     type:type
+  //   });
+  //   await setQuickplay({
+  //     name,
+  //     compositionId: selected._id,
+  //     screens: checkedValues,
+  //     duration: 600
+  //   });
+  //   setPublished(true);
+  //   // setShowPublishPopUp(false);
+  // };
   return (
     <>
       <div className="custom-content-heading d-flex flex-wrap flex-row align-items-center justify-content-between">
@@ -109,7 +261,7 @@ const PushScreen = () => {
             className=""
             variant="info add-screen-btn"
             type="button"
-            onClick={() => setShowPublishBtn(true)}
+            onClick={(e) => handlePublish(e)}
           >
             Publish
           </Button>
@@ -117,94 +269,266 @@ const PushScreen = () => {
       </div>
 
       <div className="layout-row push-row mb-4">
-        {showPublishBtn && (
-          <div className="d-flex mb-2 mt-3">
-            <Link
-              to={{
-                pathname: `/SelectComparison`,
-              }}
-            >
-              <Button
-                className="mr-3 push-screen-btn"
-                variant="info "
-                type="button"
-              >
-                Schedule
-              </Button>
-            </Link>
-
-            <Button
-              className="mr-3 push-screen-btn"
-              variant="info "
-              type="button"
-            >
-              Quickplay
-            </Button>
-            <Button className="push-screen-btn" variant="info " type="button">
-              Default Composition
-            </Button>
-          </div>
-        )}
-        {scheduleData.length === 0 && !loading && (
-          <Row>
-            <Col lg="4" md="4" sm="12" xs="12">
-              <Link
-                to={{
-                  pathname: `/SelectComparison`,
-                }}
-              >
+        {
+          showPublishBtn && !showDefaultScreen && !showDefaultComp ?
+            <Row>
+              <Col lg="4" md="4" sm="12" xs="12">
+                <Link
+                  to={{
+                    pathname: `/SelectComparison`,
+                  }}
+                >
+                  <div className="push-column text-center">
+                    <div className="push-column-icon d-flex align-items-center justify-content-center">
+                      <img
+                        className="layout-select-img"
+                        src={scheduleIcon}
+                        alt="menu-icon"
+                      />
+                    </div>
+                    <h6>Schedule</h6>
+                    <p>
+                      Scheduled content gets displayed only for time you choose
+                    </p>
+                  </div>
+                </Link>
+              </Col>
+              <Col lg="4" md="4" sm="12" xs="12">
                 <div className="push-column text-center">
                   <div className="push-column-icon d-flex align-items-center justify-content-center">
                     <img
                       className="layout-select-img"
-                      src={scheduleIcon}
+                      src={quickPlayIcon}
                       alt="menu-icon"
                     />
                   </div>
-                  <h6>Schedule</h6>
+                  <h6>Quickplay</h6>
                   <p>
-                    Scheduled content gets displayed only for time you choose
+                    Quickplay let's you display content instantly. Can be used
+                    Emergency cases
                   </p>
                 </div>
-              </Link>
-            </Col>
-            <Col lg="4" md="4" sm="12" xs="12">
-              <div className="push-column text-center">
-                <div className="push-column-icon d-flex align-items-center justify-content-center">
-                  <img
-                    className="layout-select-img"
-                    src={quickPlayIcon}
-                    alt="menu-icon"
-                  />
+              </Col>
+              <Col lg="4" md="4" sm="12" xs="12">
+                <div className="push-column text-center">
+                  <div className="push-column-icon d-flex align-items-center justify-content-center">
+                    <img
+                      className="layout-select-img"
+                      src={defaultComparisonIcon}
+                      alt="menu-icon"
+                    />
+                  </div>
+                  <h6>Default Composition</h6>
+                  <p>
+                    Default content keeps on playing irrespective of the time when
+                    there is no active
+                  </p>
+                  <button onClick={(e) => {handleDefaultScreen(e)}}>Add Content</button>
                 </div>
-                <h6>Quickplay</h6>
-                <p>
-                  Quickplay let's you display content instantly. Can be used
-                  Emergency cases
-                </p>
-              </div>
-            </Col>
-            <Col lg="4" md="4" sm="12" xs="12">
-              <div className="push-column text-center">
-                <div className="push-column-icon d-flex align-items-center justify-content-center">
-                  <img
-                    className="layout-select-img"
-                    src={defaultComparisonIcon}
-                    alt="menu-icon"
-                  />
-                </div>
-                <h6>Default Composition</h6>
-                <p>
-                  Default content keeps on playing irrespective of the time when
-                  there is no active
-                </p>
-              </div>
-            </Col>
-          </Row>
-        )}
-      </div>
+              </Col>
+            </Row> 
+           : <></>
+        }
+        {!showPublishBtn && (
+          <div className="d-flex mb-2 mt-3">
+              <Button
+                className={publishType === 'schedule' ? 'mr-3 activeType': 'mr-3 push-screen-btn'}
+                variant="info "
+                type="button"
+                onClick={(e)=>{setPublishType("schedule")}}
+              >
+                Schedule
+              </Button>
 
-      <Table
+            <Button
+              className={publishType === 'quickplay' ? 'mr-3 activeType': 'mr-3 push-screen-btn'}
+              variant="info "
+              type="button"
+              onClick={(e)=>{setPublishType("quickplay")}}
+            >
+              Quickplay
+            </Button>
+            <Button 
+              className={publishType === 'defaultComposition' ? 'mr-3 activeType': 'mr-3 push-screen-btn'} 
+              variant="info " type="button" onClick={(e)=>{setPublishType("defaultComposition")}}>
+              Default Composition
+            </Button>
+          </div>
+        )}
+        
+      </div>
+      {!showPublishBtn && publishType && publishType === 'quickplay' && 
+        <Table
+          responsive
+          className="custom-table screen-table"
+          style={{ height: "100%" }}
+          id="external-events"
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date Added</th>
+              <th>Screens Assigned</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>more</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          {quickPlayData &&
+            quickPlayData.map((composition) => {
+              return (
+                <tr key={composition._id}>
+                  <td>{composition.name}</td>
+                  <td>
+                    <span className="td-content">
+                      <strong>
+                        {humanReadableFormattedDateString(
+                          composition.createdAt
+                        )}
+                      </strong>
+                      <span>{getDatetimeIn12Hours(composition.createdAt)}</span>
+                    </span>
+                  </td>
+                  <td> {composition.screens?.length}</td>
+
+                  <td>
+                    <span className="td-content">
+                      <strong>
+                        {humanReadableFormattedDateString(
+                          composition.createdAt
+                        )}
+                      </strong>
+                      <span>{getDatetimeIn12Hours(composition.createdAt)}</span>
+                    </span>
+                  </td>
+
+                  <td>
+                    <span className="td-content">
+                      <strong>
+                        {humanReadableFormattedDateString(
+                          composition.createdAt
+                        )}
+                      </strong>
+                      <span>{moment(composition.createdAt).add(10,'minutes').format(
+                "hh:mm A"
+              )}</span>
+                    </span>
+                  </td>
+                  <td>
+                    <Dropdown className="dropdown-toggle-menu">
+                      <Dropdown.Toggle variant="" className="p-0  mb-2">
+                        <span className="table-menu-icon">
+                          <img
+                            className="menu-img img-fluid"
+                            src={menuIcon}
+                            alt="menu-icon"
+                          />
+                        </span>
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item
+                          href="#"
+                          className="dropdown-list-item"
+                          onClick={(e) => {
+                            handleDeleteQuickPlay(e,composition._id);
+                          }}
+                        >
+                          <div className="d-flex">
+                            <div className="dropdown-list-icon">
+                              <img
+                                className="dropdown-list-img img-fluid"
+                                src={deleteIcon}
+                                alt="menu-icon"
+                              />
+                            </div>
+                            <div className="dropdown-menu-list">
+                              <span className="menu-heading">Delete</span>
+                              <span className="menu-description">
+                                Get to know more about screen info
+                              </span>
+                            </div>
+                          </div>
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
+        </Table>
+      }
+      {!showPublishBtn &&  publishType && publishType === 'defaultComposition' && 
+        <>
+          <Table
+            responsive
+            className="custom-table screen-table"
+            style={{ height: "100%" }}
+            id="external-events"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Date Added</th>
+                <th>Screens Assigned</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {defaultData &&
+              defaultData.map((composition) => {
+                return (
+                  <tr key={composition._id}>
+                    <td>{composition._id}</td>
+                    <td>
+                      <span className="td-content">
+                        <strong>
+                          {humanReadableFormattedDateString(
+                            composition.createdAt
+                          )}
+                        </strong>
+                        <span>{getDatetimeIn12Hours(composition.createdAt)}</span>
+                      </span>
+                    </td>
+                    <td> {composition.screens?.length}</td>
+
+                    <td>
+                      <span className="td-content">
+                        <strong>
+                          {humanReadableFormattedDateString(
+                            composition.createdAt
+                          )}
+                        </strong>
+                        <span>{getDatetimeIn12Hours(composition.createdAt)}</span>
+                      </span>
+                    </td>
+
+                    <td>
+                      <span className="td-content">
+                        <strong>
+                          {humanReadableFormattedDateString(
+                            composition.createdAt
+                          )}
+                        </strong>
+                        <span>{moment(composition.createdAt).add(10,'minutes').format(
+                  "hh:mm A"
+                )}</span>
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+          </Table>
+        </>
+      }
+      {
+        !showPublishBtn && publishType && publishType === 'schedule' && 
+        <Table
         responsive
         className="custom-table screen-table"
         style={{ height: "100%" }}
@@ -224,7 +548,6 @@ const PushScreen = () => {
         <tbody>
           {scheduleData &&
             scheduleData.map((composition) => {
-              console.log(composition, "yyyyyy");
 
               const maxDates = composition.sequence.reduce((max, obj) => {
                 const parseDts = obj.dates.map((dt) => new Date(dt));
@@ -379,7 +702,171 @@ const PushScreen = () => {
               );
             })}
         </tbody>
-      </Table>
+        </Table>
+      }
+          {showPublishBtn && checkedValues && checkedValues.length > 0 && checkedValuesComp == null && <button className="btn btn-sm btn-primary" onClick={(e) => {handleProceed(e, "screen")}}>Proceed</button>}
+          {
+            showDefaultScreen &&
+              <>
+              <h4>Plesae Select Screen</h4>
+              <Table responsive>
+                <thead>
+                  <tr>
+                    <th className="width50">
+                      <div className="custom-control custom-checkbox checkbox-success check-lg mr-3">
+                        <input
+                          type="checkbox"
+                          className="custom-control-input"
+                          id="checkbox1_exam_all"
+                          onChange={handleSelectAllChange}
+                          required=""
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="checkbox1_exam_all"
+                        ></label>
+                      </div>
+                    </th>
+                    <th>Screen</th>
+                    <th>Last Seen</th>
+                    <th>Default Composition</th>
+                    <th>Current Schedule</th>
+                  </tr>
+                </thead>
+                {loading  ? (
+              <TableLoader colSpan={5}/>
+            ) : (
+                <tbody>
+                  {allScreens !== "" &&
+                    allScreens.map((screen) => {
+                      return (
+                        <tr>
+                          <td>
+                            <div className="custom-control custom-checkbox checkbox-success check-lg mr-3">
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id={screen._id}
+                                name={screen._id}
+                                checked={checkedItems[screen._id]}
+                                onChange={(e) =>{handleCheckboxChange(e,"screen")}}
+                              />
+                              <label
+                                className="custom-control-label"
+                                htmlFor={screen._id}
+                              ></label>
+                            </div>
+                          </td>
+
+                          <td>
+                            <span className="td-content">
+                              <strong>{screen.name}</strong>
+                              <span>{screen.screenLocation}</span>
+                            </span>
+                          </td>
+                          <td>
+                            <span className="d-flex align-items-center">
+                              <span className="status status-green"></span>
+                              <span className="td-content">
+                                <strong>{screen.name}</strong>
+                                <span>{screen.screenLocation}</span>
+                              </span>
+                            </span>
+                          </td>
+                          <td>Default Compo. </td>
+                          <td>No Schedule</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+                )}
+              </Table>
+              </>
+          }
+          {showPublishBtn && checkedValuesComp != null && <button className="btn btn-sm btn-primary" onClick={(e) => {handleProceedComp(e, "composition")}}>Submit</button>}
+          {
+            checkedValues && checkedValues.length > 0 && showDefaultComp &&
+              <>
+              <h4>Please select composition</h4>
+              <Table responsive>
+                <thead>
+                  <tr>
+                    <th className="width50">
+                      <div className="custom-control custom-checkbox checkbox-success check-lg mr-3">
+                        <input
+                          type="checkbox"
+                          className="custom-control-input"
+                          id="checkbox1_exam_all"
+                          disabled
+                        // onChange={handleSelectAllChange}
+                          required=""
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="checkbox1_exam_all"
+                        ></label>
+                      </div>
+                    </th>
+                    <th>Name</th>
+                    <th>Date Added</th>
+                    <th>Duration</th>
+                    <th>Associated Schedule</th>
+                  </tr>
+                </thead>
+                {loading  ? (
+              <TableLoader colSpan={5}/>
+            ) : (
+                <tbody>
+                  {allComposition !== "" &&
+                    allComposition.map((composition) => {
+                      return (
+                        <tr>
+                          <td>
+                            <div className="custom-control custom-checkbox checkbox-success check-lg mr-3">
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id={composition._id}
+                                name={composition._id}
+                                checked={checkedValuesComp === composition._id}
+                                onChange={(e) =>{handleCheckboxChange(e,"composition")}}
+                              />
+                              <label
+                                className="custom-control-label"
+                                htmlFor={composition._id}
+                              ></label>
+                            </div>
+                          </td>
+                          <td>
+                            <span className="td-content d-flex name-td-content">
+                              <span className="name-content d-flex flex-column flex-grow-1">
+                                <strong>{composition.name}</strong>
+                                <span>{composition.createdBy}</span>
+                              </span>
+                            </span>
+                          </td>
+
+                          <td>
+                            <span className="td-content">
+                              <strong>
+                                {humanReadableFormattedDateString(
+                                  composition.createdAt
+                                )}
+                              </strong>
+                              <span>{getDatetimeIn12Hours(composition.createdAt)}</span>
+                            </span>
+                          </td>
+                          <td> {composition.duration} Sec</td>
+                          <td>No Composition</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+                )}
+              </Table> 
+              </>
+          }
+
     </>
   );
 };

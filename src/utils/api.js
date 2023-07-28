@@ -1,5 +1,5 @@
 import fetchClient from "./fetchClient";
-
+import axios from 'axios'
 export const BASE_URL = "http://144.126.143.140:5000";
 
 export function login(email, password) {
@@ -221,6 +221,23 @@ export async function getAllSchedule() {
   return response;
 }
 
+export async function getQuickPlay() {
+  const response = await fetchClient.get(BASE_URL + `/vendor/push/quickplay`);
+  return response;
+}
+
+export async function setQuickplay(postData) {
+  try {
+    const response = await fetchClient.post(
+      `${BASE_URL}/vendor/push/quickplay`,
+      postData
+    );
+    return response.data.statusCode === 200;
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function deleteSequence(sequenceId, scheduleId) {
   const response = await fetchClient.delete(
     `${BASE_URL}/vendor/push/sequence?scheduleId=${scheduleId}&sequenceId=${sequenceId}`
@@ -230,6 +247,13 @@ export async function deleteSequence(sequenceId, scheduleId) {
 export async function deleteSchedule(scheduleId) {
   const response = await fetchClient.delete(
     `${BASE_URL}/vendor/push/schedule?scheduleId=${scheduleId}`
+  );
+  return response;
+}
+
+export async function deleteQuickPlay(quickPlayId) {
+  const response = await fetchClient.delete(
+    `${BASE_URL}/vendor/push/quickplay?id=${quickPlayId}`
   );
   return response;
 }
@@ -246,16 +270,49 @@ export async function assignDefaultComposition(postData) {
   }
 }
 
+export async function setDefaultComposition(postData) {
+  try {
+    const response = await fetchClient.post(
+      `${BASE_URL}/vendor/push/defaultComposition`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function getDefaultComposition(postData) {
+  try {
+    const response = await fetchClient.get(
+      `${BASE_URL}/vendor/push/defaultComposition`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function vendorProfile() {
   const response = await fetchClient.get(BASE_URL + `/vendor/profile`);
   return response;
 }
 
-export async function getReports(startDate, endDate) {
-  console.log(startDate, endDate, "startDate, endDate");
+export async function getReports(startDate, endDate, reportSlug) {
+  let type = "";
+  if(reportSlug == 'media-report'){
+    type = 'mediaReport';
+  }
+  if(reportSlug == 'uptime-report'){
+    type = 'uptimeReport';
+  }
+  if(reportSlug == 'audit-logs'){
+    type = 'auditLogs';
+  }
   const response = await fetchClient.get(
     BASE_URL +
-      `/vendor/profile/uptimeReport?page=0&limit=1000&startDate=${startDate}&endDate=${endDate}`
+      `/vendor/profile/${type}?page=0&limit=1000&startDate=${startDate}&endDate=${endDate}`
   );
 
   return response;
@@ -267,3 +324,113 @@ export async function getSingleSequence(scheduleId,seqId) {
   );
   return response.data.data;
 }
+
+export async function getUsers() {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/profile/users`
+  );
+  return response.data.data;
+}
+
+export async function addUsers(postdata) {
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/profile/users`,postdata
+  );
+  return response;
+  
+}
+
+export async function updateUsers(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/profile/users`,postdata
+  );
+  return response.data.data;
+}
+
+export async function deleteUsers(userId) {
+  const response = await fetchClient.delete(
+    BASE_URL + `/vendor/profile/users?userId=${userId}`
+  );
+  return response.data.data;
+}
+
+export async function getGroups() {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/profile/groups`
+  );
+  return response.data.data;
+}
+
+export async function addGroups(postdata) {
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/profile/groups`,postdata
+  );
+  return response;
+  
+}
+
+export async function updateGroups(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/profile/groups`,postdata
+  );
+  return response.data.data;
+}
+
+export async function deleteGroups(groupId) {
+  const response = await fetchClient.delete(
+    BASE_URL + `/vendor/profile/groups?groupId=${groupId}`
+  );
+  return response.data.data;
+}
+
+export async function getRoles() {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/profile/roles`
+  );
+  return response.data.data;
+}
+
+export async function updateRoles(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/profile/roles`,postdata
+  );
+  return response.data.data;
+}
+
+export async function getDeviceProfile() {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/profile/deviceProfile`
+  );
+  return response.data.data;
+}
+
+export async function addDeviceProfile(postdata) {
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/profile/deviceProfile`,postdata
+  );
+  return response;
+  
+}
+
+export async function updateDeviceProfile(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/profile/deviceProfile`,postdata
+  );
+  return response.data.data;
+}
+
+export async function deleteDeviceProfile(userId) {
+  const response = await fetchClient.delete(
+    BASE_URL + `/vendor/profile/deviceProfile?profileId=${userId}`
+  );
+  return response.data.data;
+}
+
+export async function assignScreenProfile(postdata) {
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/profile/assign`,postdata
+  );
+  return response;
+  
+}
+
