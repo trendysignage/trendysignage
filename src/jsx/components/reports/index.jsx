@@ -182,7 +182,7 @@ const Reports = () => {
               {reportSlug && reportSlug == 'uptime-report' ? <Uptime reportData={reportData}/> : ''}
               {reportSlug && reportSlug == 'media-report' ? <Media reportData={reportData}/> : ''}
               {reportSlug && reportSlug == 'audit-logs' ? <Audit reportData={reportData}/> : ''}
-            </> : <span>Bye</span>
+            </> : ""
           }
           <GenerateReportModal
             close={() => setShowGenerateModal(false)}
