@@ -165,7 +165,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
             </div>
           )}
           {contentType !== null && contentType === "image" && (
-            <div className="basic-list-group image-preview-container media-content">
+            <div className="basic-list-group image-preview-container media-content ">
               <img
                 className="webplayer-preview-img"
                 src={media}
@@ -186,10 +186,10 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
           )}
           {contentType === "default_media" && (
             <>
-            <GetCompositionPlayer
-              composition={media}
-              handleAddClass={handleAddClass}
-            />
+              <GetCompositionPlayer
+                composition={media}
+                handleAddClass={handleAddClass}
+              />
             </>
             // <div className="basic-list-group image-preview-container media-content">
             //   <img

@@ -10,6 +10,7 @@ import { getReports } from "../../../utils/api";
 import Uptime from "./Uptime";
 import Media from "./Media";
 import Audit from "./Audit";
+import backicon from "../../../img/backicon.png";
 
 const Reports = () => {
   const history = useHistory();
@@ -153,10 +154,10 @@ const Reports = () => {
                 onClick={(e) => {
                   redirectBack(e);
                 }}
+                className="back-button"
               >
-                Back
+                <img src={backicon} alt="icon" />
               </button>
-              <h1 className="mb-4">{reportType}</h1>
             </div>
             <div className=" ml-auto d-flex flex-wrap align-items-center">
               <Dropdown>
@@ -196,6 +197,10 @@ const Reports = () => {
               </Dropdown>
             </div>
           </div>
+          <div className="custom-content-heading">
+            <h1 className="mb-4">{reportType}</h1>
+          </div>
+
           {reportSlug && reportSlug == "uptime-report" ? (
             <Uptime reportData={reportData} />
           ) : (
