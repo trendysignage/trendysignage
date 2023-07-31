@@ -3169,4 +3169,12 @@ thead {
   background-color: rgb(255, 228, 148) !important;
   border-color: rgb(255, 228, 148) !important;
 }
+
+
+@media (orientation: portrait) {
+  .potrait-view .container-fluid {
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+}
  
