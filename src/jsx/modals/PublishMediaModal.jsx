@@ -62,12 +62,12 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
       duration: 600,
       type:type
     });
-    await setQuickplay({
-      name,
-      compositionId: selected._id,
-      screens: checkedValues,
-      duration: 600
-    });
+    // await setQuickplay({
+    //   name,
+    //   compositionId: selected._id,
+    //   screens: checkedValues,
+    //   duration: 600
+    // });
     setPublished(true);
     // setShowPublishPopUp(false);
   };

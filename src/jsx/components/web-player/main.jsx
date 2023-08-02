@@ -66,8 +66,9 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
   //     };
   //   }
   // }, [isVerified]);
-  const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
+  //const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
   useEffect(() => {
+    console.log("sdasd");
     const socket = io(BASE_URL, {
       query: { deviceToken: id },
       autoConnect: false,

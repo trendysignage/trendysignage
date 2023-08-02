@@ -412,6 +412,22 @@ export async function addDeviceProfile(postdata) {
   
 }
 
+export async function addApps(postdata) {
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/apps`,postdata
+  );
+  return response;
+  
+}
+
+export async function updateApps(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/apps`,postdata
+  );
+  return response;
+  
+}
+
 export async function updateDeviceProfile(postdata) {
   const response = await fetchClient.put(
     BASE_URL + `/vendor/profile/deviceProfile`,postdata

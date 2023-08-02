@@ -2,29 +2,17 @@ import React, { useEffect, useState, useRef } from "react";
 
 import WebVideoPlayer from "./WebVideoPlayer";
 import { BASE_URL } from "../../../utils/api";
+import ReactPlayer from 'react-player'
+import Iframe from 'react-iframe'
 const CompositionPlayer = ({ contents, content, referenceUrl }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [current1Index, setCurrent1Index] = useState(0);
   const [current2Index, setCurrent2Index] = useState(0);
   const timeout1Ref = useRef("");
   const timeoutRef = useRef("");
-  // useEffect(() => {
 
-  //   if (content[currentIndex]) {
-  //     console.log(content[currentIndex], "content[currentIndex] inside if in CompositionPlayer .jsx")
-
-  //     const timeoutDuration = content[currentIndex].duration * 1000;
-  //     timeoutRef.current = setTimeout(() => {
-  //       if(currentIndex === (content.length -1) ){
-  //         setCurrentIndex(0);
-  //       } else {
-  //         setCurrentIndex((currentIndex) => currentIndex + 1);
-  //       }
-  //     }, timeoutDuration);
-  //   }
-  //   return () => clearTimeout(timeoutRef.current);
-  // }, [currentIndex]);
   useEffect(() => {
+
     if (contents && contents.zones.length == 1) {
       if (contents.zones[0].content[currentIndex]) {
         const timeoutDuration =
@@ -154,7 +142,32 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
                 ></WebVideoPlayer>
               </div>
-            )}
+          )}
+          {/* {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "app" && (
+              <div
+                className={`basic-list-group video-container media-content ${viewImage} ${
+                  viewImage === "fitScreen" ? "fitImage" : "containImage"
+                }`}
+              >
+                <ReactPlayer url={`${contents.zones[0].content[currentIndex].url}`} />
+              </div>
+          )} */}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "app" && (
+              <div className="basic-list-group image-preview-container media-content">
+                <Iframe url={`${contents.zones[0].content[currentIndex].url}`}
+                  width="640px"
+                  height="320px"
+                  // id=""
+                  // className=""
+                  display="block"
+                  position="relative"
+                />
+              </div>
+          )}
         </>
       ) : contents.zones.length == 2 ? (
         <div
@@ -191,6 +204,20 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   ></WebVideoPlayer>
                 </div>
               )}
+            { contents.zones[0] &&
+              contents.zones[0].content[currentIndex] &&
+              contents.zones[0].content[currentIndex].type === "app" && (
+              <div className="basic-list-group image-preview-container media-content">
+                <Iframe url={`${contents.zones[0].content[currentIndex].url}`}
+                  width="640px"
+                  height="320px"
+                  // id=""
+                  // className=""
+                  display="block"
+                  position="relative"
+                />
+              </div>
+            )}
           </div>
           <div className="bottom-div">
             {contents.zones[1] &&
@@ -221,6 +248,20 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     src={`http://144.126.143.140:5000/${contents.zones[1].content[currentIndex].url}`}
                   ></WebVideoPlayer>
                 </div>
+              )}
+              {contents.zones[1] &&
+                contents.zones[1].content[current1Index] &&
+                contents.zones[1].content[current1Index].type === "app" && (
+              <div className="basic-list-group image-preview-container media-content">
+                <Iframe url={`${contents.zones[1].content[currentIndex].url}`}
+                  width="640px"
+                  height="320px"
+                  // id=""
+                  // className=""
+                  display="block"
+                  position="relative"
+                />
+              </div>
               )}
           </div>
         </div>
@@ -263,6 +304,20 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     ></WebVideoPlayer>
                   </div>
                 )}
+                {contents.zones[0] &&
+                  contents.zones[0].content[currentIndex] &&
+                  contents.zones[0].content[currentIndex].type === "app" && (
+                  <div className="basic-list-group image-preview-container media-content">
+                    <Iframe url={`${contents.zones[0].content[currentIndex].url}`}
+                      width="640px"
+                      height="320px"
+                      // id=""
+                      // className=""
+                      display="block"
+                      position="relative"
+                    />
+                  </div>
+                )}
             </div>
             <div
               // style={{ width: "50%", height: "70%", display: "inline-block" }}
@@ -295,6 +350,21 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     <WebVideoPlayer
                       src={`http://144.126.143.140:5000/${contents.zones[1].content[current1Index].url}`}
                     ></WebVideoPlayer>
+                  </div>
+                )}
+                {contents.zones[1] &&
+                  contents.zones[1].content[current1Index] &&
+                  
+                  contents.zones[1].content[current1Index].type === "app" && (
+                  <div className="basic-list-group image-preview-container media-content">
+                    <Iframe url={`${contents.zones[1].content[currentIndex].url}`}
+                      width="640px"
+                      height="320px"
+                      // id=""
+                      // className=""
+                      display="block"
+                      position="relative"
+                    />
                   </div>
                 )}
             </div>
@@ -333,6 +403,20 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   ></WebVideoPlayer>
                 </div>
               )}
+              {contents.zones[2] &&
+                contents.zones[2].content[current2Index] &&
+                contents.zones[2].content[current2Index].type === "app" && (
+                <div className="basic-list-group image-preview-container media-content">
+                  <Iframe url={`${contents.zones[2].content[currentIndex].url}`}
+                    width="640px"
+                    height="320px"
+                    // id=""
+                    // className=""
+                    display="block"
+                    position="relative"
+                  />
+                </div>
+                )}
           </div>
         </div>
       ) : (

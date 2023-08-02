@@ -91,12 +91,25 @@ const CommonComposition = ({ type, composition, layout }) => {
 
   const history = useHistory();
   const addComposition = (media) => {
+    let url = media.title;  
     setContent((prev) => {
-      const meta = JSON.parse(media.properties);
+      let meta = {};
+      
+      if(media.type == 'image' || media.type == 'video'){
+        meta = JSON.parse(media.properties);
+      }else{
+        const jsonData = JSON.parse(media.appData);
+        url = jsonData.url
+        meta = {
+          length:0,
+          height:0,
+          duration:0
+        };
+      }
+      
       const dt = prev.find((o) => o.name === zone);
-
       const createContent = {
-        url: `${media.title}`,
+        url,
         type: media.type,
         maintainAspectRatio: false,
         fitToScreen: true,
@@ -109,10 +122,11 @@ const CommonComposition = ({ type, composition, layout }) => {
       return newdata;
     });
     setReferenceUrl((prev) => {
-      return [...prev, media.title + "**" + zone];
+      return [...prev, url + "**" + zone];
     });
   };
   const saveComposition = async () => {
+    console.log("referenceUrl",referenceUrl)
     const updateFiles = referenceUrl.map(async (url) => {
       if (isBlobUrl(url)) {
         const urlItem = url.split("**");
@@ -163,6 +177,9 @@ const CommonComposition = ({ type, composition, layout }) => {
       delete item["createdBy"];
       delete item["_id"];
       delete item["zone"];
+      if(item['type'] == 'url-apps' || item['type'] == 'youtube-apps'){
+        item['type'] = 'app';
+      }
       return item;
     });
   }
