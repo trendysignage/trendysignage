@@ -101,8 +101,8 @@ const CommonComposition = ({ type, composition, layout }) => {
         const jsonData = JSON.parse(media.appData);
         url = jsonData.url
         meta = {
-          length:0,
-          height:0,
+          length:10,
+          height:10,
           duration:0
         };
       }
@@ -177,9 +177,9 @@ const CommonComposition = ({ type, composition, layout }) => {
       delete item["createdBy"];
       delete item["_id"];
       delete item["zone"];
-      if(item['type'] == 'url-apps' || item['type'] == 'youtube-apps'){
-        item['type'] = 'app';
-      }
+      // if(item['type'] == 'url-apps' || item['type'] == 'youtube-apps'){
+      //   item['type'] = 'app';
+      // }
       return item;
     });
   }

@@ -11,6 +11,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData , actionType}) => {
 
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false)
   const [name, setName] = useState("");
+  const [mediaId, setMediaId] = useState(null);
   const [urlLink, setUrlLink] = useState(""); 
   const [muteOptions, setMuteOptions] = useState(false)
   const [err, setErr] = useState(false);
@@ -23,6 +24,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData , actionType}) => {
       setName(mediaData.title);
       setUrlLink(jsonString.url);
       setMuteOptions(jsonString.mute);
+      setMediaId(mediaData._id)
     }
   },[mediaData])
   console.log("media", mediaData)
@@ -51,20 +53,19 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData , actionType}) => {
     if(actionType && actionType == 'edit'){
       await updateApps({
         name,
-        type:'youtube-apps',
+        appId:mediaId,
         data:JSON.stringify(dataString)
       });
+      setShowUrlApp(false)
     }else{
       await addApps({
         name,
         type:'youtube-apps',
         data:JSON.stringify(dataString)
       });
+      setShowUrlApp(false)
+      setShowUrlRedirectApp(true)
     }
-    
-    
-    setShowUrlApp(false)
-    setShowUrlRedirectApp(true)
     //console.log(name, urlLink, selectedOption)
   }
 
@@ -151,7 +152,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData , actionType}) => {
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
               >
-                Create App
+                {actionType && actionType == 'edit' ? 'Update' : 'Create'} App
               </Button>
             </Col>
           </Row>

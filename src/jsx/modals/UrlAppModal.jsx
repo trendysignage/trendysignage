@@ -8,12 +8,13 @@ import Select from "react-select";
 import { useState, useEffect } from "react";
 const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const options = [
-    { value: "disable", label: "Disable" },
-    { value: "enable", label: "Enable" },
+    { value: "disable", label: "disable" },
+    { value: "enable", label: "enable" },
   ];
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState({value: "disable", label: "disable"});
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false)
   const [name, setName] = useState("");
+  const [mediaId, setMediaId] = useState(null);
   const [urlLink, setUrlLink] = useState(""); 
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState('');
@@ -21,10 +22,10 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   useEffect(() => {
     if(mediaData){
       const jsonString = JSON.parse(mediaData.appData);
-      console.log(jsonString)
       setName(mediaData.title);
       setUrlLink(jsonString.url);
-      //setMuteOptions(jsonString.mute);
+      setMediaId(mediaData._id);
+      setSelectedOption({value:jsonString.cache,label:jsonString.cache})
     }
   },[mediaData])
   const handleCreateApp = async(e) => {
@@ -51,18 +52,21 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     if(actionType && actionType == 'edit'){
       await updateApps({
         name,
-        type:'url-apps',
+        //type:'url-apps',
+        appId:mediaId,
         data:JSON.stringify(dataString)
       });
+      setShowUrlApp(false)
     }else{
       await addApps({
         name,
         type:'url-apps',
         data:JSON.stringify(dataString)
       });
+      setShowUrlApp(false)
+      setShowUrlRedirectApp(true)
     }
-    setShowUrlApp(false)
-    setShowUrlRedirectApp(true)
+    
     //console.log(name, urlLink, selectedOption)
   }
   return (
@@ -75,7 +79,7 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       >
         <Modal.Header className="border-0">
           <Modal.Title className="mr-auto app-modal-heading">
-            Create URL App
+            URL App
           </Modal.Title>
           <Button
             variant=""
@@ -104,8 +108,8 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 className="  form-control "
                 placeholder="App Name"
                 required
-                onChange={(e) => {setName(e.target.value)}}
                 value={name}
+                onChange={(e) => setName(e.target.value)}
               />
               <label className="mt-3">URL</label>
               <input
@@ -154,7 +158,8 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
               >
-                Create App
+                {actionType && actionType == 'edit' ? 'Update' : 'Create'} App
+                
               </Button>
             </Col>
           </Row>

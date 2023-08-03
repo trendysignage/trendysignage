@@ -34,6 +34,7 @@ const CompositionTable = ({allMedia,addComposition}) => {
       <UrlAppModal
         setShowUrlApp={() => setShowUrlApp(false)}
         show={showUrlApp}
+        mediaData={selectedMedia}
         actionType={"edit"}
       />
       <YoutubeAppModal
