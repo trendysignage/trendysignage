@@ -116,7 +116,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
           {contents.zones[0] &&
             contents.zones[0].content[currentIndex] &&
             contents.zones[0].content[currentIndex].type === "image" && (
-              <div className="basic-list-group image-preview-container media-content">
+              <div className="basic-list-group image-preview-container media-content nnnn">
                 <img
                   className="webplayer-preview-img"
                   style={{

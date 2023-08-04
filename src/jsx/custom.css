@@ -327,7 +327,7 @@ body {
   box-shadow: 0px 2px 5px rgba(0, 19, 51, 0.1);
   border-radius: 60px;
   /* min-height: auto !important; */
-  height: 100%;
+  height: 100vh;
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -1369,6 +1369,14 @@ border-bottom: 2px solid #ca046c;
 }
 .roles-table thead tr, .roles-table tbody tr{
 background-color: #fff;
+}
+.back-button{
+  border: none;
+  border-radius: 8px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
@@ -3160,5 +3168,13 @@ thead {
 .fc-v-event{
   background-color: rgb(255, 228, 148) !important;
   border-color: rgb(255, 228, 148) !important;
+}
+
+
+@media (orientation: portrait) {
+  .potrait-view .container-fluid {
+    max-width: 100% !important;
+    margin: 0 !important;
+}
 }
  

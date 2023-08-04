@@ -6,7 +6,14 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 
-const GenerateReportModal = ({ close, show, reportType, type, setFilter, filter }) => {
+const GenerateReportModal = ({
+  close,
+  show,
+  reportType,
+  type,
+  setFilter,
+  filter,
+}) => {
   const history = useHistory();
   const monthOptions = [
     { value: "01", label: "January" },
@@ -55,23 +62,33 @@ const GenerateReportModal = ({ close, show, reportType, type, setFilter, filter 
     e.preventDefault();
     let sDate = startDate;
     let eDate = endDate;
-    if(filterType == 'monthly'){
+    if (filterType == "monthly") {
       sDate = `${selectedYear.value}-${selectedMonth.value}-01`;
       eDate = `${selectedYear.value}-${selectedMonth.value}-31`;
     }
     setFilter({
-      startDate:sDate, endDate:eDate, filterType, selectedMonth, selectedYear
-    })
+      startDate: sDate,
+      endDate: eDate,
+      filterType,
+      selectedMonth,
+      selectedYear,
+    });
     close();
   };
 
   const getCurrentDate = () => {
     let cDate = moment();
-    setSelectedMonth({value:cDate.format('MM'), label:cDate.format('MMMM')})
-    setSelectedYear({value:cDate.format('YYYY'), label:cDate.format('YYYY')});
-    setStartDate(cDate.format('YYYY-MM-DD'));
-    setEndDate(cDate.format('YYYY-MM-DD'));
-  }
+    setSelectedMonth({
+      value: cDate.format("MM"),
+      label: cDate.format("MMMM"),
+    });
+    setSelectedYear({
+      value: cDate.format("YYYY"),
+      label: cDate.format("YYYY"),
+    });
+    setStartDate(cDate.format("YYYY-MM-DD"));
+    setEndDate(cDate.format("YYYY-MM-DD"));
+  };
 
   return (
     <>
@@ -101,34 +118,39 @@ const GenerateReportModal = ({ close, show, reportType, type, setFilter, filter 
           <form onSubmit={handleSubmit} className="row">
             <div className="form-group col-12 mb-0  url-app-form border-0">
               <div>
-                {" "}
-                <input
-                  type="radio"
-                  //className="form-control "
-                  checked={filterType == 'daily'}
-                  onChange={(e) => setFilterType('daily')}
-                />
-                <label>Daily</label>
+                <div className="d-flex align-items-center mb-2">
+                  <input
+                    type="radio"
+                    //className="form-control "
+                    checked={filterType == "daily"}
+                    onChange={(e) => setFilterType("daily")}
+                  />
+                  <label className="mb-0 ml-3">Daily</label>
+                </div>
+
                 <input
                   type="date"
                   className="  form-control "
                   defaultValue={startDate}
                   placeholder="App Name"
                   onChange={(e) => setStartDate(e.target.value)}
-                  required={filterType == 'daily'}
-                  readOnly={filterType !== 'daily'}
+                  required={filterType == "daily"}
+                  readOnly={filterType !== "daily"}
                 />
               </div>
 
               <div>
                 <>
-                  <input
-                    type="radio"
-                    //className="form-control "
-                    checked={filterType == 'monthly'}
-                    onChange={(e) => setFilterType('monthly')}
-                  />
-                  <label className="mt-3">Monthly</label>
+                  <div className="d-flex align-items-center mb-2 mt-3">
+                    <input
+                      type="radio"
+                      //className="form-control "
+                      checked={filterType == "monthly"}
+                      onChange={(e) => setFilterType("monthly")}
+                    />
+                    <label className="mb-0 ml-3">Monthly</label>
+                  </div>
+
                   <div className="row">
                     <div className="col-6">
                       <Select
@@ -138,8 +160,8 @@ const GenerateReportModal = ({ close, show, reportType, type, setFilter, filter 
                         styles={colourStyles}
                         placeholder="month"
                         className="app-option"
-                        isDisabled={filterType !== 'monthly'}
-                        required={filterType == 'monthly'}
+                        isDisabled={filterType !== "monthly"}
+                        required={filterType == "monthly"}
                       />
                     </div>
                     <div className="col-6">
@@ -150,30 +172,32 @@ const GenerateReportModal = ({ close, show, reportType, type, setFilter, filter 
                         styles={colourStyles}
                         placeholder="year"
                         className="app-option"
-                        isDisabled={filterType !== 'monthly'}
-                        required={filterType == 'monthly'}
+                        isDisabled={filterType !== "monthly"}
+                        required={filterType == "monthly"}
                       />
                     </div>
                   </div>
                 </>
               </div>
               <div>
-                <input
-                  type="radio"
-                  //className="form-control "
-                  checked={filterType == 'custom'}
-                  onChange={(e) => setFilterType('custom')}
-                />
-                <label className="mt-3">Custom</label>
+                <div className="d-flex align-items-center mb-2 mt-3">
+                  <input
+                    type="radio"
+                    //className="form-control "
+                    checked={filterType == "custom"}
+                    onChange={(e) => setFilterType("custom")}
+                  />
+                  <label className="mb-0 ml-3">Custom</label>
+                </div>
                 <div className="row">
                   <div className="col-6">
                     <input
                       type="date"
                       className="  form-control "
                       onChange={(e) => setStartDate(e.target.value)}
-                      readOnly={filterType !== 'custom'}
+                      readOnly={filterType !== "custom"}
                       defaultValue={startDate}
-                      required={filterType == 'custom'}
+                      required={filterType == "custom"}
                     />
                   </div>
                   <div className="col-6">
@@ -181,8 +205,8 @@ const GenerateReportModal = ({ close, show, reportType, type, setFilter, filter 
                       type="date"
                       className="form-control "
                       onChange={(e) => setEndDate(e.target.value)}
-                      readOnly={filterType !== 'custom'}
-                      required={filterType == 'custom'}
+                      readOnly={filterType !== "custom"}
+                      required={filterType == "custom"}
                       defaultValue={endDate}
                     />
                   </div>
