@@ -93,8 +93,64 @@ export default function Integrations() {
             </div>
           </div>
         </div>
-
         <div className="app-card ">
+          <div className="d-flex justify-content-end mr-3 mt-3">
+            <Dropdown
+              className="dropdown-toggle-menu app-card-menu"
+              drop="left"
+            >
+              <Dropdown.Toggle variant="left" className="p-0">
+                <span className="table-menu-icon">
+                  <img
+                    className="app-card-menu-img img-fluid"
+                    src={menuIcon}
+                    alt="menu-icon"
+                  />
+                </span>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  href="#"
+                  className=""
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="d-flex align-items-center justify-content-between mb-2">
+                    <label htmlFor="favourite" className="mb-0">
+                      {" "}
+                      Mark as favourite
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="favourite"
+                      name="favourite"
+                      value="favourite"
+                    />
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <label htmlFor="learn" className="mb-0">
+                      {" "}
+                      Learn More
+                    </label>
+                    <input type="checkbox" id="learn" name="learn" />
+                  </div>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+          <div
+            className="d-flex align-items-center justify-content-center"
+            onClick={() => {
+              setShowYoutubeApp(true);
+            }}
+          >
+            <div className="text-center">
+              <img className="mb-3" src={weather} />
+              <p>YOUTUBE </p>
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="app-card ">
           <div className="d-flex justify-content-end mr-3 mt-3">
             <Dropdown
               className="dropdown-toggle-menu app-card-menu"
@@ -545,62 +601,7 @@ export default function Integrations() {
             </div>
           </div>
         </div>
-        <div className="app-card ">
-          <div className="d-flex justify-content-end mr-3 mt-3">
-            <Dropdown
-              className="dropdown-toggle-menu app-card-menu"
-              drop="left"
-            >
-              <Dropdown.Toggle variant="left" className="p-0">
-                <span className="table-menu-icon">
-                  <img
-                    className="app-card-menu-img img-fluid"
-                    src={menuIcon}
-                    alt="menu-icon"
-                  />
-                </span>
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  href="#"
-                  className=""
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="d-flex align-items-center justify-content-between mb-2">
-                    <label htmlFor="favourite" className="mb-0">
-                      {" "}
-                      Mark as favourite
-                    </label>
-                    <input
-                      type="checkbox"
-                      id="favourite"
-                      name="favourite"
-                      value="favourite"
-                    />
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <label htmlFor="learn" className="mb-0">
-                      {" "}
-                      Learn More
-                    </label>
-                    <input type="checkbox" id="learn" name="learn" />
-                  </div>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-          <div
-            className="d-flex align-items-center justify-content-center"
-            onClick={() => {
-              setShowYoutubeApp(true);
-            }}
-          >
-            <div className="text-center">
-              <img className="mb-3" src={weather} />
-              <p>YOUTUBE </p>
-            </div>
-          </div>
-        </div>
+        
         <div className="app-card ">
           <div className="d-flex justify-content-end mr-3 mt-3">
             <Dropdown
@@ -827,7 +828,7 @@ export default function Integrations() {
               <p>ALL NEWS APP </p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <UrlAppModal
