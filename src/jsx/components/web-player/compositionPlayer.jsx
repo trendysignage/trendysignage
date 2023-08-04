@@ -128,7 +128,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   alt="media-img"
                 />
               </div>
-          )}
+            )}
           {contents.zones[0] &&
             contents.zones[0].content[currentIndex] &&
             contents.zones[0].content[currentIndex].type === "video" && (
@@ -141,7 +141,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
                 ></WebVideoPlayer>
               </div>
-          )}
+            )}
           {contents.zones[0] &&
             contents.zones[0].content[currentIndex] &&
             contents.zones[0].content[currentIndex].type === "youtube-apps" && (
@@ -150,9 +150,13 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   viewImage === "fitScreen" ? "fitImage" : "containImage"
                 }`}
               >
-                <ReactPlayer url={`${contents.zones[0].content[currentIndex].url}`} />
+                <ReactPlayer
+                  url={`${contents.zones[0].content[currentIndex].url}`}
+                  width="100%"
+                  height="100%"
+                />
               </div>
-          )}
+            )}
           {contents.zones[0] &&
             contents.zones[0].content[currentIndex] &&
             contents.zones[0].content[currentIndex].type === "url-apps" && (
@@ -167,7 +171,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   position="relative"
                 />
               </div>
-          )}
+            )}
         </>
       ) : contents.zones.length == 2 ? (
         <div
@@ -218,18 +222,23 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     position="relative"
                   />
                 </div>
-            )}
+              )}
             {contents.zones[0] &&
               contents.zones[0].content[currentIndex] &&
-              contents.zones[0].content[currentIndex].type === "youtube-apps" && (
+              contents.zones[0].content[currentIndex].type ===
+                "youtube-apps" && (
                 <div
                   className={`basic-list-group video-container media-content ${viewImage} ${
                     viewImage === "fitScreen" ? "fitImage" : "containImage"
                   }`}
                 >
-                  <ReactPlayer url={`${contents.zones[0].content[currentIndex].url}`} />
+                  <ReactPlayer
+                    url={`${contents.zones[0].content[currentIndex].url}`}
+                    width="100%"
+                    height="100%"
+                  />
                 </div>
-            )}
+              )}
           </div>
           <div className="bottom-div">
             {contents.zones[1] &&
@@ -247,7 +256,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     alt="media-img"
                   />
                 </div>
-            )}
+              )}
             {contents.zones[1] &&
               contents.zones[1].content[current1Index] &&
               contents.zones[1].content[current1Index].type === "video" && (
@@ -260,7 +269,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     src={`http://144.126.143.140:5000/${contents.zones[1].content[currentIndex].url}`}
                   ></WebVideoPlayer>
                 </div>
-            )}
+              )}
             {contents.zones[1] &&
               contents.zones[1].content[current1Index] &&
               contents.zones[1].content[current1Index].type === "url-apps" && (
@@ -275,18 +284,23 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     position="relative"
                   />
                 </div>
-            )}
+              )}
             {contents.zones[1] &&
               contents.zones[1].content[current1Index] &&
-              contents.zones[1].content[current1Index].type === "youtube-apps" && (
+              contents.zones[1].content[current1Index].type ===
+                "youtube-apps" && (
                 <div
                   className={`basic-list-group video-container media-content ${viewImage} ${
                     viewImage === "fitScreen" ? "fitImage" : "containImage"
                   }`}
                 >
-                  <ReactPlayer url={`${contents.zones[1].content[currentIndex].url}`} />
+                  <ReactPlayer
+                    url={`${contents.zones[1].content[currentIndex].url}`}
+                    width="100%"
+                    height="100%"
+                  />
                 </div>
-            )}
+              )}
           </div>
         </div>
       ) : contents.zones.length == 3 ? (
@@ -314,7 +328,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                       alt="media-img"
                     />
                   </div>
-              )}
+                )}
               {contents.zones[0] &&
                 contents.zones[0].content[currentIndex] &&
                 contents.zones[0].content[currentIndex].type === "video" && (
@@ -327,7 +341,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                       src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
                     ></WebVideoPlayer>
                   </div>
-              )}
+                )}
               {contents.zones[0] &&
                 contents.zones[0].content[currentIndex] &&
                 contents.zones[0].content[currentIndex].type === "url-apps" && (
@@ -342,18 +356,23 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                       position="relative"
                     />
                   </div>
-              )}
+                )}
               {contents.zones[0] &&
                 contents.zones[0].content[currentIndex] &&
-                contents.zones[0].content[currentIndex].type === "youtube-apps" && (
+                contents.zones[0].content[currentIndex].type ===
+                  "youtube-apps" && (
                   <div
                     className={`basic-list-group video-container media-content ${viewImage} ${
                       viewImage === "fitScreen" ? "fitImage" : "containImage"
                     }`}
                   >
-                    <ReactPlayer url={`${contents.zones[0].content[currentIndex].url}`} />
+                    <ReactPlayer
+                      url={`${contents.zones[0].content[currentIndex].url}`}
+                      width="100%"
+                      height="100%"
+                    />
                   </div>
-              )}
+                )}
             </div>
             <div
               // style={{ width: "50%", height: "70%", display: "inline-block" }}
@@ -374,7 +393,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                       alt="media-img"
                     />
                   </div>
-              )}
+                )}
               {contents.zones[1] &&
                 contents.zones[1].content[current1Index] &&
                 contents.zones[1].content[current1Index].type === "video" && (
@@ -387,10 +406,11 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                       src={`http://144.126.143.140:5000/${contents.zones[1].content[current1Index].url}`}
                     ></WebVideoPlayer>
                   </div>
-              )}
+                )}
               {contents.zones[1] &&
                 contents.zones[1].content[current1Index] &&
-                contents.zones[1].content[current1Index].type === "url-apps" && (
+                contents.zones[1].content[current1Index].type ===
+                  "url-apps" && (
                   <div className="basic-list-group image-preview-container media-content">
                     <Iframe
                       url={`${contents.zones[1].content[current1Index].url}`}
@@ -402,18 +422,23 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                       position="relative"
                     />
                   </div>
-              )}
+                )}
               {contents.zones[1] &&
                 contents.zones[1].content[current1Index] &&
-                contents.zones[1].content[current1Index].type === "youtube-apps" && (
+                contents.zones[1].content[current1Index].type ===
+                  "youtube-apps" && (
                   <div
                     className={`basic-list-group video-container media-content ${viewImage} ${
                       viewImage === "fitScreen" ? "fitImage" : "containImage"
                     }`}
                   >
-                    <ReactPlayer url={`${contents.zones[1].content[current1Index].url}`} />
+                    <ReactPlayer
+                      url={`${contents.zones[1].content[current1Index].url}`}
+                      width="100%"
+                      height="100%"
+                    />
                   </div>
-              )}
+                )}
             </div>
           </div>
 
@@ -436,7 +461,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     alt="media-img"
                   />
                 </div>
-            )}
+              )}
             {contents.zones[2] &&
               contents.zones[2].content[current2Index] &&
               contents.zones[2].content[current2Index].type === "video" && (
@@ -449,7 +474,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     src={`http://144.126.143.140:5000/${contents.zones[2].content[current2Index].url}`}
                   ></WebVideoPlayer>
                 </div>
-            )}
+              )}
             {contents.zones[2] &&
               contents.zones[2].content[current2Index] &&
               contents.zones[2].content[current2Index].type === "url-apps" && (
@@ -464,18 +489,23 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     position="relative"
                   />
                 </div>
-            )}
+              )}
             {contents.zones[2] &&
               contents.zones[2].content[current2Index] &&
-              contents.zones[2].content[current2Index].type === "youtube-apps" && (
+              contents.zones[2].content[current2Index].type ===
+                "youtube-apps" && (
                 <div
                   className={`basic-list-group video-container media-content ${viewImage} ${
                     viewImage === "fitScreen" ? "fitImage" : "containImage"
                   }`}
                 >
-                  <ReactPlayer url={`${contents.zones[2].content[current2Index].url}`} />
+                  <ReactPlayer
+                    url={`${contents.zones[2].content[current2Index].url}`}
+                    width="100%"
+                    height="100%"
+                  />
                 </div>
-            )}
+              )}
           </div>
         </div>
       ) : (
