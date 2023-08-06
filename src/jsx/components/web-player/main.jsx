@@ -174,6 +174,15 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
               />
             </div>
           )}
+          {contentType !== null && contentType === "image" && (
+            <div className="basic-list-group image-preview-container media-content ">
+              <img
+                className="webplayer-preview-img"
+                src={media}
+                alt="media-img"
+              />
+            </div>
+          )}
           {contentType !== null && contentType === "video" && (
             <div className="basic-list-group video-container media-content">
               <WebVideoPlayer src={media}></WebVideoPlayer>

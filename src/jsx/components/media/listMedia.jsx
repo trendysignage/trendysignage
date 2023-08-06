@@ -44,7 +44,19 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
   };
 
   const parseMeta = (media) => {
-    const meta = JSON.parse(media.properties);
+    let meta = {};
+    //const meta = JSON.parse(media.properties);
+    if(media.type == 'image' || media.type == 'video'){
+      meta = JSON.parse(media.properties);
+    }else{
+      const jsonData = JSON.parse(media.appData);
+      meta = {
+        length:10,
+        height:10,
+        duration:0,
+        size:0
+      };
+    }
     return (
       <span className="td-content">
         {media?.type === "image" && (
@@ -212,30 +224,34 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
                         </span>
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        <Dropdown.Item href="#" className="dropdown-list-item">
-                          <div
-                            className="d-flex"
-                            onClick={() => {
-                              handlePublishcOpen(media);
-                            }}
-                          >
-                            <div className="dropdown-list-icon">
-                              <img
-                                className="dropdown-list-img img-fluid"
-                                src={defaultComparisonIcon}
-                                alt="menu-icon"
-                              />
+                        { media && media.type == 'image' || media.type == 'video' ?
+                          <Dropdown.Item href="#" className="dropdown-list-item">
+                            <div
+                              className="d-flex"
+                              onClick={() => {
+                                handlePublishcOpen(media);
+                              }}
+                            >
+                              <div className="dropdown-list-icon">
+                                <img
+                                  className="dropdown-list-img img-fluid"
+                                  src={defaultComparisonIcon}
+                                  alt="menu-icon"
+                                />
+                              </div>
+                              <div className="dropdown-menu-list">
+                                <span className="menu-heading">
+                                  Publish on Screen
+                                </span>
+                                <span className="menu-description">
+                                  Get to know more about screen info
+                                </span>
+                              </div>
                             </div>
-                            <div className="dropdown-menu-list">
-                              <span className="menu-heading">
-                                Publish on Screen
-                              </span>
-                              <span className="menu-description">
-                                Get to know more about screen info
-                              </span>
-                            </div>
-                          </div>
-                        </Dropdown.Item>
+                          </Dropdown.Item>
+                         :
+                         <></>}
+                        
                         <Dropdown.Item
                           href="#"
                           className="dropdown-list-item"
