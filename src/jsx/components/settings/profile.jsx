@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Table, Dropdown } from "react-bootstrap";
+import { Table, Dropdown, Card, Button } from "react-bootstrap";
 import menuIcon from "../../../img/menu-icon.png";
 import assignIcon from "../../../img/assign-icon.png";
 import takeScreenshotIcon from "../../../img/tack-screenshot-icon.png";
-import { deleteDeviceProfile } from "../../../utils/api";
+import { addDeviceProfile, deleteDeviceProfile } from "../../../utils/api";
 import {
     humanReadableFormattedDateString,
   } from "../../../utils/UtilsService";
 import { toast } from "react-toastify";
 import AddDeviceProfile from '../../modals/AddDeviceProfile';
 import SelectScreenModal from "../../modals/SelectScreenModal";
+import Datatable from "react-data-table-component";
 
-const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh }) => {
+
+const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh, loading }) => {
 
 const [showProfileModel, setShowProfileModel] = useState(false);
 const [profileData, setProfileData] = useState(null);
@@ -51,6 +53,107 @@ const handleDelete = async(e, id) => {
     setIsRefresh(!isRefresh);
 }
 
+const renderAction = (value) => {
+  return <Dropdown className="dropdown-toggle">
+            <Dropdown.Toggle variant="" className="p-0  mb-2">
+              <span className="table-menu-icon">
+                <img
+                  className="menu-img img-fluid"
+                  src={menuIcon}
+                  alt="menu-icon"
+                />
+              </span>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              
+              <Dropdown.Item 
+              onClick={(e) => {handleEditiUser(e, value)}}
+                className="dropdown-list-item">
+                <div className="d-flex">
+                  <div className="dropdown-list-icon">
+                    <img
+                      className="dropdown-list-img img-fluid"
+                      src={assignIcon}
+                      alt="menu-icon"
+                    />
+                  </div>
+                  <div className="dropdown-menu-list">
+                    <span className="menu-heading">Edit</span>
+                  </div>
+                </div>
+              </Dropdown.Item>
+              <Dropdown.Item 
+                onClick={(e)=>{handleAssignScreen(e, value._id, value)}}
+                className="dropdown-list-item">
+                <div className="d-flex">
+                  <div className="dropdown-list-icon">
+                    <img
+                      className="dropdown-list-img img-fluid"
+                      src={takeScreenshotIcon}
+                      alt="menu-icon"
+                    />
+                  </div>
+                  <div className="dropdown-menu-list">
+                    <span className="menu-heading">Assigned Screen</span>
+                  </div>
+                </div>
+              </Dropdown.Item>
+              <Dropdown.Item 
+                onClick={(e)=>{handleDelete(e, value._id)}}
+                className="dropdown-list-item">
+                <div className="d-flex">
+                  <div className="dropdown-list-icon">
+                    <img
+                      className="dropdown-list-img img-fluid"
+                      src={takeScreenshotIcon}
+                      alt="menu-icon"
+                    />
+                  </div>
+                  <div className="dropdown-menu-list">
+                    <span className="menu-heading">Delete</span>
+                  </div>
+                </div>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>;
+}
+
+const columns = [
+  {
+      name : "Name",
+      selector : (row) => row?.name,
+      sortable: true,
+  },
+  {
+      name : "Created",
+      selector : (row) => humanReadableFormattedDateString(row.createdAt),
+      sortable: true,
+  },
+  {
+      name : "Updated",
+      selector : (row) => humanReadableFormattedDateString(row.createdAt),
+      sortable: true,
+  },
+  {
+    name : " ",
+    selector : (row) => renderAction(row),
+    sortable: false,
+},
+];
+  // const rows = [];
+  // if(allDeviceProfile){
+  //   allDeviceProfile.forEach((item) => {
+  //       rows.push({
+  //             id:item._id,
+  //             name:item.name,
+  //             created: humanReadableFormattedDateString(item.createdAt),
+  //             updated: humanReadableFormattedDateString(item.createdAt),
+  //             assignedScreen:item.screens.length,
+  //             action:item
+  //         });
+  //     });     
+  // }
+
 
   return (
     <>
@@ -69,7 +172,8 @@ const handleDelete = async(e, id) => {
         setIsRefresh={setIsRefresh}
         selectedScreen={selectedScreen} setSelectedScreen={setSelectedScreen}
       />
-      <Table responsive className="custom-table screen-table">
+      <Datatable columns={columns} data={allDeviceProfile} pagination sorting />
+      {/* <Table responsive className="custom-table screen-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -160,7 +264,7 @@ const handleDelete = async(e, id) => {
               );
             })}
         </tbody>
-      </Table>
+      </Table> */}
     </>
   );
 };

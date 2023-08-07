@@ -399,7 +399,7 @@ export async function updateRoles(postdata) {
 
 export async function getDeviceProfile() {
   const response = await fetchClient.get(
-    BASE_URL + `/vendor/profile/deviceProfile`
+    BASE_URL + `/vendor/profile/deviceProfile?limit=100`
   );
   return response.data.data;
 }
