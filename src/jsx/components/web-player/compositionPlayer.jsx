@@ -70,7 +70,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
           }
         }, timeout1Duration);
       }
-      if (contents.zones[2].content[current1Index]) {
+      if (contents.zones[2].content[current2Index]) {
         const timeout1Duration =
           contents.zones[2].content[current2Index].duration * 1000;
         timeout1Ref.current = setTimeout(() => {
