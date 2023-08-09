@@ -85,9 +85,9 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
 
     return () => clearTimeout(timeoutRef.current);
   }, [currentIndex, current1Index]);
-  const viewImage = content[currentIndex].fitToScreen
+  const viewImage = content[currentIndex]?.fitToScreen
     ? "fitScreen"
-    : content[currentIndex].crop
+    : content[currentIndex]?.crop
     ? "crop"
     : "aspectRation";
 
