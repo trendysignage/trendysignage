@@ -328,13 +328,13 @@ const PushScreen = () => {
                   Default content keeps on playing irrespective of the time when
                   there is no active
                 </p>
-                <button
+                {/* <button
                   onClick={(e) => {
                     handleDefaultScreen(e);
                   }}
                 >
                   Add Content
-                </button>
+                </button> */}
               </div>
             </Col>
           </Row>
