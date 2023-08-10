@@ -208,7 +208,7 @@ const PreviewComposition = ({
                           viewImage === "fitScreen" ? "fill" : "contain"
                         }`,
                       }}
-                      //src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                      //src={`http://81.208.167.124:5000//${contentnew.Zone1[currentIndex].url}`}
                       src={url}
                       alt="media-img"
                     />
@@ -224,7 +224,7 @@ const PreviewComposition = ({
                     style={{ height: "100%" }}
                   >
                     <WebVideoPlayer
-                      //src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                      //src={`http://81.208.167.124:5000//${contentnew.Zone1[currentIndex].url}`}
                       src={url}
                     ></WebVideoPlayer>
                   </div>
@@ -245,7 +245,7 @@ const PreviewComposition = ({
                           viewImage === "fitScreen" ? "fill" : "contain"
                         }`,
                       }}
-                      //src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                      //src={`http://81.208.167.124:5000//${contentnew.Zone2[current1Index].url}`}
                       src={url1}
                       alt="media-img"
                     />
@@ -261,7 +261,7 @@ const PreviewComposition = ({
                     style={{ height: "100%" }}
                   >
                     <WebVideoPlayer
-                      //src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                      //src={`http://81.208.167.124:5000//${contentnew.Zone2[current1Index].url}`}
                       src={url1}
                     ></WebVideoPlayer>
                   </div>
@@ -285,7 +285,7 @@ const PreviewComposition = ({
                             viewImage === "fitScreen" ? "fill" : "contain"
                           }`,
                         }}
-                        // src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                        // src={`http://81.208.167.124:5000//${contentnew.Zone1[currentIndex].url}`}
                         src={url}
                         alt="media-img"
                       />
@@ -299,7 +299,7 @@ const PreviewComposition = ({
                       }`}
                     >
                       <WebVideoPlayer
-                        //src={`http://144.126.143.140:5000/${contentnew.Zone1[currentIndex].url}`}
+                        //src={`http://81.208.167.124:5000//${contentnew.Zone1[currentIndex].url}`}
                         src={url}
                       ></WebVideoPlayer>
                     </div>
@@ -316,7 +316,7 @@ const PreviewComposition = ({
                             viewImage === "fitScreen" ? "fill" : "contain"
                           }`,
                         }}
-                        //src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                        //src={`http://81.208.167.124:5000//${contentnew.Zone2[current1Index].url}`}
                         src={url1}
                         alt="media-img"
                       />
@@ -330,7 +330,7 @@ const PreviewComposition = ({
                       }`}
                     >
                       <WebVideoPlayer
-                        //src={`http://144.126.143.140:5000/${contentnew.Zone2[current1Index].url}`}
+                        //src={`http://81.208.167.124:5000//${contentnew.Zone2[current1Index].url}`}
                         src={url1}
                       ></WebVideoPlayer>
                     </div>
@@ -349,7 +349,7 @@ const PreviewComposition = ({
                           viewImage === "fitScreen" ? "fill" : "contain"
                         }`,
                       }}
-                      //src={`http://144.126.143.140:5000/${contentnew.Zone3[current2Index].url}`}
+                      //src={`http://81.208.167.124:5000//${contentnew.Zone3[current2Index].url}`}
                       src={url2}
                       alt="media-img"
                     />
@@ -363,7 +363,7 @@ const PreviewComposition = ({
                     }`}
                   >
                     <WebVideoPlayer
-                      //src={`http://144.126.143.140:5000/${contentnew.Zone3[current2Index].url}`}
+                      //src={`http://81.208.167.124:5000//${contentnew.Zone3[current2Index].url}`}
                       src={url}
                     ></WebVideoPlayer>
                   </div>
