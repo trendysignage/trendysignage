@@ -11,7 +11,7 @@ const DefaultComposition = () => {
   const [defaultCompositionShow, setDefaultCompositionShow] = useState(false);
   const [compositionList, setCompositionList] = useState();
   const [showDefaultComposition, setShowDefaultComposition] = useState("");
-
+  console.log(showDefaultComposition, "lloooooo");
   async function getComPosition() {
     await getAllComposition().then((res) => {
       console.log(res, "res push screen, DefaultComposition");
@@ -72,7 +72,7 @@ const DefaultComposition = () => {
               organization
             </p>
             <p className="font-weight-bold">
-              Default Composition: Screenshot 2 - Composition
+              Default Composition: {showDefaultComposition?.media?.name}
               <span
                 className="btn-icon-right text-info"
                 onClick={() => {

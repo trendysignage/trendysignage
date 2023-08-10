@@ -70,7 +70,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
           }
         }, timeout1Duration);
       }
-      if (contents.zones[2].content[current1Index]) {
+      if (contents.zones[2].content[current2Index]) {
         const timeout1Duration =
           contents.zones[2].content[current2Index].duration * 1000;
         timeout1Ref.current = setTimeout(() => {
@@ -85,9 +85,9 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
 
     return () => clearTimeout(timeoutRef.current);
   }, [currentIndex, current1Index]);
-  const viewImage = content[currentIndex].fitToScreen
+  const viewImage = content[currentIndex]?.fitToScreen
     ? "fitScreen"
-    : content[currentIndex].crop
+    : content[currentIndex]?.crop
     ? "crop"
     : "aspectRation";
 

@@ -3,32 +3,9 @@ import { Button, Table, Dropdown } from "react-bootstrap";
 import {
     humanReadableFormattedDateString,
   } from "../../../utils/UtilsService";
-  import Pagination from 'react-bootstrap-4-pagination';
   import Datatable from "react-data-table-component";
 
 export default function Audit({reportData, cPage, pCount}) {
-    const paginationConfig = {
-        totalPages: 12,
-        currentPage: 2,
-        showMax: 5,
-        //size: "lg",
-        threeDots: true,
-        prevNext: true,
-        // href: 'https://example.com/items?page=*', // * will be replaced by the page number
-        // pageOneHref: 'https://example.com/items',
-        // borderColor: 'red',
-        // activeBorderColor: 'black',
-        // activeBgColor: 'grey',
-        // disabledBgColor: 'red',
-        // activeColor: 'red',
-        // color: 'purple',
-        // disabledColor: 'green',
-        circle: true,
-        shadow: true,
-        onClick: function (page) {
-            console.log(page);
-          }
-      };
     const columns = [
         {
             name : "Title",
@@ -79,7 +56,6 @@ export default function Audit({reportData, cPage, pCount}) {
         {reportData?.length === 0 && <h3 className="mt-5">No Report Found</h3>}
       </Table> */}
       <Datatable columns={columns} data={reportData} pagination sorting />
-      {/* <Pagination {...paginationConfig} circle shadow /> */}
     </>
   );
 }

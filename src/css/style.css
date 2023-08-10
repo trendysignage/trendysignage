@@ -29961,5 +29961,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   height:18%
 }
 
+.dropdown-action{
+  position: absolute !important;
+}
+
 
 /*# sourceMappingURL=style.css.map */

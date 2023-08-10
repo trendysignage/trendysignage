@@ -24,6 +24,7 @@ const AddUser = ({ open, setShowAddUserModel , setIsRefresh, user, type}) => {
     const options = [
         { value: "MANAGER", label: "Manager" },
         { value: "EDITOR", label: "Editor" },
+        { value: "OPERATOR", label: "Operator" },
       ];
     const handleSubmit = async(e, type) => {
         e.preventDefault();
