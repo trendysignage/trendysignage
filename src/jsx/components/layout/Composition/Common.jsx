@@ -91,22 +91,22 @@ const CommonComposition = ({ type, composition, layout }) => {
 
   const history = useHistory();
   const addComposition = (media) => {
-    let url = media.title;  
+    let url = media.title;
     setContent((prev) => {
       let meta = {};
-      
-      if(media.type == 'image' || media.type == 'video'){
+
+      if (media.type == "image" || media.type == "video") {
         meta = JSON.parse(media.properties);
-      }else{
+      } else {
         const jsonData = JSON.parse(media.appData);
-        url = jsonData.url
+        url = jsonData.url;
         meta = {
-          length:10,
-          height:10,
-          duration:0
+          length: 10,
+          height: 10,
+          duration: 0,
         };
       }
-      
+
       const dt = prev.find((o) => o.name === zone);
       const createContent = {
         url,
@@ -126,7 +126,7 @@ const CommonComposition = ({ type, composition, layout }) => {
     });
   };
   const saveComposition = async () => {
-    console.log("referenceUrl",referenceUrl)
+    console.log("referenceUrl", referenceUrl);
     const updateFiles = referenceUrl.map(async (url) => {
       if (isBlobUrl(url)) {
         const urlItem = url.split("**");
@@ -231,7 +231,7 @@ const CommonComposition = ({ type, composition, layout }) => {
             <div class="glyph-icon flaticon-381-add-1"></div>
           </span>
         </Button>
-        <div className="search-textfield ml-auto d-flex flex-wrap align-items-center">
+        {/* <div className="search-textfield ml-auto d-flex flex-wrap align-items-center">
           <div className="form-group mb-0">
             <input
               type="text"
@@ -243,7 +243,7 @@ const CommonComposition = ({ type, composition, layout }) => {
           <Button className="ml-2 icon-btn" variant="primary">
             <img className="icon-icon" src={listIcon} alt="list-icon" />
           </Button>
-        </div>
+        </div> */}
       </div>
       <div className="custom-comp-table flex-1 editComposition">
         <Row className="h-100">

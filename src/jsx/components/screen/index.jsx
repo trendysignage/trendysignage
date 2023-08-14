@@ -37,7 +37,7 @@ const Screen = () => {
             <div class="glyph-icon flaticon-381-add-1"></div>
           </span>
         </Button>
-        <div className="search-textfield ml-auto d-flex flex-wrap align-items-center">
+        {/* <div className="search-textfield ml-auto d-flex flex-wrap align-items-center">
           <div className="form-group mb-0">
             <input
               type="text"
@@ -55,15 +55,18 @@ const Screen = () => {
           >
             <img className="icon-icon" src={listIcon} alt="list-icon" />
           </Button>
-        </div>
+        </div> */}
         {showScreenModal && (
-          <AddScreenModal setShowScreenModal={setShowScreenModal}  callAllScreenApi={callAllScreenApi}/>
+          <AddScreenModal
+            setShowScreenModal={setShowScreenModal}
+            callAllScreenApi={callAllScreenApi}
+          />
         )}
 
-        <FilterModal
+        {/* <FilterModal
           showFilterModal={showFilterModal}
           setFilterModal={setFilterModal}
-        />
+        /> */}
       </div>
       <ListScreen allScreens={allScreens} />
     </>

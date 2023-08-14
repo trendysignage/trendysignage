@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import ListMedia from "./listMedia";
 import FilterModal from "../../modals/FilterModal";
@@ -7,13 +7,16 @@ import searchIcon from "../../../img/search.png";
 import listIcon from "../../../img/list-icon.png";
 import uploadIcon from "../../../img/upload-icon.png";
 import canvaIcon from "../../../img/canva-icon.png";
-import {  getAllMedia } from "../../../utils/api";
-import useSWR from 'swr'
+import { getAllMedia } from "../../../utils/api";
+import useSWR from "swr";
 const Media = () => {
   const [showFilterModal, setFilterModal] = useState(false);
   const [showUploadMediaModal, setUploadMediaModal] = useState(false);
-  const { data: allMedia, mutate } = useSWR('/vendor/display/media', getAllMedia);
-  console.log(allMedia,"kkkkkkkk media page")
+  const { data: allMedia, mutate } = useSWR(
+    "/vendor/display/media",
+    getAllMedia
+  );
+  console.log(allMedia, "kkkkkkkk media page");
 
   return (
     <>
@@ -32,9 +35,13 @@ const Media = () => {
             </span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item href="#" className="dropdown-list-item"onClick={() => {
-            setUploadMediaModal(true);
-          }}>
+            <Dropdown.Item
+              href="#"
+              className="dropdown-list-item"
+              onClick={() => {
+                setUploadMediaModal(true);
+              }}
+            >
               <div className="d-flex">
                 <div className="dropdown-list-icon">
                   <img
@@ -51,7 +58,7 @@ const Media = () => {
                 </div>
               </div>
             </Dropdown.Item>
-            <Dropdown.Item href="#" className="dropdown-list-item">
+            {/* <Dropdown.Item href="#" className="dropdown-list-item">
               <div className="d-flex">
                 <div className="dropdown-list-icon">
                   <img
@@ -67,11 +74,11 @@ const Media = () => {
                   </span>
                 </div>
               </div>
-            </Dropdown.Item>
+            </Dropdown.Item> */}
           </Dropdown.Menu>
         </Dropdown>
 
-        <div className="search-textfield ml-auto d-flex flex-wrap align-items-center">
+        {/* <div className="search-textfield ml-auto d-flex flex-wrap align-items-center">
           <div className="form-group mb-0">
             <input
               type="text"
@@ -89,18 +96,18 @@ const Media = () => {
           >
             <img className="icon-icon" src={listIcon} alt="list-icon" />
           </Button>
-        </div>
-        <FilterModal
+        </div> */}
+        {/* <FilterModal
           showFilterModal={showFilterModal}
           setFilterModal={setFilterModal}
-        />
-         <UploadMediaModal
+        /> */}
+        <UploadMediaModal
           showUploadMediaModal={showUploadMediaModal}
           setUploadMediaModal={setUploadMediaModal}
           callAllMediaApi={mutate}
         />
       </div>
-      <ListMedia allMedia={allMedia}  callAllMediaApi={mutate}/>
+      <ListMedia allMedia={allMedia} callAllMediaApi={mutate} />
     </>
   );
 };
