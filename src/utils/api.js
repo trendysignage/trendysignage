@@ -442,3 +442,14 @@ export async function assignScreenProfile(postdata) {
   );
   return response;
 }
+
+export async function getWeather(city) {
+  const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=19a9d73346ffb54dbd9cb4c652ef2bd7`, {
+  method: 'GET',
+  mode: 'no-cors',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+  return response;
+}

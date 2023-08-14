@@ -1,23 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 
 import WebVideoPlayer from "./WebVideoPlayer";
-import { BASE_URL } from "../../../utils/api";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
-import { fontSize } from "@material-ui/system";
 import moment from "moment";
 import Moment from 'react-moment';
 import Clock from "../Clock";
-import Zone1 from './Zone1';
-import Zone2 from './Zone2';
-import Zone3 from './Zone3'
 import { getWeather } from "../../../utils/api";
-const CompositionPlayer = ({ contents, content, referenceUrl }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [current1Index, setCurrent1Index] = useState(0);
-  const [current2Index, setCurrent2Index] = useState(0);
-  const timeout1Ref = useRef("");
-  const timeoutRef = useRef("");
+const Zone1 = ({ contents, currentIndex, current1Index, current2Index, viewImage}) => {
+
 
   const monthName = ['Jan', 'Feb', 'March', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
   const dayName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -94,103 +85,105 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
 
   const handleWeatherApps = (data) => {
     const prp = JSON.parse(data);
+    // console.log("data", prp);
+    // getWeather('Noida').then((resp) => {
+    //   console.log("weatherDetail",resp)
+    // });
+    
     return <div className="basic-list-group image-preview-container media-content" style={{fontSize:"50px", color:'white', textAlign:'center'}} >Weather Apps</div>
   }
 
-  useEffect(() => {
-    if (contents && contents.zones.length == 1) {
-      if (contents.zones[0].content[currentIndex]) {
-        const timeoutDuration =
-          contents.zones[0].content[currentIndex].duration * 1000;
-        timeoutRef.current = setTimeout(() => {
-          if (currentIndex === contents.zones[0].content.length - 1) {
-            setCurrentIndex(0);
-          } else {
-            setCurrentIndex((currentIndex) => currentIndex + 1);
-          }
-        }, timeoutDuration);
-      }
-    } else if (contents && contents.zones.length == 2) {
-      if (contents.zones[0].content[currentIndex]) {
-        const timeoutDuration =
-          contents.zones[0].content[currentIndex].duration * 1000;
-        timeoutRef.current = setTimeout(() => {
-          if (currentIndex === contents.zones[0].content.length - 1) {
-            setCurrentIndex(0);
-          } else {
-            setCurrentIndex((currentIndex) => currentIndex + 1);
-          }
-        }, timeoutDuration);
-      }
-      if (contents.zones[1].content[current1Index]) {
-        const timeout1Duration =
-          contents.zones[1].content[current1Index].duration * 1000;
-        timeout1Ref.current = setTimeout(() => {
-          if (current1Index === contents.zones[1].content.length - 1) {
-            setCurrent1Index(0);
-          } else {
-            setCurrent1Index((current1Index) => current1Index + 1);
-          }
-        }, timeout1Duration);
-      }
-    } else if (contents && contents.zones.length == 3) {
-      if (contents.zones[0].content[currentIndex]) {
-        const timeoutDuration =
-          contents.zones[0].content[currentIndex].duration * 1000;
-        timeoutRef.current = setTimeout(() => {
-          if (currentIndex === contents.zones[0].content.length - 1) {
-            setCurrentIndex(0);
-          } else {
-            setCurrentIndex((currentIndex) => currentIndex + 1);
-          }
-        }, timeoutDuration);
-      }
-      if (contents.zones[1].content[current1Index]) {
-        const timeout1Duration =
-          contents.zones[1].content[current1Index].duration * 1000;
-        timeout1Ref.current = setTimeout(() => {
-          if (current1Index === contents.zones[1].content.length - 1) {
-            setCurrent1Index(0);
-          } else {
-            setCurrent1Index((current1Index) => current1Index + 1);
-          }
-        }, timeout1Duration);
-      }
-      if (contents.zones[2].content[current2Index]) {
-        const timeout1Duration =
-          contents.zones[2].content[current2Index].duration * 1000;
-        timeout1Ref.current = setTimeout(() => {
-          if (current2Index === contents.zones[2].content.length - 1) {
-            setCurrent2Index(0);
-          } else {
-            setCurrent2Index((current2Index) => current2Index + 1);
-          }
-        }, timeout1Duration);
-      }
-    }
-
-    return () => clearTimeout(timeoutRef.current);
-  }, [currentIndex, current1Index]);
-  const viewImage = content[currentIndex]?.fitToScreen
-    ? "fitScreen"
-    : content[currentIndex]?.crop
-    ? "crop"
-    : "aspectRation";
 
   return (
     <>
       {" "}
       {contents && contents.zones.length == 1 ? (
-          <Zone1 contents={contents} currentIndex={currentIndex} current1Index={current1Index}  current2Index={current2Index} viewImage={viewImage}/>
-      ) : contents.zones.length == 2 ? (
-          <Zone3 contents={contents} currentIndex={currentIndex} current1Index={current1Index}  current2Index={current2Index} viewImage={viewImage}/>
-      ) : contents.zones.length == 3 ? (
-          <Zone3 contents={contents} currentIndex={currentIndex} current1Index={current1Index}  current2Index={current2Index} viewImage={viewImage}/>
-      ) : (
+        <>
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "image" && (
+              <div className="basic-list-group image-preview-container media-content nnnn">
+                <img
+                  className="webplayer-preview-img"
+                  style={{
+                    objectFit: `${
+                      viewImage === "fitScreen" ? "fill" : "contain"
+                    }`,
+                  }}
+                  src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                  alt="media-img"
+                />
+              </div>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "video" && (
+              <div
+                className={`basic-list-group video-container media-content ${viewImage} ${
+                  viewImage === "fitScreen" ? "fitImage" : "containImage"
+                }`}
+              >
+                <WebVideoPlayer
+                  src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                ></WebVideoPlayer>
+              </div>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "youtube-apps" && (
+              <div
+                className={`basic-list-group video-container media-content ${viewImage} ${
+                  viewImage === "fitScreen" ? "fitImage" : "containImage"
+                }`}
+              >
+                <ReactPlayer
+                  url={`${contents.zones[0].content[currentIndex].url}`}
+                  width="100%"
+                  height="100%"
+                />
+              </div>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "url-apps" && (
+              <div className="basic-list-group image-preview-container media-content">
+                <Iframe
+                  url={`${contents.zones[0].content[currentIndex].url}`}
+                  width="100%"
+                  height="100%"
+                  // id=""
+                  // className=""
+                  display="block"
+                  position="relative"
+                />
+              </div>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "scroller" && (
+              <>{handleScrollerApps(contents.zones[0].content[currentIndex].data)}</>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "text-apps" && (
+              <>{handleTextApps(contents.zones[0].content[currentIndex].data)}</>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "clock-apps" && (
+              <>{handleClockApps(contents.zones[0].content[currentIndex].data)}</>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "weather-apps" && (
+              <>{handleWeatherApps(contents.zones[0].content[currentIndex].data)}</>
+          )}
+        </>
+      ) :
         <></>
-      )}
+      }
     </>
   );
 };
 
-export default CompositionPlayer;
+export default Zone1;

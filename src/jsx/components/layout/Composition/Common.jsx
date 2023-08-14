@@ -117,6 +117,7 @@ const CommonComposition = ({ type, composition, layout }) => {
         duration: meta.length ? meta.length : 10,
         createdBy: media.createdBy.name,
         zone,
+        data:media.type !='video' && media.type != 'image' ? media.appData : "",
       };
       const newdata = [...prev, { ...createContent }];
       return newdata;
@@ -158,6 +159,7 @@ const CommonComposition = ({ type, composition, layout }) => {
     };
     if (type === "create") {
       data.layoutId = layout._id;
+      console.log(data)
       await postComposition(data);
     } else {
       data.compositionId = composition._id;

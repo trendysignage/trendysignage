@@ -3,12 +3,24 @@ import { Table } from "react-bootstrap";
 import { BASE_URL } from "../../../../utils/api";
 import UrlAppModal from "../../../modals/UrlAppModal";
 import YoutubeAppModal from "../../../modals/YoutubeAppModal";
+import ScrollerTextAppModal from "../../../modals/ScrollerTextAppModal";
+import TextAppModal from "../../../modals/TextAppModal";
 import editBtnImg from "../../../../img/edit-btn.png";
+import WeatherAppModal from "../../../modals/WeatherAppModal";
+import ClockApp from "../../../modals/ClockApp";
+import QrCodeModal from "../../../modals/QrCodeModal";
+import StocksAppModal from "../../../modals/StocksAppModal";
 
 const CompositionTable = ({ allMedia, addComposition }) => {
   const [showUrlApp, setShowUrlApp] = useState(false);
   const [showYoutubeApp, setShowYoutubeApp] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState(null);
+  const [showScrollerTextApp,setShowScrollerTextApp] = useState(false)
+  const [showTextApp,setShowTextApp] = useState(false);
+  const [showWeatherApp, setShowWeatherApp] = useState(false);
+  const [showClockApp, setShowClockApp] = useState(false);
+  const [showStocksApp, setShowStocksApp] = useState(false);
+  const [showQrCodeApp, setShowQrCodeApp] = useState(false);
 
   const videoMetaDuration = (media) => {
     const properties = JSON.parse(media?.properties);
@@ -26,6 +38,24 @@ const CompositionTable = ({ allMedia, addComposition }) => {
     } else if (data.type == "youtube-apps") {
       setShowYoutubeApp(true);
     }
+    else if(data.type == "scroller"){
+      setShowScrollerTextApp(true)
+    }
+    else if(data.type == "text-apps"){
+      setShowTextApp(true)
+    }
+    else if(data.type == "weather-apps"){
+      setShowWeatherApp(true)
+    }
+    else if(data.type == "clock-apps"){
+      setShowClockApp(true)
+    }
+    else if(data.type == "qrcode-apps"){
+      setShowQrCodeApp(true)
+    }
+    else if(data.type == "stocks-apps"){
+      setShowStocksApp(true)
+    }
     console.log("type", data);
   };
 
@@ -40,6 +70,42 @@ const CompositionTable = ({ allMedia, addComposition }) => {
       <YoutubeAppModal
         setShowUrlApp={() => setShowYoutubeApp(false)}
         show={showYoutubeApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <ScrollerTextAppModal
+        setShowScrollerTextApp={setShowScrollerTextApp}
+        show={showScrollerTextApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <TextAppModal 
+        setShowUrlApp={() => setShowTextApp(false)}
+        show={showTextApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <WeatherAppModal 
+        setShowUrlApp={() => setShowWeatherApp(false)}
+        show={showWeatherApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <ClockApp 
+        setShowUrlApp={() => setShowClockApp(false)}
+        show={showClockApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <QrCodeModal 
+        setShowUrlApp={() => setShowQrCodeApp(false)}
+        show={showQrCodeApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <StocksAppModal 
+        setShowUrlApp={() => setShowStocksApp(false)}
+        show={showStocksApp}
         mediaData={selectedMedia}
         actionType={"edit"}
       />
@@ -101,7 +167,16 @@ const CompositionTable = ({ allMedia, addComposition }) => {
                       </span>
 
                       {media.type == "youtube-apps" ||
-                      media.type == "url-apps" ? (
+                      media.type == "url-apps" ||
+                      media.type == "scroller" ||
+                      media.type == "text-apps" ||
+                      media.type == "weather-apps" ||
+                      media.type == "clock-apps" ||
+                      media.type == "qrcode-apps" ||
+                      media.type == "feed-apps" ||
+                      media.type == "aqi-apps" ||
+                      media.type == "news-apps" ||
+                      media.type == "stocks-apps" ? (
                         // <button
                         //   onClick={(e) => {
                         //     handleEdit(e, media);
