@@ -124,7 +124,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                       viewImage === "fitScreen" ? "fill" : "contain"
                     }`,
                   }}
-                  src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
+                  src={`https://staging.trendysignage.com//${contents.zones[0].content[currentIndex].url}`}
                   alt="media-img"
                 />
               </div>
@@ -138,7 +138,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                 }`}
               >
                 <WebVideoPlayer
-                  src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
+                  src={`https://staging.trendysignage.com//${contents.zones[0].content[currentIndex].url}`}
                 ></WebVideoPlayer>
               </div>
             )}
@@ -190,7 +190,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                         viewImage === "fitScreen" ? "fill" : "contain"
                       }`,
                     }}
-                    src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
+                    src={`https://staging.trendysignage.com//${contents.zones[0].content[currentIndex].url}`}
                     alt="media-img"
                   />
                 </div>
@@ -204,7 +204,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   }`}
                 >
                   <WebVideoPlayer
-                    src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
+                    src={`https://staging.trendysignage.com//${contents.zones[0].content[currentIndex].url}`}
                   ></WebVideoPlayer>
                 </div>
               )}
@@ -252,7 +252,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                         viewImage === "fitScreen" ? "fill" : "contain"
                       }`,
                     }}
-                    src={`http://81.208.167.124:5000//${contents.zones[1].content[currentIndex].url}`}
+                    src={`https://staging.trendysignage.com//${contents.zones[1].content[currentIndex].url}`}
                     alt="media-img"
                   />
                 </div>
@@ -266,7 +266,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   }`}
                 >
                   <WebVideoPlayer
-                    src={`http://81.208.167.124:5000//${contents.zones[1].content[currentIndex].url}`}
+                    src={`https://staging.trendysignage.com//${contents.zones[1].content[currentIndex].url}`}
                   ></WebVideoPlayer>
                 </div>
               )}
@@ -324,7 +324,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                           viewImage === "fitScreen" ? "fill" : "contain"
                         }`,
                       }}
-                      src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
+                      src={`https://staging.trendysignage.com//${contents.zones[0].content[currentIndex].url}`}
                       alt="media-img"
                     />
                   </div>
@@ -338,7 +338,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     }`}
                   >
                     <WebVideoPlayer
-                      src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
+                      src={`https://staging.trendysignage.com//${contents.zones[0].content[currentIndex].url}`}
                     ></WebVideoPlayer>
                   </div>
                 )}
@@ -389,7 +389,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                           viewImage === "fitScreen" ? "fill" : "contain"
                         }`,
                       }}
-                      src={`http://81.208.167.124:5000//${contents.zones[1].content[current1Index].url}`}
+                      src={`https://staging.trendysignage.com//${contents.zones[1].content[current1Index].url}`}
                       alt="media-img"
                     />
                   </div>
@@ -403,7 +403,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     }`}
                   >
                     <WebVideoPlayer
-                      src={`http://81.208.167.124:5000//${contents.zones[1].content[current1Index].url}`}
+                      src={`https://staging.trendysignage.com//${contents.zones[1].content[current1Index].url}`}
                     ></WebVideoPlayer>
                   </div>
                 )}
@@ -457,7 +457,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                         viewImage === "fitScreen" ? "fill" : "contain"
                       }`,
                     }}
-                    src={`http://81.208.167.124:5000//${contents.zones[2].content[current2Index].url}`}
+                    src={`https://staging.trendysignage.com//${contents.zones[2].content[current2Index].url}`}
                     alt="media-img"
                   />
                 </div>
@@ -471,7 +471,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   }`}
                 >
                   <WebVideoPlayer
-                    src={`http://81.208.167.124:5000//${contents.zones[2].content[current2Index].url}`}
+                    src={`https://staging.trendysignage.com//${contents.zones[2].content[current2Index].url}`}
                   ></WebVideoPlayer>
                 </div>
               )}
