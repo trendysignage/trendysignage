@@ -36,11 +36,7 @@ const ListScreen = ({ allScreens }) => {
                 <tr id={screen._id}>
                   <td>
                     <span className="td-content">
-                      <strong>
-                        
-                          {screen.name}
-
-                      </strong>
+                      <strong>{screen.name}</strong>
                       <span>{screen.screenLocation}</span>
                     </span>
                   </td>
@@ -126,10 +122,10 @@ const ListScreen = ({ allScreens }) => {
                             </div>
                           </Link>
                         </Dropdown.Item>
-                        <Dropdown.Item 
+                        <Dropdown.Item
                           onClick={() => {
                             setShowPublishPopUp(true);
-                            setSelectedScreen(screen._id)
+                            setSelectedScreen(screen._id);
                           }}
                           className="dropdown-list-item"
                         >
@@ -170,7 +166,7 @@ const ListScreen = ({ allScreens }) => {
                             </div>
                           </div>
                         </Dropdown.Item>
-                        <Dropdown.Item href="#" className="dropdown-list-item">
+                        {/* <Dropdown.Item href="#" className="dropdown-list-item">
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
                               <img
@@ -188,7 +184,7 @@ const ListScreen = ({ allScreens }) => {
                               </span>
                             </div>
                           </div>
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
                       </Dropdown.Menu>
                     </Dropdown>
                   </td>
@@ -206,7 +202,7 @@ const ListScreen = ({ allScreens }) => {
       )}
       {showPublishPopUp && (
         <CompositionListModel
-         selected={selectedScreen}
+          selected={selectedScreen}
           setShowPublishPopUp={setShowPublishPopUp}
           type="composition"
         />

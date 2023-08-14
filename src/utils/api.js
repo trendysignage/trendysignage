@@ -1,6 +1,6 @@
 import fetchClient from "./fetchClient";
 import axios from "axios";
-export const BASE_URL = "http://144.126.143.140:5000";
+export const BASE_URL = "https://ssapi.trendysignage.com";
 
 export function login(email, password) {
   const role = "vendor";

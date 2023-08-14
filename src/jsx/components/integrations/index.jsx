@@ -199,7 +199,7 @@ export default function Integrations() {
         }
         {/* <div className="app-card ">
           <div className="d-flex justify-content-end mr-3 mt-3">
-            <Dropdown
+            {/* <Dropdown
               className="dropdown-toggle-menu app-card-menu"
               drop="left"
             >
@@ -239,7 +239,7 @@ export default function Integrations() {
                   </div>
                 </Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
           </div>
           <div
             className="d-flex align-items-center justify-content-center"
@@ -255,7 +255,7 @@ export default function Integrations() {
         </div>
         <div className="app-card ">
           <div className="d-flex justify-content-end mr-3 mt-3">
-            <Dropdown
+            {/* <Dropdown
               className="dropdown-toggle-menu app-card-menu"
               drop="left"
             >
@@ -295,7 +295,7 @@ export default function Integrations() {
                   </div>
                 </Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
           </div>
           <div
             className="d-flex align-items-center justify-content-center"
