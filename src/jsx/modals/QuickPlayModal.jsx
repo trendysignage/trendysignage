@@ -28,14 +28,14 @@ const QuickPlayModal = ({ showQuickPlayModal, setQuickPlayModal }) => {
       </Modal.Header>
       <Modal.Body>
         <div className="search-textfield quickplay-search d-flex flex-wrap align-items-center">
-          <div className="form-group mb-0">
+          {/* <div className="form-group mb-0">
             <input
               type="text"
               className="form-control input-default "
               placeholder="Search..."
             />
             <img className="search-icon" src={searchIcon} alt="search" />
-          </div>
+          </div> */}
           <Button className="ml-2 icon-btn" variant="primary">
             <img className="icon-icon" src={listIcon} alt="list-icon" />
           </Button>

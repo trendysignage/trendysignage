@@ -1,6 +1,6 @@
 import fetchClient from "./fetchClient";
-import axios from 'axios'
-export const BASE_URL = "http://144.126.143.140:5000";
+import axios from "axios";
+export const BASE_URL = "http://81.208.167.124:5000";
 
 export function login(email, password) {
   const role = "vendor";
@@ -301,14 +301,14 @@ export async function vendorProfile() {
 
 export async function getReports(startDate, endDate, reportSlug) {
   let type = "";
-  if(reportSlug == 'media-report'){
-    type = 'mediaReport';
+  if (reportSlug == "media-report") {
+    type = "mediaReport";
   }
-  if(reportSlug == 'uptime-report'){
-    type = 'uptimeReport';
+  if (reportSlug == "uptime-report") {
+    type = "uptimeReport";
   }
-  if(reportSlug == 'audit-logs'){
-    type = 'auditLogs';
+  if (reportSlug == "audit-logs") {
+    type = "auditLogs";
   }
   const response = await fetchClient.get(
     BASE_URL +
@@ -318,31 +318,31 @@ export async function getReports(startDate, endDate, reportSlug) {
   return response;
 }
 
-export async function getSingleSequence(scheduleId,seqId) {
+export async function getSingleSequence(scheduleId, seqId) {
   const response = await fetchClient.get(
-    BASE_URL + `/vendor/push/sequence?scheduleId=${scheduleId}&sequenceId=${seqId}`
+    BASE_URL +
+      `/vendor/push/sequence?scheduleId=${scheduleId}&sequenceId=${seqId}`
   );
   return response.data.data;
 }
 
 export async function getUsers() {
-  const response = await fetchClient.get(
-    BASE_URL + `/vendor/profile/users`
-  );
+  const response = await fetchClient.get(BASE_URL + `/vendor/profile/users`);
   return response.data.data;
 }
 
 export async function addUsers(postdata) {
   const response = await fetchClient.post(
-    BASE_URL + `/vendor/profile/users`,postdata
+    BASE_URL + `/vendor/profile/users`,
+    postdata
   );
   return response;
-  
 }
 
 export async function updateUsers(postdata) {
   const response = await fetchClient.put(
-    BASE_URL + `/vendor/profile/users`,postdata
+    BASE_URL + `/vendor/profile/users`,
+    postdata
   );
   return response.data.data;
 }
@@ -355,23 +355,22 @@ export async function deleteUsers(userId) {
 }
 
 export async function getGroups() {
-  const response = await fetchClient.get(
-    BASE_URL + `/vendor/profile/groups`
-  );
+  const response = await fetchClient.get(BASE_URL + `/vendor/profile/groups`);
   return response.data.data;
 }
 
 export async function addGroups(postdata) {
   const response = await fetchClient.post(
-    BASE_URL + `/vendor/profile/groups`,postdata
+    BASE_URL + `/vendor/profile/groups`,
+    postdata
   );
   return response;
-  
 }
 
 export async function updateGroups(postdata) {
   const response = await fetchClient.put(
-    BASE_URL + `/vendor/profile/groups`,postdata
+    BASE_URL + `/vendor/profile/groups`,
+    postdata
   );
   return response.data.data;
 }
@@ -384,53 +383,47 @@ export async function deleteGroups(groupId) {
 }
 
 export async function getRoles() {
-  const response = await fetchClient.get(
-    BASE_URL + `/vendor/profile/roles`
-  );
+  const response = await fetchClient.get(BASE_URL + `/vendor/profile/roles`);
   return response.data.data;
 }
 
 export async function updateRoles(postdata) {
   const response = await fetchClient.put(
-    BASE_URL + `/vendor/profile/roles`,postdata
+    BASE_URL + `/vendor/profile/roles`,
+    postdata
   );
   return response.data.data;
 }
 
 export async function getDeviceProfile() {
   const response = await fetchClient.get(
-    BASE_URL + `/vendor/profile/deviceProfile`
+    BASE_URL + `/vendor/profile/deviceProfile?limit=100`
   );
   return response.data.data;
 }
 
 export async function addDeviceProfile(postdata) {
   const response = await fetchClient.post(
-    BASE_URL + `/vendor/profile/deviceProfile`,postdata
+    BASE_URL + `/vendor/profile/deviceProfile`,
+    postdata
   );
   return response;
-  
 }
 
 export async function addApps(postdata) {
-  const response = await fetchClient.post(
-    BASE_URL + `/vendor/apps`,postdata
-  );
+  const response = await fetchClient.post(BASE_URL + `/vendor/apps`, postdata);
   return response;
-  
 }
 
 export async function updateApps(postdata) {
-  const response = await fetchClient.put(
-    BASE_URL + `/vendor/apps`,postdata
-  );
+  const response = await fetchClient.put(BASE_URL + `/vendor/apps`, postdata);
   return response;
-  
 }
 
 export async function updateDeviceProfile(postdata) {
   const response = await fetchClient.put(
-    BASE_URL + `/vendor/profile/deviceProfile`,postdata
+    BASE_URL + `/vendor/profile/deviceProfile`,
+    postdata
   );
   return response.data.data;
 }
@@ -444,9 +437,8 @@ export async function deleteDeviceProfile(userId) {
 
 export async function assignScreenProfile(postdata) {
   const response = await fetchClient.post(
-    BASE_URL + `/vendor/profile/assign`,postdata
+    BASE_URL + `/vendor/profile/assign`,
+    postdata
   );
   return response;
-  
 }
-

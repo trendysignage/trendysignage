@@ -26,6 +26,7 @@ const Settings = () => {
   const [showProfileModel, setShowProfileModel] = useState(false);
   const [showAddUserModel, setShowAddUserModel] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleDropDown = (e, data) => {
     e.preventDefault();
@@ -51,9 +52,11 @@ const Settings = () => {
   };
 
   const callDeviceProfileApi = async () => {
+    setLoading(true)
     const list = await getDeviceProfile();
     console.log("deviceProfile", list);
     setAllDeviceProfile(list);
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -107,6 +110,7 @@ const Settings = () => {
         open={showProfileModel}
         setShowProfileModel={setShowProfileModel}
         setIsRefresh={setIsRefresh}
+        loading={loading}
       />
       <div
         className="custom-content-heading d-flex flex-wrap"

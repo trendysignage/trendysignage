@@ -1378,6 +1378,16 @@ background-color: #fff;
   padding-left: 12px;
   padding-right: 12px;
 }
+.profile .ipOzdx div:first-child{
+overflow: unset;
+}
+.profile-dropdown::after{
+  content: " " !important;
+}
+
+.profile-dropdown .dropdown-toggle:after{
+  content: " " !important;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

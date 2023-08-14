@@ -361,9 +361,9 @@ const AddDeviceProfile = ({
                             className="w-100"
                           >
                             <img
-                              style={{ width, height, maxWidth: "100%" }}
+                              style={{ width:`${width}px`, height:`${height}px`, maxWidth: "100%" }}
                               src={`${BASE_URL}${selectedMedia?.title}`}
-                              className="App-logo"
+                              className={`App-logo  ${width}`}
                               alt="logo"
                             />
                           </div>

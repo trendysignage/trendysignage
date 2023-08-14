@@ -70,7 +70,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
           }
         }, timeout1Duration);
       }
-      if (contents.zones[2].content[current1Index]) {
+      if (contents.zones[2].content[current2Index]) {
         const timeout1Duration =
           contents.zones[2].content[current2Index].duration * 1000;
         timeout1Ref.current = setTimeout(() => {
@@ -85,9 +85,9 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
 
     return () => clearTimeout(timeoutRef.current);
   }, [currentIndex, current1Index]);
-  const viewImage = content[currentIndex].fitToScreen
+  const viewImage = content[currentIndex]?.fitToScreen
     ? "fitScreen"
-    : content[currentIndex].crop
+    : content[currentIndex]?.crop
     ? "crop"
     : "aspectRation";
 
@@ -124,7 +124,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                       viewImage === "fitScreen" ? "fill" : "contain"
                     }`,
                   }}
-                  src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                  src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
                   alt="media-img"
                 />
               </div>
@@ -138,7 +138,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                 }`}
               >
                 <WebVideoPlayer
-                  src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                  src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
                 ></WebVideoPlayer>
               </div>
             )}
@@ -190,7 +190,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                         viewImage === "fitScreen" ? "fill" : "contain"
                       }`,
                     }}
-                    src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                    src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
                     alt="media-img"
                   />
                 </div>
@@ -204,7 +204,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   }`}
                 >
                   <WebVideoPlayer
-                    src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                    src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
                   ></WebVideoPlayer>
                 </div>
               )}
@@ -252,7 +252,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                         viewImage === "fitScreen" ? "fill" : "contain"
                       }`,
                     }}
-                    src={`http://144.126.143.140:5000/${contents.zones[1].content[currentIndex].url}`}
+                    src={`http://81.208.167.124:5000//${contents.zones[1].content[currentIndex].url}`}
                     alt="media-img"
                   />
                 </div>
@@ -266,7 +266,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   }`}
                 >
                   <WebVideoPlayer
-                    src={`http://144.126.143.140:5000/${contents.zones[1].content[currentIndex].url}`}
+                    src={`http://81.208.167.124:5000//${contents.zones[1].content[currentIndex].url}`}
                   ></WebVideoPlayer>
                 </div>
               )}
@@ -324,7 +324,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                           viewImage === "fitScreen" ? "fill" : "contain"
                         }`,
                       }}
-                      src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                      src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
                       alt="media-img"
                     />
                   </div>
@@ -338,7 +338,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     }`}
                   >
                     <WebVideoPlayer
-                      src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                      src={`http://81.208.167.124:5000//${contents.zones[0].content[currentIndex].url}`}
                     ></WebVideoPlayer>
                   </div>
                 )}
@@ -389,7 +389,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                           viewImage === "fitScreen" ? "fill" : "contain"
                         }`,
                       }}
-                      src={`http://144.126.143.140:5000/${contents.zones[1].content[current1Index].url}`}
+                      src={`http://81.208.167.124:5000//${contents.zones[1].content[current1Index].url}`}
                       alt="media-img"
                     />
                   </div>
@@ -403,7 +403,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                     }`}
                   >
                     <WebVideoPlayer
-                      src={`http://144.126.143.140:5000/${contents.zones[1].content[current1Index].url}`}
+                      src={`http://81.208.167.124:5000//${contents.zones[1].content[current1Index].url}`}
                     ></WebVideoPlayer>
                   </div>
                 )}
@@ -457,7 +457,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                         viewImage === "fitScreen" ? "fill" : "contain"
                       }`,
                     }}
-                    src={`http://144.126.143.140:5000/${contents.zones[2].content[current2Index].url}`}
+                    src={`http://81.208.167.124:5000//${contents.zones[2].content[current2Index].url}`}
                     alt="media-img"
                   />
                 </div>
@@ -471,7 +471,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
                   }`}
                 >
                   <WebVideoPlayer
-                    src={`http://144.126.143.140:5000/${contents.zones[2].content[current2Index].url}`}
+                    src={`http://81.208.167.124:5000//${contents.zones[2].content[current2Index].url}`}
                   ></WebVideoPlayer>
                 </div>
               )}

@@ -25,8 +25,6 @@ const Roles = ({ roles, setIsRefresh, isRefresh }) => {
   }, [makeRefresh, rolesData]);
 
   const handleChange = async (e, set, section, type, val) => {
-    e.preventDefault();
-    console.log(set, section, type, val, rolesData[set][section][type]);
     rolesData[set][section][type] = val;
     await setRolesData(rolesData);
     setMakeRefresh(true);
