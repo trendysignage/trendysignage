@@ -10,6 +10,9 @@ import WeatherAppModal from "../../../modals/WeatherAppModal";
 import ClockApp from "../../../modals/ClockApp";
 import QrCodeModal from "../../../modals/QrCodeModal";
 import StocksAppModal from "../../../modals/StocksAppModal";
+import BulletinBoardAppModal from "../../../modals/BulletinBoardAppModal";
+import RssFeedAppModal from "../../../modals/RssFeedAppModal";
+import AirQualityAppModal from "../../../modals/AirQualityAppModal";
 
 const CompositionTable = ({ allMedia, addComposition }) => {
   const [showUrlApp, setShowUrlApp] = useState(false);
@@ -20,7 +23,10 @@ const CompositionTable = ({ allMedia, addComposition }) => {
   const [showWeatherApp, setShowWeatherApp] = useState(false);
   const [showClockApp, setShowClockApp] = useState(false);
   const [showStocksApp, setShowStocksApp] = useState(false);
+  const [showBulletinApp, setShowBulletinApp] = useState(false);
   const [showQrCodeApp, setShowQrCodeApp] = useState(false);
+  const [showRssApp, setShowRssApp] = useState(false)
+  const [showAqiApp, setShowAqiApp] = useState(false)
 
   const videoMetaDuration = (media) => {
     const properties = JSON.parse(media?.properties);
@@ -32,6 +38,7 @@ const CompositionTable = ({ allMedia, addComposition }) => {
 
   const handleEdit = (e, data) => {
     e.preventDefault();
+    console.log(data.type)
     setSelectedMedia(data);
     if (data.type == "url-apps") {
       setShowUrlApp(true);
@@ -56,7 +63,15 @@ const CompositionTable = ({ allMedia, addComposition }) => {
     else if(data.type == "stocks-apps"){
       setShowStocksApp(true)
     }
-    console.log("type", data);
+    else if(data.type == "bulletin-apps"){
+      setShowBulletinApp(true)
+    }
+    else if(data.type == "rss-apps"){
+      setShowRssApp(true)
+    }
+    else if(data.type == "aqi-apps"){
+      setShowAqiApp(true)
+    }
   };
 
   return (
@@ -106,6 +121,24 @@ const CompositionTable = ({ allMedia, addComposition }) => {
       <StocksAppModal 
         setShowUrlApp={() => setShowStocksApp(false)}
         show={showStocksApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <BulletinBoardAppModal 
+        setShowUrlApp={() => setShowBulletinApp(false)}
+        show={showBulletinApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <RssFeedAppModal 
+        setShowUrlApp={() => setShowRssApp(false)}
+        show={showRssApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <AirQualityAppModal 
+        setShowUrlApp={() => setShowAqiApp(false)}
+        show={showAqiApp}
         mediaData={selectedMedia}
         actionType={"edit"}
       />
@@ -173,9 +206,9 @@ const CompositionTable = ({ allMedia, addComposition }) => {
                       media.type == "weather-apps" ||
                       media.type == "clock-apps" ||
                       media.type == "qrcode-apps" ||
-                      media.type == "feed-apps" ||
+                      media.type == "rss-apps" ||
                       media.type == "aqi-apps" ||
-                      media.type == "news-apps" ||
+                      media.type == "bulletin-apps" ||
                       media.type == "stocks-apps" ? (
                         // <button
                         //   onClick={(e) => {

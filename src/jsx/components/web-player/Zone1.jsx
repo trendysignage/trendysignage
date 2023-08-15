@@ -3,96 +3,8 @@ import React from "react";
 import WebVideoPlayer from "./WebVideoPlayer";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
-import moment from "moment";
-import Moment from 'react-moment';
-import Clock from "../Clock";
-import { getWeather } from "../../../utils/api";
+import { handleBulletinApps, handleScrollerApps, handleTextApps, handleClockApps, handleWeatherApps, handleQrApps, handleRssApps, handleAqiApps } from '../../../utils/UtilsService';
 const Zone1 = ({ contents, currentIndex, current1Index, current2Index, viewImage}) => {
-
-
-  const monthName = ['Jan', 'Feb', 'March', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-  const dayName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-  const handleScrollerApps = (data) => {
-    const prp = JSON.parse(data);
-    let speed = 5;
-    let allignment = 'left';
-    if(prp.speed && prp.speed == 'medium'){
-      speed = 12;
-    }
-    else if(prp.spped && prp.speed == 'hight'){
-      speed = 20;
-    }
-    if(prp.allign == 'Right-to-Left'){
-      allignment = 'right'
-    }
-    let txt = '';
-    if(prp.style == 'italic'){
-      txt =  <i><marquee direction={allignment} scrollAmount={speed} style={{color:prp.textColor,fontSize:"50px"}}>{prp.url}</marquee></i>
-    }else if(prp.style == 'bold'){
-      txt =  <b><marquee direction={allignment} scrollAmount={speed}  style={{color:prp.textColor,fontSize:"50px"}}>{prp.url}</marquee></b>
-    }else{
-      txt = <marquee direction={allignment} scrollAmount={speed}  style={{color:prp.textColor,fontSize:"50px"}}>{prp.url}</marquee>
-    }
-    return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor}}>{txt}</div>
-  }
-
-  const handleTextApps = (data) => {
-    const prp = JSON.parse(data);
-    let txt = "";
-    if(prp.style == 'Italic'){
-      return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><i>{prp.content}</i></div>
-    }else if(prp.style == 'Bold'){
-      return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><b>{prp.content}</b></div>
-    }else{
-      return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}>{prp.content}</div>
-    }
-  }
-
-  const handleClockApps = (data) => {
-      const cdate = new Date();
-      const prp = JSON.parse(data);
-      let tF = '';
-      
-    console.log("timeFormat",prp.timeFormat)
-      if(prp.timeFormat == 'lefAnalogue - 12 hourt'){ 
-        return <div className="basic-list-group image-preview-container media-content" style={{fontSize:"50px", color:'white', textAlign:'center'}} ><div style={{position:'relative'}}><Clock /></div>{prp.hideDate ?<p style={{fontSize:"20px"}}>{`${cdate.getDate()} ${monthName[cdate.getDay()] } ${dayName[cdate.getDay()] } Indian Standard Time` }</p> : ''}</div>
-
-      }else{
-        if(prp.timeFormat == 'Digital - 12 hour'){
-          tF = "hh:mm A";
-        }else if(prp.timeFormat == 'Digital - 24 hour'){
-          tF = "HH:MM A";
-        }
-
-        return <div className="basic-list-group image-preview-container media-content" style={{fontSize:"100px", color:'white', textAlign:'center'}} >
-            <Moment format={tF} date={new Date()} />
-            {!prp.hideDate ?<p style={{fontSize:"20px"}}>{`${cdate.getDate()} ${monthName[cdate.getDay()] } ${dayName[cdate.getDay()] } Indian Standard Time` }</p> : ''}
-            
-            </div>
-      }
-    
-    // const prp = JSON.parse(data);
-    // let txt = "";
-    // if(prp.style == 'Italic'){
-    //   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><i>{prp.content}</i></div>
-    // }else if(prp.style == 'Bold'){
-    //   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><b>{prp.content}</b></div>
-    // }else{
-    //   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}>{prp.content}</div>
-    // }
-  }
-
-  const handleWeatherApps = (data) => {
-    const prp = JSON.parse(data);
-    // console.log("data", prp);
-    // getWeather('Noida').then((resp) => {
-    //   console.log("weatherDetail",resp)
-    // });
-    
-    return <div className="basic-list-group image-preview-container media-content" style={{fontSize:"50px", color:'white', textAlign:'center'}} >Weather Apps</div>
-  }
-
 
   return (
     <>
@@ -177,6 +89,26 @@ const Zone1 = ({ contents, currentIndex, current1Index, current2Index, viewImage
             contents.zones[0].content[currentIndex] &&
             contents.zones[0].content[currentIndex].type === "weather-apps" && (
               <>{handleWeatherApps(contents.zones[0].content[currentIndex].data)}</>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "bulletin-apps" && (
+              <>{handleBulletinApps(contents.zones[0].content[currentIndex].data)}</>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "qrcode-apps" && (
+              <>{handleQrApps(contents.zones[0].content[currentIndex].data)}</>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "rss-apps" && (
+              <>{handleRssApps(contents.zones[0].content[currentIndex].data)}</>
+          )}
+          {contents.zones[0] &&
+            contents.zones[0].content[currentIndex] &&
+            contents.zones[0].content[currentIndex].type === "aqi-apps" && (
+              <>{handleAqiApps(contents.zones[0].content[currentIndex].data)}</>
           )}
         </>
       ) :

@@ -4,13 +4,22 @@ import icon from "../../img/link-alt 1.svg";
 
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { updateApps, addApps } from "../../utils/api";
 import Switch from "react-switch";
-const BulletinBoardAppModal = ({ setShowUrlApp, show }) => {
+const BulletinBoardAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
+  const [showRedirectApp, setShowUrlRedirectApp] = useState(false)
   const [name, setName] = useState(null);
   const [isBulletin, setIsBulletin] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState(null);
   const [selectedContent, setSelectedContent] = useState(null);
+  const [bulletinType, setBulletinType] = useState(null)
+  const [duration, setDuration] = useState(10);
+  const [bulletinFormat, setBulletinFormat] = useState('single');
+  const [mediaId, setMediaId] = useState(null);
+  const [err, setErr] = useState(false);
+  const [errMessage, setErrorMessage] = useState('');
+  const [colorScheme, setColorScheme] = useState({value: "Light Yellow", label: "Light Yellow"});
   const options = [
     { value: "Light Yellow", label: "Light Yellow" },
     { value: "Orange", label: "Orange" },
@@ -26,18 +35,93 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show }) => {
   const handleBulletin = (e) => {
     e.preventDefault();
     const data = bulletin;
-    const newData = {
-      title:selectedTitle,
-      content:selectedContent
+    if(bulletinType){
+      data[bulletinType].title = selectedTitle;
+      data[bulletinType].content = selectedContent
+    }else{
+      const newData = {
+        title:selectedTitle,
+        content:selectedContent
+      }
+      data.push(newData);
     }
-    data.push(newData);
     setBulletin(data);
-    console.log("Bulletin",bulletin);
     setIsBulletin(false);
     setSelectedContent(null);
     setSelectedTitle(null);
+    setBulletinType(null)
+  }
+
+  const handleDelete = (e, data) => {
+    e.preventDefault();
+    const newData = bulletin.filter((item, index) => {
+      return data != index
+    })
+    console.log("filter", newData, data, bulletin)
+    setBulletin(newData);
+    setIsBulletin(false);
+    setSelectedContent(null);
+    setSelectedTitle(null);
+    setBulletinType(null)
+
+  }
+  const handleEdit = (e, data, key) => {
+    e.preventDefault();
+    setIsBulletin(true);
+    setSelectedContent(data.content);
+    setSelectedTitle(data.title);
+    setBulletinType(key)
+  }
+
+  useEffect(() => {
+    if(mediaData){
+      const jsonString = JSON.parse(mediaData.appData);
+      setName(mediaData.title);
+      setColorScheme(jsonString.colorScheme);
+      setDuration(jsonString.duration);
+      setBulletinFormat(jsonString.bulletinFormat);
+      setBulletin(jsonString.bulletin);
+      setMediaId(mediaData._id);
+    }
+  },[mediaData])
+  console.log("media", mediaData)
+
+  const handleCreateApp = async(e) => {
+    e.preventDefault();
+
+    setErr(false);
+    setErrorMessage("");
+    if(name == ''){
+      setErr(true);
+      setErrorMessage("App Name is required");
+    }
+    if(err){
+      return false;
+    }
+    const dataString = {
+      url:name,bulletinFormat, bulletin, duration,colorScheme
+    }
+
+    if(actionType && actionType == 'edit'){
+      await updateApps({
+        name,
+        appId:mediaId,
+        data:JSON.stringify(dataString)
+      });
+      setShowUrlApp(false)
+    }else{
+      await addApps({
+        name,
+        type:'bulletin-apps',
+        data:JSON.stringify(dataString)
+      });
+      setShowUrlApp(false)
+      setShowUrlRedirectApp(true)
+    }
+    //console.log(name, urlLink, selectedOption)
   }
   return (
+    <>
     <Modal
       className="fade bd-example-modal-lg mt-4 app-modal"
       show={show}
@@ -85,8 +169,8 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show }) => {
                   <label className="">Color Scheme</label>
 
                   <Select
-                    //defaultValue={selectedOption}
-                    // onChange={setSelectedOption}
+                    value={colorScheme}
+                    onChange={setColorScheme}
                     options={options}
                     className="app-option"
                   />
@@ -98,6 +182,10 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show }) => {
                     className="  form-control "
                     placeholder="10"
                     required
+                    id="duration"
+                    name="duration"
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
                   />
                 </div>
               </div>
@@ -109,9 +197,9 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show }) => {
                   </div>
 
                   <label className=" mr-3">Single</label>
-                  <input type="checkbox" className="   " required />
+                  <input type="radio" name="bulletinFormat" value="single" checked={bulletinFormat == 'single'} onChange={(e) => setBulletinFormat("single")} className="   " required />
                   <label className=" mx-3">Multi</label>
-                  <input type="checkbox" className="   " required />
+                  <input type="radio" name="bulletinFormat" value="multi" checked={bulletinFormat == 'multi'} onChange={(e) => setBulletinFormat("multi")}  className="   " required />
                 </div>
                 <div className="col-6 text-center">
                   <label className="mb-0 ">Want to include images</label>
@@ -125,7 +213,7 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show }) => {
                 </div>
               </div>
               {
-                bulletin.length == 0 && <>
+                bulletin && bulletin.length == 0 && <>
                   <label className="mt-3 pb-3">Bulletin Board Content</label>
                   <div>
                     <span className="add-content-bulletinboard" onClick={(e) => setIsBulletin(true)}> + Add Content</span>
@@ -135,9 +223,10 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show }) => {
               
               <div className="col-12">
                 {
-                  bulletin && bulletin.length > 0 && <table>
+                  bulletin && bulletin.length > 0 && <table style={{width:"100% !important"}}>
                     <thead>
                       <tr>
+                        {checked ? <th>Image</th> : ""}
                         <th>Content</th>
                         <th>Action</th>
                       </tr>
@@ -145,11 +234,12 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show }) => {
                     <tbody>
                       {bulletin.map((item, index) =>{
                         return <tr key={index}>
+                          {checked ? <td>Image</td> : ""}
                           <td>
                             <strong>{item.title}</strong>
-                            <p>{item.content}</p>
+                            <span>{item.content}</span>
                           </td>
-                          <td><span className="add-content-bulletinboard" onClick={(e) => setIsBulletin(true)}> + Add</span></td>
+                          <td><button className="" onClick={(e) => setIsBulletin(true)}> + Add</button><button className="" onClick={(e) => handleDelete(e, index)}> - Del</button><button className="" onClick={(e) => handleEdit(e, item, index)}> Edit</button></td>
                         </tr>
                       })}
                     </tbody>
@@ -229,14 +319,59 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show }) => {
               variant=""
               type="button"
               className="btn btn-primary btn-block primary-btn"
-              //   onClick={() => setNewTagModal(false)}
+              onClick={(e) => handleCreateApp(e)}
             >
-              Create App
+              {actionType && actionType == 'edit' ? 'Update' : 'Create'} App
             </Button>
           </Col>
         </Row>
       </Modal.Footer>
     </Modal>
+    <Modal
+    className="fade bd-example-modal-lg mt-4 app-modal"
+    show={showRedirectApp}
+    size="xl"
+    centered
+  >
+    <Modal.Header className="border-0">
+
+      <Button
+        variant=""
+        className="close"
+        onClick={() => setShowUrlRedirectApp(false)}
+      >
+        <img
+          className="cancel-icon"
+          src={cancelIcon}
+          alt="cancel-icon"
+          height="25px"
+          width="25px"
+        />
+      </Button>
+    </Modal.Header>
+    <Modal.Body>
+      <div className="row">
+        <div className="col-6 ">
+          <div className="d-flex justify-content-center align-items-center h-100 url-app-form-icon">
+            <div className="text-center">
+              <img src={icon} width="60px" height="60px" className="mb-3" />
+              <h4>https://www.</h4>
+            </div>
+          </div>
+        </div>
+        <div className="col-6 ">
+          <div className="d-flex justify-content-center align-items-center">
+            <div className="text-center">
+              <p>URL App created successfully</p>
+              <p>URL App is saved in <u>Media</u></p>
+              <Link to={'/layout'}>Create Composition</Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Modal.Body>
+  </Modal>
+  </>
   );
 };
 
