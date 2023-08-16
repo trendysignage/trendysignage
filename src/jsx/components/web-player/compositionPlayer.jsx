@@ -5,9 +5,9 @@ import { BASE_URL } from "../../../utils/api";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
 import { fontSize } from "@material-ui/system";
-import Zone1 from './Zone1';
-import Zone2 from './Zone2';
-import Zone3 from './Zone3'
+import Zone1 from "./Zone1";
+import Zone2 from "./Zone2";
+import Zone3 from "./Zone3";
 import { getWeather } from "../../../utils/api";
 const CompositionPlayer = ({ contents, content, referenceUrl }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -15,7 +15,6 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
   const [current2Index, setCurrent2Index] = useState(0);
   const timeout1Ref = useRef("");
   const timeoutRef = useRef("");
-
 
   useEffect(() => {
     if (contents && contents.zones.length == 1) {
@@ -101,11 +100,29 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
     <>
       {" "}
       {contents && contents.zones.length == 1 ? (
-          <Zone1 contents={contents} currentIndex={currentIndex} current1Index={current1Index}  current2Index={current2Index} viewImage={viewImage}/>
+        <Zone1
+          contents={contents}
+          currentIndex={currentIndex}
+          current1Index={current1Index}
+          current2Index={current2Index}
+          viewImage={viewImage}
+        />
       ) : contents.zones.length == 2 ? (
-          <Zone3 contents={contents} currentIndex={currentIndex} current1Index={current1Index}  current2Index={current2Index} viewImage={viewImage}/>
+        <Zone2
+          contents={contents}
+          currentIndex={currentIndex}
+          current1Index={current1Index}
+          current2Index={current2Index}
+          viewImage={viewImage}
+        />
       ) : contents.zones.length == 3 ? (
-          <Zone3 contents={contents} currentIndex={currentIndex} current1Index={current1Index}  current2Index={current2Index} viewImage={viewImage}/>
+        <Zone3
+          contents={contents}
+          currentIndex={currentIndex}
+          current1Index={current1Index}
+          current2Index={current2Index}
+          viewImage={viewImage}
+        />
       ) : (
         <></>
       )}
