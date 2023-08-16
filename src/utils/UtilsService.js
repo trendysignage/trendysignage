@@ -1,293 +1,461 @@
-import Carousel from 'react-material-ui-carousel'
-import { Paper, Button } from '@mui/material'
+import Carousel from "react-material-ui-carousel";
+import { Paper, Button } from "@mui/material";
 import moment from "moment";
-import Moment from 'react-moment';
-import Clock from '../jsx/components/Clock';
+import Moment from "react-moment";
+import Clock from "../jsx/components/Clock";
 import { getWeather } from "./api";
-import Parser from 'rss-parser';
+import Parser from "rss-parser";
 
 import QRCode from "react-qr-code";
 
 export const isValidDate = (d) => {
-    return d instanceof Date && !isNaN(d);
-}
+  return d instanceof Date && !isNaN(d);
+};
 
 export const formattedDateString = (d) => {
-    d = new Date(d);
-    const yyyy = d.getFullYear();
-    const mm = dateDigits(d.getMonth() + 1);
-    const dd = dateDigits(d.getDate());
-    return yyyy + "-" + mm + "-" + dd;
+  d = new Date(d);
+  const yyyy = d.getFullYear();
+  const mm = dateDigits(d.getMonth() + 1);
+  const dd = dateDigits(d.getDate());
+  return yyyy + "-" + mm + "-" + dd;
 };
 
 export const humanReadableFormattedDateString = (date) => {
-    date = new Date(date);
-    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    let day = dateDigits(date.getDate());
-    let month = months[date.getMonth()];
-    let year = date.getFullYear();
-    return day + ' ' + month + ', ' + year;
-}
-
-export const formattedTimeString = (d) => {
-    d = new Date(d);
-    return dateDigits(d.getHours()) + ":" + dateDigits(d.getMinutes()) + ":00";
+  date = new Date(date);
+  let months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  let day = dateDigits(date.getDate());
+  let month = months[date.getMonth()];
+  let year = date.getFullYear();
+  return day + " " + month + ", " + year;
 };
 
-export const getHOrMFromLocalTimeString = (localTimeString, hOrM = 'h') => {
-    const localTimeArr = localTimeString.split(':');
-    if (localTimeArr.length > 1) {
-        if (hOrM === 'h') {
-            return +localTimeString.split(':')[0];
-        } else {
-            return +localTimeString.split(':')[1];
-        }
+export const formattedTimeString = (d) => {
+  d = new Date(d);
+  return dateDigits(d.getHours()) + ":" + dateDigits(d.getMinutes()) + ":00";
+};
+
+export const getHOrMFromLocalTimeString = (localTimeString, hOrM = "h") => {
+  const localTimeArr = localTimeString.split(":");
+  if (localTimeArr.length > 1) {
+    if (hOrM === "h") {
+      return +localTimeString.split(":")[0];
     } else {
-        return 0;
+      return +localTimeString.split(":")[1];
     }
+  } else {
+    return 0;
+  }
 };
 
 export const dateDigits = (v, digits = 2) => {
-    let str = "";
-    for (let i = digits; i > 1; i--) {
-        str += "0";
-    }
+  let str = "";
+  for (let i = digits; i > 1; i--) {
+    str += "0";
+  }
 
-    return (str + v).slice(-digits);
+  return (str + v).slice(-digits);
 };
 
 export const currencyFormat = (num, toFixed = 2) => {
-    num = num ? +num : 0;
-    return '$' + num.toFixed(toFixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-}
+  num = num ? +num : 0;
+  return "$" + num.toFixed(toFixed).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+};
 
 export const numberThFormat = (num) => {
-    switch(num) {
-        case 1: 
-            return num + 'st';
-        break;
-        case 2: 
-            return num + 'nd';
-        break;
-        case 3: 
-            return num + 'rd';
-        break;
-        default: 
-            return num + 'th';
-        break;
-    }
-}
+  switch (num) {
+    case 1:
+      return num + "st";
+      break;
+    case 2:
+      return num + "nd";
+      break;
+    case 3:
+      return num + "rd";
+      break;
+    default:
+      return num + "th";
+      break;
+  }
+};
 
 export const priceValue = (formattedPrice = "$0.00") => {
-    formattedPrice = formattedPrice ? formattedPrice + "" : "$0.00";
-    return +formattedPrice.split(",").join("").split(" ").join("").split("$").join("")
+  formattedPrice = formattedPrice ? formattedPrice + "" : "$0.00";
+  return +formattedPrice
+    .split(",")
+    .join("")
+    .split(" ")
+    .join("")
+    .split("$")
+    .join("");
 };
 
 export const isMobile = () => {
-    return window.innerWidth < 768;
+  return window.innerWidth < 768;
 };
 
 export const randomStr = (length) => {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
+  var result = "";
+  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
 
 export const defaultPeriods = [
-    {
-        dayOfWeek: "SUN",
-        startLocalTime: "7:00:00",
-        endLocalTime: "20:00:00",
-        closed: false
-    },
-    {
-        dayOfWeek: "MON",
-        startLocalTime: "7:00:00",
-        endLocalTime: "20:00:00",
-        closed: false
-    },
-    {
-        dayOfWeek: "TUE",
-        startLocalTime: "7:00:00",
-        endLocalTime: "20:00:00",
-        closed: false
-    },
-    {
-        dayOfWeek: "WED",
-        startLocalTime: "7:00:00",
-        endLocalTime: "20:00:00",
-        closed: false
-    },
-    {
-        dayOfWeek: "THU",
-        startLocalTime: "7:00:00",
-        endLocalTime: "20:00:00",
-        closed: false
-    },
-    {
-        dayOfWeek: "FRI",
-        startLocalTime: "7:00:00",
-        endLocalTime: "20:00:00",
-        closed: false
-    },
-    {
-        dayOfWeek: "SAT",
-        startLocalTime: "7:00:00",
-        endLocalTime: "20:00:00",
-        closed: false
-    }
+  {
+    dayOfWeek: "SUN",
+    startLocalTime: "7:00:00",
+    endLocalTime: "20:00:00",
+    closed: false,
+  },
+  {
+    dayOfWeek: "MON",
+    startLocalTime: "7:00:00",
+    endLocalTime: "20:00:00",
+    closed: false,
+  },
+  {
+    dayOfWeek: "TUE",
+    startLocalTime: "7:00:00",
+    endLocalTime: "20:00:00",
+    closed: false,
+  },
+  {
+    dayOfWeek: "WED",
+    startLocalTime: "7:00:00",
+    endLocalTime: "20:00:00",
+    closed: false,
+  },
+  {
+    dayOfWeek: "THU",
+    startLocalTime: "7:00:00",
+    endLocalTime: "20:00:00",
+    closed: false,
+  },
+  {
+    dayOfWeek: "FRI",
+    startLocalTime: "7:00:00",
+    endLocalTime: "20:00:00",
+    closed: false,
+  },
+  {
+    dayOfWeek: "SAT",
+    startLocalTime: "7:00:00",
+    endLocalTime: "20:00:00",
+    closed: false,
+  },
 ];
 
-export const getDatetimeIn12Hours = (datetimeString) =>{
-    const date = new Date(datetimeString);
-    const options = { hour: 'numeric', minute: 'numeric', hour12: true };
-    return  date.toLocaleTimeString('en-US', options);
-}
-export const isBlobUrl = (url)=> {
-    return url.startsWith('blob:');
-}
+export const getDatetimeIn12Hours = (datetimeString) => {
+  const date = new Date(datetimeString);
+  const options = { hour: "numeric", minute: "numeric", hour12: true };
+  return date.toLocaleTimeString("en-US", options);
+};
+export const isBlobUrl = (url) => {
+  return url.startsWith("blob:");
+};
 
 export const sliceIntoChunks = (arr, chunkSize) => {
-    const res = [];
-      for (let i = 0; i < arr.length; i += chunkSize) {
-          const chunk = arr.slice(i, i + chunkSize);
-          res.push(chunk);
-      }
-      return res;
-}
+  const res = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    const chunk = arr.slice(i, i + chunkSize);
+    res.push(chunk);
+  }
+  return res;
+};
 
 export const handleBulletinApps = (data) => {
+  const prp = JSON.parse(data);
+  const newArray = sliceIntoChunks(prp.bulletin, 3);
+  return (
+    <div
+      className="basic-list-group image-preview-container media-content"
+      style={{ color: "white", textAlign: "center" }}
+    >
+      {newArray.length > 0 && (
+        <Carousel interval={5000} indicators={false} animation={"slide"}>
+          {newArray.map((item, i) => {
+            return (
+              <div className="row">
+                {item.map((item1, index1) => {
+                  return (
+                    <div className="col-3" key={i + "dd" + index1}>
+                      <strong>{item1.title}</strong>
+                      <p>{item1.content}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </Carousel>
+      )}
+    </div>
+  );
+};
 
-    const prp = JSON.parse(data);
-    const newArray = sliceIntoChunks(prp.bulletin, 3);
-    return <div className="basic-list-group image-preview-container media-content" style={{color:'white', textAlign:'center'}} >
-      {
-        newArray.length > 0 && <Carousel  interval={5000} indicators={false} animation={'slide'}>
-        {
-            newArray.map( (item, i) => { return <div className="row">{item.map((item1, index1) => {
-                return <div className="col-3" key={i+"dd"+index1}>
-                  <strong>{item1.title}</strong>
-                  <p>{item1.content}</p>
-                </div>
-              })}</div>})
-        }
-    </Carousel>
-      }
-      
-      </div>
-}
-
-export const monthName = ['Jan', 'Feb', 'March', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-export const dayName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+export const monthName = [
+  "Jan",
+  "Feb",
+  "March",
+  "Apr",
+  "May",
+  "June",
+  "Jul",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+export const dayName = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export const handleScrollerApps = (data) => {
-    const prp = JSON.parse(data);
-    let speed = 5;
-    let allignment = 'left';
-    if(prp.speed && prp.speed == 'medium'){
-      speed = 12;
-    }
-    else if(prp.spped && prp.speed == 'hight'){
-      speed = 20;
-    }
-    if(prp.allign == 'Right-to-Left'){
-      allignment = 'right'
-    }
-    let txt = '';
-    if(prp.style == 'italic'){
-      txt =  <i><marquee direction={allignment} scrollAmount={speed} style={{color:prp.textColor,fontSize:"50px"}}>{prp.url}</marquee></i>
-    }else if(prp.style == 'bold'){
-      txt =  <b><marquee direction={allignment} scrollAmount={speed}  style={{color:prp.textColor,fontSize:"50px"}}>{prp.url}</marquee></b>
-    }else{
-      txt = <marquee direction={allignment} scrollAmount={speed}  style={{color:prp.textColor,fontSize:"50px"}}>{prp.url}</marquee>
-    }
-    return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor}}>{txt}</div>
-}
+  const prp = JSON.parse(data);
+  let speed = 5;
+  let allignment = "left";
+  if (prp.speed && prp.speed == "medium") {
+    speed = 12;
+  } else if (prp.spped && prp.speed == "hight") {
+    speed = 20;
+  }
+  if (prp.allign == "Right-to-Left") {
+    allignment = "right";
+  }
+  let txt = "";
+  if (prp.style == "italic") {
+    txt = (
+      <i>
+        <marquee
+          direction={allignment}
+          scrollAmount={speed}
+          style={{ color: prp.textColor, fontSize: "150px" }}
+        >
+          {prp.url}
+        </marquee>
+      </i>
+    );
+  } else if (prp.style == "bold") {
+    txt = (
+      <b>
+        <marquee
+          direction={allignment}
+          scrollAmount={speed}
+          style={{ color: prp.textColor, fontSize: "150px" }}
+        >
+          {prp.url}
+        </marquee>
+      </b>
+    );
+  } else {
+    txt = (
+      <marquee
+        direction={allignment}
+        scrollAmount={speed}
+        style={{ color: prp.textColor, fontSize: "150px" }}
+      >
+        {prp.url}
+      </marquee>
+    );
+  }
+  return (
+    <div
+      className="basic-list-group image-preview-container media-content"
+      style={{ backgroundColor: prp.backGroundColor }}
+    >
+      {txt}
+    </div>
+  );
+};
 
 export const handleTextApps = (data) => {
-const prp = JSON.parse(data);
-let txt = "";
-if(prp.style == 'Italic'){
-    return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><i>{prp.content}</i></div>
-}else if(prp.style == 'Bold'){
-    return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><b>{prp.content}</b></div>
-}else{
-    return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}>{prp.content}</div>
-}
-}
+  const prp = JSON.parse(data);
+  let txt = "";
+  if (prp.style == "Italic") {
+    return (
+      <div
+        className="basic-list-group image-preview-container media-content"
+        style={{
+          backgroundColor: prp.backGroundColor,
+          color: prp.textColor,
+          fontWeight: prp.weight,
+          textAlign: prp.allign,
+          fontSize: "22px",
+          padding: "15px",
+        }}
+      >
+        <i>{prp.content}</i>
+      </div>
+    );
+  } else if (prp.style == "Bold") {
+    return (
+      <div
+        className="basic-list-group image-preview-container media-content"
+        style={{
+          backgroundColor: prp.backGroundColor,
+          color: prp.textColor,
+          fontWeight: prp.weight,
+          textAlign: prp.allign,
+          fontSize: "22px",
+          padding: "15px",
+        }}
+      >
+        <b>{prp.content}</b>
+      </div>
+    );
+  } else {
+    return (
+      <div
+        className="basic-list-group image-preview-container media-content"
+        style={{
+          backgroundColor: prp.backGroundColor,
+          color: prp.textColor,
+          fontWeight: prp.weight,
+          textAlign: prp.allign,
+          fontSize: "22px",
+          padding: "15px",
+        }}
+      >
+        {prp.content}
+      </div>
+    );
+  }
+};
 
 export const handleClockApps = (data) => {
-    const cdate = new Date();
-    const prp = JSON.parse(data);
-    let tF = '';
-    
-console.log("timeFormat",prp.timeFormat)
-    if(prp.timeFormat == 'lefAnalogue - 12 hourt'){ 
-    return <div className="basic-list-group image-preview-container media-content" style={{fontSize:"50px", color:'white', textAlign:'center'}} ><div style={{position:'relative'}}><Clock /></div>{prp.hideDate ?<p style={{fontSize:"20px"}}>{`${cdate.getDate()} ${monthName[cdate.getDay()] } ${dayName[cdate.getDay()] } Indian Standard Time` }</p> : ''}</div>
+  const cdate = new Date();
+  const prp = JSON.parse(data);
+  let tF = "";
 
-    }else{
-    if(prp.timeFormat == 'Digital - 12 hour'){
-        tF = "hh:mm A";
-    }else if(prp.timeFormat == 'Digital - 24 hour'){
-        tF = "HH:MM A";
-    }
-
-    return <div className="basic-list-group image-preview-container media-content" style={{fontSize:"100px", color:'white', textAlign:'center'}} >
-        <Moment format={tF} date={new Date()} />
-        {!prp.hideDate ?<p style={{fontSize:"20px"}}>{`${cdate.getDate()} ${monthName[cdate.getDay()] } ${dayName[cdate.getDay()] } Indian Standard Time` }</p> : ''}
-        
+  console.log("timeFormat", prp.timeFormat);
+  if (prp.timeFormat == "Analogue - 12 hourt") {
+    return (
+      <div
+        className="basic-list-group image-preview-container media-content"
+        style={{ fontSize: "50px", color: "white", textAlign: "center" }}
+      >
+        <div style={{ position: "relative" }}>
+          <Clock />
         </div>
+        {prp.hideDate ? (
+          <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
+            monthName[cdate.getDay()]
+          } ${dayName[cdate.getDay()]} Indian Standard Time`}</p>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  } else {
+    if (prp.timeFormat == "Digital - 12 hour") {
+      tF = "hh:mm A";
+    } else if (prp.timeFormat == "Digital - 24 hour") {
+      tF = "HH:MM A";
     }
 
-// const prp = JSON.parse(data);
-// let txt = "";
-// if(prp.style == 'Italic'){
-//   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><i>{prp.content}</i></div>
-// }else if(prp.style == 'Bold'){
-//   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><b>{prp.content}</b></div>
-// }else{
-//   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}>{prp.content}</div>
-// }
-}
+    return (
+      <div
+        className="basic-list-group image-preview-container media-content"
+        style={{ fontSize: "100px", color: "white", textAlign: "center" }}
+      >
+        <Moment format={tF} date={new Date()} />
+        {!prp.hideDate ? (
+          <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
+            monthName[cdate.getDay()]
+          } ${dayName[cdate.getDay()]} Indian Standard Time`}</p>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  }
+
+  // const prp = JSON.parse(data);
+  // let txt = "";
+  // if(prp.style == 'Italic'){
+  //   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><i>{prp.content}</i></div>
+  // }else if(prp.style == 'Bold'){
+  //   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><b>{prp.content}</b></div>
+  // }else{
+  //   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}>{prp.content}</div>
+  // }
+};
 
 export const handleWeatherApps = (data) => {
-const prp = JSON.parse(data);
-// console.log("data", prp);
-// getWeather('Noida').then((resp) => {
-//   console.log("weatherDetail",resp)
-// });
+  const prp = JSON.parse(data);
+  // console.log("data", prp);
+  // getWeather('Noida').then((resp) => {
+  //   console.log("weatherDetail",resp)
+  // });
 
-return <div className="basic-list-group image-preview-container media-content" style={{fontSize:"50px", color:'white', textAlign:'center'}} >Weather Apps</div>
-}
+  return (
+    <div
+      className="basic-list-group image-preview-container media-content"
+      style={{ fontSize: "50px", color: "white", textAlign: "center" }}
+    >
+      Weather Apps
+    </div>
+  );
+};
 
 export const handleQrApps = (data) => {
-    const prp = JSON.parse(data);
-    return <div className="basic-list-group image-preview-container media-content" style={{color:'white', textAlign:'center'}} >
-       <div>
-        <QRCode
-                size={256}
-                value={'https://abplive.com'}
-                viewBox={`0 0 256 256`}
-            />
-       </div>
-
+  console.log(data, "utilsservice");
+  const prp = JSON.parse(data);
+  return (
+    <div className="qr-app-container orange">
+      <div className="qr-box">
+        <div className=" qr">
+          <QRCode
+            size={150}
+            value={"https://abplive.com"}
+            viewBox={`0 0 256 256`}
+          />
+        </div>
+        <div className="text">
+          <h3>Qr App Title</h3>
+          <p className="mb-3">Qr App Name</p>
+          <p className="mb-0 url">https://qrappurl</p>
+        </div>
+      </div>
     </div>
-}
+  );
+};
 
 export const handleRssApps = (data) => {
-    const prp = JSON.parse(data);
-    return <div className="basic-list-group image-preview-container media-content" style={{color:'white', textAlign:'center'}} >
-        RSS Feed Apps
+  const prp = JSON.parse(data);
+  return (
+    <div
+      className="basic-list-group image-preview-container media-content"
+      style={{ color: "white", textAlign: "center" }}
+    >
+      RSS Feed Apps
     </div>
-}
+  );
+};
 
 export const handleAqiApps = (data) => {
-    const prp = JSON.parse(data);
-    return <div className="basic-list-group image-preview-container media-content" style={{color:'white', textAlign:'center'}} >
-        Air Quality Apps
+  const prp = JSON.parse(data);
+  return (
+    <div
+      className="basic-list-group image-preview-container media-content"
+      style={{ color: "white", textAlign: "center" }}
+    >
+      Air Quality Apps
     </div>
-}
+  );
+};
