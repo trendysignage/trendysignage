@@ -7,6 +7,7 @@ import Select from "react-select";
 import { useState, useEffect } from "react";
 import { updateApps, addApps } from "../../utils/api";
 import Switch from "react-switch";
+import Autocomplete from "react-google-autocomplete";
 
 const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const options = [
@@ -20,7 +21,11 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false)
   const [name, setName] = useState("");
-  const [urlLink, setUrlLink] = useState(null);
+  const [location, setLocation] = useState({
+      address : '',
+      latitude : '',
+      longitude : ''
+  });
   const [aqiLocation, setAqiLocation] = useState({ value: "us", label: "us" })
   const [mediaId, setMediaId] = useState(null);
   const [theame,setTheame] = useState({ value: "Light Mode", label: "Light Mode" })
@@ -31,13 +36,19 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     if(mediaData){
       const jsonString = JSON.parse(mediaData.appData);
       setName(mediaData.title);
-      setUrlLink(jsonString.urlLink)
+      setLocation(jsonString.location)
       setTheame(jsonString.theame);
       setAqiLocation(jsonString.aqiLocation);
       setMediaId(mediaData._id);
     }
   },[mediaData])
   console.log("media", mediaData)
+
+  const handleCloseRedirectApp = (e) => {
+    e.preventDefault();
+    setShowUrlRedirectApp(false);
+    window.location.reload();
+  }
 
   const handleCreateApp = async(e) => {
     e.preventDefault();
@@ -47,12 +58,15 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     if(name == ''){
       setErr(true);
       setErrorMessage("App Name is required");
+      return ;
     }
-    if(err){
-      return false;
+    else if(location.address == '' || location.latitude == '' || location.longitude == ''){
+      setErr(true);
+      setErrorMessage("Location is required");
+      return 
     }
     const dataString = {
-      url:name,urlLink,aqiLocation,theame
+      url:name,location,aqiLocation,theame
     }
 
     if(actionType && actionType == 'edit'){
@@ -72,6 +86,18 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       setShowUrlRedirectApp(true)
     }
     //console.log(name, urlLink, selectedOption)
+  }
+
+  const handleLocation = (place) => {
+    let location = JSON.parse(JSON.stringify(place?.geometry?.location));
+    console.log("location",location )
+    const adres = {
+        address : place.formatted_address,
+        latitude : location.lat,
+        longitude : location.lng
+    }
+    setLocation(adres)
+    //setAdd(adres);
   }
   return (
     <>
@@ -100,6 +126,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         </Button>
       </Modal.Header>
       <Modal.Body>
+        {err && errMessage !== '' ? <h6 className="alert alert-danger">{errMessage}</h6> : ''}
         <form
           // onSubmit={handleSubmit}
           className="row"
@@ -117,7 +144,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
               onChange={(e) => setName(e.target.value)}
             />
             <label className="mt-3">Location</label>
-            <input
+            {/* <input
               type="text"
               className="  form-control "
               placeholder="Location"
@@ -126,7 +153,19 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
               id="urlLink"
               value={urlLink}
               onChange={(e) => setUrlLink(e.target.value)}
-            />
+            /> */}
+            <Autocomplete
+              className="form-control"
+              apiKey={"AIzaSyA_JO9H6JEScutFurdvFw1t-v31GIf2Q2o"}
+              onPlaceSelected={(place) => {
+              console.log(place);handleLocation(place)
+              }}
+              options={{
+                types: ["(regions)"],
+                componentRestrictions: { country: "in" },
+              }}
+              defaultValue={location?.address}
+            />;
 
             <label className="mt-3">AQI-IN/US</label>
 
@@ -141,7 +180,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
             <label className="mt-3">Theme</label>
 
             <Select
-              defaultValue={theame}
+              value={theame}
               onChange={setTheame}
               placeholder="Light Mode"
               options={options1}
@@ -188,7 +227,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlRedirectApp(false)}
+            onClick={(e) => handleCloseRedirectApp(e)}
           >
             <img
               className="cancel-icon"

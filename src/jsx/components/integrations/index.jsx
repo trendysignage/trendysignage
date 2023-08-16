@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import weather from "../../../img/weather.svg";
 import { Dropdown } from "react-bootstrap";
 import menuIcon from "../../../img/menu-icon.png";
@@ -14,8 +14,12 @@ import QrCodeModal from "../../modals/QrCodeModal";
 import AirQualityAppModal from "../../modals/AirQualityAppModal";
 import YoutubeAppModal from "../../modals/YoutubeAppModal";
 import BulletinBoardAppModal from "../../modals/BulletinBoardAppModal";
-import Form from "react-bootstrap/Form";
-import { usePlacesWidget } from "react-google-autocomplete";
+import { getWeather } from '../../../utils/api'
+
+// import Form from "react-bootstrap/Form";
+// import { usePlacesWidget } from "react-google-autocomplete";
+
+
 
 export default function Integrations() {
   const [showUrlApp, setShowUrlApp] = useState(false);
@@ -87,27 +91,36 @@ export default function Integrations() {
     // }
   }
 
-  const [addressError, setAddressError] = useState("");
-  const { ref: bootstrapRef } = usePlacesWidget({
-      apiKey : "AIzaSyA_JO9H6JEScutFurdvFw1t-v31GIf2Q2o",
-      onPlaceSelected: (place) => {handleLocation(place)},
-      options: {
-          types: ["(regions)"],
-          componentRestrictions: { country: ["IN", 'AE'] },
-      },
-  });
 
-  const handleLocation = (place) => {
-    let location = JSON.parse(JSON.stringify(place?.geometry?.location));
-    console.log("location",location )
-    const adres = {
-        address : place.formatted_address,
-        latitude : location.lat,
-        longitude : location.lng
-    }
-    //handleUpdate({...values,['address'] : adres})
-    //setAdd(adres);
-}
+  // const getWeatherDetail = async() => {
+  //   const locationData  = await getWeather('noida');
+  //   console.log('getLocation', locationData);
+  // }
+  // useEffect(() => {
+  //   getWeatherDetail()
+  // },[])
+
+  // const [addressError, setAddressError] = useState("");
+  // const { ref: bootstrapRef } = usePlacesWidget({
+  //     apiKey : "AIzaSyA_JO9H6JEScutFurdvFw1t-v31GIf2Q2o",
+  //     onPlaceSelected: (place) => {handleLocation(place)},
+  //     options: {
+  //         types: ["(regions)"],
+  //         componentRestrictions: { country: ["IN", 'AE'] },
+  //     },
+  // });
+
+  // const handleLocation = (place) => {
+  //   let location = JSON.parse(JSON.stringify(place?.geometry?.location));
+  //   console.log("location",location )
+  //   const adres = {
+  //       address : place.formatted_address,
+  //       latitude : location.lat,
+  //       longitude : location.lng
+  //   }
+  //   //handleUpdate({...values,['address'] : adres})
+  //   //setAdd(adres);
+  // }
 
   return (
     <>
@@ -133,6 +146,7 @@ export default function Integrations() {
               </div>
           </div>
       </div> */}
+      
       <div className="custom-content-heading d-flex flex-wrap flex-column">
         <h1 className="mb-3">Integrations</h1>
       </div>
@@ -200,6 +214,8 @@ export default function Integrations() {
         }
         
       </div>
+
+      
 
       <UrlAppModal
         setShowUrlApp={() => setShowUrlApp(false)}

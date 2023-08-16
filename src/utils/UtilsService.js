@@ -254,14 +254,60 @@ console.log("timeFormat",prp.timeFormat)
 // }
 }
 
-export const handleWeatherApps = (data) => {
-const prp = JSON.parse(data);
-// console.log("data", prp);
-// getWeather('Noida').then((resp) => {
-//   console.log("weatherDetail",resp)
-// });
+const getWeatherDetail = async() => {
+    const resp = await getWeather("noida");
+    console.log("sdsds", resp)
+    return resp;
+}
 
-return <div className="basic-list-group image-preview-container media-content" style={{fontSize:"50px", color:'white', textAlign:'center'}} >Weather Apps</div>
+export const handleWeatherApps = async (data) => {
+const prp = JSON.parse(data);
+
+// const resp = await getWeather("noida");
+// console.log("sdsds", resp)
+// const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${"noida"}&appid=19a9d73346ffb54dbd9cb4c652ef2bd7`)
+//   .then(function (response) {
+//       console.log("response",response)
+//       return response.json()
+//   }) 
+//   .then(function (jsonData){
+//       return jsonData
+//   })
+
+  //console.log('resp', resp)
+
+return <div className="basic-list-group image-preview-container media-content" style={{ color:'white', textAlign:'center'}} >
+        <div className="row">
+            <div className="col-6">
+            {/* <h2>{weatherData?.city.name} {weatherData?.city?.country}</h2> */}
+            <h4>Tuesday 15 Aug</h4>
+            </div>
+            <div className="col-6">
+                <h3><strong>10:20</strong> PM</h3>
+            </div>
+        </div>
+        <div className="row">
+            <div className="col-3">
+                <h2>25C</h2>
+            </div>
+            <div className="col-9">
+                <div className="row">
+                    <div className="col-6">
+                        <h2>25C</h2>
+                    </div>
+                    <div className="col-6">
+                        <h2>25C</h2>
+                    </div>
+                    <div className="col-6">
+                        <h2>25C</h2>
+                    </div>
+                    <div className="col-6">
+                        <h2>25C</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
 }
 
 export const handleQrApps = (data) => {

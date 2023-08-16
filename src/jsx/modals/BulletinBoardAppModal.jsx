@@ -5,8 +5,11 @@ import icon from "../../img/link-alt 1.svg";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-import { updateApps, addApps } from "../../utils/api";
+import { updateApps, addApps, BASE_URL } from "../../utils/api";
 import Switch from "react-switch";
+import SelectMedia from "./SelecteMedia";
+
+
 const BulletinBoardAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false)
   const [name, setName] = useState(null);
@@ -19,6 +22,8 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show, actionType, mediaData }) =
   const [mediaId, setMediaId] = useState(null);
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imageModalShow, setImageModalShow] = useState(false)
   const [colorScheme, setColorScheme] = useState({value: "Light Yellow", label: "Light Yellow"});
   const options = [
     { value: "Light Yellow", label: "Light Yellow" },
@@ -34,13 +39,16 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show, actionType, mediaData }) =
 
   const handleBulletin = (e) => {
     e.preventDefault();
+    console.log(selectedImage)
     const data = bulletin;
     if(bulletinType){
+      data[bulletinType].image = selectedImage; 
       data[bulletinType].title = selectedTitle;
       data[bulletinType].content = selectedContent
     }else{
       const newData = {
         title:selectedTitle,
+        image:selectedImage,
         content:selectedContent
       }
       data.push(newData);
@@ -50,8 +58,8 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show, actionType, mediaData }) =
     setSelectedContent(null);
     setSelectedTitle(null);
     setBulletinType(null)
+    setSelectedImage(null)
   }
-
   const handleDelete = (e, data) => {
     e.preventDefault();
     const newData = bulletin.filter((item, index) => {
@@ -62,7 +70,9 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show, actionType, mediaData }) =
     setIsBulletin(false);
     setSelectedContent(null);
     setSelectedTitle(null);
+    setSelectedImage(null)
     setBulletinType(null)
+    
 
   }
   const handleEdit = (e, data, key) => {
@@ -71,8 +81,17 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show, actionType, mediaData }) =
     setSelectedContent(data.content);
     setSelectedTitle(data.title);
     setBulletinType(key)
+    setSelectedImage(data.image)
   }
 
+  const handleBulletinCancel = (e) => {
+    e.preventDefault();
+    setIsBulletin(false);
+    setSelectedContent(null);
+    setSelectedTitle(null);
+    setBulletinType(null)
+    setSelectedImage(null)
+  }
   useEffect(() => {
     if(mediaData){
       const jsonString = JSON.parse(mediaData.appData);
@@ -122,6 +141,12 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show, actionType, mediaData }) =
   }
   return (
     <>
+    <SelectMedia 
+      imageModalShow={imageModalShow}
+      setImageModalShow={setImageModalShow}
+      selectedImage={selectedImage}
+      setSelectedImage={setSelectedImage}
+    />
     <Modal
       className="fade bd-example-modal-lg mt-4 app-modal"
       show={show}
@@ -234,7 +259,11 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show, actionType, mediaData }) =
                     <tbody>
                       {bulletin.map((item, index) =>{
                         return <tr key={index}>
-                          {checked ? <td>Image</td> : ""}
+                          {checked ? <td>{item.image ? <img
+                                className="media-img img-fluid"
+                                src={`${BASE_URL}${item?.image}`}
+                                alt="media-img"
+                                /> : "No-image"}</td> : ""}
                           <td>
                             <strong>{item.title}</strong>
                             <span>{item.content}</span>
@@ -276,13 +305,18 @@ const BulletinBoardAppModal = ({ setShowUrlApp, show, actionType, mediaData }) =
                     rows={4}
                   />
                 </div>
-                <div className="col-6">
-                  <Button className="btn btn-sm" variant="outline-light">
+                <div className="col-6 mt-2">
+                  {checked && <>{selectedImage && <img
+                                className="media-img img-fluid"
+                                src={`${BASE_URL}${selectedImage}`}
+                                alt="media-img"
+                                />}<Button className="btn btn-sm" variant="outline-light" onClick={(e) => {setImageModalShow(true)}}>
+                    Image
+                  </Button></>}
+                  <Button className="btn btn-sm" variant="outline-light" onClick={(e) => handleBulletinCancel(e)}>
                     Cancel
                   </Button>
-                </div>
-                <div className="col-6">
-                <Button
+                  <Button
                   variant=""
                   type="button"
                   className="btn btn-sm btn-primary"

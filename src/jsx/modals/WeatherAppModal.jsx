@@ -7,14 +7,17 @@ import Select from "react-select";
 import { useState, useEffect } from "react";
 import { updateApps, addApps } from "../../utils/api";
 import Form from "react-bootstrap/Form";
+import Autocomplete from "react-google-autocomplete";
 const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const options = [{ value: "Classic", label: "Classic" }];
   const options1 = [{ value: "Celsius", label: "Celsius" }];
-  const [selectedOption, setSelectedOption] = useState(null);
-
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false)
   const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState({
+      address : '',
+      latitude : '',
+      longitude : ''
+  });
   const [selectedTheme, setSelectedTheme] = useState({ value: "Classic", label: "Classic" });
   const [selectedTemp, setSelectedTemp] = useState({ value: "Celsius", label: "Celsius" })
   const [isForcast, setIsForcast] = useState(false);
@@ -40,6 +43,18 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   },[mediaData])
   
 
+  const handleLocation = (place) => {
+    let location = JSON.parse(JSON.stringify(place?.geometry?.location));
+    console.log("location",location )
+    const adres = {
+        address : place.formatted_address,
+        latitude : location.lat,
+        longitude : location.lng
+    }
+    setLocation(adres)
+    //setAdd(adres);
+  }
+
   const handleCreateApp = async(e) => {
     e.preventDefault();
 
@@ -48,16 +63,14 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     if(name == ''){
       setErr(true);
       setErrorMessage("App Name is required");
+      return ;
     }
-    else if(location == ''){
+    else if(location.address == '' || location.latitude == '' || location.longitude == ''){
       setErr(true);
       setErrorMessage("Location is required");
+      return 
     }
-
-    if(err){
-      return false;
-    }else{
-      console.log("Hello", err)
+    console.log("Hello", err)
       const dataString = {
         theme:selectedTheme.value,
         temp:selectedTemp.value,
@@ -84,32 +97,16 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         setShowUrlApp(false)
         setShowUrlRedirectApp(true)
       }
-
-    }
     
   }
-  
-  // const [addressError, setAddressError] = useState("");
-  // const { ref: bootstrapRef } = usePlacesWidget({
-  //     apiKey : "AIzaSyA_JO9H6JEScutFurdvFw1t-v31GIf2Q2o",
-  //     onPlaceSelected: (place) => {handleLocation(place)},
-  //     options: {
-  //         types: ["(regions)"],
-  //         componentRestrictions: { country: ["IN", 'AE'] },
-  //     },
-  // });
 
-  // const handleLocation = (place) => {
-  //   let location = JSON.parse(JSON.stringify(place?.geometry?.location));
-  //   console.log("location",location )
-  //   const adres = {
-  //       address : place.formatted_address,
-  //       latitude : location.lat,
-  //       longitude : location.lng
-  //   }
-  //   //handleUpdate({...values,['address'] : adres})
-  //   //setAdd(adres);
-  // }
+
+  const handleCloseRedirectApp = (e) => {
+    e.preventDefault();
+    setShowUrlRedirectApp(false);
+    window.location.reload();
+  }
+
   return (
     <>
     <Modal
@@ -137,6 +134,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         </Button>
       </Modal.Header>
       <Modal.Body>
+        {err && errMessage !== '' ? <h6 className="alert alert-danger">{errMessage}</h6> : ''}
         <form
           // onSubmit={handleSubmit}
           className="row"
@@ -144,38 +142,28 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <div className="form-group col-6 mb-0  url-app-form">
             <label>Name</label>
             <input
-                  type="text"
-                  className="  form-control "
-                  placeholder="App Name"
-                  name="name"
-                  id="name"
-                  value={name}
-                  onChange={(e) => {setName(e.target.value)}}
-                  required
-                />
+              type="text"
+              className="  form-control "
+              placeholder="App Name"
+              name="name"
+              id="name"
+              value={name}
+              onChange={(e) => {setName(e.target.value)}}
+              required
+            />
             <label className="mt-3">Location</label>
-            <input
-                  type="text"
-                  className="  form-control "
-                  placeholder="App Name"
-                  name="location"
-                  id="location"
-                  value={location}
-                  onChange={(e) => {setLocation(e.target.value)}}
-                  required
-                />
-
-            {/* <Form.Group controlId="formBasicEmail" className="">
-                <label className="text-label" >Address</label>
-                
-                <Form.Control 
-                    type="text" 
-                    ref={bootstrapRef} 
-                    onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                    autoComplete="off" 
-                    //value={values.address.address} 
-                />
-            </Form.Group> */}
+            <Autocomplete
+              className="form-control"
+              apiKey={"AIzaSyA_JO9H6JEScutFurdvFw1t-v31GIf2Q2o"}
+              onPlaceSelected={(place) => {
+              console.log(place);handleLocation(place)
+              }}
+              options={{
+                types: ["(regions)"],
+                componentRestrictions: { country: "in" },
+              }}
+              defaultValue={location?.address}
+            />;
 
             <label className="mt-3">Theme</label>
 
@@ -247,7 +235,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       <Button
         variant=""
         className="close"
-        onClick={() => setShowUrlRedirectApp(false)}
+        onClick={(e) => handleCloseRedirectApp(e)}
       >
         <img
           className="cancel-icon"
