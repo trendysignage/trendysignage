@@ -341,21 +341,24 @@ export const handleClockApps = (data) => {
   const cdate = new Date();
   const prp = JSON.parse(data);
   let tF = "";
-
+  prp.timeFormat = "Analogue - 12 hourt";
   console.log("timeFormat", prp.timeFormat);
+
   if (prp.timeFormat == "Analogue - 12 hourt") {
     return (
       <div
-        className="basic-list-group image-preview-container media-content"
-        style={{ fontSize: "50px", color: "white", textAlign: "center" }}
+        className="basic-list-group image-preview-container media-content orange"
+        style={{ fontSize: "50px", color: "#000", textAlign: "center" }}
       >
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", paddingTop: "20px" }}>
           <Clock />
         </div>
         {prp.hideDate ? (
-          <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
-            monthName[cdate.getDay()]
-          } ${dayName[cdate.getDay()]} Indian Standard Time`}</p>
+          <p
+            style={{ fontSize: "20px", marginTop: "20px" }}
+          >{`${cdate.getDate()} ${monthName[cdate.getDay()]} ${
+            dayName[cdate.getDay()]
+          } Indian Standard Time`}</p>
         ) : (
           ""
         )}
@@ -370,8 +373,8 @@ export const handleClockApps = (data) => {
 
     return (
       <div
-        className="basic-list-group image-preview-container media-content"
-        style={{ fontSize: "100px", color: "white", textAlign: "center" }}
+        className="basic-list-group image-preview-container media-content orange"
+        style={{ fontSize: "100px", color: "#000", textAlign: "center" }}
       >
         <Moment format={tF} date={new Date()} />
         {!prp.hideDate ? (
