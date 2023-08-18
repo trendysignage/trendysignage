@@ -16,7 +16,7 @@ const ZoneInfoTable = ({
   const [editSelected, setEditSelected] = useState(null);
   const [selectedZone, setSelectedZone] = useState("Zone1");
   const [activeClass, setActiveClass] = useState(false);
-  const [selectedButtonIndex, setSelectedButtonIndex] = useState(null);
+  const [selectedButtonIndex, setSelectedButtonIndex] = useState(0);
 
   const handleChange = (event, index) => {
     const newValue = event.target.value.replace(/[^\d]/g, "");
