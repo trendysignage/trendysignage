@@ -33,7 +33,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
           getContent?.content[getContent.content.length - 1].media;
         const mediaType =
           getContent?.content[getContent.content.length - 1].type;
-
+console.log(mediaType)
         if (mediaType === "composition") {
           setMedia(getMedia);
           setContentType("composition");

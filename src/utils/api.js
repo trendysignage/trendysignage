@@ -442,3 +442,20 @@ export async function assignScreenProfile(postdata) {
   );
   return response;
 }
+
+export async function getWeather(city) {
+  const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=19a9d73346ffb54dbd9cb4c652ef2bd7`)
+  .then(function (response) {
+      console.log("response",response)
+      return response.json()
+  }) 
+  .then(function (jsonData){
+      return jsonData
+  })
+
+  return resp;
+}
+export async function getAllMediaFilter() {
+  const response = await fetchClient.get(BASE_URL + `/vendor/display/media?limit=100`);
+  return response.data.data.media;
+}

@@ -13,6 +13,7 @@ const ZoneInfoTable = ({
   layout,
   handleLayout,
 }) => {
+  console.log("Content", content)
   const [editSelected, setEditSelected] = useState(null);
   const [selectedZone, setSelectedZone] = useState("Zone1");
   const [activeClass, setActiveClass] = useState(false);
