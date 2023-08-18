@@ -35,6 +35,7 @@ export default function SequenceTime() {
   const [events, setEvents] = useState([]);
   const [def, setDef] = useState([]);
   const [sequence, setSequence] = useState([]);
+  const [dragDef, setDragDef] = useState(null)
   const [renderTime, setRenderTime] = useState("");
   const history = useHistory();
   const { schId, seqId } = useParams({26:true});
@@ -117,12 +118,13 @@ export default function SequenceTime() {
   }, [schId]);
 
   function eventFunction(info) {
+    console.log("Sdsd");
     //const newArray = events;
     const id = info.el.fcSeg.eventRange.def.sourceId;
     const defId = info.event._def.extendedProps.defId != undefined ? info.event._def.extendedProps.defId : info.event._def.defId ;
-    //console.log("resize",id,defId,def)
+    console.log("resize",id,defId,def, info)
     let newArr = events.map((item, i) => {
-     // console.log(item.defId,defId)
+     console.log(item.defId,defId)
       if (item.defId == defId) {
         if(item.startTime && item.endTime){
          // console.log("time",info.el.innerText.split("\n\n")[1])
@@ -146,23 +148,40 @@ export default function SequenceTime() {
   // handle event receive
   
   const handleEventReceive = (eventInfo) => {
-    //console.log("eventInfo",eventInfo)
-    const id = eventInfo.event._def.sourceId;
-    const [startTime, endTime] = renderTime.split(" - ");
-    const formattedStartTime = startTime.padStart(5, "0");
-    const formattedEndTime =
+      console.log("handleEventR",eventInfo,events)
+      const id = eventInfo.event._def.sourceId;
+      const [startTime, endTime] = renderTime.split(" - ");
+      const formattedStartTime = startTime.padStart(5, "0");
+      const formattedEndTime =
       endTime.length === 5 ? endTime : endTime.padStart(5, "0");
-
-    const timeRange = `${formattedStartTime} - ${formattedEndTime}`;
-
-    const newEvent = {
-      id: id,
-      timing: timeRange,
-      defId: eventInfo.event._def.defId,
-    };
-  
-    setEvents((events) => [...events, newEvent]);
-    setDef({ ...def, [eventInfo.event._def.defId]: true });
+      const timeRange = `${formattedStartTime} - ${formattedEndTime}`;
+      const checkedItem = events.find((item) => {
+        return item.id == eventInfo.event._def.publicId
+      });
+      if(checkedItem){
+        console.log("Found");
+        let newArr = events.map((item, i) => {
+          if (item.defId == dragDef && item.timing !== renderTime) {
+            return { ...item,
+              ["timing"]: renderTime,
+              ['startTime']:renderTime.split(" - ")[0],
+              ['endTime']:renderTime.split(" - ")[1]
+            };
+          } else {
+            return item;
+          }
+        });
+        setEvents(newArr);
+      }else{
+        const newEvent = {
+          id: id,
+          timing: timeRange,
+          defId: eventInfo.event._def.defId,
+        };
+        setEvents((events) => [...events, newEvent]);
+        setDef({ ...def, [eventInfo.event._def.defId]: true });
+      }
+    
   };
 
   const handleEventClick = (info) => {
@@ -224,13 +243,37 @@ export default function SequenceTime() {
       timings,
     };
 
-    //console.log("payload",def,events,payload,renderTime)
+    console.log("payload",def,events,payload,renderTime)
 
     await updateSequence(payload).then((res) => {
       if (res.data.statusCode === 200) {
         history.push(`/design-month-schedule/${schId}`);
       }
     });
+  }
+
+  const eventDragStartFunc = (info) => {
+    console.log("Event Start",info.event._def.extendedProps.defId)
+    setDragDef(info.event._def.extendedProps.defId);
+  }
+
+  const eventDropStopFunc = (info) => {
+      // let newArr = events.map((item, i) => {
+      //   if (item.defId == dragDef && item.timing !== renderTime) {
+      //     return { ...item,
+      //       ["timing"]: renderTime,
+      //       ['startTime']:renderTime.split(" - ")[0],
+      //       ['endTime']:renderTime.split(" - ")[1]
+      //     };
+      //   } else {
+      //     return item;
+      //   }
+      // });
+      // setEvents(newArr);
+  }
+
+  const eventDropFunc = (event) => {
+    console.log("Dropping Func", event)
   }
 
   function renderEventContent(eventInfo) {
@@ -248,12 +291,18 @@ export default function SequenceTime() {
     }
     if(event._def.extendedProps.defId != undefined){
       if (!def[eventInfo.event._def.extendedProps.defId]) {
+        console.log("Hii")
         setRenderTime(eventInfo.timeText);
       }
     }else{
       if (!def[eventInfo.event._def.defId]) {
+        console.log("Byee")
         setRenderTime(eventInfo.timeText);
       }
+    }
+    if(dragDef && eventInfo.event._def.extendedProps.defId == dragDef){
+      console.log("event Dragging");
+      setRenderTime(eventInfo.timeText);
     }
     
     return (
@@ -429,7 +478,7 @@ export default function SequenceTime() {
             eventTimeFormat={timeFormet}
             editable={true}
             selectable={false}
-            selectMirror={true}
+            selectMirror={false}
             dayMaxEvents={false}
             droppable={true}
             eventReceive={handleEventReceive}
@@ -439,6 +488,9 @@ export default function SequenceTime() {
             contentHeight="700px"
             events={events}
             eventResize={eventFunction}
+            eventDragStart={eventDragStartFunc}
+            eventDragStop={eventDropStopFunc}
+            eventDrop={eventDropFunc}
           ></FullCalendar>
         </div>
       </div>

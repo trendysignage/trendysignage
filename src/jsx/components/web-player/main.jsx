@@ -12,7 +12,7 @@ import CompositionPlayer from "./compositionPlayer";
 import useSWR from "swr";
 const WebMain = ({ id, handleAddClass, onFullScreen }) => {
   const [media, setMedia] = useState("");
-  console.log(media, "media");
+  // console.log(media, "media");
   const [code, seCode] = useState("");
   const [contentType, setContentType] = useState("");
   const [isVerified, setIsVerified] = useState(false);
@@ -90,6 +90,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
       }
     }
     function onDisconnectDevice(value) {
+      console.log("DisConnect")
       setContentType(null);
       getScreenCode();
     }
