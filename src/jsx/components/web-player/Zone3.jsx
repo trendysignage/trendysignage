@@ -3,6 +3,7 @@ import React from "react";
 import WebVideoPlayer from "./WebVideoPlayer";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
+import { BASE_URL } from "../../../utils/api";
 import { handleBulletinApps, handleScrollerApps, handleTextApps, handleClockApps, handleWeatherApps, handleQrApps, handleRssApps, handleAqiApps } from '../../../utils/UtilsService';
 const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage}) => {
 
@@ -28,7 +29,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                                     viewImage === "fitScreen" ? "fill" : "contain"
                                 }`,
                                 }}
-                                src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                                src={`${BASE_URL}/${contents.zones[0].content[currentIndex].url}`}
                                 alt="media-img"
                             />
                             </div>
@@ -42,7 +43,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                             }`}
                             >
                             <WebVideoPlayer
-                                src={`http://144.126.143.140:5000/${contents.zones[0].content[currentIndex].url}`}
+                                src={`${BASE_URL}/${contents.zones[0].content[currentIndex].url}`}
                             ></WebVideoPlayer>
                             </div>
                     )}
@@ -132,7 +133,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                                 viewImage === "fitScreen" ? "fill" : "contain"
                             }`,
                             }}
-                            src={`http://144.126.143.140:5000/${contents.zones[1].content[current1Index].url}`}
+                            src={`${BASE_URL}/${contents.zones[1].content[current1Index].url}`}
                             alt="media-img"
                         />
                         </div>
@@ -146,7 +147,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                         }`}
                         >
                         <WebVideoPlayer
-                            src={`http://144.126.143.140:5000/${contents.zones[1].content[current1Index].url}`}
+                            src={`${BASE_URL}/${contents.zones[1].content[current1Index].url}`}
                         ></WebVideoPlayer>
                         </div>
                     )}
@@ -240,7 +241,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                             viewImage === "fitScreen" ? "fill" : "contain"
                             }`,
                         }}
-                        src={`http://144.126.143.140:5000/${contents.zones[2].content[current2Index].url}`}
+                        src={`${BASE_URL}/${contents.zones[2].content[current2Index].url}`}
                         alt="media-img"
                         />
                     </div>
@@ -254,7 +255,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                         }`}
                     >
                         <WebVideoPlayer
-                        src={`http://144.126.143.140:5000/${contents.zones[2].content[current2Index].url}`}
+                        src={`${BASE_URL}/${contents.zones[2].content[current2Index].url}`}
                         ></WebVideoPlayer>
                     </div>
                     )}
