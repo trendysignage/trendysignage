@@ -54,8 +54,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                                     url={`${contents.zones[0].content[currentIndex].url}`}
                                     width="100%"
                                     height="100%"
-                                    // id=""
-                                    // className=""
+                                    scrolling="no"
                                     display="block"
                                     position="relative"
                                 />
@@ -71,6 +70,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                                     url={`${contents.zones[0].content[currentIndex].url}`}
                                     width="100%"
                                     height="100%"
+                                    light={false}
                                 />
                             </div>
                             :contents.zones[0].content[currentIndex].type === "scroller" ?
@@ -136,6 +136,8 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                                         height="100%"
                                         display="block"
                                         position="relative"
+                                        scrolling="no"
+                                        loading="no"
                                     />
                                 </div>
                                 :contents.zones[1].content[current1Index].type === "youtube-apps" ?
@@ -148,6 +150,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                                         url={`${contents.zones[1].content[current1Index].url}`}
                                         width="100%"
                                         height="100%"
+                                        light={false}
                                     />
                                 </div> 
                                 :contents.zones[1].content[current1Index].type === "scroller" ?
@@ -166,10 +169,11 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                                 <>{handleRssApps(contents.zones[1].content[current1Index].data)}</>
                                 :contents.zones[1].content[current1Index].type === "aqi-apps" ?
                                 <>{handleAqiApps(contents.zones[1].content[current1Index].data)}</>
-                                :<></>
+                                :<>NoContent21</>
                             }
                             </> 
                         : <>
+                        NoContente2
                         </>
                     }
                 </div>
@@ -204,17 +208,18 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                             ></WebVideoPlayer>
                         </div>
                     :contents.zones[2].content[current2Index].type === "url-apps" ?
-                    <div className="basic-list-group image-preview-container media-content">
-                        <Iframe
-                        url={`${contents.zones[2].content[current2Index].url}`}
-                        width="100%"
-                        height="100%"
-                        // id=""
-                        // className=""
-                        display="block"
-                        position="relative"
-                        />
-                    </div>
+                        <div className="basic-list-group image-preview-container media-content">
+                            <Iframe
+                                url={`${contents.zones[2].content[current2Index].url}`}
+                                width="100%"
+                                height="100%"
+                                // id=""
+                                // className=""
+                                display="block"
+                                position="relative"
+                                scrolling="no"
+                            />
+                        </div>
                     :contents.zones[2].content[current2Index].type === "youtube-apps" ?
                     <div
                         className={`basic-list-group video-container media-content ${viewImage} ${
@@ -225,6 +230,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                             url={`${contents.zones[2].content[current2Index].url}`}
                             width="100%"
                             height="100%"
+                            light={false}
                         />
                     </div>
                     :contents.zones[2].content[current2Index].type === "scroller" ?
