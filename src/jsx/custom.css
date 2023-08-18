@@ -1452,6 +1452,10 @@ color: #000;
       margin-top: 0%;
       background-color: #000;
     }
+    .weather-app-bg{
+      background: url(../img/cloudy.svg) no-repeat center;
+
+    }
 
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {

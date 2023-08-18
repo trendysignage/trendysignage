@@ -405,13 +405,53 @@ export const handleWeatherApps = (data) => {
   // getWeather('Noida').then((resp) => {
   //   console.log("weatherDetail",resp)
   // });
-
+  console.log(data, "weather app");
   return (
     <div
-      className="basic-list-group image-preview-container media-content"
-      style={{ fontSize: "50px", color: "white", textAlign: "center" }}
+      className="basic-list-group image-preview-container media-content "
+      style={{ color: "white" }}
     >
-      Weather Apps
+      <div className="weather-app-bg w-100 h-100 ">
+        <div className="place-date-time d-flex align-item-center justify-content-between p-5">
+          <div className="place-date">
+            <h1>Chandigarh</h1>
+            <p>Friday 18 August</p>
+          </div>
+          <div className="time">
+            <p>12:44 PM</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <h1>33</h1>
+            <h2>Clear SKy</h2>
+          </div>
+          <div className="col-6">
+            <div className="row">
+              <div className="col-6">
+                <h3>Saturday</h3>
+                <h2>23</h2>
+                <p>Light Rain</p>
+              </div>
+              <div className="col-6">
+                <h3>Saturday</h3>
+                <h2>23</h2>
+                <p>Light Rain</p>
+              </div>
+              <div className="col-6">
+                <h3>Saturday</h3>
+                <h2>23</h2>
+                <p>Light Rain</p>
+              </div>
+              <div className="col-6">
+                <h3>Saturday</h3>
+                <h2>23</h2>
+                <p>Light Rain</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
