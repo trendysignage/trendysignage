@@ -12,13 +12,12 @@ const Zone2 = ({ contents, currentIndex, current1Index, current2Index, viewImage
     <>
       {" "}
       {contents && contents.zones.length == 2 ? (
-        <div
-            style={{ height: "100vh" }}
-        >
+        <div style={{ height: "100vh" }}>
             <div className="top-div">
-                {contents.zones[0] &&
-                    contents.zones[0].content[currentIndex] &&
-                    contents.zones[0].content[currentIndex].type === "image" && (
+                {contents?.zones[0]?.content[currentIndex] ? 
+                <>
+                {   
+                    contents.zones[0].content[currentIndex].type === "image" ?
                     <div className="basic-list-group image-preview-container media-content">
                         <img
                         className="webplayer-preview-img"
@@ -31,10 +30,7 @@ const Zone2 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                         alt="media-img"
                         />
                     </div>
-                )}
-                {contents.zones[0] &&
-                    contents.zones[0].content[currentIndex] &&
-                    contents.zones[0].content[currentIndex].type === "video" && (
+                    :contents.zones[0].content[currentIndex].type === "video" ?
                     <div
                         className={`basic-list-group video-container media-content ${viewImage} ${
                         viewImage === "fitScreen" ? "fitImage" : "containImage"
@@ -44,10 +40,7 @@ const Zone2 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                         src={`${BASE_URL}/${contents.zones[0].content[currentIndex].url}`}
                         ></WebVideoPlayer>
                     </div>
-                )}
-                {contents.zones[0] &&
-                    contents.zones[0].content[currentIndex] &&
-                    contents.zones[0].content[currentIndex].type === "url-apps" && (
+                    :contents.zones[0].content[currentIndex].type === "url-apps" ?
                     <div className="basic-list-group image-preview-container media-content">
                         <Iframe
                         url={`${contents.zones[0].content[currentIndex].url}`}
@@ -59,11 +52,7 @@ const Zone2 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                         position="relative"
                         />
                     </div>
-                )}
-                {contents.zones[0] &&
-                    contents.zones[0].content[currentIndex] &&
-                    contents.zones[0].content[currentIndex].type ===
-                    "youtube-apps" && (
+                    :contents.zones[0].content[currentIndex].type === "youtube-apps" ?
                     <div
                         className={`basic-list-group video-container media-content ${viewImage} ${
                         viewImage === "fitScreen" ? "fitImage" : "containImage"
@@ -75,149 +64,101 @@ const Zone2 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                         height="100%"
                         />
                     </div>
-                )}
-                {contents.zones[0] &&
-                    contents.zones[0].content[currentIndex] &&
-                    contents.zones[0].content[currentIndex].type === "scroller" && (
+                    :contents.zones[0].content[currentIndex].type === "scroller" ?
                     <>{handleScrollerApps(contents.zones[0].content[currentIndex].data)}</>
-                )}
-                {contents.zones[0] &&
-                    contents.zones[0].content[currentIndex] &&
-                    contents.zones[0].content[currentIndex].type === "text-apps" && (
+                    :contents.zones[0].content[currentIndex].type === "text-apps" ?
                     <>{handleTextApps(contents.zones[0].content[currentIndex].data)}</>
-                )}
-                {contents.zones[0] &&
-                  contents.zones[0].content[currentIndex] &&
-                  contents.zones[0].content[currentIndex].type === "clock-apps" && (
+                    :contents.zones[0].content[currentIndex].type === "clock-apps" ?
                     <>{handleClockApps(contents.zones[0].content[currentIndex].data)}</>
-                )}
-                {contents.zones[0] &&
-                  contents.zones[0].content[currentIndex] &&
-                  contents.zones[0].content[currentIndex].type === "bulletin-apps" && (
+                    :contents.zones[0].content[currentIndex].type === "bulletin-apps" ?
                     <>{handleBulletinApps(contents.zones[0].content[currentIndex].data)}</>
-                )}
-                {contents.zones[0] &&
-                  contents.zones[0].content[currentIndex] &&
-                  contents.zones[0].content[currentIndex].type === "qrcode-apps" && (
+                    :contents.zones[0].content[currentIndex].type === "qrcode-apps" ?
                     <>{handleQrApps(contents.zones[0].content[currentIndex].data)}</>
-                )}
-                {contents.zones[0] &&
-                  contents.zones[0].content[currentIndex] &&
-                  contents.zones[0].content[currentIndex].type === "weather-apps" && (
+                    :contents.zones[0].content[currentIndex].type === "weather-apps" ?
                     <>{handleWeatherApps(contents.zones[0].content[currentIndex].data)}</>
-                )}
-                {contents.zones[0] &&
-                  contents.zones[0].content[currentIndex] &&
-                  contents.zones[0].content[currentIndex].type === "rss-apps" && (
+                    :contents.zones[0].content[currentIndex].type === "rss-apps" ?
                     <>{handleRssApps(contents.zones[0].content[currentIndex].data)}</>
-                )}
-                {contents.zones[0] &&
-                  contents.zones[0].content[currentIndex] &&
-                  contents.zones[0].content[currentIndex].type === "aqi-apps" && (
+                    :contents.zones[0].content[currentIndex].type === "aqi-apps" ?
                     <>{handleAqiApps(contents.zones[0].content[currentIndex].data)}</>
-                )}
+                    :<></>
+                }
+                </> :
+
+                <></>}
+                
             </div>
             <div className="bottom-div">
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "image" && (
-                    <div className="basic-list-group image-preview-container media-content">
-                        <img
-                        className="webplayer-preview-img"
-                        style={{
-                            objectFit: `${
-                            viewImage === "fitScreen" ? "fill" : "contain"
-                            }`,
-                        }}
-                        src={`${BASE_URL}/${contents.zones[1].content[currentIndex].url}`}
-                        alt="media-img"
-                        />
-                    </div>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "video" && (
-                    <div
-                        className={`basic-list-group video-container media-content ${viewImage} ${
-                        viewImage === "fitScreen" ? "fitImage" : "containImage"
-                        }`}
-                    >
-                        <WebVideoPlayer
-                        src={`${BASE_URL}/${contents.zones[1].content[currentIndex].url}`}
-                        ></WebVideoPlayer>
-                    </div>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "url-apps" && (
-                    <div className="basic-list-group image-preview-container media-content">
-                        <Iframe
-                        url={`${contents.zones[1].content[currentIndex].url}`}
-                        width="100%"
-                        height="100%"
-                        // id=""
-                        // className=""
-                        display="block"
-                        position="relative"
-                        />
-                    </div>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type ===
-                    "youtube-apps" && (
-                    <div
-                        className={`basic-list-group video-container media-content ${viewImage} ${
-                        viewImage === "fitScreen" ? "fitImage" : "containImage"
-                        }`}
-                    >
-                        <ReactPlayer
-                        url={`${contents.zones[1].content[currentIndex].url}`}
-                        width="100%"
-                        height="100%"
-                        />
-                    </div>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "scroller" && (
-                    <>{handleScrollerApps(contents.zones[1].content[currentIndex].data)}</>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "text-apps" && (
-                    <>{handleTextApps(contents.zones[1].content[currentIndex].data)}</>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "clock-apps" && (
-                    <>{handleClockApps(contents.zones[1].content[currentIndex].data)}</>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "bulletin-apps" && (
-                    <>{handleBulletinApps(contents.zones[1].content[currentIndex].data)}</>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "weather-apps" && (
-                    <>{handleWeatherApps(contents.zones[1].content[currentIndex].data)}</>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "qrcode-apps" && (
-                    <>{handleQrApps(contents.zones[1].content[currentIndex].data)}</>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "rss-apps" && (
-                    <>{handleRssApps(contents.zones[1].content[currentIndex].data)}</>
-                )}
-                {contents.zones[1] &&
-                    contents.zones[1].content[current1Index] &&
-                    contents.zones[1].content[current1Index].type === "aqi-apps" && (
-                    <>{handleAqiApps(contents.zones[1].content[currentIndex].data)}</>
-                )}
+                {
+                    contents?.zones[1]?.content[current1Index] ? 
+                    <>
+                    {
+                        contents.zones[1].content[current1Index].type === "image" ? 
+                            <div className="basic-list-group image-preview-container media-content">
+                                <img
+                                className="webplayer-preview-img"
+                                style={{
+                                    objectFit: `${
+                                    viewImage === "fitScreen" ? "fill" : "contain"
+                                    }`,
+                                }}
+                                src={`${BASE_URL}/${contents.zones[1].content[current1Index].url}`}
+                                alt="media-img"
+                                />
+                            </div>
+                        :contents.zones[1].content[current1Index].type === "video" ?
+                            <div
+                                className={`basic-list-group video-container media-content ${viewImage} ${
+                                viewImage === "fitScreen" ? "fitImage" : "containImage"
+                                }`}
+                            >
+                                <WebVideoPlayer
+                                src={`${BASE_URL}/${contents.zones[1].content[currentIndex].url}`}
+                                ></WebVideoPlayer>
+                            </div>
+                        :contents.zones[1].content[current1Index].type === "url-apps" ?
+                            <div className="basic-list-group image-preview-container media-content">
+                                <Iframe
+                                url={`${contents.zones[1].content[currentIndex].url}`}
+                                width="100%"
+                                height="100%"
+                                // id=""
+                                // className=""
+                                display="block"
+                                position="relative"
+                                />
+                            </div>
+                        :contents.zones[1].content[current1Index].type === "youtube-apps" ?
+                            <div
+                                className={`basic-list-group video-container media-content ${viewImage} ${
+                                viewImage === "fitScreen" ? "fitImage" : "containImage"
+                                }`}
+                            >
+                                <ReactPlayer
+                                    url={`${contents.zones[1].content[currentIndex].url}`}
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </div>
+                        :contents.zones[1].content[current1Index].type === "scroller" ?
+                        <>{handleScrollerApps(contents.zones[1].content[current1Index].data)}</>
+                        :contents.zones[1].content[current1Index].type === "text-apps" ?
+                        <>{handleTextApps(contents.zones[1].content[current1Index].data)}</>
+                        :contents.zones[1].content[current1Index].type === "clock-apps" ?
+                        <>{handleClockApps(contents.zones[1].content[current1Index].data)}</>
+                        :contents.zones[1].content[current1Index].type === "bulletin-apps" ?
+                        <>{handleBulletinApps(contents.zones[1].content[current1Index].data)}</>
+                        :contents.zones[1].content[current1Index].type === "weather-apps" ?
+                        <>{handleWeatherApps(contents.zones[1].content[current1Index].data)}</>
+                        :contents.zones[1].content[current1Index].type === "qr-apps" ?
+                        <>{handleQrApps(contents.zones[1].content[current1Index].data)}</>
+                        :contents.zones[1].content[current1Index].type === "rss-apps" ?
+                        <>{handleRssApps(contents.zones[1].content[current1Index].data)}</>
+                        :contents.zones[1].content[current1Index].type === "aqi-apps" ?
+                        <>{handleAqiApps(contents.zones[1].content[current1Index].data)}</>
+                        :<></>
+                    }
+                    </> : <></>
+                }
             </div>
         </div>
       ) :
