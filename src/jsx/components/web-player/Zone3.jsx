@@ -172,8 +172,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                                 :<>NoContent21</>
                             }
                             </> 
-                        : <>
-                        </>
+                        : <></>
                     }
                 </div>
             </div>
