@@ -14,15 +14,13 @@ import QrCodeModal from "../../modals/QrCodeModal";
 import AirQualityAppModal from "../../modals/AirQualityAppModal";
 import YoutubeAppModal from "../../modals/YoutubeAppModal";
 import BulletinBoardAppModal from "../../modals/BulletinBoardAppModal";
-import { getWeather } from '../../../utils/api'
+import { getWeather } from "../../../utils/api";
 
 // import Form from "react-bootstrap/Form";
 // import { usePlacesWidget } from "react-google-autocomplete";
 
-
-
 export default function Integrations() {
-  console.log("React ENV",process.env.REACT_APP_TITLE);
+  console.log("React ENV", process.env.REACT_APP_TITLE);
   const [showUrlApp, setShowUrlApp] = useState(false);
   const [showRssFeedApp, setShowRssFeedApp] = useState(false);
   const [showScrollerTextApp, setShowScrollerTextApp] = useState(false);
@@ -35,63 +33,62 @@ export default function Integrations() {
   const [showYoutubeApp, setShowYoutubeApp] = useState(false);
   const [showBulletinBoardApp, setShowBulletinBoardApp] = useState(false);
   const appList = [
-    { title:'URL APP', slug:'url-app', icon:weather },
-    { title:'YOUTUBE', slug:'youtube', icon:weather },
-    { title:'RSS FEED', slug:'rss-feed', icon:weather },
-    { title:'SCROLLER', slug:'scroller', icon:weather },
-    { title:'WEATHER', slug:'weather', icon:weather },
-    { title:'TEXT',   slug:'text', icon:weather },
-    { title:'CLOCK APP', slug:'clock-app', icon:weather },
-    { title:'STOCKS', slug:'stocks', icon:weather },
-    { title:'QR CODE', slug:'qr-code', icon:weather },
-    { title:'Bulletin App', slug:'all-news-app', icon:weather },
-    { title:'AIR QUALITY APP', slug:'air-quality-app', icon:weather },
-    { title:'PEOPLE SPACE', slug:'people-space', icon:weather },
-    { title:'GOOGLE SLIDES', slug:'google-slides', icon:weather },
-    { title:'QUOTES', slug:'quotes', icon:weather },
-  ]
+    { title: "URL APP", slug: "url-app", icon: weather },
+    { title: "YOUTUBE", slug: "youtube", icon: weather },
+    // { title:'RSS FEED', slug:'rss-feed', icon:weather },
+    // { title:'SCROLLER', slug:'scroller', icon:weather },
+    // { title:'WEATHER', slug:'weather', icon:weather },
+    // { title:'TEXT',   slug:'text', icon:weather },
+    // { title:'CLOCK APP', slug:'clock-app', icon:weather },
+    // { title:'STOCKS', slug:'stocks', icon:weather },
+    // { title:'QR CODE', slug:'qr-code', icon:weather },
+    // { title:'Bulletin App', slug:'all-news-app', icon:weather },
+    // { title:'AIR QUALITY APP', slug:'air-quality-app', icon:weather },
+    // { title:'PEOPLE SPACE', slug:'people-space', icon:weather },
+    // { title:'GOOGLE SLIDES', slug:'google-slides', icon:weather },
+    // { title:'QUOTES', slug:'quotes', icon:weather },
+  ];
 
   const handleChange = (e, type) => {
     e.preventDefault();
-    console.log(type)
-    if(type && type == 'url-app'){
+    console.log(type);
+    if (type && type == "url-app") {
       setShowUrlApp(true);
     }
-    if(type && type == 'rss-feed'){
+    if (type && type == "rss-feed") {
       setShowRssFeedApp(true);
     }
-    if(type && type == 'youtube'){
+    if (type && type == "youtube") {
       setShowYoutubeApp(true);
     }
-    if(type && type == 'scroller'){
+    if (type && type == "scroller") {
       setShowScrollerTextApp(true);
     }
-    if(type && type == 'text'){
+    if (type && type == "text") {
       setShowTextApp(true);
     }
-    if(type && type == 'clock-app'){
+    if (type && type == "clock-app") {
       setShowClockApp(true);
     }
-    if(type && type == 'weather'){
+    if (type && type == "weather") {
       setShowWeatherApp(true);
     }
-    if(type && type == 'qr-code'){
+    if (type && type == "qr-code") {
       setShowQrCodeApp(true);
     }
-    if(type && type == 'air-quality-app'){
+    if (type && type == "air-quality-app") {
       setShowAirQualityApp(true);
     }
-    if(type && type == 'stocks'){
+    if (type && type == "stocks") {
       setShowStocksApp(true);
     }
-    if(type && type == 'all-news-app'){
+    if (type && type == "all-news-app") {
       setShowBulletinBoardApp(true);
     }
     // if(type && type == 'quotes'){
     //   setShowUrlApp(true);
     // }
-  }
-
+  };
 
   // const getWeatherDetail = async() => {
   //   const locationData  = await getWeather('noida');
@@ -147,7 +144,7 @@ export default function Integrations() {
               </div>
           </div>
       </div> */}
-      
+
       <div className="custom-content-heading d-flex flex-wrap flex-column">
         <h1 className="mb-3">Integrations</h1>
       </div>
@@ -155,68 +152,67 @@ export default function Integrations() {
         className="integration-container h-100"
         style={{ overflowY: "auto" }}
       >
-        {
-          appList.map((item) => {
-            return <div className="app-card ">
-                    <div className="d-flex justify-content-end mr-3 mt-3">
-                      <Dropdown
-                        className="dropdown-toggle-menu app-card-menu"
-                        drop="left"
-                      >
-                        <Dropdown.Toggle variant="left" className="p-0">
-                          <span className="table-menu-icon">
-                            <img
-                              className="app-card-menu-img img-fluid"
-                              src={menuIcon}
-                              alt="menu-icon"
-                            />
-                          </span>
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          <Dropdown.Item
-                            href="#"
-                            className=""
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <div className="d-flex align-items-center justify-content-between mb-2">
-                              <label htmlFor="favourite" className="mb-0">
-                                {" "}
-                                Mark as favourite
-                              </label>
-                              <input
-                                type="checkbox"
-                                id="favourite"
-                                name="favourite"
-                                value="favourite"
-                              />
-                            </div>
-                            <div className="d-flex align-items-center justify-content-between">
-                              <label htmlFor="learn" className="mb-0">
-                                {" "}
-                                Learn More
-                              </label>
-                              <input type="checkbox" id="learn" name="learn" />
-                            </div>
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </div>
-                    <div
-                      className="d-flex align-items-center justify-content-center"
-                      onClick={(e) => {handleChange(e, item.slug)}}
+        {appList.map((item) => {
+          return (
+            <div className="app-card ">
+              {/* <div className="d-flex justify-content-end mr-3 mt-3">
+                <Dropdown
+                  className="dropdown-toggle-menu app-card-menu"
+                  drop="left"
+                >
+                  <Dropdown.Toggle variant="left" className="p-0">
+                    <span className="table-menu-icon">
+                      <img
+                        className="app-card-menu-img img-fluid"
+                        src={menuIcon}
+                        alt="menu-icon"
+                      />
+                    </span>
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      href="#"
+                      className=""
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      <div className="text-center">
-                        <img className="mb-3" src={weather} />
-                        <p>{item.title}</p>
+                      <div className="d-flex align-items-center justify-content-between mb-2">
+                        <label htmlFor="favourite" className="mb-0">
+                          {" "}
+                          Mark as favourite
+                        </label>
+                        <input
+                          type="checkbox"
+                          id="favourite"
+                          name="favourite"
+                          value="favourite"
+                        />
                       </div>
-                    </div>
-                  </div>
-          })
-        }
-        
+                      <div className="d-flex align-items-center justify-content-between">
+                        <label htmlFor="learn" className="mb-0">
+                          {" "}
+                          Learn More
+                        </label>
+                        <input type="checkbox" id="learn" name="learn" />
+                      </div>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div> */}
+              <div
+                className="d-flex align-items-center justify-content-center"
+                onClick={(e) => {
+                  handleChange(e, item.slug);
+                }}
+              >
+                <div className="text-center">
+                  <img className="mb-3" src={weather} />
+                  <p>{item.title}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
-
-      
 
       <UrlAppModal
         setShowUrlApp={() => setShowUrlApp(false)}
@@ -254,11 +250,13 @@ export default function Integrations() {
         setShowUrlApp={() => setShowAirQualityApp(false)}
         show={showAirQualityApp}
       />
-      {showYoutubeApp && <YoutubeAppModal
-        setShowUrlApp={() => setShowYoutubeApp(false)}
-        show={showYoutubeApp}
-      />}
-      
+      {showYoutubeApp && (
+        <YoutubeAppModal
+          setShowUrlApp={() => setShowYoutubeApp(false)}
+          show={showYoutubeApp}
+        />
+      )}
+
       <BulletinBoardAppModal
         setShowUrlApp={() => setShowBulletinBoardApp(false)}
         show={showBulletinBoardApp}

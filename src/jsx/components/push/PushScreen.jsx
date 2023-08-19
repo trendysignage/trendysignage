@@ -262,16 +262,15 @@ const PushScreen = () => {
             How would you like to publish your content?
           </p>
         </div>
-        {scheduleData.length !== 0 && (
-          <Button
-            className=""
-            variant="info add-screen-btn"
-            type="button"
-            onClick={(e) => handlePublish(e)}
-          >
-            Publish
-          </Button>
-        )}
+
+        <Button
+          className=""
+          variant="info add-screen-btn"
+          type="button"
+          onClick={(e) => handlePublish(e)}
+        >
+          Publish
+        </Button>
       </div>
 
       <div className="layout-row push-row mb-4">
