@@ -1,7 +1,6 @@
 import fetchClient from "./fetchClient";
 import axios from "axios";
-// export const BASE_URL = "https://dsapi.trendysignage.com";
-export const BASE_URL = "https://dsapi.trendysignage.com";
+export const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export function login(email, password) {
   const role = "vendor";
@@ -442,4 +441,21 @@ export async function assignScreenProfile(postdata) {
     postdata
   );
   return response;
+}
+
+export async function getWeather(city) {
+  const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=19a9d73346ffb54dbd9cb4c652ef2bd7`)
+  .then(function (response) {
+      console.log("response",response)
+      return response.json()
+  }) 
+  .then(function (jsonData){
+      return jsonData
+  })
+
+  return resp;
+}
+export async function getAllMediaFilter() {
+  const response = await fetchClient.get(BASE_URL + `/vendor/display/media?limit=100`);
+  return response.data.data.media;
 }

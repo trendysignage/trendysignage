@@ -1,11 +1,8 @@
 import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 import icon from "../../img/link-alt 1.svg";
-
 import { Link } from "react-router-dom";
-import Select from "react-select";
 import { useState, useEffect } from "react";
-import Switch from "react-switch";
 import { updateApps, addApps } from "../../utils/api";
 const YoutubeAppModal = ({ setShowUrlApp, show, mediaData , actionType}) => {
 

@@ -12,20 +12,20 @@ import CompositionPlayer from "./compositionPlayer";
 import useSWR from "swr";
 const WebMain = ({ id, handleAddClass, onFullScreen }) => {
   const [media, setMedia] = useState("");
-  console.log(media, "media");
+  // console.log(media, "media");
   const [code, seCode] = useState("");
   const [contentType, setContentType] = useState("");
   const [isVerified, setIsVerified] = useState(false);
-  console.log(`%c${contentType}`, "font-size:20px;color:red");
+  // console.log(`%c${contentType}`, "font-size:20px;color:red");
   const initiaload = useRef(true);
   // const [timeout, setApiTimeout] = useState("");
-  useEffect(() => {
-    console.log(contentType, "contentType check inside main.jsx");
-  });
+  // useEffect(() => {
+  //   console.log(contentType, "contentType check inside main.jsx");
+  // });
   const getScreenCode = async () => {
     let timeoutTimer;
     const getContent = await addScreenCode(id);
-    console.log(getContent, "llllllll");
+    // console.log(getContent, "llllllll");
     setIsVerified(getContent?.isVerified);
     if (getContent.isVerified) {
       if (getContent?.content.length) {
@@ -33,7 +33,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
           getContent?.content[getContent.content.length - 1].media;
         const mediaType =
           getContent?.content[getContent.content.length - 1].type;
-
+// console.log(mediaType)
         if (mediaType === "composition") {
           setMedia(getMedia);
           setContentType("composition");
@@ -55,20 +55,20 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
       seCode(getContent.deviceCode);
     }
   };
-  // useEffect(() => {
-  //   if (!isVerified) {
-  //     const interval = setInterval(() => {
-  //       getScreenCode();
-  //     }, 1000);
+  useEffect(() => {
+    if (!isVerified) {
+      const interval = setInterval(() => {
+        getScreenCode();
+      }, 1000);
 
-  //     return () => {
-  //       clearInterval(interval); // Clear the interval when component unmounts
-  //     };
-  //   }
-  // }, [isVerified]);
+      return () => {
+        clearInterval(interval); // Clear the interval when component unmounts
+      };
+    }
+  }, [isVerified]);
   //const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
   useEffect(() => {
-    console.log("sdasd");
+    // console.log("sdasd");
     const socket = io(BASE_URL, {
       query: { deviceToken: id },
       autoConnect: false,
@@ -90,6 +90,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
       }
     }
     function onDisconnectDevice(value) {
+      console.log("DisConnect")
       setContentType(null);
       getScreenCode();
     }

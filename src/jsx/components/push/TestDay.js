@@ -38,33 +38,12 @@ export default function TestDay() {
   const history = useHistory();
   const { id, schedulename } = useParams();
   const [sqName, setSqName] = useState("");
+  const [dragDef, setDragDef] = useState(null)
 
   const { data: allComposition, mutate } = useSWR(
     "/vendor/layouts/compositions",
     getAllComposition
   );
-
-  const callSingleDaySequence = async (id) => {
-    const list = await getAllDaySequence(id);
-    setSequence(list.sequence);
-    //const listTimings = [];
-    if (list && list.sequence && list.sequence[0] && list.sequence[0].timings) {
-      const listTimings = list.sequence[0].timings.map((item) => {
-        const sT = item.startTime.split("T")[1].split(":");
-        const eT = item.endTime.split("T")[1].split(":");
-        return {
-          id: item.composition._id,
-          timing: sT[0] + ":" + sT[1] + " - " + eT[0] + ":" + eT[1],
-          //defId: eventInfo.event._def.defId,
-        };
-      });
-      setEvents(listTimings);
-    }
-  };
-
-  useEffect(() => {
-    callSingleDaySequence(id);
-  }, [id]);
 
   let timeFormet = {
     hour: "2-digit",
@@ -95,14 +74,18 @@ export default function TestDay() {
         };
       },
     });
-  }, [events]);
-  function eventFunction(info) {
+  }, []);
+
+  const eventFunction = (info) => {
     //const newArray = events;
     const id = info.el.fcSeg.eventRange.def.sourceId;
     const defId = info.event._def.defId;
     let newArr = events.map((item, i) => {
       if (item.defId == defId) {
-        return { ...item, ["timing"]: info.el.innerText.split("\n\n")[1] };
+        return { ...item,
+          ["timing"]: info.el.innerText.split("\n\n")[1],
+          ['startTime']:info.el.innerText.split("\n\n")[1].split(" - ")[0],
+          ['endTime']:info.el.innerText.split("\n\n")[1].split(" - ")[1] };
       } else {
         return item;
       }
@@ -110,29 +93,141 @@ export default function TestDay() {
     setEvents(newArr);
   }
   // handle event receive
+  
   const handleEventReceive = (eventInfo) => {
-    const id = eventInfo.event._def.sourceId;
-    const [startTime, endTime] = renderTime.split(" - ");
-    const formattedStartTime = startTime.padStart(5, "0");
-    const formattedEndTime =
+      console.log("handleEventR",renderTime)
+      const id = eventInfo.event._def.sourceId;
+      const [startTime, endTime] = renderTime.split(" - ");
+      const formattedStartTime = startTime.padStart(5, "0");
+      const formattedEndTime =
       endTime.length === 5 ? endTime : endTime.padStart(5, "0");
+      const timeRange = `${formattedStartTime} - ${formattedEndTime}`;
+      const checkedItem = events.find((item) => {
+        return item.id == eventInfo.event._def.sourceId
+      });
+      if(checkedItem){
+        const newArr = events.map((item, i) => {
+          console.log("Foundaaaaa", item.id, dragDef,item.timing, renderTime);
+          if (item.id == dragDef && item.timing !== renderTime) {
+            console.log("Found", item.id, dragDef,item.timing, renderTime);
+            return { ...item,
+              ["timing"]: renderTime,
+              ['startTime']:renderTime.split(" - ")[0],
+              ['endTime']:renderTime.split(" - ")[1]
+            };
+          } else {
+            return item;
+          }
+        });
+        setEvents(newArr);
+      }else{
+        const newEvent = {
+          id: id,
+          timing: timeRange,
+          defId: eventInfo.event._def.defId,
+        };
+        setEvents((events) => [...events, newEvent]);
+        setDef({ ...def, [eventInfo.event._def.defId]: true });
+      }
 
-    const timeRange = `${formattedStartTime} - ${formattedEndTime}`;
-
-    const newEvent = {
-      id: id,
-      timing: timeRange,
-      defId: eventInfo.event._def.defId,
-    };
-    setEvents((events) => [...events, newEvent]);
-    setDef({ ...def, [eventInfo.event._def.defId]: true });
+      setDragDef(null)
+    
   };
+
   const handleEventClick = (info) => {
-    console.log(info, "sssss");
-    const defId = info.event._def.defId;
+    const defId = info.event._def.extendedProps.defId != undefined ? info.event._def.extendedProps.defId : info.event._def.defId ;
     setEvents((current) => current.filter((event) => event.defId !== defId));
     info.event.remove();
   };
+
+  const eventDragStartFunc = (info) => {
+    console.log("Event Start",info,info.event._def.sourceId)
+    setDragDef(info.event._def.sourceId);
+  }
+
+  const eventDropStopFunc = (info) => {
+    console.log('dfghjrtyu', info)
+  }
+
+  const eventDropFunc = (info) => {
+    console.log("Dropping Func", info, dragDef, events)
+    let newArr = events.map((item, i) => {
+        if (item.id == info.event._def.sourceId) {
+          if(item.startTime && item.endTime){
+            // console.log("time",info.el.innerText.split("\n\n")[1])
+             return { ...item,
+               ["timing"]: info.el.innerText.split("\n\n")[1],
+               ['startTime']:info.el.innerText.split("\n\n")[1].split(" - ")[0],
+               ['endTime']:info.el.innerText.split("\n\n")[1].split(" - ")[1]
+             };
+           }else{
+             return { ...item,
+               ["timing"]: info.el.innerText.split("\n\n")[1]
+             };
+           }
+        } else {
+          return item;
+        }
+      });
+      setEvents(newArr);
+  }
+
+  const renderEventContent = (eventInfo) => {
+    console.log("eventInfo",eventInfo)
+    const { event } = eventInfo;
+    const { title } = event;
+    const checkTime = eventInfo.timeText.split(" - ");
+    if (!checkTime[1]) {
+      const secondTime =
+        parseInt(checkTime[0].split(":")[0]) +
+        1 +
+        ":" +
+        checkTime[0].split(":")[1];
+      eventInfo.timeText = checkTime[0] + " - " + secondTime;
+    }
+    if(event._def.extendedProps.defId != undefined){
+      if (!def[eventInfo.event._def.extendedProps.defId]) {
+        console.log("Hii")
+        setRenderTime(eventInfo.timeText);
+      }
+    }else{
+      if (!def[eventInfo.event._def.defId]) {
+        console.log("Byee")
+        setRenderTime(eventInfo.timeText);
+      }
+    }
+    console.log(dragDef && eventInfo.event._def.sourceId)
+    // if(dragDef && eventInfo.event._def.sourceId == dragDef){
+    //   console.log("event Dragging");
+    //   setRenderTime(eventInfo.timeText);
+    // }
+    
+    
+    return (
+      <>
+        <div className={`fullcalendar-main-container`}>
+          <img
+            src={event.extendedProps.custom}
+            className="day-schedule-fullcalendar-img"
+            alt="Event"
+          />
+          <p className="m-0 fullcalendar-title">{title}</p>
+          <p className="fullcalendar-time">{eventInfo.timeText}</p>
+
+          <div
+            className="fullcalendar-delete-btn"
+            onClick={() => handleEventClick(eventInfo)}
+          >
+            <img className="edit-icon cursorPointer" src={deleteBtnImg} />
+          </div>
+        </div>
+      </>
+    );
+  }
+  const checkTime = (time) => {
+    const timeSplit = time.split(":");
+    return String(timeSplit[0]).padStart(2, '0')+":"+timeSplit[1];
+  }
   async function handleSubmit(e) {
     e.preventDefault();
     const scheduleId = id;
@@ -142,12 +237,12 @@ export default function TestDay() {
         startTime:
           new Date().toISOString().slice(0, 10) +
           "T" +
-          item.timing.split(" - ")[0] +
+          checkTime(item.timing.split(" - ")[0]) +
           ":00Z",
         endTime:
           new Date().toISOString().slice(0, 10) +
           "T" +
-          item.timing.split(" - ")[1] +
+          checkTime(item.timing.split(" - ")[1]) +
           ":00Z",
       };
     });
@@ -184,7 +279,6 @@ export default function TestDay() {
       name: sqName,
       timings,
     };
-
     await saveSequence(payload).then((res) => {
       console.log(res, "res save schedule");
       if (res.data.statusCode === 200) {
@@ -193,43 +287,6 @@ export default function TestDay() {
     });
   }
 
-  function renderEventContent(eventInfo) {
-    console.log("eventInfo", eventInfo);
-    const { event } = eventInfo;
-    const { title } = event;
-    const checkTime = eventInfo.timeText.split(" - ");
-    if (!checkTime[1]) {
-      const secondTime =
-        parseInt(checkTime[0].split(":")[0]) +
-        1 +
-        ":" +
-        checkTime[0].split(":")[1];
-      eventInfo.timeText = checkTime[0] + " - " + secondTime;
-    }
-    if (!def[eventInfo.event._def.defId]) {
-      setRenderTime(eventInfo.timeText);
-    }
-    return (
-      <>
-        <div className={`fullcalendar-main-container`}>
-          <img
-            src={event.extendedProps.custom}
-            className="day-schedule-fullcalendar-img"
-            alt="Event"
-          />
-          <p className="m-0 fullcalendar-title">{title}</p>
-          <p className="fullcalendar-time">{eventInfo.timeText}</p>
-
-          <div
-            className="fullcalendar-delete-btn"
-            onClick={() => handleEventClick(eventInfo)}
-          >
-            <img className="edit-icon cursorPointer" src={deleteBtnImg} />
-          </div>
-        </div>
-      </>
-    );
-  }
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
@@ -242,7 +299,7 @@ export default function TestDay() {
             onChange={(e) => setSqName(e.target.value)}
             required
           />
-          {renderTime && (
+          {/* {renderTime && ( */}
             <div className="d-flex justify-content-end">
               <Button
                 className="mr-2"
@@ -253,7 +310,7 @@ export default function TestDay() {
                 Save Sequence
               </Button>
             </div>
-          )}
+          {/* )} */}
         </div>
       </form>
 
@@ -375,7 +432,7 @@ export default function TestDay() {
             eventTimeFormat={timeFormet}
             editable={true}
             selectable={false}
-            selectMirror={true}
+            selectMirror={false}
             dayMaxEvents={false}
             droppable={true}
             eventReceive={handleEventReceive}
@@ -388,6 +445,9 @@ export default function TestDay() {
             contentHeight="700px"
             events={events}
             eventResize={eventFunction}
+            eventDragStart={eventDragStartFunc}
+            eventDragStop={eventDropStopFunc}
+            eventDrop={eventDropFunc}
           ></FullCalendar>
         </div>
       </div>

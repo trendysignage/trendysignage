@@ -4,34 +4,81 @@ import icon from "../../img/link-alt 1.svg";
 
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { updateApps, addApps } from "../../utils/api";
 import Switch from "react-switch";
-const StocksAppModal = ({ setShowUrlApp, show }) => {
+const StocksAppModal = ({ setShowUrlApp, show, actionType,mediaData }) => {
+
+
   const options = [
-    { value: "lefAnalogue - 12 hourt", label: "Analogue - 12 hour" },
-    { value: "Digital - 12 hour", label: "Digital - 12 hour" },
-    { value: "Digital - 24hour", label: "Digital - 24hour" },
+    { value: "Day Gainers", label: "Day Gainers" },
+    { value: "Day Losers", label: "Day Losers" },
+    { value: "Most Actives", label: "Most Actives" },
+    { value: "Top Mutual Funds", label: "Top Mutual Funds" },
   ];
-  const [checked, setChecked] = useState(false);
-  const [checkedLocation, setCheckedLocation] = useState(false);
-  const [checkedRounded, setCheckedRounded] = useState(false);
-  const [checkedDate, setCheckedDate] = useState(false);
+  const [showRedirectApp, setShowUrlRedirectApp] = useState(false)
+  const [name, setName] = useState("");
+  const [isPriceChange, setIsPriceChange] = useState(false)
+  const [isHigh, setIsHigh] = useState(false)
+  const [isLow, setIsLow] = useState(false)
+  const [volume, setVolume] = useState(false)
+  const [slideDuration, setSlideDuration] = useState(10)
+  const [mediaId, setMediaId] = useState(null);
+  const [stockType, setStockType] = useState({value: "Day Gainers", label: "Day Gainers"})
+  const [err, setErr] = useState(false);
+  const [errMessage, setErrorMessage] = useState('');
 
-  const handleChange = (nextChecked) => {
-    setChecked(nextChecked);
-  };
-  const handleChangeLocation = (nextChecked) => {
-    setCheckedLocation(nextChecked);
-  };
-  const handleChangeRounded = (nextChecked) => {
-    setCheckedRounded(nextChecked);
-  };
-  const handleChangeDate = (nextChecked) => {
-    setCheckedDate(nextChecked);
-  };
+  useEffect(() => {
+    if(mediaData){
+      const jsonString = JSON.parse(mediaData.appData);
+      setName(mediaData.title);
+      setIsPriceChange(jsonString.isPriceChange);
+      setIsHigh(jsonString.isHigh);
+      setIsLow(jsonString.isLow);
+      setVolume(jsonString.volume);
+      setSlideDuration(jsonString.slideDuration)
+      setMediaId(mediaData._id);
+      setStockType(jsonString.stockType)
+    }
+  },[mediaData])
+  console.log("media", mediaData)
 
-  const [selectedOption, setSelectedOption] = useState(null);
+  const handleCreateApp = async(e) => {
+    e.preventDefault();
+
+    setErr(false);
+    setErrorMessage("");
+    if(name == ''){
+      setErr(true);
+      setErrorMessage("App Name is required");
+    }
+    if(err){
+      return false;
+    }
+    const dataString = {
+      url:name,slideDuration,isHigh, isLow,volume,stockType
+    }
+
+    if(actionType && actionType == 'edit'){
+      await updateApps({
+        name,
+        appId:mediaId,
+        data:JSON.stringify(dataString)
+      });
+      setShowUrlApp(false)
+    }else{
+      await addApps({
+        name,
+        type:'stocks-apps',
+        data:JSON.stringify(dataString)
+      });
+      setShowUrlApp(false)
+      setShowUrlRedirectApp(true)
+    }
+    //console.log(name, urlLink, selectedOption)
+  }
   return (
+    <>
     <Modal
       className="fade bd-example-modal-lg mt-4 app-modal"
       show={show}
@@ -68,13 +115,17 @@ const StocksAppModal = ({ setShowUrlApp, show }) => {
               className="  form-control "
               placeholder="App Name"
               required
+              name="name"
+              id="name"
+              value={name}
+              onChange={(e) => {setName(e.target.value)}}
             />
 
             <label className="mt-3">Stocks</label>
 
             <Select
-              defaultValue={selectedOption}
-              // onChange={setSelectedOption}
+              value={stockType}
+              onChange={setStockType}
               placeholder="Day Gainers"
               options={options}
               className="app-option"
@@ -84,8 +135,8 @@ const StocksAppModal = ({ setShowUrlApp, show }) => {
                 <label className="mb-0 mr-3">Price Change</label>
                 <Switch
                   onColor="#B3005E"
-                  onChange={handleChange}
-                  checked={checked}
+                  onChange={setIsPriceChange}
+                  checked={isPriceChange}
                   className="react-switch"
                   required={true}
                 />
@@ -94,8 +145,8 @@ const StocksAppModal = ({ setShowUrlApp, show }) => {
                 <label className="mb-0 mr-3">52 Week High</label>
                 <Switch
                   onColor="#B3005E"
-                  onChange={handleChangeLocation}
-                  checked={checkedLocation}
+                  onChange={setIsHigh}
+                  checked={isHigh}
                   className="react-switch"
                   required={true}
                 />
@@ -107,8 +158,8 @@ const StocksAppModal = ({ setShowUrlApp, show }) => {
                 <label className="mb-0 mr-3">Volumes</label>
                 <Switch
                   onColor="#B3005E"
-                  onChange={handleChangeDate}
-                  checked={checkedDate}
+                  onChange={setVolume}
+                  checked={volume}
                   className="react-switch"
                   required={true}
                 />
@@ -117,8 +168,8 @@ const StocksAppModal = ({ setShowUrlApp, show }) => {
                 <label className="mb-0 mr-3">52 Week Low</label>
                 <Switch
                   onColor="#B3005E"
-                  onChange={handleChangeRounded}
-                  checked={checkedRounded}
+                  onChange={setIsLow}
+                  checked={isLow}
                   className="react-switch"
                   required={true}
                 />
@@ -131,6 +182,9 @@ const StocksAppModal = ({ setShowUrlApp, show }) => {
               className="  form-control "
               placeholder="10"
               required
+              name="slide"
+              value={slideDuration}
+              onChange={(e) => setSlideDuration(e.target.value)}
             />
           </div>
           <div className="col-6 ">
@@ -154,14 +208,59 @@ const StocksAppModal = ({ setShowUrlApp, show }) => {
               variant=""
               type="button"
               className="btn btn-primary btn-block primary-btn"
-              //   onClick={() => setNewTagModal(false)}
+              onClick={(e) => handleCreateApp(e)}
             >
-              Create App
+             {actionType && actionType == 'edit' ? 'Update' : 'Create'} App
             </Button>
           </Col>
         </Row>
       </Modal.Footer>
     </Modal>
+    <Modal
+      className="fade bd-example-modal-lg mt-4 app-modal"
+      show={showRedirectApp}
+      size="xl"
+      centered
+    >
+      <Modal.Header className="border-0">
+
+        <Button
+          variant=""
+          className="close"
+          onClick={() => setShowUrlRedirectApp(false)}
+        >
+          <img
+            className="cancel-icon"
+            src={cancelIcon}
+            alt="cancel-icon"
+            height="25px"
+            width="25px"
+          />
+        </Button>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="row">
+          <div className="col-6 ">
+            <div className="d-flex justify-content-center align-items-center h-100 url-app-form-icon">
+              <div className="text-center">
+                <img src={icon} width="60px" height="60px" className="mb-3" />
+                <h4>https://www.</h4>
+              </div>
+            </div>
+          </div>
+          <div className="col-6 ">
+            <div className="d-flex justify-content-center align-items-center">
+              <div className="text-center">
+                <p>URL App created successfully</p>
+                <p>URL App is saved in <u>Media</u></p>
+                <Link to={'/layout'}>Create Composition</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal>
+  </>
   );
 };
 
