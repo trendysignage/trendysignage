@@ -1453,10 +1453,57 @@ color: #000;
       background-color: #000;
     }
     .weather-app-bg{
-      background: url(../img/cloudy.svg) no-repeat center;
+      /* background: url(../img/cloudy.svg) no-repeat center; */
+      background-color: rgba(0, 0, 0, 0.8);
 
     }
-
+    .place-date-time{
+      padding: 100px 50px 100px 50px;
+    }
+    .place-date h1{
+      font-size: 50px;
+      font-weight: 400;
+      color: #fff;
+    }
+    .place-date p{
+      font-size: 20px;
+    }
+    .time p{
+      font-size: 20px;
+    }
+    .weather-app-bg .row h1{
+      font-size: 80px;
+      font-weight: 400;
+      color: #fff;
+    }
+    .weather-app-bg .row .temperature h2{
+      font-size: 40px;
+      font-weight: 400;
+      color: #fff;
+    }
+    .other-day-weather .day{
+      font-size: 20px;
+      margin-bottom: 0;
+    }
+    .other-day-weather  h2{
+      font-size: 45px;
+      font-weight: 400;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    .temperature-box {
+      padding-left: 50px;
+    }
+.air-quality{
+  height: 300px;
+    width: 300px;
+ 
+    border: 2px solid #000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

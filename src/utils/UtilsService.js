@@ -5,7 +5,7 @@ import Moment from "react-moment";
 import Clock from "../jsx/components/Clock";
 import { getWeather } from "./api";
 import Parser from "rss-parser";
-
+import img from "../../src/img/moderate.png";
 import QRCode from "react-qr-code";
 
 export const isValidDate = (d) => {
@@ -412,39 +412,39 @@ export const handleWeatherApps = (data) => {
       style={{ color: "white" }}
     >
       <div className="weather-app-bg w-100 h-100 ">
-        <div className="place-date-time d-flex align-item-center justify-content-between p-5">
+        <div className="place-date-time d-flex align-items-center justify-content-between ">
           <div className="place-date">
             <h1>Chandigarh</h1>
             <p>Friday 18 August</p>
           </div>
           <div className="time">
-            <p>12:44 PM</p>
+            <p className="mb-0">12:44 PM</p>
           </div>
         </div>
-        <div className="row">
-          <div className="col-6">
+        <div className="row temperature-box">
+          <div className="col-6 temperature">
             <h1>33</h1>
             <h2>Clear SKy</h2>
           </div>
           <div className="col-6">
-            <div className="row">
+            <div className="row other-day-weather">
               <div className="col-6">
-                <h3>Saturday</h3>
+                <p className="day">Saturday</p>
                 <h2>23</h2>
                 <p>Light Rain</p>
               </div>
               <div className="col-6">
-                <h3>Saturday</h3>
+                <p className="day">Saturday</p>
                 <h2>23</h2>
                 <p>Light Rain</p>
               </div>
               <div className="col-6">
-                <h3>Saturday</h3>
+                <p className="day">Saturday</p>
                 <h2>23</h2>
                 <p>Light Rain</p>
               </div>
               <div className="col-6">
-                <h3>Saturday</h3>
+                <p className="day">Saturday</p>
                 <h2>23</h2>
                 <p>Light Rain</p>
               </div>
@@ -494,11 +494,27 @@ export const handleRssApps = (data) => {
 export const handleAqiApps = (data) => {
   const prp = JSON.parse(data);
   return (
-    <div
-      className="basic-list-group image-preview-container media-content"
-      style={{ color: "white", textAlign: "center" }}
-    >
-      Air Quality Apps
+    <div className="basic-list-group image-preview-container media-content text-black bg-white">
+      <div className="air-quality-container">
+        <div className="d-flex">
+          <div className="air-quality text-center">
+            <div>
+              <p>AQI Value</p>
+              <h1>33</h1>
+              <p>MODERATE</p>
+            </div>
+          </div>
+          <div className="d-flex">
+            <div>
+              <h2>Chandigarh</h2>
+              <p>Saturdayday, 19 Aug 2023</p>
+            </div>
+            <div>
+              <img src={img} alt="icon" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
