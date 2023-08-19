@@ -94,7 +94,7 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                         }
                         </> 
                     :
-                        <>NoImage</> 
+                        <></> 
                     }
                 </div>
                 <div
@@ -173,7 +173,6 @@ const Zone3 = ({ contents, currentIndex, current1Index, current2Index, viewImage
                             }
                             </> 
                         : <>
-                        NoContente2
                         </>
                     }
                 </div>

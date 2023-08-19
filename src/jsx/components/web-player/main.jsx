@@ -55,17 +55,17 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
       seCode(getContent.deviceCode);
     }
   };
-  // useEffect(() => {
-  //   if (!isVerified) {
-  //     const interval = setInterval(() => {
-  //       getScreenCode();
-  //     }, 1000);
+  useEffect(() => {
+    if (!isVerified) {
+      const interval = setInterval(() => {
+        getScreenCode();
+      }, 1000);
 
-  //     return () => {
-  //       clearInterval(interval); // Clear the interval when component unmounts
-  //     };
-  //   }
-  // }, [isVerified]);
+      return () => {
+        clearInterval(interval); // Clear the interval when component unmounts
+      };
+    }
+  }, [isVerified]);
   //const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
   useEffect(() => {
     // console.log("sdasd");
