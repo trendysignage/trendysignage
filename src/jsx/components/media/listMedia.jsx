@@ -126,7 +126,7 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
               <th>Type</th>
               <th>Uploaded Date</th>
               <th>Properties</th>
-              <th>Tags</th>
+              {/* <th>Tags</th> */}
               <th>More</th>
             </tr>
           </thead>
@@ -190,7 +190,7 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
                     </span>
                   </td>
                   <td>{parseMeta(media)}</td>
-                  <td>
+                  {/* <td>
                     {media.tags.map((tag) => {
                       return (
                         <span className="my-phone-tag text-truncate ml-1">
@@ -211,7 +211,7 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
                         alt="arrow"
                       />
                     </span>
-                  </td>
+                  </td> */}
                   <td>
                     <Dropdown className="dropdown-toggle-menu">
                       <Dropdown.Toggle variant="" className="p-0  mb-2">

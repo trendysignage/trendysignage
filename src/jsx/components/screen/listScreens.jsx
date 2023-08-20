@@ -24,8 +24,8 @@ const ListScreen = ({ allScreens }) => {
             <th>Last Seen</th>
             <th>Default Composition</th>
             <th>Current Schedule</th>
-            <th>Tags</th>
-            <th>Groups</th>
+            {/* <th>Tags</th>
+            <th>Groups</th> */}
             <th>More</th>
           </tr>
         </thead>
@@ -51,7 +51,7 @@ const ListScreen = ({ allScreens }) => {
                   </td>
                   <td>Default Compo. </td>
                   <td>No Schedule</td>
-                  <td style={{ width: "180px" }}>
+                  {/* <td style={{ width: "180px" }}>
                     <span className="tag-container">
                       {screen.tags.map((tag) => {
                         return (
@@ -84,7 +84,7 @@ const ListScreen = ({ allScreens }) => {
                         </span>
                       );
                     })}
-                  </td>
+                  </td> */}
                   <td>
                     <Dropdown className="dropdown-toggle-menu">
                       <Dropdown.Toggle variant="" className="p-0  mb-2">
