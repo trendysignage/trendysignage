@@ -297,7 +297,7 @@ const PushScreen = () => {
                 </div>
               </Link>
             </Col>
-            <Col lg="4" md="4" sm="12" xs="12">
+            {/* <Col lg="4" md="4" sm="12" xs="12">
               <div className="push-column text-center">
                 <div className="push-column-icon d-flex align-items-center justify-content-center">
                   <img
@@ -327,15 +327,15 @@ const PushScreen = () => {
                   Default content keeps on playing irrespective of the time when
                   there is no active
                 </p>
-                {/* <button
+                <button
                   onClick={(e) => {
                     handleDefaultScreen(e);
                   }}
                 >
                   Add Content
-                </button> */}
+                </button>
               </div>
-            </Col>
+            </Col> */}
           </Row>
         ) : (
           <></>
