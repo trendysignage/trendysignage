@@ -1495,14 +1495,49 @@ color: #000;
       padding-left: 50px;
     }
 .air-quality{
-  height: 300px;
-    width: 300px;
- 
-    border: 2px solid #000;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 250px;
+  width: 250px;
+  border: 15px solid rgb(212, 202, 47);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.air-quality h1{
+  font-size: 60px;
+  font-weight: 600;
+}
+.air-quality .moderate{
+  background-color: rgba(212, 202, 47, 0.2);
+    color: rgb(212, 202, 47);
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 6px;
+}
+.other-detail{
+  height: 50px;
+  width: 50px;
+}
+.justify-content-evenly{
+  flex-grow: 1;
+  justify-content: space-evenly;
+}
+.other-detail p{
+  font-size: 12px;
+}
+.other-detail h4{
+  font-size: 24px;
+}
+.gap-1{
+  gap: 1rem;
+}
+.bg-color-air-app{
+  background-color:  rgba(212, 202, 47, 1);
+  padding: 20px;
+}
+.air-quality-app-container{
+  border-radius: 10px;
 }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {

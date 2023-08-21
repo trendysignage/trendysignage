@@ -6,6 +6,8 @@ import Clock from "../jsx/components/Clock";
 import { getWeather } from "./api";
 import Parser from "rss-parser";
 import img from "../../src/img/moderate.png";
+import weathericon from "../../src/img/other-weather.svg";
+
 import QRCode from "react-qr-code";
 
 export const isValidDate = (d) => {
@@ -494,24 +496,47 @@ export const handleRssApps = (data) => {
 export const handleAqiApps = (data) => {
   const prp = JSON.parse(data);
   return (
-    <div className="basic-list-group image-preview-container media-content text-black bg-white">
-      <div className="air-quality-container">
-        <div className="d-flex">
-          <div className="air-quality text-center">
+    <div className="basic-list-group image-preview-container media-content text-black bg-color-air-app">
+      <div className="air-quality-app-container d-flex  justify-content-center align-items-center h-100 bg-white">
+        <div className="d-flex text-black justify-content-evenly  w-100">
+          <div className="air-quality text-center ">
             <div>
-              <p>AQI Value</p>
-              <h1>33</h1>
-              <p>MODERATE</p>
+              <p className="mb-0">AQI Value</p>
+              <h1 className="text-black">33</h1>
+              <p className="mb-0 moderate">MODERATE</p>
             </div>
           </div>
-          <div className="d-flex">
+          <div className="d-flex ">
             <div>
               <h2>Chandigarh</h2>
               <p>Saturdayday, 19 Aug 2023</p>
+              <div className="d-flex other-detail text-center gap-1">
+                <div>
+                  <img src={weathericon} alt="" />
+                  <p className="mb-0">Weather</p>
+                  <h4>33</h4>
+                </div>
+                <div>
+                  <img src={weathericon} alt="" />
+                  <p className="mb-0">Weather</p>
+                  <h4>33</h4>
+                </div>
+                <div>
+                  <img src={weathericon} alt="" />
+                  <p className="mb-0">Weather</p>
+                  <h4>33</h4>
+                </div>
+                <div>
+                  <img src={weathericon} alt="" />
+                  <p className="mb-0">Weather</p>
+                  <h4>33</h4>
+                </div>
+              </div>
             </div>
-            <div>
-              <img src={img} alt="icon" />
-            </div>
+          </div>
+
+          <div>
+            <img src={img} alt="icon" style={{ height: "220px" }} />
           </div>
         </div>
       </div>
