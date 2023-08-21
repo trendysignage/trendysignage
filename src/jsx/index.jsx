@@ -41,6 +41,7 @@ import Reports from "./components/reports";
 import SequenceTime from "./components/push/SequenceEdit";
 import reportsList from "./components/reports/reportsList";
 import ReportsList from "./components/reports/reportsList";
+import Verification from "./pages/Verification";
 
 const Markup = () => {
   let path = window.location.pathname;
@@ -76,7 +77,7 @@ const Markup = () => {
     { url: "push/sequence/:schId/:seqId", component: SequenceTime },
 
     { url: "reports", component: Reports },
-    { url: "reports-list", component: ReportsList },
+    { url: "reports-list", component: ReportsList }
   ];
   console.log(path);
   return (

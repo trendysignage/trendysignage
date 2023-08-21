@@ -75,6 +75,7 @@ export function checkAutoLogin(dispatch, history) {
     }
 
     tokenDetails = JSON.parse(tokenDetailsString);
+    console.log("expireDate",tokenDetails);
     let expireDate = tokenDetails.token.expires;
     let todaysDate = new Date();
 

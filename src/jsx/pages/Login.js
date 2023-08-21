@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import {
   loadingToggleAction,
   loginAction,
+  signupAction,
 } from "../../store/actions/AuthActions";
+import ResetPassword from "../modals/ResetPassword";
 import { Row, Col, Card, Tab, Nav, Button } from "react-bootstrap";
 //
 import logo from "../../img/logo.png";
@@ -13,10 +15,13 @@ import googleIcon from "../../img/google-icon.png";
 
 function Login(props) {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   let errorsObj = { email: "", password: "" };
   const [errors, setErrors] = useState(errorsObj);
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+
+  const [showResetPassword, setShowResetPassword] = useState(false)
 
   function onLogin(e) {
     e.preventDefault();
@@ -38,6 +43,32 @@ function Login(props) {
     dispatch(loginAction(email, password, props.history));
   }
 
+  const onSignup = (e) => {
+    console.log("sdfsdfsfs");
+    e.preventDefault();
+    let error = false;
+    const errorObj = { ...errorsObj };
+    if (name === "") {
+      errorObj.name = "Name is Required";
+      error = true;
+    }
+    if (email === "") {
+      errorObj.email = "Email is Required";
+      error = true;
+    }
+    if (password === "") {
+      errorObj.password = "Password is Required";
+      error = true;
+    }
+    setErrors(errorObj);
+    if (error) {
+      return;
+    }
+    dispatch(loadingToggleAction(true));
+    dispatch(signupAction(name, email, password, props.history));
+  }
+  
+
   const tabData = [
     {
       name: "Sign in",
@@ -50,19 +81,20 @@ function Login(props) {
             </p>
           </div>
           {props.errorMessage && (
-            <div className="bg-red-300 text-red-900 border border-red-900 p-1 my-2">
-              {props.errorMessage}
+            <div className="alert alert-danger ">
+              <h5>{props.errorMessage}</h5>
             </div>
           )}
           {props.successMessage && (
-            <div className="bg-green-300 text-green-900 border border-green-900 p-1 my-2">
-              {props.successMessage}
+            <div className="alert alert-success">
+              <h5>{props.successMessage}</h5>
             </div>
           )}
           <form onSubmit={onLogin}>
             <div className="form-group">
               <input
                 type="email"
+                autoComplete="off"
                 className="form-control"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -86,9 +118,9 @@ function Login(props) {
               )}
             </div>
             <div className="recover-password d-flex justify-content-end">
-              <Link className="revover-password" to="./page-register">
+              <Button className="revover-password" onClick={(e) => setShowResetPassword(true)}>
                 Recover Password ?
-              </Link>
+              </Button>
             </div>
             <div className="text-center">
               <button
@@ -124,25 +156,20 @@ function Login(props) {
               Enter your basic information to create new account on Trendyy
             </p>
           </div>
-          {props.errorMessage && (
-            <div className="bg-red-300 text-red-900 border border-red-900 p-1 my-2">
-              {props.errorMessage}
-            </div>
-          )}
-          {props.successMessage && (
-            <div className="bg-green-300 text-green-900 border border-green-900 p-1 my-2">
-              {props.successMessage}
-            </div>
-          )}
-          <form onSubmit={onLogin}>
+          {props.errorMessage && ( <div className="alert alert-danger"><h5>{props.errorMessage}</h5></div> )}
+          {props.successMessage && ( <div className="alert alert-success"> <h5>{props.successMessage}</h5> </div> )}
+          <form onSubmit={(e) => {onSignup(e)}} id="signUpForm">
             <div className="form-group">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Enter Name"
-                value="Enter Name"
+                value={name}
+                name="name"
+                id="name"
+                onChange={(e) => {setName(e.target.value)}}
               />
-              {/* {errors.email && <div className="text-danger fs-12">{errors.email}</div>} */}
+              {errors.name && <div className="text-danger fs-12">{errors.name}</div>}
             </div>
             <div className="form-group">
               <input
@@ -155,15 +182,18 @@ function Login(props) {
                 <div className="text-danger fs-12">{errors.email}</div>
               )}
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <input
                 type="phone"
                 className="form-control"
                 placeholder="Phone Number"
-                value="Phone Number"
+                name="phoneNumber"
+                id="phoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
               />
-              {/* {errors.email && <div className="text-danger fs-12">{errors.email}</div>} */}
-            </div>
+              {errors.email && <div className="text-danger fs-12">{errors.email}</div>}
+            </div> */}
             <div className="form-group password-textfield">
               <input
                 type="password"
@@ -200,6 +230,8 @@ function Login(props) {
     },
   ];
   return (
+    <>
+    <ResetPassword show={showResetPassword} setShowResetPassword={setShowResetPassword} />
     <div className="login-form-bx auth-page">
       <div className="container">
         <div className="row">
@@ -244,6 +276,7 @@ function Login(props) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

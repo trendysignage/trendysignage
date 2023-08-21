@@ -58,8 +58,6 @@ function Auth (props) {
 				{tabData.map((data, i) => (
                         <Tab.Pane eventKey={data.name.toLowerCase()} key={i}>
 							<div>{data.content}</div>
-						
-                         
                         </Tab.Pane> 
                       )
                   )}
