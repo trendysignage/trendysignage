@@ -13,6 +13,16 @@ export function login(email, password) {
   return fetchClient.post(`${BASE_URL}/vendor/auth/login`, postData);
 }
 
+export function socialLoginApi(email, name, token) {
+  const postData = {
+    email,
+    name,
+    socialId:token,
+  };
+
+  return fetchClient.post(`${BASE_URL}/vendor/auth/socialLogin`, postData);
+}
+
 export function register(name,email, password) {
   const role = "vendor";
   const postData = {

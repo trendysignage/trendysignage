@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import {
  verification,
  resendOtp,
- clearErrors
+ clearErrors,
+ logout
 } from "../../store/actions/AuthActions";
 import { Button } from "react-bootstrap";
 //
 import logo from "../../img/logo.png";
+import googleIcon from "../../img/google-icon.png";
 
 function Verification(props) {
   const [otp, setOtp] = useState("");
@@ -35,6 +37,11 @@ function Verification(props) {
   const sendOtpAgain = (e) => {
     e.preventDefault();
     dispatch(resendOtp(props.history));
+  }
+
+  const handleLoginAgain = (e) => {
+    e.preventDefault();
+    dispatch(logout(props.history));
   }
 
  
@@ -104,14 +111,14 @@ function Verification(props) {
                 </button>
                 </div>
             </form>
-            {/* <div className="new-account add-new-account  text-center mt-2">
+            <div className="new-account add-new-account  text-center mt-2">
                 <p className="mb-0">
-                Don't have an account?{" "}
-                <Link className="signup-link" to="./page-register">
+                Change your email?{" "}
+                <Button className="signup-link" onClick={(e) => handleLoginAgain(e)}>
                     Sign up
-                </Link>
+                </Button>
                 </p>
-            </div> */}
+            </div>
 
             {/* <Button className='btn-google-signin' variant='outline-primary'>
             <img src={googleIcon} alt="" className="logo-icon mr-2"/> <span>Sign in with Google</span>

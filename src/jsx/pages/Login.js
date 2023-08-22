@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   loadingToggleAction,
   loginAction,
   signupAction,
+  socialLoginAction
 } from "../../store/actions/AuthActions";
 import ResetPassword from "../modals/ResetPassword";
 import { Row, Col, Card, Tab, Nav, Button } from "react-bootstrap";
-//
+import {
+  LoginSocialGoogle,
+  IResolveParams
+} from 'reactjs-social-login';
+import {
+  GoogleLoginButton
+} from 'react-social-login-buttons';
 import logo from "../../img/logo.png";
 import eyeOff from "../../img/eye-off.svg";
 import googleIcon from "../../img/google-icon.png";
 
 function Login(props) {
+  const REDIRECT_URI = 'http://localhost:3000/login'
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   let errorsObj = { email: "", password: "" };
@@ -66,6 +75,26 @@ function Login(props) {
     }
     dispatch(loadingToggleAction(true));
     dispatch(signupAction(name, email, password, props.history));
+  }
+
+  const [provider, setProvider] = useState('');
+  const [profile, setProfile] = useState("");
+
+  const onLoginStart = useCallback(() => {
+    //alert('login start');
+  }, []);
+
+  // const onLogoutSuccess = useCallback(() => {
+  //   setProfile(null);
+  //   setProvider('');
+  //   alert('logout success');
+  // }, []);
+
+  // const onLogout = useCallback(() => {}, []);
+
+  const onSocialLogin = (data) => {
+    console.log(data)
+    dispatch(socialLoginAction(data.email, data.name, data.access_token, props.history))
   }
   
 
@@ -131,6 +160,26 @@ function Login(props) {
               </button>
             </div>
           </form>
+          <LoginSocialGoogle
+            client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            onLoginStart={onLoginStart}
+            redirect_uri={REDIRECT_URI}
+            scope="openid profile email"
+            discoveryDocs="claims_supported"
+            access_type="offline"
+            onResolve={({provider, data }) => {
+              // console.log("provider", provider);
+              // console.log("data", data);
+              onSocialLogin(data);
+              // setProvider(provider);
+              // setProfile(data);
+            }}
+            onReject={err => {
+              console.log("errr",err);
+            }}
+        >
+          <GoogleLoginButton />
+        </LoginSocialGoogle>
           <div className="new-account add-new-account  text-center mt-2">
             <p className="mb-0">
               Don't have an account?{" "}

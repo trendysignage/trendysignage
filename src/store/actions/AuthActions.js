@@ -4,7 +4,7 @@ import {
     saveTokenInLocalStorage,
     signUp
 } from '../../services/AuthService';
-import { login, register, otpVerification, getResetPassword, sentOtpAgain } from '../../utils/api';
+import { login, register, otpVerification, getResetPassword, sentOtpAgain, socialLoginApi } from '../../utils/api';
 
 export const SIGNUP_CONFIRMED_ACTION = '[signup action] confirmed signup';
 export const SIGNUP_FAILED_ACTION = '[signup action] failed signup';
@@ -67,6 +67,23 @@ export function loginAction(email, password, history) {
                 const errorMessage = error.response.data.message;
                 console.log("errorMessage",errorMessage)
                 //swal('OOPS', errorMessage, "error",{ button: "Try Again!",});
+                dispatch(loginFailedAction(errorMessage));
+            });
+    };
+}
+
+export function socialLoginAction(email, name, token, history) {
+    return (dispatch) => {
+        socialLoginApi(email, name, token)
+            .then((response) => {
+                const token = response.data.data;
+                saveTokenInLocalStorage(token);
+                dispatch(loginConfirmedAction(token));
+				history.push('/');
+            })
+            .catch((error) => {
+                const errorMessage = error.response.data.message;
+                console.log("errorMessage",errorMessage)
                 dispatch(loginFailedAction(errorMessage));
             });
     };

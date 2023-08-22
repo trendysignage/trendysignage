@@ -31,13 +31,12 @@ export function AuthReducer(state = initialState, action) {
             ...state,
             auth: action.payload,
             errorMessage: '',
-            successMessage: 'Signup Successfully Completed',
+            successMessage: 'OTP has been sent to registered email',
             showLoading: false,
         };
     }
     if (action.type === LOGIN_CONFIRMED_ACTION) {
         const isV = action?.payload?.vendor?.isVerified;
-        console.log("Sdsdsadasdsadasd", isV)
         return {
             ...state,
             auth: action.payload,
