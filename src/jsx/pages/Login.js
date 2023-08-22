@@ -209,11 +209,12 @@ function Login(props) {
                 <img src={logo} alt="" className="logo-icon mr-2" />
               </Link>
               <h2 className="m-b10 text-white">
-                Sign In to <br /> Trendy Website
+                Best website for <br /> digital signage
               </h2>
               <p className="m-b40 text-white">
-                Boost your engagement & productivity, streamline processes, and
-                make faster communications.
+                Elevate your brand presence with our immersive digital signage,
+                revolutionizing the way you connect and communicate with your
+                audience
               </p>
             </div>
             <div className="login-center-img"></div>

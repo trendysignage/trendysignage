@@ -46,15 +46,15 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
   const parseMeta = (media) => {
     let meta = {};
     //const meta = JSON.parse(media.properties);
-    if(media.type == 'image' || media.type == 'video'){
+    if (media.type == "image" || media.type == "video") {
       meta = JSON.parse(media.properties);
-    }else{
+    } else {
       const jsonData = JSON.parse(media.appData);
       meta = {
-        length:10,
-        height:10,
-        duration:0,
-        size:0
+        length: 10,
+        height: 10,
+        duration: 0,
+        size: 0,
       };
     }
     return (
@@ -119,7 +119,7 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
         </Modal.Body>
       </Modal>
       {allMedia && allMedia.length !== 0 ? (
-        <Table responsive className="custom-table">
+        <Table responsive className="custom-table mb-5">
           <thead>
             <tr>
               <th>Name</th>
@@ -224,8 +224,12 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
                         </span>
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        { media && media.type == 'image' || media.type == 'video' ?
-                          <Dropdown.Item href="#" className="dropdown-list-item">
+                        {(media && media.type == "image") ||
+                        media.type == "video" ? (
+                          <Dropdown.Item
+                            href="#"
+                            className="dropdown-list-item"
+                          >
                             <div
                               className="d-flex"
                               onClick={() => {
@@ -249,9 +253,10 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
                               </div>
                             </div>
                           </Dropdown.Item>
-                         :
-                         <></>}
-                        
+                        ) : (
+                          <></>
+                        )}
+
                         <Dropdown.Item
                           href="#"
                           className="dropdown-list-item"
