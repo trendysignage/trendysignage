@@ -17,7 +17,7 @@ const ListScreen = ({ allScreens }) => {
 
   return (
     <>
-      <Table responsive className="custom-table screen-table">
+      <Table responsive className="custom-table screen-table mb-5">
         <thead>
           <tr>
             <th>Screen</th>
