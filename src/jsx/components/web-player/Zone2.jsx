@@ -77,6 +77,7 @@ const Zone2 = ({
                       url={`${contents.zones[0].content[currentIndex].url}`}
                       width="100%"
                       height="100%"
+                      light={false}
                       loop={true}
                       playing={true}
                     />
@@ -194,6 +195,7 @@ const Zone2 = ({
                       url={`${contents.zones[1].content[currentIndex].url}`}
                       width="100%"
                       height="100%"
+                      light={false}
                       loop={true}
                       playing={true}
                     />

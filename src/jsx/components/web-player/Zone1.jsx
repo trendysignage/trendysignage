@@ -56,6 +56,7 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                     url={`${contents.zones[0].content[currentIndex].url}`}
                     width="100%"
                     height="100%"
+                    light={false}
                     loop={true}
                     playing={true}
                   />
