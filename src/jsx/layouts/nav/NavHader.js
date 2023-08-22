@@ -5,24 +5,28 @@ import { Link } from "react-router-dom";
 
 /// images
 import logo from "../../../img/logo.png";
+import logo1 from "../../../img/Frame 1171276339.svg";
 
 const NavHader = () => {
-   const [toggle, setToggle] = useState(false);
-   return (
-      <div className="nav-header navbar-header-custom" style={{zIndex: "12"}}>
-         <Link to="/" className="brand-logo">
-            <img className="sidebar-logo" src={logo} alt="" />
-         </Link>
+  const [toggle, setToggle] = useState(false);
+  return (
+    <div className="nav-header navbar-header-custom" style={{ zIndex: "12" }}>
+      <Link to="/" className="brand-logo">
+        <img className="sidebar-logo" src={logo1} alt="" />
+      </Link>
 
-         <div className="nav-control nav-hamburger-menu" onClick={() => setToggle(!toggle)}>
-            <div className={`hamburger ${toggle ? "is-active" : ""}`}>
-               <span className="line"></span>
-               <span className="line"></span>
-               <span className="line"></span>
-            </div>
-         </div>
+      <div
+        className="nav-control nav-hamburger-menu"
+        onClick={() => setToggle(!toggle)}
+      >
+        <div className={`hamburger ${toggle ? "is-active" : ""}`}>
+          <span className="line"></span>
+          <span className="line"></span>
+          <span className="line"></span>
+        </div>
       </div>
-   );
+    </div>
+  );
 };
 
 export default NavHader;

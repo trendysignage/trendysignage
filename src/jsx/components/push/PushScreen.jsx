@@ -389,7 +389,7 @@ const PushScreen = () => {
         )}
       </div>
       {!showPublishBtn && publishType && publishType === "quickplay" && (
-        <Table responsive className="custom-table screen-table">
+        <Table responsive className="custom-table screen-table mb-5">
           <thead>
             <tr>
               <th>Name</th>
@@ -496,7 +496,7 @@ const PushScreen = () => {
         publishType &&
         publishType === "defaultComposition" && (
           <>
-            <Table responsive className="custom-table screen-table">
+            <Table responsive className="custom-table screen-table mb-5">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -562,7 +562,7 @@ const PushScreen = () => {
           </>
         )}
       {!showPublishBtn && publishType && publishType === "schedule" && (
-        <Table responsive className="custom-table screen-table">
+        <Table responsive className="custom-table screen-table mb-5">
           <thead>
             <tr>
               <th>Name</th>
