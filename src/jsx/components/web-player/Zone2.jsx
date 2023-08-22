@@ -80,6 +80,8 @@ const Zone2 = ({
                       light={false}
                       loop={true}
                       playing={true}
+                      controls={true}
+                      muted={true}
                     />
                   </div>
                 ) : contents.zones[0].content[currentIndex].type ===
@@ -198,6 +200,9 @@ const Zone2 = ({
                       light={false}
                       loop={true}
                       playing={true}
+                      controls={true}
+                      muted={true}
+                      
                     />
                   </div>
                 ) : contents.zones[1].content[current1Index].type ===
