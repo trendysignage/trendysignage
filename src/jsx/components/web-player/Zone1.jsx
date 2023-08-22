@@ -59,6 +59,9 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                     light={false}
                     loop={true}
                     playing={true}
+                    controls={true}
+                    muted={true}
+                    
                   />
                 </div>
               ) : contents.zones[0].content[currentIndex].type ===
