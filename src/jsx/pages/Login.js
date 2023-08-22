@@ -168,11 +168,7 @@ function Login(props) {
             discoveryDocs="claims_supported"
             access_type="offline"
             onResolve={({provider, data }) => {
-              // console.log("provider", provider);
-              // console.log("data", data);
               onSocialLogin(data);
-              // setProvider(provider);
-              // setProfile(data);
             }}
             onReject={err => {
               console.log("errr",err);
