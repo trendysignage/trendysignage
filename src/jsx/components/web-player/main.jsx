@@ -124,47 +124,55 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
       {
         <>
           {contentType === "code" && (
-            <div className="basic-list-group ">
-              <div className="main-block">
-                <div className="registration-block">
-                  <p className="registration-title">
-                    Screen Registration Code{" "}
-                  </p>
-                  <p className="code">{code}</p>
+            <>
+              <div className="basic-list-group ">
+                <div className="main-block">
+                  <div className="registration-block">
+                    <p className="registration-title">
+                      Screen Registration Code{" "}
+                    </p>
+                    <p className="code">{code}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="webrowerTextSection">
-                <div className="how-to-register">
-                  How to register this screen ?
-                </div>
-                <div className="guidelines-login">
-                  1. Login to on your internet browser{" "}
-                </div>
-                <div className="guidelines-login">
-                  2. Go to 'Screen' section &gt; Click on{" "}
-                  <Link>
-                    <span className="white-color">'+Add Screen</span>'
-                  </Link>{" "}
-                  &gt; Enter above{" "}
-                  <Link>
-                    <span className="white-color">
-                      Screen Registration Code
-                    </span>
-                  </Link>{" "}
-                  &gt; Click on{" "}
-                  <Link>
-                    <span className="white-color">'Next'</span>
-                  </Link>
-                </div>
+                <div className="webrowerTextSection">
+                  <div className="how-to-register">
+                    How to register this screen ?
+                  </div>
+                  <div className="guidelines-login">
+                    1. Login to on your internet browser{" "}
+                  </div>
+                  <div className="guidelines-login">
+                    2. Go to 'Screen' section &gt; Click on{" "}
+                    <Link>
+                      <span className="white-color">'+Add Screen</span>'
+                    </Link>{" "}
+                    &gt; Enter above{" "}
+                    <Link>
+                      <span className="white-color">
+                        Screen Registration Code
+                      </span>
+                    </Link>{" "}
+                    &gt; Click on{" "}
+                    <Link>
+                      <span className="white-color">'Next'</span>
+                    </Link>
+                  </div>
 
-                <div className="guidelines-login">
-                  3. Enter screen name and other details &gt; Click on
-                  <Link>
-                    <span className="white-color"> 'Register Screen'</span>
-                  </Link>
+                  <div className="guidelines-login">
+                    3. Enter screen name and other details &gt; Click on
+                    <Link>
+                      <span className="white-color"> 'Register Screen'</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+              <div class="console-reg" id="consoleReg" style={{ zIndex: 10 }}>
+              <p>
+                Copy paste above Screen Registration Code in console{" "}
+                <em class="ti-arrow-circle-up"></em>
+              </p>
+              </div>
+            </>
           )}
           {contentType !== null && contentType === "image" && (
             <div className="basic-list-group image-preview-container media-content ">
@@ -217,13 +225,6 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
               handleAddClass={handleAddClass}
             />
           )}
-
-          <div class="console-reg" id="consoleReg" style={{ zIndex: 10 }}>
-            <p>
-              Copy paste above Screen Registration Code in console{" "}
-              <em class="ti-arrow-circle-up"></em>
-            </p>
-          </div>
         </>
       }
     </>
