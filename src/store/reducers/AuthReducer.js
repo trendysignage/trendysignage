@@ -5,6 +5,11 @@ import {
     LOGOUT_ACTION,
     SIGNUP_CONFIRMED_ACTION,
     SIGNUP_FAILED_ACTION,
+    CLEAR_ERRORS,
+    OTP_CONFIRMED_ACTION,
+    OTP_FAILED_ACTION,
+    RESET_PASSWORD_CONFIRMED_ACTION,
+    RESET_PASSWORD_FAILED_ACTION,
 } from '../actions/AuthActions';
 
 const initialState = {
@@ -26,16 +31,27 @@ export function AuthReducer(state = initialState, action) {
             ...state,
             auth: action.payload,
             errorMessage: '',
-            successMessage: 'Signup Successfully Completed',
+            successMessage: 'OTP has been sent to registered email',
             showLoading: false,
         };
     }
     if (action.type === LOGIN_CONFIRMED_ACTION) {
+        const isV = action?.payload?.vendor?.isVerified;
         return {
             ...state,
             auth: action.payload,
             errorMessage: '',
-            successMessage: 'Login Successfully Completed',
+            successMessage: !isV ? "" : 'Login Successfully Completed',
+            showLoading: false,
+        };
+    }
+
+    if (action.type === OTP_CONFIRMED_ACTION || action.type === RESET_PASSWORD_CONFIRMED_ACTION) {
+        return {
+            ...state,
+            auth: action.payload,
+            errorMessage: '',
+            successMessage: 'Mail has been Sent Successfully',
             showLoading: false,
         };
     }
@@ -57,7 +73,9 @@ export function AuthReducer(state = initialState, action) {
 
     if (
         action.type === SIGNUP_FAILED_ACTION ||
-        action.type === LOGIN_FAILED_ACTION
+        action.type === LOGIN_FAILED_ACTION  ||
+        action.type === OTP_FAILED_ACTION ||
+        action.type === RESET_PASSWORD_FAILED_ACTION
     ) {
         return {
             ...state,
@@ -71,6 +89,13 @@ export function AuthReducer(state = initialState, action) {
         return {
             ...state,
             showLoading: action.payload,
+        };
+    }
+    if (action.type === CLEAR_ERRORS) {
+        return {
+            ...state,
+            errorMessage: '',
+            successMessage: '',
         };
     }
     return state;

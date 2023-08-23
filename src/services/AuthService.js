@@ -67,6 +67,7 @@ export function runLogoutTimer(dispatch, timer, history) {
 }
 
 export function checkAutoLogin(dispatch, history) {
+    console.log("dsds");
     const tokenDetailsString = localStorage.getItem('userDetails');
     let tokenDetails = '';
     if (!tokenDetailsString) {
@@ -75,6 +76,7 @@ export function checkAutoLogin(dispatch, history) {
     }
 
     tokenDetails = JSON.parse(tokenDetailsString);
+    console.log("expireDate",tokenDetails);
     let expireDate = tokenDetails.token.expires;
     let todaysDate = new Date();
 
@@ -82,6 +84,9 @@ export function checkAutoLogin(dispatch, history) {
         console.log("logout",todaysDate , expireDate )
         dispatch(logout(history));
         return;
+    }
+    if(!tokenDetails.vendor.isVerified){
+        history.push('/verification')
     }
     dispatch(loginConfirmedAction(tokenDetails));
 

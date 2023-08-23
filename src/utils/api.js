@@ -13,6 +13,46 @@ export function login(email, password) {
   return fetchClient.post(`${BASE_URL}/vendor/auth/login`, postData);
 }
 
+export function socialLoginApi(email, name, token) {
+  const postData = {
+    email,
+    name,
+    socialId:token,
+  };
+
+  return fetchClient.post(`${BASE_URL}/vendor/auth/socialLogin`, postData);
+}
+
+export function register(name,email, password) {
+  const role = "vendor";
+  const postData = {
+    name,
+    email,
+    password,
+    //phoneNumber,
+    role,
+  };
+
+  return fetchClient.post(`${BASE_URL}/vendor/auth/signup`, postData);
+}
+
+export async function otpVerification(otp) {
+  const response = await fetchClient.post(BASE_URL + `/vendor/auth/verifyOtp`,otp);
+  return response.data.data;
+}
+
+
+export async function sentOtpAgain() {
+  const response = await fetchClient.post(BASE_URL + `/vendor/auth/resendOtp`);
+  return response.data.data;
+}
+
+
+export async function getResetPassword(email) {
+  const response = await fetchClient.post(BASE_URL + `/vendor/auth/forgotPassword`,email);
+  return response.data.data;
+}
+
 export async function getAllScreens() {
   const response = await fetchClient.get(BASE_URL + `/vendor/display/screen`);
   return response.data.data;

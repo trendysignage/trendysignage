@@ -1,22 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   loadingToggleAction,
   loginAction,
+  signupAction,
+  socialLoginAction
 } from "../../store/actions/AuthActions";
+import ResetPassword from "../modals/ResetPassword";
 import { Row, Col, Card, Tab, Nav, Button } from "react-bootstrap";
-//
+import {
+  LoginSocialGoogle,
+  IResolveParams
+} from 'reactjs-social-login';
+import {
+  GoogleLoginButton
+} from 'react-social-login-buttons';
 import logo from "../../img/logo.png";
 import eyeOff from "../../img/eye-off.svg";
 import googleIcon from "../../img/google-icon.png";
 
 function Login(props) {
+  const REDIRECT_URI = 'http://localhost:3000/login'
+
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   let errorsObj = { email: "", password: "" };
   const [errors, setErrors] = useState(errorsObj);
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+
+  const [showResetPassword, setShowResetPassword] = useState(false)
 
   function onLogin(e) {
     e.preventDefault();
@@ -38,6 +52,52 @@ function Login(props) {
     dispatch(loginAction(email, password, props.history));
   }
 
+  const onSignup = (e) => {
+    console.log("sdfsdfsfs");
+    e.preventDefault();
+    let error = false;
+    const errorObj = { ...errorsObj };
+    if (name === "") {
+      errorObj.name = "Name is Required";
+      error = true;
+    }
+    if (email === "") {
+      errorObj.email = "Email is Required";
+      error = true;
+    }
+    if (password === "") {
+      errorObj.password = "Password is Required";
+      error = true;
+    }
+    setErrors(errorObj);
+    if (error) {
+      return;
+    }
+    dispatch(loadingToggleAction(true));
+    dispatch(signupAction(name, email, password, props.history));
+  }
+
+  const [provider, setProvider] = useState('');
+  const [profile, setProfile] = useState("");
+
+  const onLoginStart = useCallback(() => {
+    //alert('login start');
+  }, []);
+
+  // const onLogoutSuccess = useCallback(() => {
+  //   setProfile(null);
+  //   setProvider('');
+  //   alert('logout success');
+  // }, []);
+
+  // const onLogout = useCallback(() => {}, []);
+
+  const onSocialLogin = (data) => {
+    console.log(data)
+    dispatch(socialLoginAction(data.email, data.name, data.access_token, props.history))
+  }
+  
+
   const tabData = [
     {
       name: "Sign in",
@@ -50,19 +110,20 @@ function Login(props) {
             </p>
           </div>
           {props.errorMessage && (
-            <div className="bg-red-300 text-red-900 border border-red-900 p-1 my-2">
-              {props.errorMessage}
+            <div className="alert alert-danger ">
+              <h5>{props.errorMessage}</h5>
             </div>
           )}
           {props.successMessage && (
-            <div className="bg-green-300 text-green-900 border border-green-900 p-1 my-2">
-              {props.successMessage}
+            <div className="alert alert-success">
+              <h5>{props.successMessage}</h5>
             </div>
           )}
           <form onSubmit={onLogin}>
             <div className="form-group">
               <input
                 type="email"
+                autoComplete="off"
                 className="form-control"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -86,9 +147,9 @@ function Login(props) {
               )}
             </div>
             <div className="recover-password d-flex justify-content-end">
-              <Link className="revover-password" to="./page-register">
+              <Button className="revover-password" onClick={(e) => setShowResetPassword(true)}>
                 Recover Password ?
-              </Link>
+              </Button>
             </div>
             <div className="text-center">
               <button
@@ -99,6 +160,22 @@ function Login(props) {
               </button>
             </div>
           </form>
+          <LoginSocialGoogle
+            client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            onLoginStart={onLoginStart}
+            redirect_uri={REDIRECT_URI}
+            scope="openid profile email"
+            discoveryDocs="claims_supported"
+            access_type="offline"
+            onResolve={({provider, data }) => {
+              onSocialLogin(data);
+            }}
+            onReject={err => {
+              console.log("errr",err);
+            }}
+        >
+          <GoogleLoginButton />
+        </LoginSocialGoogle>
           <div className="new-account add-new-account  text-center mt-2">
             <p className="mb-0">
               Don't have an account?{" "}
@@ -124,25 +201,20 @@ function Login(props) {
               Enter your basic information to create new account on Trendyy
             </p>
           </div>
-          {props.errorMessage && (
-            <div className="bg-red-300 text-red-900 border border-red-900 p-1 my-2">
-              {props.errorMessage}
-            </div>
-          )}
-          {props.successMessage && (
-            <div className="bg-green-300 text-green-900 border border-green-900 p-1 my-2">
-              {props.successMessage}
-            </div>
-          )}
-          <form onSubmit={onLogin}>
+          {props.errorMessage && ( <div className="alert alert-danger"><h5>{props.errorMessage}</h5></div> )}
+          {props.successMessage && ( <div className="alert alert-success"> <h5>{props.successMessage}</h5> </div> )}
+          <form onSubmit={(e) => {onSignup(e)}} id="signUpForm">
             <div className="form-group">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Enter Name"
-                value="Enter Name"
+                value={name}
+                name="name"
+                id="name"
+                onChange={(e) => {setName(e.target.value)}}
               />
-              {/* {errors.email && <div className="text-danger fs-12">{errors.email}</div>} */}
+              {errors.name && <div className="text-danger fs-12">{errors.name}</div>}
             </div>
             <div className="form-group">
               <input
@@ -155,15 +227,18 @@ function Login(props) {
                 <div className="text-danger fs-12">{errors.email}</div>
               )}
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <input
                 type="phone"
                 className="form-control"
                 placeholder="Phone Number"
-                value="Phone Number"
+                name="phoneNumber"
+                id="phoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
               />
-              {/* {errors.email && <div className="text-danger fs-12">{errors.email}</div>} */}
-            </div>
+              {errors.email && <div className="text-danger fs-12">{errors.email}</div>}
+            </div> */}
             <div className="form-group password-textfield">
               <input
                 type="password"
@@ -200,6 +275,8 @@ function Login(props) {
     },
   ];
   return (
+    <>
+    <ResetPassword show={showResetPassword} setShowResetPassword={setShowResetPassword} />
     <div className="login-form-bx auth-page">
       <div className="container">
         <div className="row">
@@ -245,6 +322,7 @@ function Login(props) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
