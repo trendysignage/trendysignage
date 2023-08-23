@@ -7,7 +7,7 @@ import {
   signupAction,
   socialLoginAction
 } from "../../store/actions/AuthActions";
-import ResetPassword from "../modals/ResetPassword";
+import ResetPassword from "../modals/ResetPassword.jsx";
 import { Row, Col, Card, Tab, Nav, Button } from "react-bootstrap";
 import {
   LoginSocialGoogle,
