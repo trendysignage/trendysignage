@@ -19,6 +19,7 @@ const CompositionActions = ({
   mutate,
   setDeleteModal,
   setSelected,
+  permission
 }) => {
   const [duplicateModal, setDuplicateModal] = useState(false);
   const [viewDetailsModal, setViewDetailsModal] = useState(false);
@@ -76,8 +77,10 @@ const CompositionActions = ({
           </span>
         </Dropdown.Toggle>
         <Dropdown.Menu>
+          {/* View Detail */}
           <Dropdown.Item
             href="#"
+            disabled={permission && !permission.permission.ASSETS.view}
             className="dropdown-list-item"
             onClick={() => {
               setViewDetailsModal(true);
@@ -99,10 +102,11 @@ const CompositionActions = ({
               </div>
             </div>
           </Dropdown.Item>
-
+          {/* Assign Quickplay */}
           <Dropdown.Item
             href="#"
             className="dropdown-list-item"
+            disabled={permission && !permission.permission.ASSETS.edit}
             onClick={() => {
               setShowPublishPopUp(true);
             }}
@@ -123,7 +127,10 @@ const CompositionActions = ({
               </div>
             </div>
           </Dropdown.Item>
-          <Dropdown.Item href="#" className="dropdown-list-item">
+          {/* Edit */}
+          <Dropdown.Item href="#"
+          disabled={permission && !permission.permission.ASSETS.edit}
+          className="dropdown-list-item">
             <Link to={`/composition/edit?id=${composition._id}`}>
               <div className="d-flex">
                 <div className="dropdown-list-icon">
@@ -142,7 +149,8 @@ const CompositionActions = ({
               </div>
             </Link>
           </Dropdown.Item>
-          <Dropdown.Item href="#" className="dropdown-list-item">
+          {/* Duplicate */}
+          <Dropdown.Item href="#" className="dropdown-list-item" disabled={permission && !permission.permission.ASSETS.add}>
             <div
               className="d-flex"
               onClick={() => {
@@ -165,6 +173,7 @@ const CompositionActions = ({
               </div>
             </div>
           </Dropdown.Item>
+          {/* Delete */}
           <Dropdown.Item
             href="#"
             className="dropdown-list-item"
@@ -172,6 +181,7 @@ const CompositionActions = ({
               setSelected(composition);
               setDeleteModal(true);
             }}
+            disabled={permission && !permission.permission.ASSETS.delete}
           >
             <div className="d-flex">
               <div className="dropdown-list-icon">

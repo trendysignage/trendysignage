@@ -94,7 +94,7 @@ function Login(props) {
 
   const onSocialLogin = (data) => {
     console.log(data)
-    dispatch(socialLoginAction(data.email, data.name, data.access_token, props.history))
+    dispatch(socialLoginAction(data.email, data.name, data.sub, props.history))
   }
   
 
@@ -168,6 +168,7 @@ function Login(props) {
             discoveryDocs="claims_supported"
             access_type="offline"
             onResolve={({provider, data }) => {
+              console.log(data)
               onSocialLogin(data);
             }}
             onReject={err => {

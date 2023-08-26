@@ -5,7 +5,7 @@ import Index from './jsx/index';
 import { connect, useDispatch } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 // action
-import { checkAutoLogin } from './services/AuthService';
+import { checkAutoLogin, checkAutoPermission } from './services/AuthService';
 import { isAuthenticated, isVerified } from './store/selectors/AuthSelectors';
 /// Style
 import "./vendor/bootstrap-select/dist/css/bootstrap-select.min.css";
@@ -35,6 +35,7 @@ function App(props) {
     useEffect(() => {
         if (path !== 'web-player') {
             checkAutoLogin(dispatch, props.history);
+            checkAutoPermission(dispatch, props.history)
         }
 
     }, [dispatch, props.history]);
