@@ -262,16 +262,15 @@ const PushScreen = () => {
             How would you like to publish your content?
           </p>
         </div>
-        {scheduleData.length !== 0 && (
-          <Button
-            className=""
-            variant="info add-screen-btn"
-            type="button"
-            onClick={(e) => handlePublish(e)}
-          >
-            Publish
-          </Button>
-        )}
+
+        <Button
+          className=""
+          variant="info add-screen-btn"
+          type="button"
+          onClick={(e) => handlePublish(e)}
+        >
+          Publish
+        </Button>
       </div>
 
       <div className="layout-row push-row mb-4">
@@ -298,7 +297,7 @@ const PushScreen = () => {
                 </div>
               </Link>
             </Col>
-            <Col lg="4" md="4" sm="12" xs="12">
+            {/* <Col lg="4" md="4" sm="12" xs="12">
               <div className="push-column text-center">
                 <div className="push-column-icon d-flex align-items-center justify-content-center">
                   <img
@@ -328,15 +327,15 @@ const PushScreen = () => {
                   Default content keeps on playing irrespective of the time when
                   there is no active
                 </p>
-                {/* <button
+                <button
                   onClick={(e) => {
                     handleDefaultScreen(e);
                   }}
                 >
                   Add Content
-                </button> */}
+                </button>
               </div>
-            </Col>
+            </Col> */}
           </Row>
         ) : (
           <></>
@@ -390,7 +389,7 @@ const PushScreen = () => {
         )}
       </div>
       {!showPublishBtn && publishType && publishType === "quickplay" && (
-        <Table responsive className="custom-table screen-table">
+        <Table responsive className="custom-table screen-table mb-5">
           <thead>
             <tr>
               <th>Name</th>
@@ -497,7 +496,7 @@ const PushScreen = () => {
         publishType &&
         publishType === "defaultComposition" && (
           <>
-            <Table responsive className="custom-table screen-table">
+            <Table responsive className="custom-table screen-table mb-5">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -563,7 +562,7 @@ const PushScreen = () => {
           </>
         )}
       {!showPublishBtn && publishType && publishType === "schedule" && (
-        <Table responsive className="custom-table screen-table">
+        <Table responsive className="custom-table screen-table mb-5">
           <thead>
             <tr>
               <th>Name</th>

@@ -154,7 +154,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
             <label className="mt-3">Location</label>
             <Autocomplete
               className="form-control"
-              apiKey={"AIzaSyA_JO9H6JEScutFurdvFw1t-v31GIf2Q2o"}
+              apiKey={process.env.REACT_APP_WEATHER_API_KEY}
               onPlaceSelected={(place) => {
               console.log(place);handleLocation(place)
               }}

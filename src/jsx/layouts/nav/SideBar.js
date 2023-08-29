@@ -119,7 +119,7 @@ class SideBar extends Component {
               </Link>
             </li>
             <li className={`${integrations.includes(path) ? "mm-active" : ""}`}>
-              <Link to="integrations" className="ai-icon">
+              <Link to="/integrations" className="ai-icon">
                 <span className="nav-menu-icon">
                   {" "}
                   <img

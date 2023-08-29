@@ -12,20 +12,20 @@ import CompositionPlayer from "./compositionPlayer";
 import useSWR from "swr";
 const WebMain = ({ id, handleAddClass, onFullScreen }) => {
   const [media, setMedia] = useState("");
-  console.log(media, "media");
+  // console.log(media, "media");
   const [code, seCode] = useState("");
   const [contentType, setContentType] = useState("");
   const [isVerified, setIsVerified] = useState(false);
-  console.log(`%c${contentType}`, "font-size:20px;color:red");
+  // console.log(`%c${contentType}`, "font-size:20px;color:red");
   const initiaload = useRef(true);
   // const [timeout, setApiTimeout] = useState("");
-  useEffect(() => {
-    console.log(contentType, "contentType check inside main.jsx");
-  });
+  // useEffect(() => {
+  //   console.log(contentType, "contentType check inside main.jsx");
+  // });
   const getScreenCode = async () => {
     let timeoutTimer;
     const getContent = await addScreenCode(id);
-    console.log(getContent, "llllllll");
+    // console.log(getContent, "llllllll");
     setIsVerified(getContent?.isVerified);
     if (getContent.isVerified) {
       if (getContent?.content.length) {
@@ -33,7 +33,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
           getContent?.content[getContent.content.length - 1].media;
         const mediaType =
           getContent?.content[getContent.content.length - 1].type;
-console.log(mediaType)
+// console.log(mediaType)
         if (mediaType === "composition") {
           setMedia(getMedia);
           setContentType("composition");
@@ -55,20 +55,20 @@ console.log(mediaType)
       seCode(getContent.deviceCode);
     }
   };
-  // useEffect(() => {
-  //   if (!isVerified) {
-  //     const interval = setInterval(() => {
-  //       getScreenCode();
-  //     }, 1000);
+  useEffect(() => {
+    if (!isVerified) {
+      const interval = setInterval(() => {
+        getScreenCode();
+      }, 1000);
 
-  //     return () => {
-  //       clearInterval(interval); // Clear the interval when component unmounts
-  //     };
-  //   }
-  // }, [isVerified]);
+      return () => {
+        clearInterval(interval); // Clear the interval when component unmounts
+      };
+    }
+  }, [isVerified]);
   //const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
   useEffect(() => {
-    console.log("sdasd");
+    // console.log("sdasd");
     const socket = io(BASE_URL, {
       query: { deviceToken: id },
       autoConnect: false,
@@ -90,6 +90,7 @@ console.log(mediaType)
       }
     }
     function onDisconnectDevice(value) {
+      console.log("DisConnect")
       setContentType(null);
       getScreenCode();
     }
@@ -123,47 +124,55 @@ console.log(mediaType)
       {
         <>
           {contentType === "code" && (
-            <div className="basic-list-group ">
-              <div className="main-block">
-                <div className="registration-block">
-                  <p className="registration-title">
-                    Screen Registration Code{" "}
-                  </p>
-                  <p className="code">{code}</p>
+            <>
+              <div className="basic-list-group ">
+                <div className="main-block">
+                  <div className="registration-block">
+                    <p className="registration-title">
+                      Screen Registration Code{" "}
+                    </p>
+                    <p className="code">{code}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="webrowerTextSection">
-                <div className="how-to-register">
-                  How to register this screen ?
-                </div>
-                <div className="guidelines-login">
-                  1. Login to on your internet browser{" "}
-                </div>
-                <div className="guidelines-login">
-                  2. Go to 'Screen' section &gt; Click on{" "}
-                  <Link>
-                    <span className="white-color">'+Add Screen</span>'
-                  </Link>{" "}
-                  &gt; Enter above{" "}
-                  <Link>
-                    <span className="white-color">
-                      Screen Registration Code
-                    </span>
-                  </Link>{" "}
-                  &gt; Click on{" "}
-                  <Link>
-                    <span className="white-color">'Next'</span>
-                  </Link>
-                </div>
+                <div className="webrowerTextSection">
+                  <div className="how-to-register">
+                    How to register this screen ?
+                  </div>
+                  <div className="guidelines-login">
+                    1. Login to on your internet browser{" "}
+                  </div>
+                  <div className="guidelines-login">
+                    2. Go to 'Screen' section &gt; Click on{" "}
+                    <Link>
+                      <span className="white-color">'+Add Screen</span>'
+                    </Link>{" "}
+                    &gt; Enter above{" "}
+                    <Link>
+                      <span className="white-color">
+                        Screen Registration Code
+                      </span>
+                    </Link>{" "}
+                    &gt; Click on{" "}
+                    <Link>
+                      <span className="white-color">'Next'</span>
+                    </Link>
+                  </div>
 
-                <div className="guidelines-login">
-                  3. Enter screen name and other details &gt; Click on
-                  <Link>
-                    <span className="white-color"> 'Register Screen'</span>
-                  </Link>
+                  <div className="guidelines-login">
+                    3. Enter screen name and other details &gt; Click on
+                    <Link>
+                      <span className="white-color"> 'Register Screen'</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+              <div class="console-reg" id="consoleReg" style={{ zIndex: 10 }}>
+              <p>
+                Copy paste above Screen Registration Code in console{" "}
+                <em class="ti-arrow-circle-up"></em>
+              </p>
+              </div>
+            </>
           )}
           {contentType !== null && contentType === "image" && (
             <div className="basic-list-group image-preview-container media-content ">
@@ -216,13 +225,6 @@ console.log(mediaType)
               handleAddClass={handleAddClass}
             />
           )}
-
-          <div class="console-reg" id="consoleReg" style={{ zIndex: 10 }}>
-            <p>
-              Copy paste above Screen Registration Code in console{" "}
-              <em class="ti-arrow-circle-up"></em>
-            </p>
-          </div>
         </>
       }
     </>

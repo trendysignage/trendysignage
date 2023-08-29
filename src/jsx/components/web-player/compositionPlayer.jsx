@@ -14,6 +14,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
   const [current1Index, setCurrent1Index] = useState(0);
   const [current2Index, setCurrent2Index] = useState(0);
   const timeout1Ref = useRef("");
+  const timeout2Ref = useRef("");
   const timeoutRef = useRef("");
 
   useEffect(() => {
@@ -54,13 +55,13 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
       }
     } else if (contents && contents.zones.length == 3) {
       if (contents.zones[0].content[currentIndex]) {
-        const timeoutDuration =
-          contents.zones[0].content[currentIndex].duration * 1000;
-        timeoutRef.current = setTimeout(() => {
+        const timeoutDuration = contents.zones[0].content[currentIndex].duration * 1000;
+        timeout1Ref.current = setTimeout(() => {
+          console.log(currentIndex, contents.zones[0].content)
           if (currentIndex === contents.zones[0].content.length - 1) {
             setCurrentIndex(0);
           } else {
-            setCurrentIndex((currentIndex) => currentIndex + 1);
+            setCurrentIndex(currentIndex + 1);
           }
         }, timeoutDuration);
       }
@@ -71,25 +72,25 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
           if (current1Index === contents.zones[1].content.length - 1) {
             setCurrent1Index(0);
           } else {
-            setCurrent1Index((current1Index) => current1Index + 1);
+            setCurrent1Index(current1Index + 1);
           }
         }, timeout1Duration);
       }
       if (contents.zones[2].content[current2Index]) {
         const timeout1Duration =
           contents.zones[2].content[current2Index].duration * 1000;
-        timeout1Ref.current = setTimeout(() => {
+        timeout2Ref.current = setTimeout(() => {
           if (current2Index === contents.zones[2].content.length - 1) {
             setCurrent2Index(0);
           } else {
-            setCurrent2Index((current2Index) => current2Index + 1);
+            setCurrent2Index(current2Index + 1);
           }
         }, timeout1Duration);
       }
     }
-
-    return () => clearTimeout(timeoutRef.current);
-  }, [currentIndex, current1Index]);
+    console.log(`%c${currentIndex}`, "font-size:20px;color:red");
+    return () => {clearTimeout(timeoutRef.current);clearTimeout(timeout1Ref.current);clearTimeout(timeout2Ref.current)};
+  }, [currentIndex, current1Index, current2Index]);
   const viewImage = content[currentIndex]?.fitToScreen
     ? "fitScreen"
     : content[currentIndex]?.crop
