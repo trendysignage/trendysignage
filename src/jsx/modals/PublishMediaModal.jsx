@@ -108,18 +108,6 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
         )}
         {!published && (
           <Modal.Body>
-            <div className="mb-3 mr-3">
-              <input
-                type="text"
-                className="form-control"
-                id="quickplayname"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                required="true"
-                placeholder="Name..."
-              />
-            </div>
             <Table responsive>
               <thead>
                 <tr>
@@ -205,9 +193,7 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
               </Col>
               <Col lg={6} md={6} sm={6} xs={6} className="pl-2 pr-0">
                 <Button
-                  disabled={
-                    checkedValues.length === 0 || name == null || name === ""
-                  }
+                  disabled={checkedValues.length === 0}
                   variant=""
                   type="button"
                   className="btn btn-primary btn-block primary-btn"

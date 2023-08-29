@@ -1436,7 +1436,109 @@ color: #000;
     width: fit-content;
     border-radius: 10px;
     }
+    .clock-app{
+      width: 300px;
+      height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+   
 
+    }
+    .clock-app .clock{
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      margin-top: 0%;
+      background-color: #000;
+    }
+    .weather-app-bg{
+      /* background: url(../img/cloudy.svg) no-repeat center; */
+      background-color: rgba(0, 0, 0, 0.8);
+
+    }
+    .place-date-time{
+      padding: 100px 50px 100px 50px;
+    }
+    .place-date h1{
+      font-size: 50px;
+      font-weight: 400;
+      color: #fff;
+    }
+    .place-date p{
+      font-size: 20px;
+    }
+    .time p{
+      font-size: 20px;
+    }
+    .weather-app-bg .row h1{
+      font-size: 80px;
+      font-weight: 400;
+      color: #fff;
+    }
+    .weather-app-bg .row .temperature h2{
+      font-size: 40px;
+      font-weight: 400;
+      color: #fff;
+    }
+    .other-day-weather .day{
+      font-size: 20px;
+      margin-bottom: 0;
+    }
+    .other-day-weather  h2{
+      font-size: 45px;
+      font-weight: 400;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    .temperature-box {
+      padding-left: 50px;
+    }
+.air-quality{
+  height: 250px;
+  width: 250px;
+  border: 15px solid rgb(212, 202, 47);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.air-quality h1{
+  font-size: 60px;
+  font-weight: 600;
+}
+.air-quality .moderate{
+  background-color: rgba(212, 202, 47, 0.2);
+    color: rgb(212, 202, 47);
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 6px;
+}
+.other-detail{
+  height: 50px;
+  width: 50px;
+}
+.justify-content-evenly{
+  flex-grow: 1;
+  justify-content: space-evenly;
+}
+.other-detail p{
+  font-size: 12px;
+}
+.other-detail h4{
+  font-size: 24px;
+}
+.gap-1{
+  gap: 1rem;
+}
+.bg-color-air-app{
+  background-color:  rgba(212, 202, 47, 1);
+  padding: 20px;
+}
+.air-quality-app-container{
+  border-radius: 10px;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

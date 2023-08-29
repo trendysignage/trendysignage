@@ -5,6 +5,8 @@ import Moment from "react-moment";
 import Clock from "../jsx/components/Clock";
 import { getWeather } from "./api";
 import Parser from "rss-parser";
+import img from "../../src/img/moderate.png";
+import weathericon from "../../src/img/other-weather.svg";
 
 import QRCode from "react-qr-code";
 
@@ -341,21 +343,24 @@ export const handleClockApps = (data) => {
   const cdate = new Date();
   const prp = JSON.parse(data);
   let tF = "";
-
+  prp.timeFormat = "Analogue - 12 hourt";
   console.log("timeFormat", prp.timeFormat);
+
   if (prp.timeFormat == "Analogue - 12 hourt") {
     return (
       <div
-        className="basic-list-group image-preview-container media-content"
-        style={{ fontSize: "50px", color: "white", textAlign: "center" }}
+        className="basic-list-group image-preview-container media-content orange"
+        style={{ fontSize: "50px", color: "#000", textAlign: "center" }}
       >
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", paddingTop: "20px" }}>
           <Clock />
         </div>
         {prp.hideDate ? (
-          <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
-            monthName[cdate.getDay()]
-          } ${dayName[cdate.getDay()]} Indian Standard Time`}</p>
+          <p
+            style={{ fontSize: "20px", marginTop: "20px" }}
+          >{`${cdate.getDate()} ${monthName[cdate.getDay()]} ${
+            dayName[cdate.getDay()]
+          } Indian Standard Time`}</p>
         ) : (
           ""
         )}
@@ -370,8 +375,8 @@ export const handleClockApps = (data) => {
 
     return (
       <div
-        className="basic-list-group image-preview-container media-content"
-        style={{ fontSize: "100px", color: "white", textAlign: "center" }}
+        className="basic-list-group image-preview-container media-content orange"
+        style={{ fontSize: "100px", color: "#000", textAlign: "center" }}
       >
         <Moment format={tF} date={new Date()} />
         {!prp.hideDate ? (
@@ -402,13 +407,53 @@ export const handleWeatherApps = (data) => {
   // getWeather('Noida').then((resp) => {
   //   console.log("weatherDetail",resp)
   // });
-
+  console.log(data, "weather app");
   return (
     <div
-      className="basic-list-group image-preview-container media-content"
-      style={{ fontSize: "50px", color: "white", textAlign: "center" }}
+      className="basic-list-group image-preview-container media-content "
+      style={{ color: "white" }}
     >
-      Weather Apps
+      <div className="weather-app-bg w-100 h-100 ">
+        <div className="place-date-time d-flex align-items-center justify-content-between ">
+          <div className="place-date">
+            <h1>Chandigarh</h1>
+            <p>Friday 18 August</p>
+          </div>
+          <div className="time">
+            <p className="mb-0">12:44 PM</p>
+          </div>
+        </div>
+        <div className="row temperature-box">
+          <div className="col-6 temperature">
+            <h1>33</h1>
+            <h2>Clear SKy</h2>
+          </div>
+          <div className="col-6">
+            <div className="row other-day-weather">
+              <div className="col-6">
+                <p className="day">Saturday</p>
+                <h2>23</h2>
+                <p>Light Rain</p>
+              </div>
+              <div className="col-6">
+                <p className="day">Saturday</p>
+                <h2>23</h2>
+                <p>Light Rain</p>
+              </div>
+              <div className="col-6">
+                <p className="day">Saturday</p>
+                <h2>23</h2>
+                <p>Light Rain</p>
+              </div>
+              <div className="col-6">
+                <p className="day">Saturday</p>
+                <h2>23</h2>
+                <p>Light Rain</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -451,11 +496,50 @@ export const handleRssApps = (data) => {
 export const handleAqiApps = (data) => {
   const prp = JSON.parse(data);
   return (
-    <div
-      className="basic-list-group image-preview-container media-content"
-      style={{ color: "white", textAlign: "center" }}
-    >
-      Air Quality Apps
+    <div className="basic-list-group image-preview-container media-content text-black bg-color-air-app">
+      <div className="air-quality-app-container d-flex  justify-content-center align-items-center h-100 bg-white">
+        <div className="d-flex text-black justify-content-evenly  w-100">
+          <div className="air-quality text-center ">
+            <div>
+              <p className="mb-0">AQI Value</p>
+              <h1 className="text-black">33</h1>
+              <p className="mb-0 moderate">MODERATE</p>
+            </div>
+          </div>
+          <div className="d-flex ">
+            <div>
+              <h2>Chandigarh</h2>
+              <p>Saturdayday, 19 Aug 2023</p>
+              <div className="d-flex other-detail text-center gap-1">
+                <div>
+                  <img src={weathericon} alt="" />
+                  <p className="mb-0">Weather</p>
+                  <h4>33</h4>
+                </div>
+                <div>
+                  <img src={weathericon} alt="" />
+                  <p className="mb-0">Weather</p>
+                  <h4>33</h4>
+                </div>
+                <div>
+                  <img src={weathericon} alt="" />
+                  <p className="mb-0">Weather</p>
+                  <h4>33</h4>
+                </div>
+                <div>
+                  <img src={weathericon} alt="" />
+                  <p className="mb-0">Weather</p>
+                  <h4>33</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <img src={img} alt="icon" style={{ height: "220px" }} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

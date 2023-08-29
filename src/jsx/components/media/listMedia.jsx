@@ -325,7 +325,7 @@ const ListMedia = ({ allMedia, callAllMediaApi, auth, permission}) => {
           setDeleteModal={setDeleteModal}
           callbackFunction={handleDelete}
           text="Are you sure you want to delete?"
-          yes={"Yes Deactivate"}
+          yes={"Delete"}
         />
       )}
     </>
