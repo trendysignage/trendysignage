@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import {connect} from 'react-redux'
 import weather from "../../../img/weather.svg";
 import { Dropdown } from "react-bootstrap";
 import menuIcon from "../../../img/menu-icon.png";
@@ -16,10 +17,11 @@ import YoutubeAppModal from "../../modals/YoutubeAppModal";
 import BulletinBoardAppModal from "../../modals/BulletinBoardAppModal";
 import { getWeather } from "../../../utils/api";
 
+
 // import Form from "react-bootstrap/Form";
 // import { usePlacesWidget } from "react-google-autocomplete";
 
-export default function Integrations() {
+const Integrations = ({permission}) => {
   console.log("React ENV", process.env.REACT_APP_TITLE);
   const [showUrlApp, setShowUrlApp] = useState(false);
   const [showRssFeedApp, setShowRssFeedApp] = useState(false);
@@ -52,42 +54,44 @@ export default function Integrations() {
   const handleChange = (e, type) => {
     e.preventDefault();
     console.log(type);
-    if (type && type == "url-app") {
-      setShowUrlApp(true);
+    if(permission && permission.permission.APPS.add){
+      if (type && type == "url-app") {
+        setShowUrlApp(true);
+      }
+      if (type && type == "rss-feed") {
+        setShowRssFeedApp(true);
+      }
+      if (type && type == "youtube") {
+        setShowYoutubeApp(true);
+      }
+      if (type && type == "scroller") {
+        setShowScrollerTextApp(true);
+      }
+      if (type && type == "text") {
+        setShowTextApp(true);
+      }
+      if (type && type == "clock-app") {
+        setShowClockApp(true);
+      }
+      if (type && type == "weather") {
+        setShowWeatherApp(true);
+      }
+      if (type && type == "qr-code") {
+        setShowQrCodeApp(true);
+      }
+      if (type && type == "air-quality-app") {
+        setShowAirQualityApp(true);
+      }
+      if (type && type == "stocks") {
+        setShowStocksApp(true);
+      }
+      if (type && type == "all-news-app") {
+        setShowBulletinBoardApp(true);
+      }
+      // if(type && type == 'quotes'){
+      //   setShowUrlApp(true);
+      // }
     }
-    if (type && type == "rss-feed") {
-      setShowRssFeedApp(true);
-    }
-    if (type && type == "youtube") {
-      setShowYoutubeApp(true);
-    }
-    if (type && type == "scroller") {
-      setShowScrollerTextApp(true);
-    }
-    if (type && type == "text") {
-      setShowTextApp(true);
-    }
-    if (type && type == "clock-app") {
-      setShowClockApp(true);
-    }
-    if (type && type == "weather") {
-      setShowWeatherApp(true);
-    }
-    if (type && type == "qr-code") {
-      setShowQrCodeApp(true);
-    }
-    if (type && type == "air-quality-app") {
-      setShowAirQualityApp(true);
-    }
-    if (type && type == "stocks") {
-      setShowStocksApp(true);
-    }
-    if (type && type == "all-news-app") {
-      setShowBulletinBoardApp(true);
-    }
-    // if(type && type == 'quotes'){
-    //   setShowUrlApp(true);
-    // }
   };
 
   // const getWeatherDetail = async() => {
@@ -264,3 +268,14 @@ export default function Integrations() {
     </>
   );
 }
+
+
+const mapStateToProps = (state) => {
+  return {
+      // errorMessage: state.auth.errorMessage,
+      // successMessage: state.auth.successMessage,
+      auth: state.auth.auth,
+      permission : state.auth.permission
+  };
+};
+export default connect(mapStateToProps)(Integrations);

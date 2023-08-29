@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Dropdown } from "react-bootstrap";
 import ListMedia from "./defaultComposition";
 import { roles } from "aria-query";
+import { connect } from "react-redux";
 import {
   getUsers,
   getGroups,
@@ -16,7 +17,8 @@ import Roles from "./roles";
 import Profile from "./profile";
 import AddDeviceProfile from "../../modals/AddDeviceProfile";
 
-const Settings = () => {
+const Settings = ({permission}) => {
+  console.log("permission",permission)
   const [dropValue, setDropValue] = useState("Default Content");
   const [allUsers, setAllUsers] = useState([]);
   const [allGroups, setAllGroups] = useState([]);
@@ -239,4 +241,10 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+const mapStateToProps = (state) => {
+  return {
+      auth: state.auth.auth,
+      permission : state.auth.permission
+  };
+};
+export default connect(mapStateToProps)(Settings);

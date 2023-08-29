@@ -19,6 +19,9 @@ export const OTP_FAILED_ACTION = '[otp action] failed otp';
 export const RESET_PASSWORD_CONFIRMED_ACTION = '[reset password action] confirmed reset password';
 export const RESET_PASSWORD_FAILED_ACTION = '[reset password action] failed reset password';
 
+export const GET_PERMISSION_FAILED_ACTION = '[get permission action] failed get permission';
+export const GET_PERMISSION_CONFIRMED_ACTION = '[get permission action] confirmed get permission';
+
 export function signupAction(name,email, password, history) {
     return (dispatch) => {
         register(name,email, password)
@@ -59,6 +62,7 @@ export function loginAction(email, password, history) {
                 saveTokenInLocalStorage(token);
                 dispatch(loginConfirmedAction(token));
 				history.push('/');
+                window.location.reload();
             })
             .catch((error) => {
                 // console.log(error.response.data)
@@ -80,6 +84,7 @@ export function socialLoginAction(email, name, token, history) {
                 saveTokenInLocalStorage(token);
                 dispatch(loginConfirmedAction(token));
 				history.push('/');
+                window.location.reload();
             })
             .catch((error) => {
                 const errorMessage = error.response.data.message;
@@ -101,6 +106,7 @@ export function verification(otp, history) {
                 saveTokenInLocalStorage(token);
                 dispatch(loginConfirmedAction(token));
 				history.push('/');
+                window.location.reload();
             })
             .catch((error) => {
                 const errorMessage = error.response.data.message;
@@ -202,8 +208,10 @@ export function loadingToggleAction(status) {
         payload: status,
     };
 }
+
 export function clearErrors() {
     return {
         type: CLEAR_ERRORS
     };
 }
+

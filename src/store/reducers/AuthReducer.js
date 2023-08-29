@@ -10,9 +10,12 @@ import {
     OTP_FAILED_ACTION,
     RESET_PASSWORD_CONFIRMED_ACTION,
     RESET_PASSWORD_FAILED_ACTION,
+    GET_PERMISSION_CONFIRMED_ACTION,
+    GET_PERMISSION_FAILED_ACTION
 } from '../actions/AuthActions';
 
 const initialState = {
+    permission:null,
     auth: {
         email: '',
         idToken: '',
@@ -30,6 +33,7 @@ export function AuthReducer(state = initialState, action) {
         return {
             ...state,
             auth: action.payload,
+            permission:null,
             errorMessage: '',
             successMessage: 'OTP has been sent to registered email',
             showLoading: false,
@@ -40,9 +44,16 @@ export function AuthReducer(state = initialState, action) {
         return {
             ...state,
             auth: action.payload,
+            permission:null,
             errorMessage: '',
             successMessage: !isV ? "" : 'Login Successfully Completed',
             showLoading: false,
+        };
+    }
+    if (action.type === GET_PERMISSION_CONFIRMED_ACTION) {
+        return {
+            ...state,
+            permission: action.payload
         };
     }
 
@@ -61,6 +72,7 @@ export function AuthReducer(state = initialState, action) {
             ...state,
             errorMessage: '',
             successMessage: '',
+            permission:null,
             auth: {
                 email: '',
                 idToken: '',

@@ -70,6 +70,16 @@ export async function getAllComposition() {
   return response.data.data;
 }
 
+export const permission = {
+  SCREEN:{ view:false, add:false, edit:false,delete:false},
+  ASSETS:{ view:false, add:false, edit:false,delete:false},
+  COMPOSITION:{ view:false, add:false, edit:false,delete:false},
+  APPS:{ view:false, add:false, edit:false,delete:false},
+  REPORTS:{ view:false, add:false, edit:false,delete:false},
+  QUICKPLAY:{ view:false, add:false, edit:false,delete:false},
+  SCHEDULE:{ view:false, add:false, edit:false,delete:false},
+}
+
 export function addScreen(data) {
   return fetchClient.post(`${BASE_URL}/vendor/display/screen`, data);
 }
@@ -498,4 +508,9 @@ export async function getWeather(city) {
 export async function getAllMediaFilter() {
   const response = await fetchClient.get(BASE_URL + `/vendor/display/media?limit=100`);
   return response.data.data.media;
+}
+
+
+export function getPermission() {
+  return fetchClient.get(BASE_URL + `/vendor/profile/vendorRole`);
 }
