@@ -1254,6 +1254,23 @@ height: 196px;
 .youtube-app-form-icon{
   background: rgba(255, 0, 0, 0.10);
 }
+.Bulletin-board-app-form-icon{
+  background: rgba(242, 214, 141, 0.13);
+}
+.google-slide-icon{
+  background: rgba(242, 214, 141, 0.13);
+
+}
+.model-info-h{
+font-weight: 600;
+}
+.google-slide-form{
+  color:#000
+}
+.google-slide-form li{
+ 
+  list-style: inside;
+}
 .youtube-info{
   padding: 20px;
   border-radius: 8px;
