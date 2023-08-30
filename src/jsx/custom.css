@@ -227,8 +227,8 @@ body {
   background-size: contain;
   position: absolute;
   z-index: -1;
-  top: 55%;
-  left: 0;
+  top: 56%;
+  left: 18px;
   transform: translate(43%, -50%);
   right: 0;
 }
@@ -292,7 +292,7 @@ body {
 }
 .nav-header.navbar-header-custom .sidebar-logo {
   width: 169px;
-  height: 48px;
+  height: 64px;
 }
 .nav-header.navbar-header-custom .brand-logo {
   padding-left: 34px;
@@ -1555,6 +1555,11 @@ color: #000;
 }
 .air-quality-app-container{
   border-radius: 10px;
+}
+.bulletin-action{
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {

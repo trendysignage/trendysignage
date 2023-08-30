@@ -21,6 +21,7 @@ import GoogleSlideAppModal from "../../modals/GoogleSlideAppModal";
 // import { usePlacesWidget } from "react-google-autocomplete";
 
 export default function Integrations() {
+  console.log("React ENV", process.env.REACT_APP_TITLE);
   const [showUrlApp, setShowUrlApp] = useState(false);
   const [showRssFeedApp, setShowRssFeedApp] = useState(false);
   const [showScrollerTextApp, setShowScrollerTextApp] = useState(false);

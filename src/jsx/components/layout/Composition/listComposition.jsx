@@ -35,7 +35,7 @@ const ListComposition = ({ allComposition, mutate }) => {
             <th>Date Added</th>
             <th>Duration</th>
             <th>Associated Schedule</th>
-            <th>Tags</th>
+            {/* <th>Tags</th> */}
             <th>More</th>
           </tr>
         </thead>
@@ -81,7 +81,7 @@ const ListComposition = ({ allComposition, mutate }) => {
                   </td>
                   <td> {composition.duration} Sec</td>
                   <td>No Schedule</td>
-                  <td style={{ width: "180px" }}>
+                  {/* <td style={{ width: "180px" }}>
                     <span className="tag-container">
                       {composition.tags &&
                         composition.tags.map((tag) => {
@@ -106,7 +106,7 @@ const ListComposition = ({ allComposition, mutate }) => {
                         alt="arrow"
                       />
                     </span>
-                  </td>
+                  </td> */}
                   <td>
                     <CompositionActions
                       composition={composition}

@@ -8,6 +8,9 @@ import { useState, useEffect } from "react";
 import { updateApps, addApps, BASE_URL } from "../../utils/api";
 import Switch from "react-switch";
 import SelectMedia from "./SelecteMedia";
+import deleteicon from "../../img/delete-btn.png";
+
+import editicon from "../../img/edit-btn.png";
 
 const BulletinBoardAppModal = ({
   setShowUrlApp,
@@ -282,13 +285,15 @@ const BulletinBoardAppModal = ({
                     </>
                   )}
 
-                  <div className="col-12">
+                  <div className="col-12 mt-4">
                     {bulletin && bulletin.length > 0 && (
-                      <table style={{ width: "100% !important" }}>
+                      <table style={{ width: "100%" }}>
                         <thead>
                           <tr>
                             {checked ? <th>Image</th> : ""}
+                            <th>Title</th>
                             <th>Content</th>
+
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -303,6 +308,10 @@ const BulletinBoardAppModal = ({
                                         className="media-img img-fluid"
                                         src={`${BASE_URL}${item?.image}`}
                                         alt="media-img"
+                                        style={{
+                                          height: "50px",
+                                          width: "50px",
+                                        }}
                                       />
                                     ) : (
                                       "No-image"
@@ -313,30 +322,33 @@ const BulletinBoardAppModal = ({
                                 )}
                                 <td>
                                   <strong>{item.title}</strong>
-                                  <span>{item.content}</span>
                                 </td>
                                 <td>
+                                  <span>{item.content}</span>
+                                </td>
+                                <td className="bulletin-action">
                                   <button
-                                    className=""
+                                    className="border-0"
+                                    style={{ padding: "0 5px" }}
                                     onClick={(e) => setIsBulletin(true)}
                                   >
                                     {" "}
-                                    + Add
+                                    +
                                   </button>
-                                  <button
-                                    className=""
+
+                                  <img
                                     onClick={(e) => handleDelete(e, index)}
-                                  >
-                                    {" "}
-                                    - Del
-                                  </button>
-                                  <button
-                                    className=""
+                                    src={deleteicon}
+                                    alt="icon"
+                                    style={{ height: "20px" }}
+                                  />
+
+                                  <img
+                                    src={editicon}
                                     onClick={(e) => handleEdit(e, item, index)}
-                                  >
-                                    {" "}
-                                    Edit
-                                  </button>
+                                    alt="edit"
+                                    style={{ height: "20px" }}
+                                  />
                                 </td>
                               </tr>
                             );
@@ -384,37 +396,43 @@ const BulletinBoardAppModal = ({
                         <>
                           {selectedImage && (
                             <img
-                              className="media-img img-fluid"
+                              className="media-img img-fluid mb-3"
                               src={`${BASE_URL}${selectedImage}`}
                               alt="media-img"
                             />
                           )}
-                          <Button
-                            className="btn btn-sm"
-                            variant="outline-light"
-                            onClick={(e) => {
-                              setImageModalShow(true);
-                            }}
-                          >
-                            Image
-                          </Button>
                         </>
                       )}
-                      <Button
-                        className="btn btn-sm"
-                        variant="outline-light"
-                        onClick={(e) => handleBulletinCancel(e)}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        variant=""
-                        type="button"
-                        className="btn btn-sm btn-primary"
-                        onClick={(e) => handleBulletin(e)}
-                      >
-                        Save
-                      </Button>
+                      <div className="d-flex align-items-center">
+                        {checked && (
+                          <>
+                            <Button
+                              className="btn btn-sm mr-2"
+                              variant="outline-light"
+                              onClick={(e) => {
+                                setImageModalShow(true);
+                              }}
+                            >
+                              Image
+                            </Button>
+                          </>
+                        )}
+                        <Button
+                          className="btn btn-sm mr-2"
+                          variant="outline-light"
+                          onClick={(e) => handleBulletinCancel(e)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          variant=""
+                          type="button"
+                          className="btn btn-sm btn-primary"
+                          onClick={(e) => handleBulletin(e)}
+                        >
+                          Save
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>

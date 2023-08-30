@@ -119,14 +119,14 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
         </Modal.Body>
       </Modal>
       {allMedia && allMedia.length !== 0 ? (
-        <Table responsive className="custom-table">
+        <Table responsive className="custom-table mb-5">
           <thead>
             <tr>
               <th>Name</th>
               <th>Type</th>
               <th>Uploaded Date</th>
               <th>Properties</th>
-              <th>Tags</th>
+              {/* <th>Tags</th> */}
               <th>More</th>
             </tr>
           </thead>
@@ -190,7 +190,7 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
                     </span>
                   </td>
                   <td>{parseMeta(media)}</td>
-                  <td>
+                  {/* <td>
                     {media.tags.map((tag) => {
                       return (
                         <span className="my-phone-tag text-truncate ml-1">
@@ -211,7 +211,7 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
                         alt="arrow"
                       />
                     </span>
-                  </td>
+                  </td> */}
                   <td>
                     <Dropdown className="dropdown-toggle-menu">
                       <Dropdown.Toggle variant="" className="p-0  mb-2">
