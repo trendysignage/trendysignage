@@ -1561,6 +1561,19 @@ color: #000;
   gap: 10px;
   align-items: center;
 }
+.bulletin-bg{
+  background-color: #F99156;
+}
+.single-bulletin-app{
+
+  width: 95%;
+  height: 85%;
+  margin: 2%;
+  background: #fff;
+  color: #000;
+  border-radius: 10px;
+
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

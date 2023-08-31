@@ -45,7 +45,7 @@ export default function Integrations() {
     { title: "CLOCK APP", slug: "clock-app", icon: weather },
     { title: "STOCKS", slug: "stocks", icon: weather },
     { title: "QR CODE", slug: "qr-code", icon: weather },
-    { title: "Bulletin App", slug: "all-news-app", icon: weather },
+    { title: " BULLETIN APP", slug: "all-news-app", icon: weather },
     { title: "AIR QUALITY APP", slug: "air-quality-app", icon: weather },
     { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
     { title: "GOOGLE SLIDES", slug: "google-slides", icon: weather },

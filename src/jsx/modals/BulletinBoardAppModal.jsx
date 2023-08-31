@@ -287,9 +287,9 @@ const BulletinBoardAppModal = ({
 
                   <div className="col-12 mt-4">
                     {bulletin && bulletin.length > 0 && (
-                      <table style={{ width: "100%" }}>
+                      <table className="w-100 bg-white">
                         <thead>
-                          <tr>
+                          <tr className="bg-white">
                             {checked ? <th>Image</th> : ""}
                             <th>Title</th>
                             <th>Content</th>
@@ -300,7 +300,7 @@ const BulletinBoardAppModal = ({
                         <tbody>
                           {bulletin.map((item, index) => {
                             return (
-                              <tr key={index}>
+                              <tr key={index} className="bg-white">
                                 {checked ? (
                                   <td>
                                     {item.image ? (
