@@ -1,10 +1,11 @@
 import useSWR from "swr";
+import {connect} from 'react-redux'
 import { useLocation } from "react-router-dom";
 import CommonComposition from "./Common";
-import { getLayouts, permission } from "../../../../utils/api";
+import { getLayouts } from "../../../../utils/api";
 import LockScreen from "../../../pages/LockScreen";
 
-const CreateComposition = () => {
+const CreateComposition = ({permission}) => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get('id');
@@ -12,16 +13,21 @@ const CreateComposition = () => {
   const layout = layouts ? layouts.find((layout)=> layout._id === id) : null;
  return <>
     {
-      permission && permission.add ? 
+      permission && permission.permission.COMPOSITION.add ? 
       <>
       {
         layout && <CommonComposition type="create" layout={layout}/>
       }
-      </> : <LockScreen message={" You don't have permission to access this !!! "}/>
+      </> : <LockScreen message={" You don't have permission to access thisss !!! "}/>
       
 
     }
  </>
 };
-
-export default CreateComposition;
+const mapStateToProps = (state) => {
+  return {
+      auth: state.auth.auth,
+      permission : state.auth.permission
+  };
+};
+export default connect(mapStateToProps)(CreateComposition);
