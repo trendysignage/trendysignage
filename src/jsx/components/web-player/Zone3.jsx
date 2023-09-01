@@ -1,9 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 
 import WebVideoPlayer from "./WebVideoPlayer";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
-import { BASE_URL } from "../../../utils/api";
+import { BASE_URL,getWeather } from "../../../utils/api";
 import {
   handleBulletinApps,
   handleScrollerApps,
@@ -21,6 +21,51 @@ const Zone3 = ({
   current2Index,
   viewImage,
 }) => {
+  const [weatherInfo1, setWeatherInfo1] = useState(null);
+  const [weatherInfo2, setWeatherInfo2] = useState(null);
+  const [weatherInfo3, setWeatherInfo3] = useState(null);
+  const getWeatherDetail1 = async(lat, long, index) => {
+    const locationData  = await getWeather(lat, long);
+    setWeatherInfo1(locationData);
+  }
+  const getWeatherDetail2 = async(lat, long) => {
+    const locationData  = await getWeather(lat, long);
+    setWeatherInfo2(locationData)
+  }
+  const getWeatherDetail3 = async(lat, long, index) => {
+    const locationData  = await getWeather(lat, long);
+    setWeatherInfo3(locationData);
+  }
+  const getWeatherDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+    
+    if(!weatherInfo1){
+      console.log("Hello Weather Calling")
+      getWeatherDetail1(prp.location.latitude, prp.location.longitude);
+    }
+    return handleWeatherApps(data, weatherInfo1);
+    
+  }
+  const getWeatherDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!weatherInfo2){
+      console.log("Hello Weather Calling")
+      getWeatherDetail2(prp.location.latitude, prp.location.longitude);
+    }
+    return handleWeatherApps(data, weatherInfo2);
+    
+  }
+  const getWeatherDataZone3 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!weatherInfo3){
+      console.log("Hello Weather Calling")
+      getWeatherDetail3(prp.location.latitude, prp.location.longitude);
+    }
+    return handleWeatherApps(data, weatherInfo2);
+    
+  }
   return (
     <>
       {" "}
@@ -124,7 +169,7 @@ const Zone3 = ({
                   ) : contents.zones[0].content[currentIndex].type ===
                     "weather-apps" ? (
                     <>
-                      {handleWeatherApps(
+                      {getWeatherDataZone1(
                         contents.zones[0].content[currentIndex].data
                       )}
                     </>
@@ -249,7 +294,7 @@ const Zone3 = ({
                   ) : contents.zones[1].content[current1Index].type ===
                     "weather-apps" ? (
                     <>
-                      {handleWeatherApps(
+                      {getWeatherDataZone2(
                         contents.zones[1].content[current1Index].data
                       )}
                     </>
@@ -374,7 +419,7 @@ const Zone3 = ({
                 ) : contents.zones[2].content[current2Index].type ===
                   "weather-apps" ? (
                   <>
-                    {handleWeatherApps(
+                    {getWeatherDataZone3(
                       contents.zones[2].content[current2Index].data
                     )}
                   </>

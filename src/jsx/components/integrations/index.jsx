@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import weather from "../../../img/weather.svg";
-import { Dropdown } from "react-bootstrap";
-import menuIcon from "../../../img/menu-icon.png";
 import UrlAppModal from "../../modals/UrlAppModal";
 import { useState } from "react";
 import RssFeedAppModal from "../../modals/RssFeedAppModal";
@@ -37,7 +35,7 @@ export default function Integrations() {
     { title: "YOUTUBE", slug: "youtube", icon: weather },
     // { title:'RSS FEED', slug:'rss-feed', icon:weather },
     // { title:'SCROLLER', slug:'scroller', icon:weather },
-    // { title:'WEATHER', slug:'weather', icon:weather },
+    { title:'WEATHER', slug:'weather', icon:weather },
     // { title:'TEXT',   slug:'text', icon:weather },
     // { title:'CLOCK APP', slug:'clock-app', icon:weather },
     // { title:'STOCKS', slug:'stocks', icon:weather },
@@ -95,7 +93,7 @@ export default function Integrations() {
   //   console.log('getLocation', locationData);
   // }
   // useEffect(() => {
-  //   getWeatherDetail()
+  //   getWeatherDetail();
   // },[])
 
   // const [addressError, setAddressError] = useState("");

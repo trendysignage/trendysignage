@@ -443,19 +443,19 @@ export async function assignScreenProfile(postdata) {
   return response;
 }
 
-export async function getWeather(city) {
-  const resp = await fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=19a9d73346ffb54dbd9cb4c652ef2bd7`
-  )
-    .then(function (response) {
-      console.log("response", response);
-      return response.json();
-    })
-    .then(function (jsonData) {
-      return jsonData;
-    });
+export async function getWeather(lat, long) {
 
-  return resp;
+  const rapidHeader = {
+    headers: {
+      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
+      'X-RapidAPI-Host': 'open-weather13.p.rapidapi.com'
+    }
+  }
+  const response = await fetchClient.get(
+    `https://open-weather13.p.rapidapi.com/city/fivedaysforcast/${lat}/${long}`,rapidHeader
+  );
+  return response.data;
+
 }
 export async function getAllMediaFilter() {
   const response = await fetchClient.get(

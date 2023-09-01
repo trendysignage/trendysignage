@@ -401,13 +401,14 @@ export const handleClockApps = (data) => {
   // }
 };
 
-export const handleWeatherApps = (data) => {
+export const handleWeatherApps = (data, weatherInfo) => {
+
+  //console.log("Hi this is weather", data, weatherInfo)
   const prp = JSON.parse(data);
   // console.log("data", prp);
   // getWeather('Noida').then((resp) => {
   //   console.log("weatherDetail",resp)
   // });
-  console.log(data, "weather app");
   return (
     <div
       className="basic-list-group image-preview-container media-content "
@@ -416,40 +417,32 @@ export const handleWeatherApps = (data) => {
       <div className="weather-app-bg w-100 h-100 ">
         <div className="place-date-time d-flex align-items-center justify-content-between ">
           <div className="place-date">
-            <h1>Chandigarh</h1>
-            <p>Friday 18 August</p>
+            <h1>{weatherInfo && weatherInfo.city && weatherInfo.city.name}</h1>
+            <p><Moment format={"D MMM YYYY"} date={new Date()} interval={10000} /></p>
           </div>
           <div className="time">
-            <p className="mb-0">12:44 PM</p>
+            <p className="mb-0"><Moment format={"HH:MM A"} date={new Date()} interval={10000} /></p>
           </div>
         </div>
         <div className="row temperature-box">
           <div className="col-6 temperature">
-            <h1>33</h1>
-            <h2>Clear SKy</h2>
+            <h1>{weatherInfo && weatherInfo.list && weatherInfo.list[1] && (
+              prp && prp.temp === 'Celsius' ? weatherInfo.list[1].main.temp / 10
+               : (weatherInfo.list[1].main.temp * 9/50)+32).toFixed(1)}</h1>
+            <h2>{weatherInfo && weatherInfo.list && weatherInfo.list[1] && weatherInfo.list[1].weather[0].description}</h2>
           </div>
           <div className="col-6">
             <div className="row other-day-weather">
-              <div className="col-6">
-                <p className="day">Saturday</p>
-                <h2>23</h2>
-                <p>Light Rain</p>
-              </div>
-              <div className="col-6">
-                <p className="day">Saturday</p>
-                <h2>23</h2>
-                <p>Light Rain</p>
-              </div>
-              <div className="col-6">
-                <p className="day">Saturday</p>
-                <h2>23</h2>
-                <p>Light Rain</p>
-              </div>
-              <div className="col-6">
-                <p className="day">Saturday</p>
-                <h2>23</h2>
-                <p>Light Rain</p>
-              </div>
+
+              {
+                prp && prp.isForcast && weatherInfo && weatherInfo.list && weatherInfo.list.map((item, index) => {
+                  return ((index == 15 || index == 22 || index == 29 || index == 36) && <div className="col-6">
+                  <p className="day"><Moment format={"D MMM YYYY"} date={new Date(item.dt_txt)} /></p>
+                  <h2>{(prp.temp === 'Celsius' ? item.main.temp/10 : (item.main.temp*9/50)+32).toFixed(1)}</h2>
+                  <p>{item.weather[0].description}</p>
+                </div>)
+                })
+              }
             </div>
           </div>
         </div>
