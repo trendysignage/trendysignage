@@ -5,7 +5,7 @@ import AddScreenModal from "../../modals/AddScreenModal";
 import FilterModal from "../../modals/FilterModal";
 import searchIcon from "../../../img/search.png";
 import listIcon from "../../../img/list-icon.png";
-import { getAllScreens, permission } from "../../../utils/api";
+import { getAllScreens } from "../../../utils/api";
 import LockScreen from "../../pages/LockScreen";
 import { connect } from 'react-redux';
 
