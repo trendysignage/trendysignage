@@ -1582,6 +1582,9 @@ color: #000;
   padding-left: 25px;
   padding-top: 20px;
 }
+.stock-table td{
+color: #fff !important;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

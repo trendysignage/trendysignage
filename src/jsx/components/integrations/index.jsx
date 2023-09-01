@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import weather from "../../../img/weather.svg";
-import { Dropdown } from "react-bootstrap";
 import menuIcon from "../../../img/menu-icon.png";
 import UrlAppModal from "../../modals/UrlAppModal";
 import { useState } from "react";
@@ -18,7 +17,7 @@ import { getWeather } from "../../../utils/api";
 import GoogleSlideAppModal from "../../modals/GoogleSlideAppModal";
 import QuoteModel from "../../modals/QuoteModel.jsx";
 import AllNewsAppModal from "../../modals/AllNewsAppModal";
-
+import { Dropdown } from "react-bootstrap";
 // import Form from "react-bootstrap/Form";
 // import { usePlacesWidget } from "react-google-autocomplete";
 
@@ -109,7 +108,7 @@ export default function Integrations() {
   //   console.log('getLocation', locationData);
   // }
   // useEffect(() => {
-  //   getWeatherDetail()
+  //   getWeatherDetail();
   // },[])
 
   // const [addressError, setAddressError] = useState("");
