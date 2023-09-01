@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import weather from "../../../img/weather.svg";
+import menuIcon from "../../../img/menu-icon.png";
 import UrlAppModal from "../../modals/UrlAppModal";
 import { useState } from "react";
 import RssFeedAppModal from "../../modals/RssFeedAppModal";
@@ -13,6 +14,8 @@ import AirQualityAppModal from "../../modals/AirQualityAppModal";
 import YoutubeAppModal from "../../modals/YoutubeAppModal";
 import BulletinBoardAppModal from "../../modals/BulletinBoardAppModal";
 import { getWeather } from "../../../utils/api";
+import GoogleSlideAppModal from "../../modals/GoogleSlideAppModal";
+import {Dropdown} from 'react-bootstrap'
 
 // import Form from "react-bootstrap/Form";
 // import { usePlacesWidget } from "react-google-autocomplete";
@@ -30,21 +33,23 @@ export default function Integrations() {
   const [showAirQualityApp, setShowAirQualityApp] = useState(false);
   const [showYoutubeApp, setShowYoutubeApp] = useState(false);
   const [showBulletinBoardApp, setShowBulletinBoardApp] = useState(false);
+  const [showGoogleSlideApp, setShowGoogleSlideApp] = useState(false);
+
   const appList = [
     { title: "URL APP", slug: "url-app", icon: weather },
     { title: "YOUTUBE", slug: "youtube", icon: weather },
-    // { title:'RSS FEED', slug:'rss-feed', icon:weather },
-    // { title:'SCROLLER', slug:'scroller', icon:weather },
-    { title:'WEATHER', slug:'weather', icon:weather },
-    // { title:'TEXT',   slug:'text', icon:weather },
-    // { title:'CLOCK APP', slug:'clock-app', icon:weather },
-    // { title:'STOCKS', slug:'stocks', icon:weather },
-    // { title:'QR CODE', slug:'qr-code', icon:weather },
-    // { title:'Bulletin App', slug:'all-news-app', icon:weather },
-    // { title:'AIR QUALITY APP', slug:'air-quality-app', icon:weather },
-    // { title:'PEOPLE SPACE', slug:'people-space', icon:weather },
-    // { title:'GOOGLE SLIDES', slug:'google-slides', icon:weather },
-    // { title:'QUOTES', slug:'quotes', icon:weather },
+    { title: "RSS FEED", slug: "rss-feed", icon: weather },
+    { title: "SCROLLER", slug: "scroller", icon: weather },
+    { title: "WEATHER", slug: "weather", icon: weather },
+    { title: "TEXT", slug: "text", icon: weather },
+    { title: "CLOCK APP", slug: "clock-app", icon: weather },
+    { title: "STOCKS", slug: "stocks", icon: weather },
+    { title: "QR CODE", slug: "qr-code", icon: weather },
+    { title: " BULLETIN APP", slug: "all-news-app", icon: weather },
+    { title: "AIR QUALITY APP", slug: "air-quality-app", icon: weather },
+    { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
+    { title: "GOOGLE SLIDES", slug: "google-slides", icon: weather },
+    { title: "QUOTES", slug: "quotes", icon: weather },
   ];
 
   const handleChange = (e, type) => {
@@ -82,6 +87,9 @@ export default function Integrations() {
     }
     if (type && type == "all-news-app") {
       setShowBulletinBoardApp(true);
+    }
+    if (type && type == "google-slides") {
+      setShowGoogleSlideApp(true);
     }
     // if(type && type == 'quotes'){
     //   setShowUrlApp(true);
@@ -153,7 +161,7 @@ export default function Integrations() {
         {appList.map((item) => {
           return (
             <div className="app-card ">
-              {/* <div className="d-flex justify-content-end mr-3 mt-3">
+              <div className="d-flex justify-content-end mr-3 mt-3">
                 <Dropdown
                   className="dropdown-toggle-menu app-card-menu"
                   drop="left"
@@ -195,7 +203,7 @@ export default function Integrations() {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-              </div> */}
+              </div>
               <div
                 className="d-flex align-items-center justify-content-center"
                 onClick={(e) => {
@@ -258,6 +266,10 @@ export default function Integrations() {
       <BulletinBoardAppModal
         setShowUrlApp={() => setShowBulletinBoardApp(false)}
         show={showBulletinBoardApp}
+      />
+      <GoogleSlideAppModal
+        setShowUrlApp={() => setShowGoogleSlideApp(false)}
+        show={showGoogleSlideApp}
       />
     </>
   );

@@ -7,6 +7,7 @@ import { getWeather } from "./api";
 import Parser from "rss-parser";
 import img from "../../src/img/moderate.png";
 import weathericon from "../../src/img/other-weather.svg";
+import imgexample from "../../src/img/hh.jpeg";
 
 import QRCode from "react-qr-code";
 
@@ -186,27 +187,60 @@ export const handleBulletinApps = (data) => {
   const newArray = sliceIntoChunks(prp.bulletin, 3);
   return (
     <div
-      className="basic-list-group image-preview-container media-content"
+      className="basic-list-group image-preview-container media-content  bulletin-bg text-black"
       style={{ color: "white", textAlign: "center" }}
     >
-      {newArray.length > 0 && (
-        <Carousel interval={5000} indicators={false} animation={"slide"}>
-          {newArray.map((item, i) => {
-            return (
-              <div className="row">
-                {item.map((item1, index1) => {
-                  return (
-                    <div className="col-3" key={i + "dd" + index1}>
-                      <strong>{item1.title}</strong>
-                      <p>{item1.content}</p>
+      <div className="single-bulletin-app d-flex">
+        <img src={imgexample} alt="image" />
+        <div>
+          <strong>title</strong>
+          <p>content</p>
+        </div>
+      </div>
+      {/* {newArray.length > 0 && (
+        <>
+          <div className=" h-100" style={{ margin: "2%" }}>
+            <Carousel
+              interval={5000}
+              indicators={false}
+              animation={"slide"}
+              className="h-100"
+            >
+              {newArray.map((item, i) => {
+                return (
+                  <div className="h-100">
+                    <div className="row h-100">
+                      {item.map((item1, index1) => {
+                        return (
+                          <>
+                            <div
+                              className="bg-white text-center d-flex "
+                              style={{
+                                borderRadius: "18px",
+                                margin: "20px",
+                                flexDirection: "column",
+                                width: "30%",
+                              }}
+                            >
+                              <div>
+                                <img src={imgexample} alt="image" />
+                              </div>
+                              <div className="mt-2" key={i + "dd" + index1}>
+                                <strong>{item1.title}</strong>
+                                <p>{item1.content}</p>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })}
                     </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </Carousel>
-      )}
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      )} */}
     </div>
   );
 };
