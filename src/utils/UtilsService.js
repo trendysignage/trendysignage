@@ -8,6 +8,9 @@ import Parser from "rss-parser";
 import img from "../../src/img/moderate.png";
 import weathericon from "../../src/img/other-weather.svg";
 import imgexample from "../../src/img/hh.jpeg";
+import yellow from "../../src/img/push-pin 1.svg";
+import orange from "../../src/img/push-pin 2.svg";
+import blue from "../../src/img/push-pin 3.svg";
 
 import QRCode from "react-qr-code";
 
@@ -191,10 +194,19 @@ export const handleBulletinApps = (data) => {
       style={{ color: "white", textAlign: "center" }}
     >
       <div className="single-bulletin-app d-flex">
-        <img src={imgexample} alt="image" />
-        <div>
-          <strong>title</strong>
-          <p>content</p>
+        <div className="d-flex w-100">
+          <div className="w-50">
+            <img src={imgexample} alt="image" style={{ objectFit: "fill" }} />
+          </div>
+          <div className="flex-1 text-start single-bulletin-text">
+            <div style={{ width: "40px" }} className="mb-3">
+              {/* <img src={yellow} alt="icon" />
+              <img src={blue} alt="icon" /> */}
+              <img src={orange} alt="icon" />
+            </div>
+            <strong>title</strong>
+            <p>content</p>
+          </div>
         </div>
       </div>
       {/* {newArray.length > 0 && (

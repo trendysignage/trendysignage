@@ -1,69 +1,36 @@
 import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 import icon from "../../img/link-alt 1.svg";
+import { addApps, updateApps } from "../../utils/api";
+
 import { Link } from "react-router-dom";
+import Select from "react-select";
 import { useState, useEffect } from "react";
-import { updateApps, addApps } from "../../utils/api";
-const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
+const QuoteModel = ({ setShowUrlApp, show, mediaData }) => {
+  const options = [
+    { value: "Light yellow", label: "Light Yellow" },
+    { value: "Orange", label: "Orange" },
+    { value: "Sky Blue", label: "Sky Blue" },
+  ];
+  const fontOptions = [
+    { value: "Rubik", label: "Rubik" },
+    { value: "Roboto", label: "Roboto" },
+    { value: "Poppins", label: "Poppins" },
+  ];
+  const [selectedOption, setSelectedOption] = useState({
+    value: "Light yellow",
+    label: "Light Yellow",
+  });
+  const [selectedFontOption, setSelectedFontOption] = useState({
+    value: "Rubik",
+    label: "Rubik",
+  });
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
   const [mediaId, setMediaId] = useState(null);
   const [urlLink, setUrlLink] = useState("");
-  const [muteOptions, setMuteOptions] = useState(false);
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
-
-  useEffect(() => {
-    if (mediaData) {
-      const jsonString = JSON.parse(mediaData.appData);
-      console.log(jsonString);
-      setName(mediaData.title);
-      setUrlLink(jsonString.url);
-      setMuteOptions(jsonString.mute);
-      setMediaId(mediaData._id);
-    }
-  }, [mediaData]);
-  console.log("media", mediaData);
-
-  const handleCreateApp = async (e) => {
-    e.preventDefault();
-
-    setErr(false);
-    setErrorMessage("");
-    if (name == "") {
-      setErr(true);
-      setErrorMessage("App Name is required");
-    }
-    if (urlLink == "") {
-      setErr(true);
-      setErrorMessage("URL Link is required");
-    }
-    if (err) {
-      return false;
-    }
-    const dataString = {
-      url: urlLink,
-      mute: muteOptions,
-    };
-
-    if (actionType && actionType == "edit") {
-      await updateApps({
-        name,
-        appId: mediaId,
-        data: JSON.stringify(dataString),
-      });
-      setShowUrlApp(false);
-    } else {
-      await addApps({
-        name,
-        type: "youtube-apps",
-        data: JSON.stringify(dataString),
-      });
-      setShowUrlApp(false);
-      setShowUrlRedirectApp(true);
-    }
-    //console.log(name, urlLink, selectedOption)
-  };
 
   return (
     <>
@@ -75,7 +42,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       >
         <Modal.Header className="border-0">
           <Modal.Title className="mr-auto app-modal-heading">
-            Video App
+            Quote App
           </Modal.Title>
           <Button
             variant=""
@@ -100,39 +67,31 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
               <label>Name</label>
               <input
                 type="text"
-                className="  form-control "
+                className="form-control "
                 placeholder="App Name"
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
               />
-              <label className="mt-3">Video Url</label>
+              <label className="mt-3"> Slide Duration (in seconds)</label>
               <input
-                type="text"
+                type="number"
                 className="  form-control "
-                placeholder="https://www."
+                placeholder="10"
                 required
-                value={urlLink}
-                onChange={(e) => setUrlLink(e.target.value)}
               />
-              <label className="mt-3 mr-3">Mute</label>
-              <input
-                type="checkbox"
-                checked={muteOptions}
-                className="   "
-                required
-                onChange={(e) => {
-                  setMuteOptions(e.target.checked);
-                }}
+              <label className="mt-3">Color Scheme </label>
+              <Select
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={options}
+                className="app-option"
               />
-              <div className="youtube-info mt-3">
-                <ul>
-                  <li>
-                    With this app. You can play Youtube videos on screen.{" "}
-                  </li>
-                  <li>Refer this guide on how to create the app.</li>
-                </ul>
-              </div>
+              <label className="mt-3">Font </label>
+              <Select
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={fontOptions}
+                className="app-option"
+              />
             </div>
             <div className="col-6 ">
               <div className="d-flex">
@@ -154,7 +113,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     Landscape
                   </label>
                 </div>
-                <div className="form-check">
+                <div className="form-check mr-4">
                   <input
                     className="form-check-input"
                     type="radio"
@@ -168,11 +127,11 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     className="form-check-label mt-0"
                     htmlFor="aspectRation"
                   >
-                    Footer
+                    Portrait
                   </label>
                 </div>
               </div>
-              <div className="d-flex justify-content-center align-items-center h-100 youtube-app-form-icon">
+              <div className="d-flex justify-content-center align-items-center h-100 quote-app-form-icon">
                 <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />
                 </div>
@@ -192,9 +151,8 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 variant=""
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
-                onClick={(e) => handleCreateApp(e)}
               >
-                {actionType && actionType == "edit" ? "Update" : "Create"} App
+                Create App
               </Button>
             </Col>
           </Row>
@@ -249,4 +207,4 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   );
 };
 
-export default YoutubeAppModal;
+export default QuoteModel;
