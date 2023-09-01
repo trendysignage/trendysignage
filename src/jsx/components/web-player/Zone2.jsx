@@ -58,6 +58,25 @@ const Zone2 = ({
     return handleWeatherApps(data, weatherInfo2);
     
   }
+
+  const getAqiDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+    
+    if(!weatherInfo1){
+      getWeatherDetail1(prp.location.latitude, prp.location.longitude);
+    }
+    return handleAqiApps(data, weatherInfo1);
+    
+  }
+  const getAqiDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!weatherInfo2){
+      getWeatherDetail2(prp.location.latitude, prp.location.longitude);
+    }
+    return handleAqiApps(data, weatherInfo2);
+    
+  }
   return (
     <>
       {" "}
@@ -170,7 +189,7 @@ const Zone2 = ({
                 ) : contents.zones[0].content[currentIndex].type ===
                   "aqi-apps" ? (
                   <>
-                    {handleAqiApps(
+                    {getAqiDataZone1(
                       contents.zones[0].content[currentIndex].data
                     )}
                   </>
@@ -293,7 +312,7 @@ const Zone2 = ({
                 ) : contents.zones[1].content[current1Index].type ===
                   "aqi-apps" ? (
                   <>
-                    {handleAqiApps(
+                    {getAqiDataZone2(
                       contents.zones[1].content[current1Index].data
                     )}
                   </>

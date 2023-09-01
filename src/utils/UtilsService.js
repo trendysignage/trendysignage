@@ -377,10 +377,10 @@ export const handleClockApps = (data) => {
   const cdate = new Date();
   const prp = JSON.parse(data);
   let tF = "";
-  prp.timeFormat = "Analogue - 12 hourt";
+  //prp.timeFormat = "Analogue - 12 hourt";
   console.log("timeFormat", prp.timeFormat);
 
-  if (prp.timeFormat == "Analogue - 12 hourt") {
+  if (prp.timeFormat == "Analogue - 12 hour" || prp.timeFormat == "lefAnalogue - 12 hourt") {
     return (
       <div
         className="basic-list-group image-preview-container media-content orange"
@@ -389,7 +389,7 @@ export const handleClockApps = (data) => {
         <div style={{ position: "relative", paddingTop: "20px" }}>
           <Clock />
         </div>
-        {prp.hideDate ? (
+        {!prp.hideDate ? (
           <p
             style={{ fontSize: "20px", marginTop: "20px" }}
           >{`${cdate.getDate()} ${monthName[cdate.getDay()]} ${
@@ -520,7 +520,19 @@ export const handleRssApps = (data) => {
   );
 };
 
-export const handleAqiApps = (data) => {
+export const handleStockApps = (data) => {
+  const prp = JSON.parse(data);
+  return (
+    <div
+      className="basic-list-group image-preview-container media-content"
+      style={{ color: "white", textAlign: "center" }}
+    >
+      Stocks Apps
+    </div>
+  );
+};
+
+export const handleAqiApps = (data, weatherInfo) => {
   const prp = JSON.parse(data);
   return (
     <div className="basic-list-group image-preview-container media-content text-black bg-color-air-app">
@@ -529,35 +541,25 @@ export const handleAqiApps = (data) => {
           <div className="air-quality text-center ">
             <div>
               <p className="mb-0">AQI Value</p>
-              <h1 className="text-black">33</h1>
+              <h1 className="text-black">{weatherInfo && weatherInfo.list && weatherInfo.list[1] && 
+              weatherInfo.list[1].main.humidity}</h1>
               <p className="mb-0 moderate">MODERATE</p>
             </div>
           </div>
           <div className="d-flex ">
             <div>
-              <h2>Chandigarh</h2>
-              <p>Saturdayday, 19 Aug 2023</p>
+              <h2>{weatherInfo && weatherInfo.city && weatherInfo.city.name}</h2>
+              <p><Moment format={"D MMM YYYY"} date={new Date()} interval={10000} /></p>
               <div className="d-flex other-detail text-center gap-1">
-                <div>
-                  <img src={weathericon} alt="" />
-                  <p className="mb-0">Weather</p>
-                  <h4>33</h4>
-                </div>
-                <div>
-                  <img src={weathericon} alt="" />
-                  <p className="mb-0">Weather</p>
-                  <h4>33</h4>
-                </div>
-                <div>
-                  <img src={weathericon} alt="" />
-                  <p className="mb-0">Weather</p>
-                  <h4>33</h4>
-                </div>
-                <div>
-                  <img src={weathericon} alt="" />
-                  <p className="mb-0">Weather</p>
-                  <h4>33</h4>
-                </div>
+                {
+                  weatherInfo && weatherInfo.list && weatherInfo.list.map((item, index) => {
+                    return ((index == 15 || index == 22 || index == 29 || index == 36) && <div>
+                    <img src={`https://openweathermap.org/img/wn/${item.weather[0].icon}.png`} alt="" />
+                    <p className="mb-0">Weather</p>
+                    <h4>{item.main.humidity}</h4>
+                  </div>)
+                  })
+                }
               </div>
             </div>
           </div>

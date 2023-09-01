@@ -13,6 +13,7 @@ import {
   handleQrApps,
   handleRssApps,
   handleAqiApps,
+  handleStockApps
 } from "../../../utils/UtilsService";
 
 const Zone1 = ({ contents, currentIndex, viewImage }) => {
@@ -32,6 +33,18 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
       getWeatherDetail(prp.location.latitude, prp.location.longitude);
     }
     return handleWeatherApps(data, weatherInfo);
+    
+  }
+
+  const getAqiDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+    console.log("location",prp.location.address)
+
+    if(!weatherInfo){
+      console.log("Hello Weather Calling")
+      getWeatherDetail(prp.location.latitude, prp.location.longitude);
+    }
+    return handleAqiApps(data, weatherInfo);
     
   }
   return (
@@ -146,7 +159,12 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
               ) : contents.zones[0].content[currentIndex].type ===
                 "aqi-apps" ? (
                 <>
-                  {handleAqiApps(contents.zones[0].content[currentIndex].data)}
+                  {getAqiDataZone1(contents.zones[0].content[currentIndex].data)}
+                </>
+                ) :contents.zones[0].content[currentIndex].type ===
+                "stocks-apps" ? (
+                <>
+                  {handleStockApps(contents.zones[0].content[currentIndex].data)}
                 </>
               ) : (
                 <></>

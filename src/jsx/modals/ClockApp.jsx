@@ -9,7 +9,7 @@ import { updateApps, addApps } from "../../utils/api";
 import Switch from "react-switch";
 const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const options = [
-    { value: "lefAnalogue - 12 hourt", label: "Analogue - 12 hour" },
+    { value: "Analogue - 12 hour", label: "Analogue - 12 hour" },
     { value: "Digital - 12 hour", label: "Digital - 12 hour" },
     { value: "Digital - 24hour", label: "Digital - 24hour" },
   ];
@@ -66,6 +66,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setHideDate(jsonString.hideDate);
       setTimeZone(jsonString.timeZone);
       setMediaId(mediaData._id);
+      setColor(jsonString.color)
     }
   }, [mediaData]);
 
@@ -95,6 +96,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
         timeFormat: timeFormat.value,
         roundCorner,
         clockType,
+        color
       };
 
       if (actionType && actionType == "edit") {
@@ -264,8 +266,8 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
               <Select
                 value={color}
-                // onChange={setTimeFormat}
-                placeholder="English"
+                onChange={setColor}
+                placeholder="Light Yellow"
                 options={colorOptions}
                 className="app-option"
               />
