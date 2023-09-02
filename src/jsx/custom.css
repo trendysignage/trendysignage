@@ -1254,6 +1254,25 @@ height: 196px;
 .youtube-app-form-icon{
   background: rgba(255, 0, 0, 0.10);
 }
+.Bulletin-board-app-form-icon{
+  background: rgba(242, 214, 141, 0.13);
+}
+.google-slide-icon{
+  background: rgba(242, 214, 141, 0.13);
+}
+.quote-app-form-icon{
+  background: rgba(94, 91, 221, 0.10);
+}
+.model-info-h{
+font-weight: 600;
+}
+.google-slide-form{
+  color:#000
+}
+.google-slide-form li{
+ 
+  list-style: inside;
+}
 .youtube-info{
   padding: 20px;
   border-radius: 8px;
@@ -1538,6 +1557,33 @@ color: #000;
 }
 .air-quality-app-container{
   border-radius: 10px;
+}
+.bulletin-action{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.bulletin-bg{
+  background-color: #F99156;
+}
+.single-bulletin-app{
+
+  width: 100%;
+  height: 100%;
+  /* margin: 0 2% 2% 2%; */
+  background: #fff;
+  color: #000;
+  border-radius: 10px;
+
+}
+.single-bulletin-text{
+  flex-grow: 1;
+  text-align: left;
+  padding-left: 25px;
+  padding-top: 20px;
+}
+.stock-table td{
+color: #fff !important;
 }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {

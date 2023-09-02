@@ -1,9 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 
 import WebVideoPlayer from "./WebVideoPlayer";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
-import { BASE_URL } from "../../../utils/api";
+import { BASE_URL, getWeather } from "../../../utils/api";
 import {
   handleBulletinApps,
   handleScrollerApps,
@@ -22,6 +22,61 @@ const Zone2 = ({
   current2Index,
   viewImage,
 }) => {
+  const [weatherInfo1, setWeatherInfo1] = useState(null);
+  const [weatherInfo2, setWeatherInfo2] = useState(null);
+  const [locationIndex1, setLocationIndex1] = useState(0);
+  const [locationIndex2, setLocationIndex2] = useState(0);
+  const getWeatherDetail1 = async(lat, long, index) => {
+    const locationData  = await getWeather(lat, long);
+    setWeatherInfo1(locationData);
+    //setLocationIndex1(index)
+   // console.log('getLocation', locationData);
+  }
+  const getWeatherDetail2 = async(lat, long) => {
+    const locationData  = await getWeather(lat, long);
+    setWeatherInfo2(locationData)
+   // console.log('getLocation', locationData);
+  }
+  const getWeatherDataZone1 = (data, index) => {
+    const prp = JSON.parse(data);
+    
+    if(!weatherInfo1){
+      console.log("Hello Weather Calling", locationIndex1, index)
+      //console.log("Hi",prp.location.longitude.toFixed(2), weatherInfo1.city.coord.lon.toFixed(2));
+      getWeatherDetail1(prp.location.latitude, prp.location.longitude, index);
+    }
+    return handleWeatherApps(data, weatherInfo1);
+    
+  }
+  const getWeatherDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!weatherInfo2){
+      console.log("Hello Weather Calling")
+      getWeatherDetail2(prp.location.latitude, prp.location.longitude);
+    }
+    return handleWeatherApps(data, weatherInfo2);
+    
+  }
+
+  const getAqiDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+    
+    if(!weatherInfo1){
+      getWeatherDetail1(prp.location.latitude, prp.location.longitude);
+    }
+    return handleAqiApps(data, weatherInfo1);
+    
+  }
+  const getAqiDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!weatherInfo2){
+      getWeatherDetail2(prp.location.latitude, prp.location.longitude);
+    }
+    return handleAqiApps(data, weatherInfo2);
+    
+  }
   return (
     <>
       {" "}
@@ -120,8 +175,8 @@ const Zone2 = ({
                 ) : contents.zones[0].content[currentIndex].type ===
                   "weather-apps" ? (
                   <>
-                    {handleWeatherApps(
-                      contents.zones[0].content[currentIndex].data
+                    {getWeatherDataZone1(
+                      contents.zones[0].content[currentIndex].data, currentIndex
                     )}
                   </>
                 ) : contents.zones[0].content[currentIndex].type ===
@@ -134,7 +189,7 @@ const Zone2 = ({
                 ) : contents.zones[0].content[currentIndex].type ===
                   "aqi-apps" ? (
                   <>
-                    {handleAqiApps(
+                    {getAqiDataZone1(
                       contents.zones[0].content[currentIndex].data
                     )}
                   </>
@@ -236,7 +291,7 @@ const Zone2 = ({
                 ) : contents.zones[1].content[current1Index].type ===
                   "weather-apps" ? (
                   <>
-                    {handleWeatherApps(
+                    {getWeatherDataZone2(
                       contents.zones[1].content[current1Index].data
                     )}
                   </>
@@ -257,7 +312,7 @@ const Zone2 = ({
                 ) : contents.zones[1].content[current1Index].type ===
                   "aqi-apps" ? (
                   <>
-                    {handleAqiApps(
+                    {getAqiDataZone2(
                       contents.zones[1].content[current1Index].data
                     )}
                   </>

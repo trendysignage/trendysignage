@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import {connect} from 'react-redux'
 import weather from "../../../img/weather.svg";
-import { Dropdown } from "react-bootstrap";
 import menuIcon from "../../../img/menu-icon.png";
 import UrlAppModal from "../../modals/UrlAppModal";
 import { useState } from "react";
@@ -16,8 +15,10 @@ import AirQualityAppModal from "../../modals/AirQualityAppModal";
 import YoutubeAppModal from "../../modals/YoutubeAppModal";
 import BulletinBoardAppModal from "../../modals/BulletinBoardAppModal";
 import { getWeather } from "../../../utils/api";
-
-
+import GoogleSlideAppModal from "../../modals/GoogleSlideAppModal";
+import QuoteModel from "../../modals/QuoteModel.jsx";
+import AllNewsAppModal from "../../modals/AllNewsAppModal";
+import { Dropdown } from "react-bootstrap";
 // import Form from "react-bootstrap/Form";
 // import { usePlacesWidget } from "react-google-autocomplete";
 
@@ -34,21 +35,26 @@ const Integrations = ({permission}) => {
   const [showAirQualityApp, setShowAirQualityApp] = useState(false);
   const [showYoutubeApp, setShowYoutubeApp] = useState(false);
   const [showBulletinBoardApp, setShowBulletinBoardApp] = useState(false);
+  const [showGoogleSlideApp, setShowGoogleSlideApp] = useState(false);
+  const [showQuotesApp, setShowQuotesApp] = useState(false);
+  const [showNewsApp, setShowNewsApp] = useState(false);
+
   const appList = [
     { title: "URL APP", slug: "url-app", icon: weather },
     { title: "YOUTUBE", slug: "youtube", icon: weather },
-    // { title:'RSS FEED', slug:'rss-feed', icon:weather },
-    // { title:'SCROLLER', slug:'scroller', icon:weather },
-    // { title:'WEATHER', slug:'weather', icon:weather },
-    // { title:'TEXT',   slug:'text', icon:weather },
-    // { title:'CLOCK APP', slug:'clock-app', icon:weather },
-    // { title:'STOCKS', slug:'stocks', icon:weather },
-    // { title:'QR CODE', slug:'qr-code', icon:weather },
-    // { title:'Bulletin App', slug:'all-news-app', icon:weather },
-    // { title:'AIR QUALITY APP', slug:'air-quality-app', icon:weather },
-    // { title:'PEOPLE SPACE', slug:'people-space', icon:weather },
-    // { title:'GOOGLE SLIDES', slug:'google-slides', icon:weather },
-    // { title:'QUOTES', slug:'quotes', icon:weather },
+    { title: "RSS FEED", slug: "rss-feed", icon: weather },
+    { title: "SCROLLER", slug: "scroller", icon: weather },
+    { title: "WEATHER", slug: "weather", icon: weather },
+    { title: "TEXT", slug: "text", icon: weather },
+    { title: "CLOCK APP", slug: "clock-app", icon: weather },
+    { title: "STOCKS", slug: "stocks", icon: weather },
+    { title: "QR CODE", slug: "qr-code", icon: weather },
+    { title: " BULLETIN APP", slug: "bulletin-app", icon: weather },
+    { title: "AIR QUALITY APP", slug: "air-quality-app", icon: weather },
+    { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
+    { title: "GOOGLE SLIDES", slug: "google-slides", icon: weather },
+    { title: "QUOTES", slug: "quotes", icon: weather },
+    { title: "All NEWS APP", slug: "all-news-app", icon: weather },
   ];
 
   const handleChange = (e, type) => {
@@ -88,6 +94,15 @@ const Integrations = ({permission}) => {
       if (type && type == "all-news-app") {
         setShowBulletinBoardApp(true);
       }
+      if (type && type == "bulletin-app") {
+        setShowBulletinBoardApp(true);
+      }
+      if (type && type == "google-slides") {
+        setShowGoogleSlideApp(true);
+      }
+      if (type && type == "quotes") {
+        setShowQuotesApp(true);
+      }
       // if(type && type == 'quotes'){
       //   setShowUrlApp(true);
       // }
@@ -99,7 +114,7 @@ const Integrations = ({permission}) => {
   //   console.log('getLocation', locationData);
   // }
   // useEffect(() => {
-  //   getWeatherDetail()
+  //   getWeatherDetail();
   // },[])
 
   // const [addressError, setAddressError] = useState("");
@@ -159,7 +174,7 @@ const Integrations = ({permission}) => {
         {appList.map((item) => {
           return (
             <div className="app-card ">
-              {/* <div className="d-flex justify-content-end mr-3 mt-3">
+              <div className="d-flex justify-content-end mr-3 mt-3">
                 <Dropdown
                   className="dropdown-toggle-menu app-card-menu"
                   drop="left"
@@ -201,7 +216,7 @@ const Integrations = ({permission}) => {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-              </div> */}
+              </div>
               <div
                 className="d-flex align-items-center justify-content-center"
                 onClick={(e) => {
@@ -260,10 +275,21 @@ const Integrations = ({permission}) => {
           show={showYoutubeApp}
         />
       )}
-
       <BulletinBoardAppModal
         setShowUrlApp={() => setShowBulletinBoardApp(false)}
         show={showBulletinBoardApp}
+      />
+      <GoogleSlideAppModal
+        setShowUrlApp={() => setShowGoogleSlideApp(false)}
+        show={showGoogleSlideApp}
+      />
+      <QuoteModel
+        setShowUrlApp={() => setShowQuotesApp(false)}
+        show={showQuotesApp}
+      />
+      <AllNewsAppModal
+        setShowUrlApp={() => setShowNewsApp(false)}
+        show={showNewsApp}
       />
     </>
   );
