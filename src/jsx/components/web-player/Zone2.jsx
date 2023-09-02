@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import WebVideoPlayer from "./WebVideoPlayer";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
-import { BASE_URL, getWeather } from "../../../utils/api";
+import { BASE_URL, getWeather,getStock} from "../../../utils/api";
 import {
   handleBulletinApps,
   handleScrollerApps,
@@ -13,6 +13,7 @@ import {
   handleQrApps,
   handleRssApps,
   handleAqiApps,
+  handleStockApps
 } from "../../../utils/UtilsService";
 
 const Zone2 = ({
@@ -24,13 +25,23 @@ const Zone2 = ({
 }) => {
   const [weatherInfo1, setWeatherInfo1] = useState(null);
   const [weatherInfo2, setWeatherInfo2] = useState(null);
+  const [stock, setStock] = useState(null);
+  const [stock2, setStock2] = useState(null);
   const [locationIndex1, setLocationIndex1] = useState(0);
   const [locationIndex2, setLocationIndex2] = useState(0);
   const getWeatherDetail1 = async(lat, long, index) => {
     const locationData  = await getWeather(lat, long);
     setWeatherInfo1(locationData);
-    //setLocationIndex1(index)
-   // console.log('getLocation', locationData);
+  }
+
+  const getStockDetail = async(lat, long) => {
+    const locationData  = await getStock(lat, long);
+    setStock(locationData)
+  }
+
+  const getStockDetail2 = async(lat, long) => {
+    const locationData  = await getStock(lat, long);
+    setStock2(locationData)
   }
   const getWeatherDetail2 = async(lat, long) => {
     const locationData  = await getWeather(lat, long);
@@ -77,6 +88,43 @@ const Zone2 = ({
     return handleAqiApps(data, weatherInfo2);
     
   }
+
+  const getStockDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+    console.log("location",prp)
+    let stockType = 'gainers';
+    if(prp.stockType === '"Day Losers"'){
+      stockType = 'losers'
+    }else if(prp.stockType === 'Most Actives'){
+      stockType = 'actives';
+    }
+
+    if(!stock){
+      console.log("Hello Stock Calling")
+      getStockDetail(stockType);
+    }
+    return handleStockApps(data, stock);
+    
+  }
+
+  const getStockDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+    console.log("location",prp)
+    let stockType = 'gainers';
+    if(prp.stockType === '"Day Losers"'){
+      stockType = 'losers'
+    }else if(prp.stockType === 'Most Actives'){
+      stockType = 'actives';
+    }
+
+    if(!stock2){
+      console.log("Hello Stock Calling")
+      getStockDetail2(stockType);
+    }
+    return handleStockApps(data, stock2);
+    
+  }
+
   return (
     <>
       {" "}
@@ -193,7 +241,12 @@ const Zone2 = ({
                       contents.zones[0].content[currentIndex].data
                     )}
                   </>
-                ) : (
+                ) :contents.zones[0].content[currentIndex].type ===
+                  "stocks-apps" ? (
+                  <>
+                    {getStockDataZone1(contents.zones[0].content[currentIndex].data)}
+                  </>
+                ): (
                   <></>
                 )}
               </>
@@ -316,7 +369,12 @@ const Zone2 = ({
                       contents.zones[1].content[current1Index].data
                     )}
                   </>
-                ) : (
+                ) :contents.zones[0].content[currentIndex].type ===
+                  "stocks-apps" ? (
+                  <>
+                    {getStockDataZone2(contents.zones[2].content[currentIndex].data)}
+                  </>
+                ): (
                   <></>
                 )}
               </>

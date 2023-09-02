@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import WebVideoPlayer from "./WebVideoPlayer";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
-import { BASE_URL, getWeather } from "../../../utils/api";
+import { BASE_URL, getWeather, getStock } from "../../../utils/api";
 import {
   handleBulletinApps,
   handleScrollerApps,
@@ -18,12 +18,18 @@ import {
 
 const Zone1 = ({ contents, currentIndex, viewImage }) => {
   const [weatherInfo, setWeatherInfo] = useState(null);
-  const [location1, setLocation1] = useState(null);
+  const [stock, setStock] = useState(null);
   const getWeatherDetail = async(lat, long) => {
     const locationData  = await getWeather(lat, long);
     setWeatherInfo(locationData)
+  }
+  const getStockDetail = async(lat, long) => {
+    const locationData  = await getStock(lat, long);
+    setStock(locationData)
    // console.log('getLocation', locationData);
   }
+
+
   const getWeatherDataZone1 = (data, index) => {
     const prp = JSON.parse(data);
     console.log("location",prp.location.address)
@@ -47,6 +53,25 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
     return handleAqiApps(data, weatherInfo);
     
   }
+
+  const getStockDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+    console.log("location",prp)
+    let stockType = 'gainers';
+    if(prp.stockType === '"Day Losers"'){
+      stockType = 'losers'
+    }else if(prp.stockType === 'Most Actives'){
+      stockType = 'actives';
+    }
+
+    if(!stock){
+      console.log("Hello Stock Calling")
+      getStockDetail(stockType);
+    }
+    return handleStockApps(data, stock);
+    
+  }
+
   return (
     <>
       {" "}
@@ -164,7 +189,7 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                 ) :contents.zones[0].content[currentIndex].type ===
                 "stocks-apps" ? (
                 <>
-                  {handleStockApps(contents.zones[0].content[currentIndex].data)}
+                  {getStockDataZone1(contents.zones[0].content[currentIndex].data)}
                 </>
               ) : (
                 <></>
