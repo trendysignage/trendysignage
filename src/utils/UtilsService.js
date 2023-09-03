@@ -602,10 +602,10 @@ export const handleStockApps = (data, stock) => {
             {
               stock && stock.length > 0 && stock.map((item, index) => {
                 return (index < 10 && <tr>
-                  <td>{item.ticker}</td>
-                  <td style={{color:`${item.price < 0 ?'red' :'#87e487'}`}}>{item.price}</td>
-                  <td>{item.changesPercentage}</td>
-                  <td>{item.changes} %</td>
+                  <td className="stockTd">{item.ticker}</td>
+                  <td className="stockTd">{item.price}</td>
+                  <td className={`${item.changes < 0 ?'losers' :'gainers'}`}>{item.changesPercentage}</td>
+                  <td className="stockTd">{item.changes} %</td>
                 </tr>)
               })
             }
