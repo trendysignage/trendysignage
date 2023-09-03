@@ -16,13 +16,13 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [mediaId, setMediaId] = useState(null);
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
-  const [color, setColor] = useState(null);
+  const [color, setColor] = useState({ value: "lightYellow", label: "Light Yellow" });
 
   const colorOptions = [
-    { value: "Light Yellow", label: "Light Yellow" },
-    { value: "Orange", label: "Orange" },
+    { value: "lightYellow", label: "Light Yellow" },
+    { value: "orange", label: "Orange" },
     {
-      value: "Sky Blue",
+      value: "skyBlue",
       label: "Sky Blue",
     },
   ];
@@ -35,6 +35,7 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       setAppDesc(jsonString.appDesc);
       setAppTitle(jsonString.appTitle);
       setMediaId(mediaData._id);
+      setColor(jsonString.color)
     }
   }, [mediaData]);
   console.log("media", mediaData);
@@ -65,8 +66,9 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       appTitle,
       appDesc,
       name,
+      color
     };
-
+console.log(dataString)
     if (actionType && actionType == "edit") {
       await updateApps({
         name,
@@ -175,18 +177,18 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   <label className="mt-3">Color Scheme</label>
                   <Select
                     value={color}
-                    // onChange={setTimeFormat}
+                    onChange={setColor}
                     placeholder="Light Yellow"
                     options={colorOptions}
                     className="app-option"
                   />
                 </div>
-                <div className="col-4">
+                {/* <div className="col-4">
                   <label className="mt-3">Color Scheme</label>
                   <div>
                     <img src={qrupload} alt="icon" />
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="col-6 ">

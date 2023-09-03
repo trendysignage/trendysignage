@@ -12,7 +12,7 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     { value: "Day Gainers", label: "Day Gainers" },
     { value: "Day Losers", label: "Day Losers" },
     { value: "Most Actives", label: "Most Actives" },
-    { value: "Top Mutual Funds", label: "Top Mutual Funds" },
+    // { value: "Top Mutual Funds", label: "Top Mutual Funds" },
   ];
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");

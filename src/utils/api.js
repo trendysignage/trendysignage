@@ -507,6 +507,21 @@ export async function getWeather(lat, long) {
   return response.data;
 
 }
+
+export async function getStock(type) {
+
+  const rapidHeader = {
+    headers: {
+      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
+      'X-RapidAPI-Host': 'stock-surge.p.rapidapi.com'
+    }
+  }
+  const response = await fetchClient.get(
+    `https://stock-surge.p.rapidapi.com/api/v1/performance/${type}`,rapidHeader
+  );
+  return response.data;
+
+}
 export async function getAllMediaFilter() {
   const response = await fetchClient.get(
     BASE_URL + `/vendor/display/media?limit=100`

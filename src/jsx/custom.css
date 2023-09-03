@@ -1416,9 +1416,8 @@ overflow: unset;
     width: 100%;
     height: 100%;
 }
-.orange{
-  background-color: #F99156;
-}
+
+
 .qr-app-container .qr-box{
   display: flex;
   width: calc(100% - 300px);
@@ -1455,6 +1454,16 @@ color: #000;
     width: fit-content;
     border-radius: 10px;
     }
+  .orange, .orangeUrl{
+    background-color: #F99156 !important;
+  }
+  .skyBlue, .skyBlueUrl{
+    background-color: #87CEEB !important;
+  }
+  
+  .lightYellow, .lightYellowUrl{
+    background-color: #FFFFE0 !important;
+  }
     .clock-app{
       width: 300px;
       height: 300px;
@@ -1583,7 +1592,7 @@ color: #000;
   padding-top: 20px;
 }
 .stock-table td{
-color: #fff !important;
+color: #fff;
 }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
@@ -3376,6 +3385,18 @@ thead {
   background-color: rgb(255, 228, 148) !important;
   border-color: rgb(255, 228, 148) !important;
 }
+
+.losers{
+  color : #fa1010 !important
+}
+.gainers{
+  color:#87e487 !important
+}
+
+.stockTd{
+  color:#fff !important;
+}
+
 
 
 @media (orientation: portrait) {

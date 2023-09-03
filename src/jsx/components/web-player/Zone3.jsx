@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import WebVideoPlayer from "./WebVideoPlayer";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
-import { BASE_URL,getWeather } from "../../../utils/api";
+import { BASE_URL,getWeather, getStock } from "../../../utils/api";
 import {
   handleBulletinApps,
   handleScrollerApps,
@@ -13,6 +13,7 @@ import {
   handleQrApps,
   handleRssApps,
   handleAqiApps,
+  handleStockApps
 } from "../../../utils/UtilsService";
 const Zone3 = ({
   contents,
@@ -24,6 +25,9 @@ const Zone3 = ({
   const [weatherInfo1, setWeatherInfo1] = useState(null);
   const [weatherInfo2, setWeatherInfo2] = useState(null);
   const [weatherInfo3, setWeatherInfo3] = useState(null);
+  const [stock, setStock] = useState(null);
+  const [stock2, setStock2] = useState(null);
+  const [stock3, setStock3] = useState(null);
   const getWeatherDetail1 = async(lat, long, index) => {
     const locationData  = await getWeather(lat, long);
     setWeatherInfo1(locationData);
@@ -35,6 +39,18 @@ const Zone3 = ({
   const getWeatherDetail3 = async(lat, long, index) => {
     const locationData  = await getWeather(lat, long);
     setWeatherInfo3(locationData);
+  }
+  const getStockDetail = async(lat, long) => {
+    const locationData  = await getStock(lat, long);
+    setStock(locationData)
+  }
+  const getStockDetail2 = async(lat, long) => {
+    const locationData  = await getStock(lat, long);
+    setStock2(locationData)
+  }
+  const getStockDetail3 = async(lat, long) => {
+    const locationData  = await getStock(lat, long);
+    setStock3(locationData)
   }
   const getWeatherDataZone1 = (data) => {
     const prp = JSON.parse(data);
@@ -66,7 +82,6 @@ const Zone3 = ({
     return handleWeatherApps(data, weatherInfo2);
     
   }
-
   const getAqiDataZone1 = (data) => {
     const prp = JSON.parse(data);
     
@@ -92,6 +107,57 @@ const Zone3 = ({
       getWeatherDetail3(prp.location.latitude, prp.location.longitude);
     }
     return handleAqiApps(data, weatherInfo2);
+    
+  }
+  const getStockDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+    console.log("location",prp)
+    let stockType = 'gainers';
+    if(prp.stockType === '"Day Losers"'){
+      stockType = 'losers'
+    }else if(prp.stockType === 'Most Actives'){
+      stockType = 'actives';
+    }
+
+    if(!stock){
+      console.log("Hello Stock Calling")
+      getStockDetail(stockType);
+    }
+    return handleStockApps(data, stock);
+    
+  }
+  const getStockDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+    console.log("location",prp)
+    let stockType = 'gainers';
+    if(prp.stockType === '"Day Losers"'){
+      stockType = 'losers'
+    }else if(prp.stockType === 'Most Actives'){
+      stockType = 'actives';
+    }
+
+    if(!stock2){
+      console.log("Hello Stock Calling")
+      getStockDetail2(stockType);
+    }
+    return handleStockApps(data, stock2);
+    
+  }
+  const getStockDataZone3 = (data) => {
+    const prp = JSON.parse(data);
+    console.log("location",prp)
+    let stockType = 'gainers';
+    if(prp.stockType === '"Day Losers"'){
+      stockType = 'losers'
+    }else if(prp.stockType === 'Most Actives'){
+      stockType = 'actives';
+    }
+
+    if(!stock3){
+      console.log("Hello Stock Calling")
+      getStockDetail3(stockType);
+    }
+    return handleStockApps(data, stock3);
     
   }
   return (
@@ -215,7 +281,12 @@ const Zone3 = ({
                         contents.zones[0].content[currentIndex].data
                       )}
                     </>
-                  ) : (
+                  ) :contents.zones[0].content[currentIndex].type ===
+                    "stocks-apps" ? (
+                    <>
+                      {getStockDataZone1(contents.zones[0].content[currentIndex].data)}
+                    </>
+                  ): (
                     <></>
                   )}
                 </>
@@ -340,7 +411,12 @@ const Zone3 = ({
                         contents.zones[1].content[current1Index].data
                       )}
                     </>
-                  ) : (
+                  ) :contents.zones[1].content[currentIndex].type ===
+                    "stocks-apps" ? (
+                    <>
+                      {getStockDataZone2(contents.zones[1].content[currentIndex].data)}
+                    </>
+                  ): (
                     <>NoContent21</>
                   )}
                 </>
@@ -465,7 +541,12 @@ const Zone3 = ({
                       contents.zones[2].content[current2Index].data
                     )}
                   </>
-                ) : (
+                ) :contents.zones[2].content[currentIndex].type ===
+                  "stocks-apps" ? (
+                  <>
+                    {getStockDataZone3(contents.zones[2].content[currentIndex].data)}
+                  </>
+                ): (
                   <></>
                 )}
               </>

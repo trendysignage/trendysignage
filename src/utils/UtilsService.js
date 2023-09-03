@@ -538,22 +538,23 @@ export const handleWeatherApps = (data, weatherInfo) => {
 };
 
 export const handleQrApps = (data) => {
-  console.log(data, "utilsservice");
+  
   const prp = JSON.parse(data);
+  console.log(prp, "utilsservice");
   return (
-    <div className="qr-app-container orange">
+    <div className={`qr-app-container ${prp.color ? prp.color.value : 'orange'}`}>
       <div className="qr-box">
         <div className=" qr">
           <QRCode
             size={150}
-            value={"https://abplive.com"}
+            value={prp.url}
             viewBox={`0 0 256 256`}
           />
         </div>
         <div className="text">
-          <h3>Qr App Title</h3>
-          <p className="mb-3">Qr App Name</p>
-          <p className="mb-0 url">https://qrappurl</p>
+          <h3>{prp.appTitle}</h3>
+          <p className="mb-3">{prp.appTitle}</p>
+          <p className={`mb-0 url ${prp.color ? prp.color.value : 'orange'}Url`}>{prp.appDesc}</p>
         </div>
       </div>
     </div>
@@ -572,7 +573,7 @@ export const handleRssApps = (data) => {
   );
 };
 
-export const handleStockApps = (data) => {
+export const handleStockApps = (data, stock) => {
   const prp = JSON.parse(data);
   console.log(prp, "kkkk");
   return (
@@ -591,24 +592,23 @@ export const handleStockApps = (data) => {
               <th>PRICE</th>
               <th>% CHANGE</th>
               <th>CHANGE</th>
-              <th>VOLUMES</th>
+              {/* <th>VOLUMES</th>
               <th>52 Wk HIGH</th>
-              <th>52 Wk LOW</th>
+              <th>52 Wk LOW</th> */}
             </tr>
           </thead>
 
           <tbody>
-            <tr>
-              <td>YMM</td>
-              <td>7.3108</td>
-              <td>9.12 %</td>
-
-              <td>1.12</td>
-
-              <td>7917281</td>
-              <td>19.13</td>
-              <td>6.36</td>
-            </tr>
+            {
+              stock && stock.length > 0 && stock.map((item, index) => {
+                return (index < 10 && <tr>
+                  <td className="stockTd">{item.ticker}</td>
+                  <td className="stockTd">{item.price}</td>
+                  <td className={`${item.changes < 0 ?'losers' :'gainers'}`}>{item.changesPercentage}</td>
+                  <td className="stockTd">{item.changes} %</td>
+                </tr>)
+              })
+            }
           </tbody>
         </Table>
       </div>
