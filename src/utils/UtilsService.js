@@ -562,13 +562,51 @@ export const handleQrApps = (data) => {
 };
 
 export const handleRssApps = (data) => {
-  const prp = JSON.parse(data);
+  console.log("data",data);
+  //const prp = JSON.parse(data);
   return (
     <div
       className="basic-list-group image-preview-container media-content"
       style={{ color: "white", textAlign: "center" }}
     >
-      RSS Feed Apps
+    {data.urlLink.items.length > 0 && (
+        <>
+          <div className={`h-100 ${data.theame.value}`} style={{ margin: "2%" }}>
+            <Carousel
+              interval={10000}
+              indicators={false}
+              animation={"slide"}
+              className="h-100"
+            >
+              {data.urlLink.items.map((item, i) => {
+                return (
+                  <div className="h-100">
+                    <div className="row h-100">
+                        <div
+                          className="text-center d-flex "
+                          // style={{
+                          //   borderRadius: "18px",
+                          //   margin: "20px",
+                          //   flexDirection: "column",
+                          //   width: "30%",
+                          // }}
+                        >
+                          {/* <div>
+                            <img src={imgexample} alt="image" />
+                          </div> */}
+                          <div className="mt-2" key={i}>
+                            <p>{item['title']}</p>
+                            <p>{item['content']}</p>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      )}
     </div>
   );
 };
