@@ -1600,6 +1600,11 @@ cursor: pointer;
 .people-space{
   row-gap: 20px;
 }
+.people-space .title{
+  font-size: 18px;
+  color: #1A1A1A;
+  font-weight: 500;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

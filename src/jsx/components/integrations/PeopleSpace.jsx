@@ -43,21 +43,27 @@ export default function PeopleSpace() {
               </div>
             </div> */}
           <img src={layout} alt="img" />
+          <p className="text-left mt-2 mb-0 title">Work Anniversary Multi</p>
         </div>
         <div className="col-12 col-md-4">
           <img src={layout1} alt="img" />
+          <p className="text-left mt-2 mb-0 title">Work Anniversary Single</p>
         </div>
         <div className="col-12 col-md-4">
           <img src={layout2} alt="img" />
+          <p className="text-left mt-2 mb-0 title">Wall of Fame Single</p>
         </div>
         <div className="col-12 col-md-4">
           <img src={layout3} alt="img" />
+          <p className="text-left mt-2 mb-0 title">Wall of fame multi</p>
         </div>
         <div className="col-12 col-md-4">
           <img src={layout4} alt="img" />
+          <p className="text-left mt-2 mb-0 title">Wall of Fame</p>
         </div>
         <div className="col-12 col-md-4">
           <img src={layout5} alt="img" />
+          <p className="text-left mt-2 mb-0 title">Happy Birthday Single</p>
         </div>
       </div>
     </>

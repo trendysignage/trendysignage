@@ -538,23 +538,24 @@ export const handleWeatherApps = (data, weatherInfo) => {
 };
 
 export const handleQrApps = (data) => {
-  
   const prp = JSON.parse(data);
   console.log(prp, "utilsservice");
   return (
-    <div className={`qr-app-container ${prp.color ? prp.color.value : 'orange'}`}>
+    <div
+      className={`qr-app-container ${prp.color ? prp.color.value : "orange"}`}
+    >
       <div className="qr-box">
         <div className=" qr">
-          <QRCode
-            size={150}
-            value={prp.url}
-            viewBox={`0 0 256 256`}
-          />
+          <QRCode size={150} value={prp.url} viewBox={`0 0 256 256`} />
         </div>
         <div className="text">
           <h3>{prp.appTitle}</h3>
           <p className="mb-3">{prp.appTitle}</p>
-          <p className={`mb-0 url ${prp.color ? prp.color.value : 'orange'}Url`}>{prp.appDesc}</p>
+          <p
+            className={`mb-0 url ${prp.color ? prp.color.value : "orange"}Url`}
+          >
+            {prp.appDesc}
+          </p>
         </div>
       </div>
     </div>
@@ -562,13 +563,58 @@ export const handleQrApps = (data) => {
 };
 
 export const handleRssApps = (data) => {
-  const prp = JSON.parse(data);
+  console.log("data rss", data);
+  //const prp = JSON.parse(data);
   return (
     <div
       className="basic-list-group image-preview-container media-content"
       style={{ color: "white", textAlign: "center" }}
     >
-      RSS Feed Apps
+      {data.urlLink.items.length > 0 && (
+        <>
+          <div
+            className={`h-100 ${data.theame.value} bg-white`} //bg-black
+            style={{ padding: "5% 2% 2% 2%" }}
+          >
+            <Carousel
+              interval={10000}
+              indicators={false}
+              animation={"slide"}
+              className="h-100"
+            >
+              {data.urlLink.items.map((item, i) => {
+                return (
+                  <div className="h-100">
+                    <div className=" h-100">
+                      <div
+                        className="text-center  "
+                        // style={{
+                        //   borderRadius: "18px",
+                        //   margin: "20px",
+                        //   flexDirection: "column",
+                        //   width: "30%",
+                        // }}
+                      >
+                        {/* <div>
+                            <img src={imgexample} alt="image" />
+                          </div> */}
+                        <div className="mt-2 hhhhhh" key={i}>
+                          <h1 className="text-black">
+                            {/* text-white */}
+
+                            {item["title"]}
+                          </h1>
+                          <p className="text-black">{item["content"]}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      )}
     </div>
   );
 };
@@ -599,16 +645,24 @@ export const handleStockApps = (data, stock) => {
           </thead>
 
           <tbody>
-            {
-              stock && stock.length > 0 && stock.map((item, index) => {
-                return (index < 10 && <tr>
-                  <td className="stockTd">{item.ticker}</td>
-                  <td className="stockTd">{item.price}</td>
-                  <td className={`${item.changes < 0 ?'losers' :'gainers'}`}>{item.changesPercentage}</td>
-                  <td className="stockTd">{item.changes} %</td>
-                </tr>)
-              })
-            }
+            {stock &&
+              stock.length > 0 &&
+              stock.map((item, index) => {
+                return (
+                  index < 10 && (
+                    <tr>
+                      <td className="stockTd">{item.ticker}</td>
+                      <td className="stockTd">{item.price}</td>
+                      <td
+                        className={`${item.changes < 0 ? "losers" : "gainers"}`}
+                      >
+                        {item.changesPercentage}
+                      </td>
+                      <td className="stockTd">{item.changes} %</td>
+                    </tr>
+                  )
+                );
+              })}
           </tbody>
         </Table>
       </div>
