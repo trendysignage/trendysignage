@@ -1594,6 +1594,12 @@ color: #000;
 .stock-table td{
 color: #fff;
 }
+.people-space img{
+cursor: pointer;
+}
+.people-space{
+  row-gap: 20px;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

@@ -20,8 +20,10 @@ import AllNewsAppModal from "../../modals/AllNewsAppModal";
 import { Dropdown } from "react-bootstrap";
 // import Form from "react-bootstrap/Form";
 // import { usePlacesWidget } from "react-google-autocomplete";
+import { useHistory } from "react-router-dom";
 
 export default function Integrations() {
+  const history = useHistory();
   console.log("React ENV", process.env.REACT_APP_TITLE);
   const [showUrlApp, setShowUrlApp] = useState(false);
   const [showRssFeedApp, setShowRssFeedApp] = useState(false);
@@ -100,6 +102,9 @@ export default function Integrations() {
     }
     if (type && type == "all-news-app") {
       setShowNewsApp(true);
+    }
+    if (type && type == "people-space") {
+      history.push("/people-space");
     }
   };
 
