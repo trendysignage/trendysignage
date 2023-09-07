@@ -17,10 +17,16 @@ import { getWeather } from "../../../utils/api";
 import GoogleSlideAppModal from "../../modals/GoogleSlideAppModal";
 import QuoteModel from "../../modals/QuoteModel.jsx";
 import AllNewsAppModal from "../../modals/AllNewsAppModal";
-import { Dropdown } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 // import Form from "react-bootstrap/Form";
 // import { usePlacesWidget } from "react-google-autocomplete";
 import { useHistory } from "react-router-dom";
+import Carousel from "react-material-ui-carousel";
+import Box from '@mui/material/Box';
+import Switch from '@mui/material/Switch';
+import Paper from '@mui/material/Paper';
+import Slide from '@mui/material/Slide';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 export default function Integrations() {
   const history = useHistory();
@@ -137,6 +143,109 @@ export default function Integrations() {
   //   //handleUpdate({...values,['address'] : adres})
   //   //setAdd(adres);
   // }
+
+  const data = {
+    slideDuration:10,
+    theame:{
+      value:'classic',
+      label:'Classic'
+    }
+  }
+  console.log("data rss", data);
+  //const prp = JSON.parse(data);
+  const list = [
+    {
+      title:" title 1We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+    },
+    {
+      title:" title 2We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+    },
+    {
+      title:" title 3We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+    },
+    {
+      title:" title 4We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+    },
+    {
+      title:" title 5We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+    }
+  ];
+  
+  const [checked, setChecked] = useState(true)
+
+  // const interval = setInterval(() => {
+  //   setChecked(!checked);
+  //   setInterval(() => {
+  //     setChecked(!checked);
+  //   }, 1000)
+  // }, 10000);
+  // return (
+  //   <div
+  //     className="basic-list-group image-preview-container media-content"
+  //     style={{ color: "white"}}
+  //   >
+  //     {(
+  //       <>
+          
+  //         <div
+  //           className={`h-100 ${data.theame.value == 'White Background' ? 'bg-white' : 'bg-black'} `}
+  //           style={{ padding: "5% 2% 2% 2%" }}
+  //         >
+                
+  //           <Carousel
+  //             interval={(data.slideDuration) * 1000}
+  //             indicators={false}
+  //             animation={"slide"}
+  //             className="h-100"
+  //           >
+  //             {list.map((item, i) => {
+  //               return (
+  //                 <>
+  //                 <Slide direction="right" in={checked} timeout={1000}>
+  //                   <div style={{
+  //                     maxWidth: "100%",
+  //                     minWidth:"70%",
+  //                     height:"5px",
+  //                     background: "#fff",
+  //                     margin: "2rem 0",
+  //                     display: "inline-block"
+  //                   }}></div>
+  //                 </Slide>
+  //                 <div className="h-100">
+  //                   <div className=" h-100">
+  //                     <div
+  //                       className="text-center  "
+  //                     >
+  //                       <div className="mt-2 hhhhhh" key={i}>
+  //                         <h1 className={`${data.theame.value == 'White Background' ? 'text-black' : 'text-white'} `}>
+  //                           {item.title}
+  //                         </h1>
+  //                         <p className={`${data.theame.value == 'White Background' ? 'text-black' : 'text-white'} `}>{item.content}</p>
+  //                       </div>
+  //                     </div>
+  //                   </div>
+  //                 </div>
+  //                 </>
+  //               );
+  //             })}
+  //           </Carousel>
+  //           <div style={{position:'absolute',bottom:'20px',right:'10%'}}>
+  //           <Slide direction="up" in={checked} mountOnEnter unmountOnExit timeout={1000}>
+  //             <img style={{
+  //               width:'100px', height:"100px"
+  //             }} src={"https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"} />
+  //           </Slide>
+  //           </div>
+  //         </div>
+  //       </>
+  //     )}
+  //   </div>
+  // );
 
   return (
     <>

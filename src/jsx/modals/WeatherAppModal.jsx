@@ -5,12 +5,22 @@ import { usePlacesWidget } from "react-google-autocomplete";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-import { updateApps, addApps } from "../../utils/api";
+import { updateApps, addApps, getWeather } from "../../utils/api";
+import { handleWeatherApps } from "../../utils/UtilsService";
 import Form from "react-bootstrap/Form";
 import Autocomplete from "react-google-autocomplete";
 const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
-  const options = [{ value: "Classic", label: "Classic" }];
-  const options1 = [{ value: "Celsius", label: "Celsius" }];
+  const [weatherInfo, setWeatherInfo] = useState(null);
+  const getWeatherDetail = async(lat, long) => {
+    const locationData  = await getWeather(lat, long);
+    setWeatherInfo(locationData)
+  }
+  const options = [
+    { value: "classic", label: "Classic" },
+    { value: "grey", label: "Minimalist with Grey Background" },
+    { value: "color", label: "Minimalist with Color Background" }
+];
+  const options1 = [{ value: "celsius", label: "Celsius" },{ value: "fahrenheit", label: "Farhenheit" }];
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
   const [location, setLocation] = useState({
@@ -32,6 +42,8 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
   const [mediaId, setMediaId] = useState(null);
+  const [preview, setPreview] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
     if (mediaData) {
@@ -46,7 +58,8 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setIsAnimated(jsonString.isAnimated);
       setIsCorner(jsonString.isCorner);
     }
-  }, [mediaData]);
+    setIsRefresh(false)
+  }, [mediaData, isRefresh]);
 
   const handleLocation = (place) => {
     let location = JSON.parse(JSON.stringify(place?.geometry?.location));
@@ -112,6 +125,27 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     setShowUrlRedirectApp(false);
     window.location.reload();
   };
+
+  const getWeatherDataZone1 = (prp) => {
+    console.log("location",prp.location.address)
+
+    if(!weatherInfo){
+      console.log("Hello Weather Calling")
+      getWeatherDetail(prp.location.latitude, prp.location.longitude);
+    }
+    return handleWeatherApps(JSON.stringify(prp), weatherInfo);
+    
+  }
+
+  const handlePreview = () => {
+    console.log(preview, location)
+    if(location && location.address){
+      setIsRefresh(true)
+      setPreview(true)
+    }else{
+      setPreview(false)
+    }
+  }
 
   return (
     <>
@@ -222,6 +256,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   onChange={(e) => setIsCorner(e.target.checked)}
                 />
               </div>
+              <Button onClick={handlePreview}>Preview</Button>
             </div>
             <div className="col-6 ">
               <div className="d-flex ">
@@ -279,9 +314,21 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100 weather-app-form-icon">
-                <div className="text-center">
+                {/* <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />
-                </div>
+                </div> */}
+                {
+                  preview ? getWeatherDataZone1({isAnimated:isAnimated,isCorner:isCorner, isForcast:isForcast,
+                    temp:selectedTemp.value,
+                    theme:selectedTheme.value,
+                    url:"Weather in Noida",
+                    location:{
+                      address: location.address,
+                      latitude: location.latitude,
+                      longitude: location.longitude
+                    }
+                  }) : <h4>Loading</h4>
+                }
               </div>
             </div>
           </form>

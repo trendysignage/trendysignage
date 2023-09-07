@@ -285,17 +285,15 @@ export const dayName = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export const handleScrollerApps = (data) => {
   const prp = JSON.parse(data);
-  let speed = 5;
+  console.log("prp", prp, prp.speed.value, "high")
+  const speed = prp.speed.value === "high" ? 20 : (prp.speed.value === 'medium' ? 10 : 5);
   let allignment = "left";
-  if (prp.speed && prp.speed == "medium") {
-    speed = 12;
-  } else if (prp.spped && prp.speed == "hight") {
-    speed = 20;
-  }
-  if (prp.allign == "Right-to-Left") {
+
+  if (prp.allign.value == "rightToLeft") {
     allignment = "right";
   }
   let txt = "";
+  console.log("Speed", speed, allignment)
   if (prp.style == "italic") {
     txt = (
       <i>
@@ -463,7 +461,8 @@ export const handleClockApps = (data) => {
 export const handleWeatherApps = (data, weatherInfo) => {
   //console.log("Hi this is weather", data, weatherInfo)
   const prp = JSON.parse(data);
-  // console.log("data", prp);
+  console.log("data", prp);
+  const theme = prp.theme.value;
   // getWeather('Noida').then((resp) => {
   //   console.log("weatherDetail",resp)
   // });
@@ -497,9 +496,9 @@ export const handleWeatherApps = (data, weatherInfo) => {
                 weatherInfo.list &&
                 weatherInfo.list[1] &&
                 (prp && prp.temp === "Celsius"
-                  ? weatherInfo.list[1].main.temp / 10
-                  : (weatherInfo.list[1].main.temp * 9) / 50 + 32
-                ).toFixed(1)}
+                  ? (weatherInfo.list[1].main.temp / 10).toFixed(1)+" C"
+                  : ((weatherInfo.list[1].main.temp * 9) / 50 + 32).toFixed(1)+" F"
+                )}
             </h1>
             <h2>
               {weatherInfo &&
@@ -529,9 +528,9 @@ export const handleWeatherApps = (data, weatherInfo) => {
                         </p>
                         <h2>
                           {(prp.temp === "Celsius"
-                            ? item.main.temp / 10
-                            : (item.main.temp * 9) / 50 + 32
-                          ).toFixed(1)}
+                            ? (item.main.temp / 10).toFixed(1)+" C"
+                            : ((item.main.temp * 9) / 50 + 32).toFixed(1)+" F"
+                          )}
                         </h2>
                         <p>{item.weather[0].description}</p>
                       </div>
@@ -582,11 +581,11 @@ export const handleRssApps = (data) => {
       {data.urlLink.items.length > 0 && (
         <>
           <div
-            className={`h-100 ${data.theame.value} bg-white`} //bg-black
+            className={`h-100 ${data.theame.value == 'White Background' ? 'bg-white' : 'bg-black'} `}
             style={{ padding: "5% 2% 2% 2%" }}
           >
             <Carousel
-              interval={10000}
+              interval={(data.slideDuration) * 1000}
               indicators={false}
               animation={"slide"}
               className="h-100"
@@ -608,12 +607,12 @@ export const handleRssApps = (data) => {
                             <img src={imgexample} alt="image" />
                           </div> */}
                         <div className="mt-2 hhhhhh" key={i}>
-                          <h1 className="text-black">
+                          <h1 className={`${data.theame.value == 'White Background' ? 'text-black' : 'text-white'} `}>
                             {/* text-white */}
 
                             {item["title"]}
                           </h1>
-                          <p className="text-black">{item["content"]}</p>
+                          <p className={`${data.theame.value == 'White Background' ? 'text-black' : 'text-white'} `}>{item["content"]}</p>
                         </div>
                       </div>
                     </div>
