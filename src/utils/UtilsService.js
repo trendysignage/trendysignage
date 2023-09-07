@@ -194,66 +194,75 @@ export const handleBulletinApps = (data) => {
       className="basic-list-group image-preview-container media-content  bulletin-bg text-black"
       style={{ color: "white", textAlign: "center" }}
     >
-      <div className="single-bulletin-app d-flex">
-        <div className="d-flex w-100">
-          <div className="w-50">
-            <img src={imgexample} alt="image" style={{ objectFit: "fill" }} />
-          </div>
-          <div className="flex-1 text-start single-bulletin-text">
-            <div style={{ width: "40px" }} className="mb-3">
-              {/* <img src={yellow} alt="icon" />
-              <img src={blue} alt="icon" /> */}
-              <img src={orange} alt="icon" />
+      {
+        prp.bulletin && prp.bulletin.length > 0 
+        ?
+        <>
+          {newArray.length > 0 && (
+            <>
+              <div className=" h-100" style={{ margin: "2%" }}>
+                <Carousel
+                  interval={5000}
+                  indicators={false}
+                  animation={"slide"}
+                  className="h-100"
+                >
+                  {newArray.map((item, i) => {
+                    return (
+                      <div className="h-100">
+                        <div className="row h-100">
+                          {item.map((item1, index1) => {
+                            return (
+                              <>
+                                <div
+                                  className="bg-white text-center d-flex "
+                                  style={{
+                                    borderRadius: "18px",
+                                    margin: "20px",
+                                    flexDirection: "column",
+                                    width: "30%",
+                                  }}
+                                >
+                                  <div>
+                                    <img src={imgexample} alt="image" />
+                                  </div>
+                                  <div className="mt-2" key={i + "dd" + index1}>
+                                    <strong>{item1.title}</strong>
+                                    <p>{item1.content}</p>
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Carousel>
+              </div>
+            </>
+          )}
+        </>
+        :
+        <div className="single-bulletin-app d-flex">
+          <div className="d-flex w-100">
+            <div className="w-50">
+              <img src={imgexample} alt="image" style={{ objectFit: "fill" }} />
             </div>
-            <strong>title</strong>
-            <p>content</p>
+            <div className="flex-1 text-start single-bulletin-text">
+              <div style={{ width: "40px" }} className="mb-3">
+                {/* <img src={yellow} alt="icon" />
+                <img src={blue} alt="icon" /> */}
+                <img src={orange} alt="icon" />
+              </div>
+              <strong>title</strong>
+              <p>content</p>
+            </div>
           </div>
         </div>
-      </div>
-      {/* {newArray.length > 0 && (
-        <>
-          <div className=" h-100" style={{ margin: "2%" }}>
-            <Carousel
-              interval={5000}
-              indicators={false}
-              animation={"slide"}
-              className="h-100"
-            >
-              {newArray.map((item, i) => {
-                return (
-                  <div className="h-100">
-                    <div className="row h-100">
-                      {item.map((item1, index1) => {
-                        return (
-                          <>
-                            <div
-                              className="bg-white text-center d-flex "
-                              style={{
-                                borderRadius: "18px",
-                                margin: "20px",
-                                flexDirection: "column",
-                                width: "30%",
-                              }}
-                            >
-                              <div>
-                                <img src={imgexample} alt="image" />
-                              </div>
-                              <div className="mt-2" key={i + "dd" + index1}>
-                                <strong>{item1.title}</strong>
-                                <p>{item1.content}</p>
-                              </div>
-                            </div>
-                          </>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </Carousel>
-          </div>
-        </>
-      )} */}
+
+      }
+      
     </div>
   );
 };
