@@ -1605,6 +1605,26 @@ cursor: pointer;
   color: #1A1A1A;
   font-weight: 500;
 }
+.gap-2{
+  gap: 2rem;
+}
+.template-app-name label{
+color: #1A1A1A;
+font-weight: 500;
+font-size: 16px;
+
+}
+.template-app-name input{
+  color: #B3005E;
+  border-radius: 12px;
+border: 2px solid  #B3005E;
+font-weight: 500;
+}
+.template-add-content div{
+  border-radius: 20px;
+border: 1px solid #000;
+padding: 20px 60px;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;
