@@ -1625,6 +1625,35 @@ font-weight: 500;
 border: 1px solid #000;
 padding: 20px 60px;
 }
+.template-person-image{
+  border-radius: 50%;
+}
+.template-card{
+  border-radius: 20px;
+  border: 1.5px solid #1A1A1A;
+  padding: 20px;
+}
+.template-card h3{ 
+  color: #1A1A1A;
+    font-size: 22px;
+}
+.template-card p{ 
+  color: #1A1A1A;
+    font-size: 14px;
+    font-weight: 300;
+}
+.add-template div{
+  background-color: #F4F4F4;
+  padding: 0px 8px 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-template .add-btn-template{
+  font-size: 20px;
+  font-weight: 500;
+  padding-bottom: 0px !important;
+}
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;
