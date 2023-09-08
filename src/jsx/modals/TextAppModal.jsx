@@ -36,7 +36,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   ];
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
-  //const [text, setText] = useState("");
+  const [orientationMode, setOrientation] = useState("landscape");
   const [content, setContent] = useState("");
   const [selectedStyle, setSelectedStyle] = useState({
     value: "Regular",
@@ -61,7 +61,6 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       const jsonString = JSON.parse(mediaData.appData);
       console.log(jsonString);
       setName(mediaData.title);
-      //setText(jsonString.text);
       setSelectedStyle({ value: jsonString.style, label: jsonString.style });
       setAllign({ value: jsonString.allign, label: jsonString.allign });
       setTextColor(jsonString.textColor);
@@ -74,6 +73,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       });
       setContent(jsonString.content);
       setIsTransparent(jsonString.isTransparent);
+      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "")
     }
   }, [mediaData]);
 
@@ -103,7 +103,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         style: selectedStyle.value,
         url: name,
         isTransparent,
-        //text,
+        orientationMode,
         content,
       };
 
@@ -135,7 +135,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       >
         <Modal.Header className="border-0">
           <Modal.Title className="mr-auto app-modal-heading">
-            Scroller Text App
+            Text App
           </Modal.Title>
           <Button
             variant=""
@@ -184,18 +184,6 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 }}
                 rows={4}
               />
-              {/* <label className="mt-3">Text </label>
-                <textarea
-                  type="text"
-                  className="  form-control "
-                  placeholder="Type Content"
-                  required
-                  name="text"
-                  id="text"
-                  value={text}
-                  onChange={(e) => {setText(e.target.value)}}
-                  rows={4}
-                /> */}
               <div className="row">
                 <div className="col-3">
                   <label className="mt-3">Color </label>
@@ -281,17 +269,18 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
               </div>
             </div>
             <div className="col-6 ">
-              <div className="d-flex">
+              <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="landscape"
+                    id="landscape"
+                    checked={orientationMode === 'landscape'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    
                   />
                   <label
                     className="form-check-label mt-0"
@@ -304,11 +293,14 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="potrait"
+                    id="potrait"
+                    checked={orientationMode === 'potrait'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
+                    placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -319,13 +311,16 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 </div>
                 <div className="form-check">
                   <input
+                    placeholder="Preview Not Available"
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="footer"
+                    id="footer"
+                    checked={orientationMode === 'footer'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
                   />
                   <label
                     className="form-check-label mt-0"

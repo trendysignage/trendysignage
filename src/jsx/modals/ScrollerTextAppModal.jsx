@@ -9,16 +9,16 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false)
   const [name, setName] = useState("");
   const [text, setText] = useState("");
-  const [selectedStyle, setSelectedStyle] = useState({ value: "Regular", label: "Regular"});
+  const [selectedStyle, setSelectedStyle] = useState({ value: "regular", label: "Regular"});
   const [speed, setSpeed] = useState({ value: "slow", label: "Slow" });
-  const [allign, setAllign] = useState({ value: "Right-to-Left", label: "Right to Left" });
+  const [allign, setAllign] = useState({ value: "rightToLeft", label: "Right to Left" });
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState('');
   const [tColor, setTextColor] = useState("#000000");
   const [backColor, setBackColor] = useState("#000000");
   const [mediaId, setMediaId] = useState(null);
   const options = [
-    { value: "Regular", label: "Regular" },
+    { value: "regular", label: "Regular" },
     { value: "italic", label: "italic" },
     { value: "bold", label: "Bold" },
   ];
@@ -28,8 +28,8 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
     { value: "high", label: "High" },
   ];
   const options2 = [
-    { value: "Right-to-Left", label: "Right to Left" },
-    { value: "Left-to-Right", label: "Left to Right" },
+    { value: "rightToLeft", label: "Right to Left" },
+    { value: "leftToRight", label: "Left to Right" },
   ];
 
   useEffect(() => {
@@ -39,9 +39,9 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
         console.log(jsonString)
         setName(mediaData.title);
         setText(jsonString.text);
-        setSelectedStyle({value:jsonString.style,label:jsonString.style});
-        setSpeed({value:jsonString.speed,label:jsonString.speed});
-        setAllign({value:jsonString.allign,label:jsonString.allign});
+        setSelectedStyle(jsonString.style);
+        setSpeed(jsonString.speed);
+        setAllign(jsonString.allign);
         setTextColor(jsonString.textColor)
         setBackColor(jsonString.backGroundColor)
         setMediaId(mediaData._id);
@@ -68,11 +68,11 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
     }else{
       console.log("Hello", err)
       const dataString = {
-        allign:allign.value,
-        speed:speed.value,
+        allign:allign,
+        speed:speed,
         textColor:tColor,
         backGroundColor:backColor,
-        style:selectedStyle.value,
+        style:selectedStyle,
         url:name,
         text
       }
