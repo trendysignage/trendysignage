@@ -1,3 +1,23 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Montserrat:wght@100;300;500&family=Poppins&display=swap');
+  .fira-sans{
+    font-family: 'Fira Sans', sans-serif;
+
+  }
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Montserrat:wght@100;300;500&family=Poppins&display=swap');
+.roboto{
+  font-family: 'Montserrat', sans-serif;
+
+}
+  
+
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Manrope&family=Montserrat:wght@100;300;500&family=Poppins&display=swap');
+.manrope{
+  font-family: 'Manrope', sans-serif;
+}
+ 
 :root {
   --font-stack: "Barlow", sans-serif;
   --font-manrope: "Manrope", sans-serif;
@@ -1485,6 +1505,16 @@ color: #000;
       background-color: rgba(0, 0, 0, 0.8);
 
     }
+    .classic-bg{
+      /* background: linear-gradient(180deg, #0796C2 0%, #69D3F4 100%); */
+      background: url(../img/rainy1.svg);
+      background-position: bottom center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .border-bg{
+      border-radius: 20px;
+    }
     .place-date-time{
       padding: 100px 50px 100px 50px;
     }
@@ -1514,10 +1544,11 @@ color: #000;
       margin-bottom: 0;
     }
     .other-day-weather  h2{
-      font-size: 45px;
+      font-size: 30px;
       font-weight: 400;
       margin-bottom: 20px;
       color: #fff;
+      margin-bottom: 0;
     }
     .temperature-box {
       padding-left: 50px;
@@ -1653,6 +1684,13 @@ padding: 20px 60px;
   font-size: 20px;
   font-weight: 500;
   padding-bottom: 0px !important;
+}
+.bulletin-table tr td{
+  border: 0;
+}
+.bulletin-table tr .bulletin-action{
+
+  height: 80px;
 }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {

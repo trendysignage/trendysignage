@@ -45,7 +45,8 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [roundCorner, setRoundeCorner] = useState(false);
   const [timeZone, setTimeZone] = useState("");
   const [language, setLanguage] = useState(null);
-
+  const [preview, setPreview] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false); 
   const [color, setColor] = useState({ value: "Light Yellow", label: "Light Yellow" });
 
   const handleChange = (e) => {
@@ -72,7 +73,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setColor(jsonString.color)
       setOrientation(jsonString.orientationMode)
     }
-  }, [mediaData]);
+  }, [mediaData, orientationMode, preview]);
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
@@ -122,6 +123,15 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
       }
     }
   };
+  const handlePreview = () => {
+    console.log(preview)
+    if(name){
+      setIsRefresh(true)
+      setPreview(true)
+    }else{
+      setPreview(false)
+    }
+  }
   return (
     <>
       <Modal
@@ -276,6 +286,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 options={colorOptions}
                 className="app-option"
               />
+              <Button onClick={handlePreview}>Preview</Button>
             </div>
             <div className="col-6 ">
               <div className="d-flex ">
@@ -289,7 +300,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     id="landscape"
                     checked={orientationMode === 'landscape'}
                     onChange={(e) => {setOrientation(e.target.value)}}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    
                   />
                   <label
                     className="form-check-label mt-0"
@@ -307,6 +318,9 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     id="potrait"
                     checked={orientationMode === 'potrait'}
                     onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
+                    placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -317,6 +331,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 </div>
                 <div className="form-check">
                   <input
+                    placeholder="Preview Not Available"
                     className="form-check-input"
                     type="radio"
                     name="orientation"
@@ -324,6 +339,8 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     id="footer"
                     checked={orientationMode === 'footer'}
                     onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -338,7 +355,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   <img src={icon} width="60px" height="60px" className="mb-3" />
                 </div> */}
                 {
-                  orientationMode === "landscape" && Preview 
+                  orientationMode === "landscape" && preview 
                   ?
                   handleClockApps(JSON.stringify({
                     clockType:"regular",

@@ -11,6 +11,7 @@ import imgexample from "../../src/img/hh.jpeg";
 import yellow from "../../src/img/push-pin 1.svg";
 import orange from "../../src/img/push-pin 2.svg";
 import blue from "../../src/img/push-pin 3.svg";
+import Celsius from "../../src/img/thermometer 1.svg";
 
 import QRCode from "react-qr-code";
 import { Table } from "react-bootstrap";
@@ -299,7 +300,7 @@ export const handleScrollerApps = (data) => {
           scrollAmount={speed}
           style={{ color: prp.textColor, fontSize: "150px" }}
         >
-          {prp.url}
+          {prp.text}
         </marquee>
       </i>
     );
@@ -311,7 +312,7 @@ export const handleScrollerApps = (data) => {
           scrollAmount={speed}
           style={{ color: prp.textColor, fontSize: "150px" }}
         >
-          {prp.url}
+          {prp.text}
         </marquee>
       </b>
     );
@@ -322,7 +323,7 @@ export const handleScrollerApps = (data) => {
         scrollAmount={speed}
         style={{ color: prp.textColor, fontSize: "150px" }}
       >
-        {prp.url}
+        {prp.text}
       </marquee>
     );
   }
@@ -338,6 +339,7 @@ export const handleScrollerApps = (data) => {
 
 export const handleTextApps = (data) => {
   const prp = JSON.parse(data);
+  console.log("text app ", data);
   let txt = "";
   if (prp.style == "Italic") {
     return (
@@ -405,6 +407,7 @@ export const handleClockApps = (data) => {
       <div
         className="basic-list-group image-preview-container media-content orange"
         style={{ fontSize: "50px", color: "#000", textAlign: "center" }}
+        // border-bg
       >
         <div style={{ position: "relative", paddingTop: "20px" }}>
           <Clock />
@@ -468,7 +471,8 @@ export const handleWeatherApps = (data, weatherInfo) => {
       className="basic-list-group image-preview-container media-content "
       style={{ color: "white" }}
     >
-      <div className="weather-app-bg w-100 h-100 ">
+      <div className=" classic-bg w-100 h-100 ">
+        {/* weather-app-bg border-bg */}
         <div className="place-date-time d-flex align-items-center justify-content-between ">
           <div className="place-date">
             <h1>{weatherInfo && weatherInfo.city && weatherInfo.city.name}</h1>
@@ -487,17 +491,24 @@ export const handleWeatherApps = (data, weatherInfo) => {
           </div>
         </div>
         <div className="row temperature-box">
-          <div className="col-6 temperature">
-            <h1>
-              {weatherInfo &&
-                weatherInfo.list &&
-                weatherInfo.list[1] &&
-                (prp && prp.temp === "Celsius"
-                  ? (weatherInfo.list[1].main.temp / 10).toFixed(1) + " C"
-                  : ((weatherInfo.list[1].main.temp * 9) / 50 + 32).toFixed(1) +
-                    " F")}
-            </h1>
-            <h2>
+          <div className="col-6 temperature text-white">
+            <div className="d-flex align-items-center">
+              <h1 className="text-white mb-0">
+                {weatherInfo &&
+                  weatherInfo.list &&
+                  weatherInfo.list[1] &&
+                  (prp && prp.temp === "Celsius"
+                    ? (weatherInfo.list[1].main.temp / 10).toFixed(1)
+                    : ((weatherInfo.list[1].main.temp * 9) / 50 + 32).toFixed(
+                        1
+                      ) + " F")}
+              </h1>{" "}
+              <span className="Celsius ml-2">
+                <img src={Celsius} />
+              </span>
+            </div>
+
+            <h2 className="text-white">
               {weatherInfo &&
                 weatherInfo.list &&
                 weatherInfo.list[1] &&
@@ -523,12 +534,18 @@ export const handleWeatherApps = (data, weatherInfo) => {
                             date={new Date(item.dt_txt)}
                           />
                         </p>
-                        <h2>
-                          {prp.temp === "Celsius"
-                            ? (item.main.temp / 10).toFixed(1) + " C"
-                            : ((item.main.temp * 9) / 50 + 32).toFixed(1) +
-                              " F"}
-                        </h2>
+                        <div className="d-flex align-items-center">
+                          <h2>
+                            {prp.temp === "Celsius"
+                              ? (item.main.temp / 10).toFixed(1)
+                              : ((item.main.temp * 9) / 50 + 32).toFixed(1) +
+                                " F"}
+                          </h2>
+                          <span className="Celsius ml-2">
+                            <img src={Celsius} />
+                          </span>
+                        </div>
+
                         <p>{item.weather[0].description}</p>
                       </div>
                     )

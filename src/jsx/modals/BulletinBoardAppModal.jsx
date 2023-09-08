@@ -287,7 +287,7 @@ const BulletinBoardAppModal = ({
 
                   <div className="col-12 mt-4">
                     {bulletin && bulletin.length > 0 && (
-                      <table className="w-100 bg-white">
+                      <table className="w-100 bg-white bulletin-table">
                         <thead>
                           <tr className="bg-white">
                             {checked ? <th>Image</th> : ""}
