@@ -351,7 +351,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     timeZone,
                     url:"Clock App"
                   }))
-                  : <h6>{orientationMode}</h6>
+                  : ""
                 }
               </div>
             </div>

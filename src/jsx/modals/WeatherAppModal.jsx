@@ -273,7 +273,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     id="landscape"
                     checked={orientationMode === 'landscape'}
                     onChange={(e) => {setOrientation(e.target.value)}}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    
                   />
                   <label
                     className="form-check-label mt-0"
@@ -291,6 +291,9 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     id="potrait"
                     checked={orientationMode === 'potrait'}
                     onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
+                    placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -301,6 +304,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 </div>
                 <div className="form-check">
                   <input
+                    placeholder="Preview Not Available"
                     className="form-check-input"
                     type="radio"
                     name="orientation"
@@ -308,6 +312,8 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     id="footer"
                     checked={orientationMode === 'footer'}
                     onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
                   />
                   <label
                     className="form-check-label mt-0"
