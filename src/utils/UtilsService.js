@@ -294,7 +294,7 @@ export const handleScrollerApps = (data) => {
   }
   let txt = "";
   console.log("Speed", speed, allignment)
-  if (prp.style == "italic") {
+  if (prp.style.value == "italic") {
     txt = (
       <i>
         <marquee
@@ -306,7 +306,7 @@ export const handleScrollerApps = (data) => {
         </marquee>
       </i>
     );
-  } else if (prp.style == "bold") {
+  } else if (prp.style.value == "bold") {
     txt = (
       <b>
         <marquee
@@ -398,7 +398,7 @@ export const handleClockApps = (data) => {
   const prp = JSON.parse(data);
   let tF = "";
   //prp.timeFormat = "Analogue - 12 hourt";
-  console.log("timeFormat", prp.timeFormat);
+  console.log("timeFormat", prp);
 
   if (
     prp.timeFormat == "Analogue - 12 hour" ||

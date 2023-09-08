@@ -43,7 +43,8 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [errMessage, setErrorMessage] = useState("");
   const [mediaId, setMediaId] = useState(null);
   const [preview, setPreview] = useState(false);
-  const [isRefresh, setIsRefresh] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false); 
+  const [orientationMode, setOrientation] = useState("landscape");
 
   useEffect(() => {
     if (mediaData) {
@@ -57,9 +58,10 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setIsForcast(jsonString.isForcast);
       setIsAnimated(jsonString.isAnimated);
       setIsCorner(jsonString.isCorner);
+      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "landscape")
     }
     setIsRefresh(false)
-  }, [mediaData, isRefresh]);
+  }, [mediaData, isRefresh, orientationMode]);
 
   const handleLocation = (place) => {
     let location = JSON.parse(JSON.stringify(place?.geometry?.location));
@@ -100,6 +102,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       isAnimated,
       isCorner,
       location,
+      orientationMode
     };
 
     if (actionType && actionType == "edit") {
@@ -265,10 +268,11 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
+                    name="orientation"
+                    value="landscape"
+                    id="landscape"
+                    checked={orientationMode === 'landscape'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
                     // defaultChecked={viewImage === "aspectRation"}
                   />
                   <label
@@ -282,11 +286,11 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="potrait"
+                    id="potrait"
+                    checked={orientationMode === 'potrait'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -299,11 +303,11 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="footer"
+                    id="footer"
+                    checked={orientationMode === 'footer'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -336,7 +340,10 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100"
+                onClick={() => setShowUrlApp(false)}
+                variant="outline-light"
+              >
                 Cancel
               </Button>
             </Col>
