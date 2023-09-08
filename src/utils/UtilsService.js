@@ -194,9 +194,7 @@ export const handleBulletinApps = (data) => {
       className="basic-list-group image-preview-container media-content  bulletin-bg text-black"
       style={{ color: "white", textAlign: "center" }}
     >
-      {
-        prp.bulletin && prp.bulletin.length > 0 
-        ?
+      {prp.bulletin && prp.bulletin.length > 0 ? (
         <>
           {newArray.length > 0 && (
             <>
@@ -243,7 +241,7 @@ export const handleBulletinApps = (data) => {
             </>
           )}
         </>
-        :
+      ) : (
         <div className="single-bulletin-app d-flex">
           <div className="d-flex w-100">
             <div className="w-50">
@@ -260,9 +258,7 @@ export const handleBulletinApps = (data) => {
             </div>
           </div>
         </div>
-
-      }
-      
+      )}
     </div>
   );
 };
@@ -285,6 +281,7 @@ export const dayName = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export const handleScrollerApps = (data) => {
   const prp = JSON.parse(data);
+  console.log(data, "handleScrollerApps");
   let speed = 5;
   let allignment = "left";
   if (prp.speed && prp.speed == "medium") {
