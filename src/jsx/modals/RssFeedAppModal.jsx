@@ -350,7 +350,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                                   background: "#fff",
                                   margin: "2rem 0",
                                   display: "inline-block"
-                                }}></div>
+                                }}>  </div>
                               </Slide>
                               <div className="h-100">
                                 <div className=" h-100">

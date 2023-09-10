@@ -5,9 +5,11 @@ import icon from "../../img/link-alt 1.svg";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-import { updateApps, addApps } from "../../utils/api";
+import { updateApps, addApps, getWeather } from "../../utils/api";
+import { handleAqiApps } from "../../utils/UtilsService";
 import Switch from "react-switch";
 import Autocomplete from "react-google-autocomplete";
+
 
 const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const options = [
@@ -34,6 +36,11 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   });
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
+  const [preview, setPreview] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false); 
+  const [orientationMode, setOrientation] = useState("landscape");
+  const [weatherInfo, setWeatherInfo] = useState(null);
+  const [aqiData, setAQIData]  = useState(null);
 
   useEffect(() => {
     if (mediaData) {
@@ -43,8 +50,9 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       setTheame(jsonString.theame);
       setAqiLocation(jsonString.aqiLocation);
       setMediaId(mediaData._id);
+      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "landscape")
     }
-  }, [mediaData]);
+  }, [mediaData, orientationMode]);
   console.log("media", mediaData);
 
   const handleCloseRedirectApp = (e) => {
@@ -76,6 +84,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       location,
       aqiLocation,
       theame,
+      orientationMode
     };
 
     if (actionType && actionType == "edit") {
@@ -108,6 +117,36 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     setLocation(adres);
     //setAdd(adres);
   };
+  const getWeatherDetail = async(lat, long) => {
+    const locationData  = await getWeather(lat, long);
+    setWeatherInfo(locationData)
+  }
+
+  const getAQIDataZone1 = (prp) => {
+    console.log("location",location.latitude)
+    if(location.latitude && location.longitude){
+      getWeatherDetail(location.latitude,location.longitude);
+        return handleAqiApps(JSON.stringify(prp), weatherInfo);
+    }
+  }
+
+  const handlePreview = () => {
+    console.log(preview, location)
+    if(location && location.address){
+      setAQIData(getAQIDataZone1(JSON.stringify({
+        url: name,
+        location,
+        aqiLocation,
+        theame,
+        orientationMode
+      })))
+      setIsRefresh(true)
+      setPreview(true)
+    }else{
+      setPreview(false)
+    }
+  }
+
   return (
     <>
       <Modal
@@ -196,19 +235,21 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 options={options1}
                 className="app-option"
               />
+              <Button onClick={handlePreview}>Preview</Button>
             </div>
             <div className="col-6 ">
-              <div className="d-flex">
+              <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="landscape"
+                    id="landscape"
+                    checked={orientationMode === 'landscape'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    
                   />
                   <label
                     className="form-check-label mt-0"
@@ -221,11 +262,14 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="potrait"
+                    id="potrait"
+                    checked={orientationMode === 'potrait'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
+                    placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -236,13 +280,16 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 </div>
                 <div className="form-check">
                   <input
+                    placeholder="Preview Not Available"
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="footer"
+                    id="footer"
+                    checked={orientationMode === 'footer'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -253,9 +300,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100 air-quality-app-form-icon">
-                <div className="text-center">
-                  <img src={icon} width="60px" height="60px" className="mb-3" />
-                </div>
+                {aqiData}
               </div>
             </div>
           </form>
@@ -263,7 +308,10 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100"
+                 variant="outline-light"
+                 onClick={() => setShowUrlApp(false)}
+              >
                 Cancel
               </Button>
             </Col>

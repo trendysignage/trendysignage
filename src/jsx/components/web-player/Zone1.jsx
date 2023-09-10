@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import WebVideoPlayer from "./WebVideoPlayer";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
-import { BASE_URL, getWeather, getStock } from "../../../utils/api";
+import { BASE_URL, getWeather, getStock, getQuotes, getNews } from "../../../utils/api";
 import {
   handleBulletinApps,
   handleScrollerApps,
@@ -13,22 +13,34 @@ import {
   handleQrApps,
   handleRssApps,
   handleAqiApps,
-  handleStockApps
+  handleStockApps, handleQuoteApps, handleNewsApps
 } from "../../../utils/UtilsService";
 
 const Zone1 = ({ contents, currentIndex, viewImage }) => {
   const [weatherInfo, setWeatherInfo] = useState(null);
+  const [quoteData, setQuoteData] = useState(null);
   const [stock, setStock] = useState(null);
+  const [newsData, setNewsData] = useState(null);
   const getWeatherDetail = async(lat, long) => {
     const locationData  = await getWeather(lat, long);
     setWeatherInfo(locationData)
   }
+
+  const getQuoteData = async(data) => {
+    const quoteResult  = await getQuotes(data);
+    setQuoteData(quoteResult)
+  }
+
+  const getNewsData = async(data) => {
+    const newsResult  = await getNews(data);
+    setNewsData(newsResult)
+  }
+
   const getStockDetail = async(lat, long) => {
     const locationData  = await getStock(lat, long);
     setStock(locationData)
    // console.log('getLocation', locationData);
   }
-
 
   const getWeatherDataZone1 = (data, index) => {
     const prp = JSON.parse(data);
@@ -69,6 +81,31 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
       getStockDetail(stockType);
     }
     return handleStockApps(data, stock);
+    
+  }
+
+  const getQuoteDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!quoteData){
+      const prms = {
+        cat: 'famous',
+        count: '10'
+      }
+      console.log("Hello Quote Calling")
+      getQuoteData(prms);
+    }
+    return handleQuoteApps(data, quoteData);
+    
+  }
+
+  const getNewsDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!newsData){
+      getNewsData(prp.topic.value);
+    }
+    return handleNewsApps(data, newsData);
     
   }
 
@@ -182,9 +219,19 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                   {handleRssApps(contents.zones[0].content[currentIndex].data)}
                 </>
               ) : contents.zones[0].content[currentIndex].type ===
+                "quote-apps" ? (
+                <>
+                  {getQuoteDataZone1(contents.zones[0].content[currentIndex].data)}
+                </>
+                ) : contents.zones[0].content[currentIndex].type ===
                 "aqi-apps" ? (
                 <>
                   {getAqiDataZone1(contents.zones[0].content[currentIndex].data)}
+                </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                "news-apps" ? (
+                <>
+                  {getNewsDataZone1(contents.zones[0].content[currentIndex].data)}
                 </>
                 ) :contents.zones[0].content[currentIndex].type ===
                 "stocks-apps" ? (

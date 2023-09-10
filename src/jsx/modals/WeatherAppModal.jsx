@@ -65,7 +65,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const handleLocation = (place) => {
     let location = JSON.parse(JSON.stringify(place?.geometry?.location));
-    console.log("location", location);
+    console.log("location", place);
     const adres = {
       address: place.formatted_address,
       latitude: location.lat,
@@ -328,7 +328,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   <img src={icon} width="60px" height="60px" className="mb-3" />
                 </div> */}
                 {
-                  preview ? getWeatherDataZone1({isAnimated:isAnimated,isCorner:isCorner, isForcast:isForcast,
+                  preview ? getWeatherDataZone1({isAnimated,isCorner, isForcast,
                     temp:selectedTemp.value,
                     theme:selectedTheme.value,
                     url:"Weather in Noida",

@@ -21,11 +21,16 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     { value: "Japanese", label: "Japanese" },
     { value: "Spanish", label: "Spanish" },
   ];
+
+  const timeZoneOptions = [
+    { value: "UTC", label: "UTC" },
+    { value: "Asia/Kolkata", label: "Asia/Kolkata" }
+  ];
   const colorOptions = [
-    { value: "Light Yellow", label: "Light Yellow" },
-    { value: "Orange", label: "Orange" },
+    { value: "lightYellow", label: "Light Yellow" },
+    { value: "orange", label: "Orange" },
     {
-      value: "Sky Blue",
+      value: "skyBlue",
       label: "Sky Blue",
     },
   ];
@@ -43,7 +48,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [hiddenLocation, setHiddenLocation] = useState(false);
   const [hideDate, setHideDate] = useState(false);
   const [roundCorner, setRoundeCorner] = useState(false);
-  const [timeZone, setTimeZone] = useState("");
+  const [timeZone, setTimeZone] = useState({ value: "UTC", label: "UTC" });
   const [language, setLanguage] = useState(null);
   const [preview, setPreview] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false); 
@@ -208,7 +213,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 options={options}
                 className="app-option"
               />
-              <div className="row mt-4">
+              {/* <div className="row mt-4">
                 <div className="col-6 d-flex align-items-center justify-content-between">
                   <label className="mb-0 mr-3">Get device timezone</label>
                   <Switch
@@ -231,7 +236,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     required={true}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="row mt-4">
                 <div className="col-6 d-flex align-items-center justify-content-between">
@@ -257,7 +262,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
               </div>
 
               <label className="mt-3">Timezone</label>
-              <input
+              {/* <input
                 type="text"
                 className="  form-control "
                 placeholder="Timezone"
@@ -266,17 +271,24 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 id="timeZone"
                 value={timeZone}
                 onChange={(e) => setTimeZone(e.target.value)}
+              /> */}
+              <Select
+                value={timeZone}
+                onChange={setTimeZone}
+                placeholder="Select Time Zone"
+                options={timeZoneOptions}
+                className="app-option"
               />
 
-              <label className="mt-3">Language</label>
+              {/* <label className="mt-3">Language</label>
 
               <Select
                 value={language}
-                // onChange={setTimeFormat}
+                onChange={setLanguage}
                 placeholder="English"
                 options={languageOptions}
                 className="app-option"
-              />
+              /> */}
               <label className="mt-3">Color Scheme</label>
 
               <Select

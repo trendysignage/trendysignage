@@ -5,7 +5,8 @@ import icon from "../../img/link-alt 1.svg";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-import { updateApps, addApps } from "../../utils/api";
+import { updateApps, addApps, getStock } from "../../utils/api";
+import { handleStockApps } from "../../utils/UtilsService"
 import Switch from "react-switch";
 const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const options = [
@@ -22,12 +23,17 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [volume, setVolume] = useState(false);
   const [slideDuration, setSlideDuration] = useState(10);
   const [mediaId, setMediaId] = useState(null);
+  const [stock, setStock] = useState(null);
   const [stockType, setStockType] = useState({
     value: "Day Gainers",
     label: "Day Gainers",
   });
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
+
+  const [preview, setPreview] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false); 
+  const [orientationMode, setOrientation] = useState("landscape");
 
   useEffect(() => {
     if (mediaData) {
@@ -40,8 +46,9 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       setSlideDuration(jsonString.slideDuration);
       setMediaId(mediaData._id);
       setStockType(jsonString.stockType);
+      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "landscape")
     }
-  }, [mediaData]);
+  }, [mediaData, isRefresh, orientationMode]);
   console.log("media", mediaData);
 
   const handleCreateApp = async (e) => {
@@ -63,6 +70,8 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       isLow,
       volume,
       stockType,
+      isPriceChange,
+      orientationMode
     };
 
     if (actionType && actionType == "edit") {
@@ -83,6 +92,40 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     }
     //console.log(name, urlLink, selectedOption)
   };
+
+  const getStockDetail = async(lat, long) => {
+    const locationData  = await getStock(lat, long);
+    setStock(locationData)
+   // console.log('getLocation', locationData);
+  }
+
+  const handlePreview = () => {
+    console.log(preview, name)
+    if(name){
+      setIsRefresh(true)
+      setPreview(true)
+    }else{
+      setPreview(false)
+    }
+  }
+
+  const getStockDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+    console.log("location",prp)
+    let stockType = 'gainers';
+    if(prp.stockType === '"Day Losers"'){
+      stockType = 'losers'
+    }else if(prp.stockType === 'Most Actives'){
+      stockType = 'actives';
+    }
+
+    if(!stock){
+      console.log("Hello Stock Calling")
+      getStockDetail(stockType);
+    }
+    return handleStockApps(data, stock);
+    
+  }
   return (
     <>
       <Modal
@@ -194,19 +237,21 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 value={slideDuration}
                 onChange={(e) => setSlideDuration(e.target.value)}
               />
+              <Button onClick={handlePreview}>Preview</Button>
             </div>
             <div className="col-6 ">
-              <div className="d-flex">
+              <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="landscape"
+                    id="landscape"
+                    checked={orientationMode === 'landscape'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    
                   />
                   <label
                     className="form-check-label mt-0"
@@ -219,11 +264,12 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="potrait"
+                    id="potrait"
+                    checked={orientationMode === 'potrait'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -234,13 +280,14 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 </div>
                 <div className="form-check">
                   <input
+                    placeholder="Preview Not Available"
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="footer"
+                    id="footer"
+                    checked={orientationMode === 'footer'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -251,9 +298,36 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100 stocks-app-form-icon">
-                <div className="text-center">
+                {/* <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />
-                </div>
+                </div> */}
+                {preview && orientationMode == 'landscape' && getStockDataZone1(JSON.stringify({
+                  url: name,
+                  slideDuration,
+                  isHigh,
+                  isLow,
+                  volume,
+                  stockType,
+                  isPriceChange
+                }))}
+                {preview && orientationMode == 'potrait' && getStockDataZone1(JSON.stringify({
+                  url: name,
+                  slideDuration,
+                  isHigh,
+                  isLow,
+                  volume,
+                  stockType,
+                  isPriceChange
+                }))}
+                {preview && orientationMode == 'footer' && getStockDataZone1(JSON.stringify({
+                  url: name,
+                  slideDuration,
+                  isHigh,
+                  isLow,
+                  volume,
+                  stockType,
+                  isPriceChange
+                }))}
               </div>
             </div>
           </form>
@@ -261,7 +335,9 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100"
+                onClick={() => setShowUrlApp(false)}
+                variant="outline-light">
                 Cancel
               </Button>
             </Col>

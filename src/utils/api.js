@@ -472,6 +472,37 @@ export async function getStock(type) {
   return response.data;
 
 }
+
+export async function getQuotes(formData) {
+
+  const rapidHeader = {
+    headers: {
+      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
+      'X-RapidAPI-Host': 'andruxnet-random-famous-quotes.p.rapidapi.com'
+    }
+  }
+  const response = await fetchClient.get(
+    `https://andruxnet-random-famous-quotes.p.rapidapi.com?cat=${formData.cat}&count=${formData.count}`, rapidHeader
+  );
+  return response.data;
+
+}
+
+export async function getNews(keyword) {
+
+  const rapidHeader = {
+    headers: {
+      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
+      'X-RapidAPI-Host': 'google-news13.p.rapidapi.com'
+    }
+  }
+  const response = await fetchClient.get(
+    `https://google-news13.p.rapidapi.com/search?keyword=${keyword}&lr:`, rapidHeader
+  );
+  return response.data;
+
+}
+
 export async function getAllMediaFilter() {
   const response = await fetchClient.get(
     BASE_URL + `/vendor/display/media?limit=100`
