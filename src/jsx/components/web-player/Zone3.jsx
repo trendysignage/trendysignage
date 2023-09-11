@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import WebVideoPlayer from "./WebVideoPlayer";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
-import { BASE_URL,getWeather, getStock } from "../../../utils/api";
+import { BASE_URL,getWeather, getStock, getNews, getQuotes } from "../../../utils/api";
 import {
   handleBulletinApps,
   handleScrollerApps,
@@ -13,7 +13,9 @@ import {
   handleQrApps,
   handleRssApps,
   handleAqiApps,
-  handleStockApps
+  handleStockApps,
+  handleQuoteApps,
+  handleNewsApps
 } from "../../../utils/UtilsService";
 const Zone3 = ({
   contents,
@@ -28,6 +30,14 @@ const Zone3 = ({
   const [stock, setStock] = useState(null);
   const [stock2, setStock2] = useState(null);
   const [stock3, setStock3] = useState(null);
+
+  const [quotes, setQuotes] = useState(null);
+  const [quotes2, setQuotes2] = useState(null);
+  const [quotes3, setQuotes3] = useState(null);
+  const [news, setNews] = useState(null);
+  const [news2, setNews2] = useState(null);
+  const [news3, setNews3] = useState(null);
+
   const getWeatherDetail1 = async(lat, long, index) => {
     const locationData  = await getWeather(lat, long);
     setWeatherInfo1(locationData);
@@ -158,6 +168,107 @@ const Zone3 = ({
       getStockDetail3(stockType);
     }
     return handleStockApps(data, stock3);
+    
+  }
+
+
+  const getNewsDetail = async(data) => {
+    const locationData  = await getNews(data);
+    setNews(locationData)
+  }
+  const getNewsDetail2 = async(data) => {
+    const locationData  = await getNews(data);
+    setNews2(locationData)
+  }
+
+  const getNewsDetail3 = async(data) => {
+    const locationData  = await getNews(data);
+    setNews3(locationData)
+  }
+
+  const getQuotesDetail = async(data) => {
+    const locationData  = await getQuotes(data);
+    setQuotes(locationData)
+  }
+  const getQuotesDetail2 = async(data) => {
+    const locationData  = await getQuotes(data);
+    setQuotes2(locationData)
+  }
+  const getQuotesDetail3 = async(data) => {
+    const locationData  = await getQuotes(data);
+    setQuotes3(locationData)
+  }
+
+  const getQuoteDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!quotes){
+      const prms = {
+        cat: 'famous',
+        count: '10'
+      }
+      console.log("Hello Quote Calling")
+      getQuotesDetail(prms);
+    }
+    return handleQuoteApps(data, quotes);
+    
+  }
+  const getQuoteDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!quotes2){
+      const prms = {
+        cat: 'famous',
+        count: '10'
+      }
+      console.log("Hello Quote Calling")
+      getQuotesDetail2(prms);
+    }
+    return handleQuoteApps(data, quotes2);
+    
+  }
+
+  const getQuoteDataZone3 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!quotes3){
+      const prms = {
+        cat: 'famous',
+        count: '10'
+      }
+      console.log("Hello Quote Calling")
+      getQuotesDetail3(prms);
+    }
+    return handleQuoteApps(data, quotes3);
+    
+  }
+  const getNewsDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!news){
+      getNewsDetail(prp.topic.value);
+    }
+    return handleNewsApps(data, news);
+    
+  }
+
+  const getNewsDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!news2){
+      getNewsDetail2(prp.topic.value);
+    }
+    return handleNewsApps(data, news2);
+    
+  }
+
+  const getNewsDataZone3 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!news3){
+      getNewsDetail3(prp.topic.value);
+    }
+    return handleNewsApps(data, news3);
     
   }
   return (

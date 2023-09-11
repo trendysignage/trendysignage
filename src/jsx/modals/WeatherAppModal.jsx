@@ -5,12 +5,22 @@ import { usePlacesWidget } from "react-google-autocomplete";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-import { updateApps, addApps } from "../../utils/api";
+import { updateApps, addApps, getWeather } from "../../utils/api";
+import { handleWeatherApps } from "../../utils/UtilsService";
 import Form from "react-bootstrap/Form";
 import Autocomplete from "react-google-autocomplete";
 const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
-  const options = [{ value: "Classic", label: "Classic" }];
-  const options1 = [{ value: "Celsius", label: "Celsius" }];
+  const [weatherInfo, setWeatherInfo] = useState(null);
+  const getWeatherDetail = async(lat, long) => {
+    const locationData  = await getWeather(lat, long);
+    setWeatherInfo(locationData)
+  }
+  const options = [
+    { value: "classic", label: "Classic" },
+    { value: "grey", label: "Minimalist with Grey Background" },
+    { value: "color", label: "Minimalist with Color Background" }
+];
+  const options1 = [{ value: "celsius", label: "Celsius" },{ value: "fahrenheit", label: "Farhenheit" }];
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
   const [location, setLocation] = useState({
@@ -32,6 +42,9 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
   const [mediaId, setMediaId] = useState(null);
+  const [preview, setPreview] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false); 
+  const [orientationMode, setOrientation] = useState("landscape");
 
   useEffect(() => {
     if (mediaData) {
@@ -45,12 +58,14 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setIsForcast(jsonString.isForcast);
       setIsAnimated(jsonString.isAnimated);
       setIsCorner(jsonString.isCorner);
+      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "landscape")
     }
-  }, [mediaData]);
+    setIsRefresh(false)
+  }, [mediaData, isRefresh, orientationMode]);
 
   const handleLocation = (place) => {
     let location = JSON.parse(JSON.stringify(place?.geometry?.location));
-    console.log("location", location);
+    console.log("location", place);
     const adres = {
       address: place.formatted_address,
       latitude: location.lat,
@@ -87,6 +102,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       isAnimated,
       isCorner,
       location,
+      orientationMode
     };
 
     if (actionType && actionType == "edit") {
@@ -112,6 +128,27 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     setShowUrlRedirectApp(false);
     window.location.reload();
   };
+
+  const getWeatherDataZone1 = (prp) => {
+    console.log("location",prp.location.address)
+
+    if(!weatherInfo){
+      console.log("Hello Weather Calling")
+      getWeatherDetail(prp.location.latitude, prp.location.longitude);
+    }
+    return handleWeatherApps(JSON.stringify(prp), weatherInfo);
+    
+  }
+
+  const handlePreview = () => {
+    console.log(preview, location)
+    if(location && location.address){
+      setIsRefresh(true)
+      setPreview(true)
+    }else{
+      setPreview(false)
+    }
+  }
 
   return (
     <>
@@ -222,6 +259,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   onChange={(e) => setIsCorner(e.target.checked)}
                 />
               </div>
+              <Button onClick={handlePreview}>Preview</Button>
             </div>
             <div className="col-6 ">
               <div className="d-flex ">
@@ -230,11 +268,12 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="landscape"
+                    id="landscape"
+                    checked={orientationMode === 'landscape'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    
                   />
                   <label
                     className="form-check-label mt-0"
@@ -247,11 +286,14 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="potrait"
+                    id="potrait"
+                    checked={orientationMode === 'potrait'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
+                    placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -262,13 +304,16 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 </div>
                 <div className="form-check">
                   <input
+                    placeholder="Preview Not Available"
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="footer"
+                    id="footer"
+                    checked={orientationMode === 'footer'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -279,9 +324,21 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100 weather-app-form-icon">
-                <div className="text-center">
+                {/* <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />
-                </div>
+                </div> */}
+                {
+                  preview ? getWeatherDataZone1({isAnimated,isCorner, isForcast,
+                    temp:selectedTemp.value,
+                    theme:selectedTheme.value,
+                    url:"Weather in Noida",
+                    location:{
+                      address: location.address,
+                      latitude: location.latitude,
+                      longitude: location.longitude
+                    }
+                  }) : <h4>Loading</h4>
+                }
               </div>
             </div>
           </form>
@@ -289,7 +346,10 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100"
+                onClick={() => setShowUrlApp(false)}
+                variant="outline-light"
+              >
                 Cancel
               </Button>
             </Col>

@@ -2,10 +2,13 @@ import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 import icon from "../../img/link-alt 1.svg";
 import { useState, useEffect } from "react";
-import { updateApps, addApps } from "../../utils/api";
+import { updateApps, addApps, BASE_URL } from "../../utils/api";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import qrupload from "../../img/qrupload.svg";
+import SelectMedia from "./SelecteMedia";
+import deleteicon from "../../img/delete-btn.png";
+import { handleQrApps } from "../../utils/UtilsService";
 
 const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
@@ -17,6 +20,11 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
   const [color, setColor] = useState({ value: "lightYellow", label: "Light Yellow" });
+  const [preview, setPreview] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false); 
+  const [orientationMode, setOrientation] = useState("landscape");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imageModalShow, setImageModalShow] = useState(false);
 
   const colorOptions = [
     { value: "lightYellow", label: "Light Yellow" },
@@ -35,7 +43,9 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       setAppDesc(jsonString.appDesc);
       setAppTitle(jsonString.appTitle);
       setMediaId(mediaData._id);
-      setColor(jsonString.color)
+      setColor(jsonString.color);
+      setSelectedImage(jsonString.image)
+      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "landscape")
     }
   }, [mediaData]);
   console.log("media", mediaData);
@@ -66,7 +76,9 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       appTitle,
       appDesc,
       name,
-      color
+      color,
+      orientationMode,
+      image:selectedImage
     };
 console.log(dataString)
     if (actionType && actionType == "edit") {
@@ -87,8 +99,23 @@ console.log(dataString)
     }
     //console.log(name, urlLink, selectedOption)
   };
+
+  const handlePreview = () => {
+    if(name && urlLink && appTitle){
+      setIsRefresh(true)
+      setPreview(true)
+    }else{
+      setPreview(false)
+    }
+  }
   return (
     <>
+      <SelectMedia
+        imageModalShow={imageModalShow}
+        setImageModalShow={setImageModalShow}
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
+      />
       <Modal
         className="fade bd-example-modal-lg mt-4 app-modal"
         show={show}
@@ -183,26 +210,56 @@ console.log(dataString)
                     className="app-option"
                   />
                 </div>
-                {/* <div className="col-4">
-                  <label className="mt-3">Color Scheme</label>
-                  <div>
-                    <img src={qrupload} alt="icon" />
-                  </div>
-                </div> */}
+                <div className="col-4">
+                {
+                  selectedImage ? 
+                  <>
+                  <img
+                    className="media-img img-fluid"
+                    src={`${BASE_URL}${selectedImage}`}
+                    alt="media-img"
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                    }}
+                  />
+                  <img
+                    onClick={(e) => setSelectedImage(null)}
+                    src={deleteicon}
+                    alt="icon"
+                    style={{ height: "20px",cursor:"pointer" }}
+                  />
+                  </>
+                :
+                  <>
+                    <label className="mt-3">Select Media</label>
+                    <div 
+                      onClick={(e) => {
+                        setImageModalShow(true);
+                      }}
+                      style={{cursor:'pointer'}}
+                    >
+                      <img src={qrupload} alt="icon" />
+                    </div>
+                  </>
+              }
+                </div>
+                <Button onClick={handlePreview}>Preview</Button>
               </div>
             </div>
             <div className="col-6 ">
-              <div className="d-flex">
+              <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="landscape"
+                    id="landscape"
+                    checked={orientationMode === 'landscape'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    
                   />
                   <label
                     className="form-check-label mt-0"
@@ -215,11 +272,14 @@ console.log(dataString)
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="potrait"
+                    id="potrait"
+                    checked={orientationMode === 'potrait'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
+                    placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -230,9 +290,17 @@ console.log(dataString)
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100 qr-code-app-form-icon">
-                <div className="text-center">
-                  <img src={icon} width="60px" height="60px" className="mb-3" />
-                </div>
+                {
+                  preview && handleQrApps(JSON.stringify({
+                    url: urlLink,
+                    appTitle,
+                    appDesc,
+                    name,
+                    color,
+                    orientationMode,
+                    image:selectedImage
+                  }))
+                }
               </div>
             </div>
           </form>

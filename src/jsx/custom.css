@@ -1,3 +1,23 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Montserrat:wght@100;300;500&family=Poppins&display=swap');
+  .fira-sans{
+    font-family: 'Fira Sans', sans-serif;
+
+  }
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Montserrat:wght@100;300;500&family=Poppins&display=swap');
+.roboto{
+  font-family: 'Montserrat', sans-serif;
+
+}
+  
+
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Manrope&family=Montserrat:wght@100;300;500&family=Poppins&display=swap');
+.manrope{
+  font-family: 'Manrope', sans-serif;
+}
+ 
 :root {
   --font-stack: "Barlow", sans-serif;
   --font-manrope: "Manrope", sans-serif;
@@ -1462,7 +1482,7 @@ color: #000;
   }
   
   .lightYellow, .lightYellowUrl{
-    background-color: #FFFFE0 !important;
+    background-color: #f6f671 !important;
   }
     .clock-app{
       width: 300px;
@@ -1484,6 +1504,16 @@ color: #000;
       /* background: url(../img/cloudy.svg) no-repeat center; */
       background-color: rgba(0, 0, 0, 0.8);
 
+    }
+    .classic-bg{
+      /* background: linear-gradient(180deg, #0796C2 0%, #69D3F4 100%); */
+      background: url(../img/rainy1.svg);
+      background-position: bottom center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .border-bg{
+      border-radius: 20px;
     }
     .place-date-time{
       padding: 100px 50px 100px 50px;
@@ -1514,10 +1544,11 @@ color: #000;
       margin-bottom: 0;
     }
     .other-day-weather  h2{
-      font-size: 45px;
+      font-size: 30px;
       font-weight: 400;
       margin-bottom: 20px;
       color: #fff;
+      margin-bottom: 0;
     }
     .temperature-box {
       padding-left: 50px;
@@ -1593,6 +1624,73 @@ color: #000;
 }
 .stock-table td{
 color: #fff;
+}
+.people-space img{
+cursor: pointer;
+}
+.people-space{
+  row-gap: 20px;
+}
+.people-space .title{
+  font-size: 18px;
+  color: #1A1A1A;
+  font-weight: 500;
+}
+.gap-2{
+  gap: 2rem;
+}
+.template-app-name label{
+color: #1A1A1A;
+font-weight: 500;
+font-size: 16px;
+
+}
+.template-app-name input{
+  color: #B3005E;
+  border-radius: 12px;
+border: 2px solid  #B3005E;
+font-weight: 500;
+}
+.template-add-content div{
+  border-radius: 20px;
+border: 1px solid #000;
+padding: 20px 60px;
+}
+.template-person-image{
+  border-radius: 50%;
+}
+.template-card{
+  border-radius: 20px;
+  border: 1.5px solid #1A1A1A;
+  padding: 20px;
+}
+.template-card h3{ 
+  color: #1A1A1A;
+    font-size: 22px;
+}
+.template-card p{ 
+  color: #1A1A1A;
+    font-size: 14px;
+    font-weight: 300;
+}
+.add-template div{
+  background-color: #F4F4F4;
+  padding: 0px 8px 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-template .add-btn-template{
+  font-size: 20px;
+  font-weight: 500;
+  padding-bottom: 0px !important;
+}
+.bulletin-table tr td{
+  border: 0;
+}
+.bulletin-table tr .bulletin-action{
+
+  height: 80px;
 }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
@@ -3406,3 +3504,7 @@ thead {
 }
 }
  
+@keyframes example {
+  0%  {top:0px;}
+  100% {top:100px;}
+}

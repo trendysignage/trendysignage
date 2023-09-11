@@ -6,8 +6,11 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
 import { updateApps, addApps } from "../../utils/api";
+import { handleClockApps } from "../../utils/UtilsService";
 import Switch from "react-switch";
+import { Preview } from "react-dropzone-uploader";
 const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
+  const [orientationMode, setOrientation] = useState("landscape");
   const options = [
     { value: "Analogue - 12 hour", label: "Analogue - 12 hour" },
     { value: "Digital - 12 hour", label: "Digital - 12 hour" },
@@ -18,11 +21,16 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     { value: "Japanese", label: "Japanese" },
     { value: "Spanish", label: "Spanish" },
   ];
+
+  const timeZoneOptions = [
+    { value: "UTC", label: "UTC" },
+    { value: "Asia/Kolkata", label: "Asia/Kolkata" }
+  ];
   const colorOptions = [
-    { value: "Light Yellow", label: "Light Yellow" },
-    { value: "Orange", label: "Orange" },
+    { value: "lightYellow", label: "Light Yellow" },
+    { value: "orange", label: "Orange" },
     {
-      value: "Sky Blue",
+      value: "skyBlue",
       label: "Sky Blue",
     },
   ];
@@ -40,10 +48,11 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [hiddenLocation, setHiddenLocation] = useState(false);
   const [hideDate, setHideDate] = useState(false);
   const [roundCorner, setRoundeCorner] = useState(false);
-  const [timeZone, setTimeZone] = useState("");
+  const [timeZone, setTimeZone] = useState({ value: "UTC", label: "UTC" });
   const [language, setLanguage] = useState(null);
-
-  const [color, setColor] = useState(null);
+  const [preview, setPreview] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false); 
+  const [color, setColor] = useState({ value: "Light Yellow", label: "Light Yellow" });
 
   const handleChange = (e) => {
     console.log(e.target);
@@ -67,8 +76,9 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setTimeZone(jsonString.timeZone);
       setMediaId(mediaData._id);
       setColor(jsonString.color)
+      setOrientation(jsonString.orientationMode)
     }
-  }, [mediaData]);
+  }, [mediaData, orientationMode, preview]);
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
@@ -96,7 +106,8 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
         timeFormat: timeFormat.value,
         roundCorner,
         clockType,
-        color
+        color,
+        orientationMode
       };
 
       if (actionType && actionType == "edit") {
@@ -117,6 +128,15 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
       }
     }
   };
+  const handlePreview = () => {
+    console.log(preview)
+    if(name){
+      setIsRefresh(true)
+      setPreview(true)
+    }else{
+      setPreview(false)
+    }
+  }
   return (
     <>
       <Modal
@@ -172,7 +192,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     required
                   />
                 </div>
-                <div className="col-6">
+                {/* <div className="col-6">
                   <label className="mt-3 mr-3">World Clock</label>
                   <input
                     type="radio"
@@ -181,7 +201,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     onChange={(e) => setClockType("world")}
                     required
                   />
-                </div>
+                </div> */}
               </div>
 
               <label className="mt-3">Time Format</label>
@@ -193,7 +213,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 options={options}
                 className="app-option"
               />
-              <div className="row mt-4">
+              {/* <div className="row mt-4">
                 <div className="col-6 d-flex align-items-center justify-content-between">
                   <label className="mb-0 mr-3">Get device timezone</label>
                   <Switch
@@ -216,7 +236,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     required={true}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="row mt-4">
                 <div className="col-6 d-flex align-items-center justify-content-between">
@@ -242,7 +262,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
               </div>
 
               <label className="mt-3">Timezone</label>
-              <input
+              {/* <input
                 type="text"
                 className="  form-control "
                 placeholder="Timezone"
@@ -251,17 +271,24 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 id="timeZone"
                 value={timeZone}
                 onChange={(e) => setTimeZone(e.target.value)}
+              /> */}
+              <Select
+                value={timeZone}
+                onChange={setTimeZone}
+                placeholder="Select Time Zone"
+                options={timeZoneOptions}
+                className="app-option"
               />
 
-              <label className="mt-3">Language</label>
+              {/* <label className="mt-3">Language</label>
 
               <Select
                 value={language}
-                // onChange={setTimeFormat}
+                onChange={setLanguage}
                 placeholder="English"
                 options={languageOptions}
                 className="app-option"
-              />
+              /> */}
               <label className="mt-3">Color Scheme</label>
 
               <Select
@@ -271,19 +298,21 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 options={colorOptions}
                 className="app-option"
               />
+              <Button onClick={handlePreview}>Preview</Button>
             </div>
             <div className="col-6 ">
-              <div className="d-flex">
+              <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="landscape"
+                    id="landscape"
+                    checked={orientationMode === 'landscape'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    
                   />
                   <label
                     className="form-check-label mt-0"
@@ -296,11 +325,14 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="potrait"
+                    id="potrait"
+                    checked={orientationMode === 'potrait'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
+                    placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -311,13 +343,16 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 </div>
                 <div className="form-check">
                   <input
+                    placeholder="Preview Not Available"
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="footer"
+                    id="footer"
+                    checked={orientationMode === 'footer'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    disabled
+                    style={{cursor:"not-allowed"}}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -328,9 +363,25 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100 clock-app-form-icon">
-                <div className="text-center">
+                {/* <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />
-                </div>
+                </div> */}
+                {
+                  orientationMode === "landscape" && preview 
+                  ?
+                  handleClockApps(JSON.stringify({
+                    clockType:"regular",
+                    color:color.value,
+                    deviceTime,
+                    hiddenLocation,
+                    hideDate,
+                    roundCorner,
+                    timeFormat:timeFormat.value,
+                    timeZone,
+                    url:"Clock App"
+                  }))
+                  : ""
+                }
               </div>
             </div>
           </form>
@@ -338,7 +389,9 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100" variant="outline-light"
+                onClick={() => setShowUrlApp(false)}
+              >
                 Cancel
               </Button>
             </Col>

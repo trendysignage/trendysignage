@@ -11,7 +11,10 @@ import imgexample from "../../src/img/hh.jpeg";
 import yellow from "../../src/img/push-pin 1.svg";
 import orange from "../../src/img/push-pin 2.svg";
 import blue from "../../src/img/push-pin 3.svg";
+import Celsius from "../../src/img/thermometer 1.svg";
+import { BASE_URL } from "./api";
 
+import Slide from '@mui/material/Slide';
 import QRCode from "react-qr-code";
 import { Table } from "react-bootstrap";
 
@@ -194,66 +197,71 @@ export const handleBulletinApps = (data) => {
       className="basic-list-group image-preview-container media-content  bulletin-bg text-black"
       style={{ color: "white", textAlign: "center" }}
     >
-      <div className="single-bulletin-app d-flex">
-        <div className="d-flex w-100">
-          <div className="w-50">
-            <img src={imgexample} alt="image" style={{ objectFit: "fill" }} />
-          </div>
-          <div className="flex-1 text-start single-bulletin-text">
-            <div style={{ width: "40px" }} className="mb-3">
-              {/* <img src={yellow} alt="icon" />
-              <img src={blue} alt="icon" /> */}
-              <img src={orange} alt="icon" />
+      {prp.bulletin && prp.bulletin.length > 0 ? (
+        <>
+          {newArray.length > 0 && (
+            <>
+              <div className=" h-100" style={{ margin: "2%" }}>
+                <Carousel
+                  interval={5000}
+                  indicators={false}
+                  animation={"slide"}
+                  className="h-100"
+                >
+                  {newArray.map((item, i) => {
+                    return (
+                      <div className="h-100">
+                        <div className="row h-100">
+                          {item.map((item1, index1) => {
+                            return (
+                              <>
+                                <div
+                                  className="bg-white text-center d-flex "
+                                  style={{
+                                    borderRadius: "18px",
+                                    margin: "20px",
+                                    flexDirection: "column",
+                                    width: "30%",
+                                  }}
+                                >
+                                  <div>
+                                    <img src={imgexample} alt="image" />
+                                  </div>
+                                  <div className="mt-2" key={i + "dd" + index1}>
+                                    <strong>{item1.title}</strong>
+                                    <p>{item1.content}</p>
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Carousel>
+              </div>
+            </>
+          )}
+        </>
+      ) : (
+        <div className="single-bulletin-app d-flex">
+          <div className="d-flex w-100">
+            <div className="w-50">
+              <img src={imgexample} alt="image" style={{ objectFit: "fill" }} />
             </div>
-            <strong>title</strong>
-            <p>content</p>
+            <div className="flex-1 text-start single-bulletin-text">
+              <div style={{ width: "40px" }} className="mb-3">
+                {/* <img src={yellow} alt="icon" />
+                <img src={blue} alt="icon" /> */}
+                <img src={orange} alt="icon" />
+              </div>
+              <strong>title</strong>
+              <p>content</p>
+            </div>
           </div>
         </div>
-      </div>
-      {/* {newArray.length > 0 && (
-        <>
-          <div className=" h-100" style={{ margin: "2%" }}>
-            <Carousel
-              interval={5000}
-              indicators={false}
-              animation={"slide"}
-              className="h-100"
-            >
-              {newArray.map((item, i) => {
-                return (
-                  <div className="h-100">
-                    <div className="row h-100">
-                      {item.map((item1, index1) => {
-                        return (
-                          <>
-                            <div
-                              className="bg-white text-center d-flex "
-                              style={{
-                                borderRadius: "18px",
-                                margin: "20px",
-                                flexDirection: "column",
-                                width: "30%",
-                              }}
-                            >
-                              <div>
-                                <img src={imgexample} alt="image" />
-                              </div>
-                              <div className="mt-2" key={i + "dd" + index1}>
-                                <strong>{item1.title}</strong>
-                                <p>{item1.content}</p>
-                              </div>
-                            </div>
-                          </>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </Carousel>
-          </div>
-        </>
-      )} */}
+      )}
     </div>
   );
 };
@@ -276,18 +284,17 @@ export const dayName = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export const handleScrollerApps = (data) => {
   const prp = JSON.parse(data);
-  let speed = 5;
+  console.log("prp", prp, prp.speed.value, "high");
+  const speed =
+    prp.speed.value === "high" ? 20 : prp.speed.value === "medium" ? 10 : 5;
   let allignment = "left";
-  if (prp.speed && prp.speed == "medium") {
-    speed = 12;
-  } else if (prp.spped && prp.speed == "hight") {
-    speed = 20;
-  }
-  if (prp.allign == "Right-to-Left") {
+
+  if (prp.allign.value == "rightToLeft") {
     allignment = "right";
   }
   let txt = "";
-  if (prp.style == "italic") {
+  console.log("Speed", speed, allignment);
+  if (prp.style.value == "italic") {
     txt = (
       <i>
         <marquee
@@ -295,11 +302,11 @@ export const handleScrollerApps = (data) => {
           scrollAmount={speed}
           style={{ color: prp.textColor, fontSize: "150px" }}
         >
-          {prp.url}
+          {prp.text}
         </marquee>
       </i>
     );
-  } else if (prp.style == "bold") {
+  } else if (prp.style.value == "bold") {
     txt = (
       <b>
         <marquee
@@ -307,7 +314,7 @@ export const handleScrollerApps = (data) => {
           scrollAmount={speed}
           style={{ color: prp.textColor, fontSize: "150px" }}
         >
-          {prp.url}
+          {prp.text}
         </marquee>
       </b>
     );
@@ -318,7 +325,7 @@ export const handleScrollerApps = (data) => {
         scrollAmount={speed}
         style={{ color: prp.textColor, fontSize: "150px" }}
       >
-        {prp.url}
+        {prp.text}
       </marquee>
     );
   }
@@ -334,6 +341,7 @@ export const handleScrollerApps = (data) => {
 
 export const handleTextApps = (data) => {
   const prp = JSON.parse(data);
+  console.log("text app ", data);
   let txt = "";
   if (prp.style == "Italic") {
     return (
@@ -387,11 +395,15 @@ export const handleTextApps = (data) => {
 };
 
 export const handleClockApps = (data) => {
-  const cdate = new Date();
   const prp = JSON.parse(data);
   let tF = "";
+  Moment.globalLocale = 'fr';
+  const cdate = new Date();
+  let timeZ = prp.timeZone ? prp.timeZone.value : "Asia/Kolkata"
+  let chicago_datetime_str = new Date().toLocaleString("en-US", { timeZone: timeZ });
+  let date_chicago = new Date(chicago_datetime_str);
   //prp.timeFormat = "Analogue - 12 hourt";
-  console.log("timeFormat", prp.timeFormat);
+  console.log("timeFormat", prp);
 
   if (
     prp.timeFormat == "Analogue - 12 hour" ||
@@ -399,8 +411,9 @@ export const handleClockApps = (data) => {
   ) {
     return (
       <div
-        className="basic-list-group image-preview-container media-content orange"
+        className={`basic-list-group image-preview-container media-content ${prp.color} ${prp.roundCorner ? 'border-bg' : ''}`}
         style={{ fontSize: "50px", color: "#000", textAlign: "center" }}
+        // border-bg
       >
         <div style={{ position: "relative", paddingTop: "20px" }}>
           <Clock />
@@ -419,42 +432,34 @@ export const handleClockApps = (data) => {
   } else {
     if (prp.timeFormat == "Digital - 12 hour") {
       tF = "hh:mm A";
-    } else if (prp.timeFormat == "Digital - 24 hour") {
+    } else if (prp.timeFormat == "Digital - 24hour") {
       tF = "HH:MM A";
     }
 
     return (
       <div
-        className="basic-list-group image-preview-container media-content orange"
+        className={`basic-list-group image-preview-container media-content ${prp.color} ${prp.roundCorner ? 'border-bg' : ''}`}
         style={{ fontSize: "100px", color: "#000", textAlign: "center" }}
       >
-        <Moment format={tF} date={new Date()} />
+        <Moment format={tF} date={date_chicago} locale={"fr"} />
+        {/* <Moment>{date_chicago}</Moment> */}
         {!prp.hideDate ? (
           <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
             monthName[cdate.getDay()]
-          } ${dayName[cdate.getDay()]} Indian Standard Time`}</p>
+          } ${dayName[cdate.getDay()]} ${timeZ}`}</p>
         ) : (
           ""
         )}
       </div>
     );
   }
-
-  // const prp = JSON.parse(data);
-  // let txt = "";
-  // if(prp.style == 'Italic'){
-  //   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><i>{prp.content}</i></div>
-  // }else if(prp.style == 'Bold'){
-  //   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}><b>{prp.content}</b></div>
-  // }else{
-  //   return <div className="basic-list-group image-preview-container media-content" style={{backgroundColor:prp.backGroundColor,color:prp.textColor, fontWeight:prp.weight, textAlign:prp.allign}}>{prp.content}</div>
-  // }
 };
 
 export const handleWeatherApps = (data, weatherInfo) => {
   //console.log("Hi this is weather", data, weatherInfo)
   const prp = JSON.parse(data);
-  // console.log("data", prp);
+  console.log("data", prp);
+  const theme = prp.theme.value;
   // getWeather('Noida').then((resp) => {
   //   console.log("weatherDetail",resp)
   // });
@@ -463,7 +468,8 @@ export const handleWeatherApps = (data, weatherInfo) => {
       className="basic-list-group image-preview-container media-content "
       style={{ color: "white" }}
     >
-      <div className="weather-app-bg w-100 h-100 ">
+      <div className={`classic-bg w-100 h-100 weather-app-bg ${prp.isCorner ? 'border-bg' : ''}`}>
+        {/* weather-app-bg border-bg */}
         <div className="place-date-time d-flex align-items-center justify-content-between ">
           <div className="place-date">
             <h1>{weatherInfo && weatherInfo.city && weatherInfo.city.name}</h1>
@@ -482,17 +488,24 @@ export const handleWeatherApps = (data, weatherInfo) => {
           </div>
         </div>
         <div className="row temperature-box">
-          <div className="col-6 temperature">
-            <h1>
-              {weatherInfo &&
-                weatherInfo.list &&
-                weatherInfo.list[1] &&
-                (prp && prp.temp === "Celsius"
-                  ? weatherInfo.list[1].main.temp / 10
-                  : (weatherInfo.list[1].main.temp * 9) / 50 + 32
-                ).toFixed(1)}
-            </h1>
-            <h2>
+          <div className="col-6 temperature text-white">
+            <div className="d-flex align-items-center">
+              <h1 className="text-white mb-0">
+                {weatherInfo &&
+                  weatherInfo.list &&
+                  weatherInfo.list[1] &&
+                  (prp && prp.temp === "Celsius"
+                    ? (weatherInfo.list[1].main.temp / 10).toFixed(1)
+                    : ((weatherInfo.list[1].main.temp * 9) / 50 + 32).toFixed(
+                        1
+                      ) + " F")}
+              </h1>{" "}
+              <span className="Celsius ml-2">
+                <img src={Celsius} />
+              </span>
+            </div>
+
+            <h2 className="text-white">
               {weatherInfo &&
                 weatherInfo.list &&
                 weatherInfo.list[1] &&
@@ -518,12 +531,18 @@ export const handleWeatherApps = (data, weatherInfo) => {
                             date={new Date(item.dt_txt)}
                           />
                         </p>
-                        <h2>
-                          {(prp.temp === "Celsius"
-                            ? item.main.temp / 10
-                            : (item.main.temp * 9) / 50 + 32
-                          ).toFixed(1)}
-                        </h2>
+                        <div className="d-flex align-items-center">
+                          <h2>
+                            {prp.temp === "Celsius"
+                              ? (item.main.temp / 10).toFixed(1)
+                              : ((item.main.temp * 9) / 50 + 32).toFixed(1) +
+                                " F"}
+                          </h2>
+                          <span className="Celsius ml-2">
+                            <img src={Celsius} />
+                          </span>
+                        </div>
+
                         <p>{item.weather[0].description}</p>
                       </div>
                     )
@@ -538,23 +557,26 @@ export const handleWeatherApps = (data, weatherInfo) => {
 };
 
 export const handleQrApps = (data) => {
-  
   const prp = JSON.parse(data);
   console.log(prp, "utilsservice");
   return (
-    <div className={`qr-app-container ${prp.color ? prp.color.value : 'orange'}`}>
+    <div
+      className={`qr-app-container ${prp.color ? prp.color.value : "orange"}`}
+    >
       <div className="qr-box">
         <div className=" qr">
-          <QRCode
-            size={150}
-            value={prp.url}
-            viewBox={`0 0 256 256`}
-          />
+          <QRCode size={150} value={prp.url} viewBox={`0 0 256 256`} />
         </div>
         <div className="text">
+          {prp.image && prp.image !== undefined ? <img style={{width:'200px'}} src={BASE_URL+prp.image} /> : ""}
           <h3>{prp.appTitle}</h3>
           <p className="mb-3">{prp.appTitle}</p>
-          <p className={`mb-0 url ${prp.color ? prp.color.value : 'orange'}Url`}>{prp.appDesc}</p>
+          <p
+            className={`mb-0 url ${prp.color ? prp.color.value : "orange"}Url`}
+          >
+            {prp.appDesc}
+          </p>
+
         </div>
       </div>
     </div>
@@ -562,13 +584,74 @@ export const handleQrApps = (data) => {
 };
 
 export const handleRssApps = (data) => {
-  const prp = JSON.parse(data);
+  console.log("data rss", data);
+  //const prp = JSON.parse(data);
   return (
     <div
       className="basic-list-group image-preview-container media-content"
       style={{ color: "white", textAlign: "center" }}
     >
-      RSS Feed Apps
+      {data.urlLink.items.length > 0 && (
+        <>
+          <div
+            className={`h-100 ${
+              data.theame.value == "White Background" ? "bg-white" : "bg-black"
+            } `}
+            style={{ padding: "5% 2% 2% 2%" }}
+          >
+            <Carousel
+              interval={data.slideDuration * 1000}
+              indicators={false}
+              animation={"slide"}
+              className="h-100"
+            >
+              {data.urlLink.items.map((item, i) => {
+                return (
+                  <div className="h-100">
+                    <div className=" h-100">
+                      <div
+                        className="text-center  "
+                        // style={{
+                        //   borderRadius: "18px",
+                        //   margin: "20px",
+                        //   flexDirection: "column",
+                        //   width: "30%",
+                        // }}
+                      >
+                        {/* <div>
+                            <img src={imgexample} alt="image" />
+                          </div> */}
+                        <div className="mt-2 hhhhhh" key={i}>
+                          <h1
+                            className={`${
+                              data.theame.value == "White Background"
+                                ? "text-black"
+                                : "text-white"
+                            } `}
+                          >
+                            {/* text-white */}
+
+                            {item["title"]}
+                          </h1>
+                          <p
+                            className={`${
+                              data.theame.value == "White Background"
+                                ? "text-black"
+                                : "text-white"
+                            } `}
+                          >
+                            {item["content"]}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      )}
     </div>
   );
 };
@@ -591,24 +674,39 @@ export const handleStockApps = (data, stock) => {
               <th>STOCK</th>
               <th>PRICE</th>
               <th>% CHANGE</th>
-              <th>CHANGE</th>
-              {/* <th>VOLUMES</th>
-              <th>52 Wk HIGH</th>
-              <th>52 Wk LOW</th> */}
+              { prp.isPriceChange ? <th>CHANGE</th> : ''}
+              { prp.volume ? <th>VOLUMES</th> : ''}
+              {
+                prp.isHigh ? <th>52 Wk HIGH</th> : ''
+              }
+              { prp.isLow ? <th>52 Wk LOW</th> :"" }
             </tr>
           </thead>
 
           <tbody>
-            {
-              stock && stock.length > 0 && stock.map((item, index) => {
-                return (index < 10 && <tr>
-                  <td className="stockTd">{item.ticker}</td>
-                  <td className="stockTd">{item.price}</td>
-                  <td className={`${item.changes < 0 ?'losers' :'gainers'}`}>{item.changesPercentage}</td>
-                  <td className="stockTd">{item.changes} %</td>
-                </tr>)
-              })
-            }
+            {stock &&
+              stock.length > 0 &&
+              stock.map((item, index) => {
+                return (
+                  index < 10 && (
+                    <tr>
+                      <td className="stockTd">{item.ticker}</td>
+                      <td className="stockTd">{item.price}</td>
+                      <td
+                        className={`${item.changes < 0 ? "losers" : "gainers"}`}
+                      >
+                        {item.changesPercentage}
+                      </td>
+                      { prp.isPriceChange ? <td className="stockTd">{item.changes} %</td> : '' }
+                      { prp.volume ? <td>--</td> : ''}
+                      {
+                        prp.isHigh ? <td>--</td> : ''
+                      }
+                      { prp.isLow ? <td>--</td> :"" }
+                    </tr>
+                  )
+                );
+              })}
           </tbody>
         </Table>
       </div>
@@ -675,6 +773,140 @@ export const handleAqiApps = (data, weatherInfo) => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+export const handleQuoteApps = (data, quoteData) => {
+  const prp = JSON.parse(data, quoteData);
+  return (
+
+   <div
+      className={`basic-list-group image-preview-container media-content  bulletin-bg text-black ${prp.color.value}`}
+      style={{ color: "white", textAlign: "center" }}
+    >
+      <Carousel
+        interval={10000}
+        indicators={false}
+        animation={"slide"}
+        className="h-100"
+      >
+        {quoteData && quoteData.length > 0 && quoteData.map((item1, index1) => {
+          {console.log(item1, item1.quote)}
+          return (
+            <>
+              <div
+                key={index1}
+                className="text-center d-flex "
+                style={{
+                  borderRadius: "18px",
+                  margin: "20px",
+                  marginTop:"25%",
+                  flexDirection: "column",
+                }}
+              >
+                <div className="mt-2">
+                  {
+                    prp.fontStyle.value == 'italic'
+                      ? 
+                        <>
+                        <strong><i>{item1['quote']}</i></strong>
+                        <p><i>{item1.author}</i></p>
+                        </>
+                      : 
+                        ''
+                  }
+                  {
+                    prp.fontStyle.value == 'regular'
+                      ? 
+                        <>
+                        <strong>{item1['quote']}</strong>
+                        <p>{item1.author}</p>
+                        </>
+                      : 
+                        ''
+                  }
+
+                  {  
+                    prp.fontStyle.value == 'bold'
+                      ? 
+                        <>
+                        <strong><b>{item1['quote']}</b></strong>
+                        <p><b>{item1.author}</b></p>
+                        </>
+                      : 
+                        ''
+                  }
+                  
+                </div>
+              </div>
+            </>
+          );
+        })}
+      </Carousel>
+    </div>
+  );
+};
+
+export const handleNewsApps = (data, newsData) => {
+  const prp = JSON.parse(data);
+  console.log("news", newsData)
+  return (
+    <div
+      className="basic-list-group image-preview-container media-content"
+      style={{ color: "white", textAlign: "center" }}
+    >
+      <h2>News About {prp.topic.value}</h2>
+          <Carousel
+            interval={10000}
+            indicators={false}
+            animation={"slide"}
+            className="h-100"
+          >
+            {newsData && newsData.items.map((item, i) => {
+              {console.log(item.title)}
+              return (
+                <>
+                <Slide direction="right" in={true} timeout={1000}>
+                  <div style={{
+                    maxWidth: "100%",
+                    minWidth:"70%",
+                    height:"5px",
+                    background: "#fff",
+                    margin: "2rem 0",
+                    display: "inline-block"
+                  }}></div>
+                </Slide>
+                <div className=" h-100" key={i}>
+                    <div
+                      className="text-center  "
+                    >
+                        <h1
+                          className={`${
+                            prp.theame.value == "White Background"
+                              ? "text-black"
+                              : "text-white"
+                          } `}
+                        >
+                          {/* text-white */}
+
+                          {item.title}
+                        </h1>
+                        <p
+                          className={`${
+                            prp.theame.value == "White Background"
+                              ? "text-black"
+                              : "text-white"
+                          } `}
+                        >
+                          {item.publisher}
+                        </p>
+                    </div>
+                </div>
+                </>
+              );
+            })}
+          </Carousel>
     </div>
   );
 };
