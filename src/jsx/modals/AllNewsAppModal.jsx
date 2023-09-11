@@ -2,7 +2,7 @@ import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 import icon from "../../img/link-alt 1.svg";
 import { addApps, updateApps, getNews } from "../../utils/api";
-import { handleNewsApps } from '../../utils/UtilsService'
+import { handleNewsApps } from "../../utils/UtilsService";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
@@ -28,14 +28,13 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   ];
   const themeOptions = [
     { value: "classic", label: "Classic View" },
-    { value: "bottom", label: "Bottom Load" },
-    { value: "blurred", label: "Blurred" },
+    { value: "white-background-center", label: "White Background Center" },
   ];
   const [selectedTheame, setSelectedTheame] = useState({
     value: "classic",
     label: "Classic View",
   });
-  const [topic, setTopic] = useState({ value: "world", label: "World" })
+  const [topic, setTopic] = useState({ value: "world", label: "World" });
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
   const [duration, setDuration] = useState(10);
@@ -43,7 +42,7 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
   const [preview, setPreview] = useState(false);
-  const [isRefresh, setIsRefresh] = useState(false); 
+  const [isRefresh, setIsRefresh] = useState(false);
   const [orientationMode, setOrientation] = useState("landscape");
 
   useEffect(() => {
@@ -52,10 +51,12 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       const jsonString = JSON.parse(mediaData.appData);
       setName(mediaData.title);
       setMediaId(mediaData._id);
-      setDuration(jsonString.duration)
+      setDuration(jsonString.duration);
       setSelectedTheame(jsonString.theame);
       setTopic(jsonString.topic);
-      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "landscape")
+      setOrientation(
+        jsonString.orientationMode ? jsonString.orientationMode : "landscape"
+      );
     }
   }, [mediaData]);
 
@@ -76,7 +77,7 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       const dataString = {
         url: name,
         duration,
-        theame:selectedTheame,
+        theame: selectedTheame,
         topic,
         orientationMode,
       };
@@ -100,38 +101,42 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     }
   };
 
-  const getNewsData = async(data) => {
-    const quoteResult  = await getNews(data);
+  const getNewsData = async (data) => {
+    const quoteResult = await getNews(data);
     console.log(quoteResult);
-    setNewsData(quoteResult)
-  }
+    setNewsData(quoteResult);
+  };
 
   const getNewsDataZone1 = (data) => {
     const prp = JSON.parse(data);
 
-    if(!newsData){
+    if (!newsData) {
       getNewsData(topic);
     }
-    console.log(data, newsData)
+    console.log(data, newsData);
     return handleNewsApps(data, newsData);
-    
-  }
+  };
 
   const handlePreview = async () => {
-    console.log(preview)
-    if(name){
-      setNewsPreviewData(getNewsDataZone1(JSON.stringify({
-        url: name,
-        theame:selectedTheame,
-        topic,
-        orientationMode,
-      }),newsData))
-      setIsRefresh(true)
-      setPreview(true)
-    }else{
-      setPreview(false)
+    console.log(preview);
+    if (name) {
+      setNewsPreviewData(
+        getNewsDataZone1(
+          JSON.stringify({
+            url: name,
+            theame: selectedTheame,
+            topic,
+            orientationMode,
+          }),
+          newsData
+        )
+      );
+      setIsRefresh(true);
+      setPreview(true);
+    } else {
+      setPreview(false);
     }
-  }
+  };
 
   return (
     <>
@@ -169,7 +174,9 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
               <input
                 name="name"
                 id="name"
-                onChange={(e) => {setName(e.target.value)}}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 value={name}
                 type="text"
                 className="form-control "
@@ -188,7 +195,9 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
               <input
                 name="duration"
                 id="duration"
-                onChange={(e) => {setDuration(e.target.value)}}
+                onChange={(e) => {
+                  setDuration(e.target.value);
+                }}
                 value={duration}
                 type="number"
                 className="form-control "
@@ -214,7 +223,9 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   required={true}
                 />
               </div> */}
-              <Button onClick={handlePreview}>Preview</Button>
+              <Button onClick={handlePreview} className="mt-3">
+                Preview
+              </Button>
             </div>
             <div className="col-6 ">
               <div className="d-flex ">
@@ -226,9 +237,10 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     name="orientation"
                     value="landscape"
                     id="landscape"
-                    checked={orientationMode === 'landscape'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
-                    
+                    checked={orientationMode === "landscape"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -244,10 +256,12 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     name="orientation"
                     value="potrait"
                     id="potrait"
-                    checked={orientationMode === 'potrait'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
+                    checked={orientationMode === "potrait"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                     disabled
-                    style={{cursor:"not-allowed"}}
+                    style={{ cursor: "not-allowed" }}
                     placeholder="Preview Not Available"
                   />
                   <label
@@ -265,10 +279,12 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     name="orientation"
                     value="footer"
                     id="footer"
-                    checked={orientationMode === 'footer'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
+                    checked={orientationMode === "footer"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                     disabled
-                    style={{cursor:"not-allowed"}}
+                    style={{ cursor: "not-allowed" }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -278,11 +294,9 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   </label>
                 </div>
               </div>
-              <div className="d-flex justify-content-center align-items-center h-100 quote-app-form-icon">
-                <div className="text-center">
-                  {
-                    newsPreviewData ? newsPreviewData : 'News Loading...'
-                  }
+              <div className=" h-100 quote-app-form-icon">
+                <div className="text-center h-100 ">
+                  {newsPreviewData ? newsPreviewData : "News Loading..."}
                 </div>
               </div>
             </div>
@@ -291,9 +305,10 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100"
-                 variant="outline-light"
-                 onClick={() => setShowUrlApp(false)}
+              <Button
+                className="cancel-btn w-100"
+                variant="outline-light"
+                onClick={() => setShowUrlApp(false)}
               >
                 Cancel
               </Button>

@@ -7,7 +7,7 @@ import { handleQuoteApps } from "../../utils/UtilsService";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
+const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [quoteData, setQuoteData] = useState(null);
   const [quotePreviewData, setQuotePreviewData] = useState(null);
   const colorSchemeOptions = [
@@ -35,7 +35,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
   const [preview, setPreview] = useState(false);
-  const [isRefresh, setIsRefresh] = useState(false); 
+  const [isRefresh, setIsRefresh] = useState(false);
   const [orientationMode, setOrientation] = useState("landscape");
 
   useEffect(() => {
@@ -46,7 +46,9 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
       setMediaId(mediaData._id);
       setSelectedFontOption(jsonString.fontStyle);
       setColor(jsonString.color);
-      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "landscape")
+      setOrientation(
+        jsonString.orientationMode ? jsonString.orientationMode : "landscape"
+      );
     }
   }, [mediaData]);
 
@@ -66,7 +68,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
       console.log("Hello", err);
       const dataString = {
         url: name,
-        fontStyle:selectedFontOption,
+        fontStyle: selectedFontOption,
         color,
         orientationMode,
       };
@@ -90,41 +92,44 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
     }
   };
 
-  const getQuoteData = async(data) => {
-    const quoteResult  = await getQuotes(data);
-    setQuoteData(quoteResult)
-  }
+  const getQuoteData = async (data) => {
+    const quoteResult = await getQuotes(data);
+    setQuoteData(quoteResult);
+  };
 
   const getQuoteDataZone1 = (data) => {
     const prp = JSON.parse(data);
 
-    if(!quoteData){
+    if (!quoteData) {
       const prms = {
-        cat: 'famous',
-        count: '10'
-      }
-      console.log("Hello Quote Calling")
+        cat: "famous",
+        count: "10",
+      };
+      console.log("Hello Quote Calling");
       getQuoteData(prms);
     }
     return handleQuoteApps(data, quoteData);
-    
-  }
+  };
 
   const handlePreview = () => {
-    console.log(preview)
-    if(name){
-      setQuotePreviewData(getQuoteDataZone1(JSON.stringify({
-        url: name,
-        fontStyle:selectedFontOption,
-        color,
-        orientationMode,
-      })))
-      setIsRefresh(true)
-      setPreview(true)
-    }else{
-      setPreview(false)
+    console.log(preview);
+    if (name) {
+      setQuotePreviewData(
+        getQuoteDataZone1(
+          JSON.stringify({
+            url: name,
+            fontStyle: selectedFontOption,
+            color,
+            orientationMode,
+          })
+        )
+      );
+      setIsRefresh(true);
+      setPreview(true);
+    } else {
+      setPreview(false);
     }
-  }
+  };
   return (
     <>
       <Modal
@@ -152,7 +157,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
           </Button>
         </Modal.Header>
         <Modal.Body>
-        {err && errMessage !== "" ? (
+          {err && errMessage !== "" ? (
             <h6 className="alert alert-danger">{errMessage}</h6>
           ) : (
             ""
@@ -198,7 +203,9 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
                 options={fontOptions}
                 className="app-option"
               />
-              <Button onClick={handlePreview}>Preview</Button>
+              <Button onClick={handlePreview} className="mt-3">
+                Preview
+              </Button>
             </div>
             <div className="col-6 ">
               <div className="d-flex ">
@@ -210,9 +217,10 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
                     name="orientation"
                     value="landscape"
                     id="landscape"
-                    checked={orientationMode === 'landscape'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
-                    
+                    checked={orientationMode === "landscape"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -228,10 +236,12 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
                     name="orientation"
                     value="potrait"
                     id="potrait"
-                    checked={orientationMode === 'potrait'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
+                    checked={orientationMode === "potrait"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                     disabled
-                    style={{cursor:"not-allowed"}}
+                    style={{ cursor: "not-allowed" }}
                     placeholder="Preview Not Available"
                   />
                   <label
@@ -249,10 +259,12 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
                     name="orientation"
                     value="footer"
                     id="footer"
-                    checked={orientationMode === 'footer'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
+                    checked={orientationMode === "footer"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                     disabled
-                    style={{cursor:"not-allowed"}}
+                    style={{ cursor: "not-allowed" }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -263,9 +275,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100 quote-app-form-icon">
-                {
-                  preview && quotePreviewData ? quotePreviewData : "Quotes"
-                }
+                {preview && quotePreviewData ? quotePreviewData : "Quotes"}
               </div>
             </div>
           </form>
@@ -273,9 +283,10 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType}) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100"
-                 variant="outline-light"
-                 onClick={() => setShowUrlApp(false)}
+              <Button
+                className="cancel-btn w-100"
+                variant="outline-light"
+                onClick={() => setShowUrlApp(false)}
               >
                 Cancel
               </Button>

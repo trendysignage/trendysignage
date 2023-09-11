@@ -14,9 +14,11 @@ import blue from "../../src/img/push-pin 3.svg";
 import Celsius from "../../src/img/thermometer 1.svg";
 import { BASE_URL } from "./api";
 
-import Slide from '@mui/material/Slide';
+import Slide from "@mui/material/Slide";
 import QRCode from "react-qr-code";
 import { Table } from "react-bootstrap";
+import quote from "../../src/img/quote.svg";
+import newsimg from "../../src/img/news-image.webp";
 
 export const isValidDate = (d) => {
   return d instanceof Date && !isNaN(d);
@@ -397,10 +399,12 @@ export const handleTextApps = (data) => {
 export const handleClockApps = (data) => {
   const prp = JSON.parse(data);
   let tF = "";
-  Moment.globalLocale = 'fr';
+  Moment.globalLocale = "fr";
   const cdate = new Date();
-  let timeZ = prp.timeZone ? prp.timeZone.value : "Asia/Kolkata"
-  let chicago_datetime_str = new Date().toLocaleString("en-US", { timeZone: timeZ });
+  let timeZ = prp.timeZone ? prp.timeZone.value : "Asia/Kolkata";
+  let chicago_datetime_str = new Date().toLocaleString("en-US", {
+    timeZone: timeZ,
+  });
   let date_chicago = new Date(chicago_datetime_str);
   //prp.timeFormat = "Analogue - 12 hourt";
   console.log("timeFormat", prp);
@@ -411,7 +415,9 @@ export const handleClockApps = (data) => {
   ) {
     return (
       <div
-        className={`basic-list-group image-preview-container media-content ${prp.color} ${prp.roundCorner ? 'border-bg' : ''}`}
+        className={`basic-list-group image-preview-container media-content ${
+          prp.color
+        } ${prp.roundCorner ? "border-bg" : ""}`}
         style={{ fontSize: "50px", color: "#000", textAlign: "center" }}
         // border-bg
       >
@@ -438,7 +444,9 @@ export const handleClockApps = (data) => {
 
     return (
       <div
-        className={`basic-list-group image-preview-container media-content ${prp.color} ${prp.roundCorner ? 'border-bg' : ''}`}
+        className={`basic-list-group image-preview-container media-content ${
+          prp.color
+        } ${prp.roundCorner ? "border-bg" : ""}`}
         style={{ fontSize: "100px", color: "#000", textAlign: "center" }}
       >
         <Moment format={tF} date={date_chicago} locale={"fr"} />
@@ -468,7 +476,11 @@ export const handleWeatherApps = (data, weatherInfo) => {
       className="basic-list-group image-preview-container media-content "
       style={{ color: "white" }}
     >
-      <div className={`classic-bg w-100 h-100 weather-app-bg ${prp.isCorner ? 'border-bg' : ''}`}>
+      <div
+        className={`classic-bg w-100 h-100 weather-app-bg ${
+          prp.isCorner ? "border-bg" : ""
+        }`}
+      >
         {/* weather-app-bg border-bg */}
         <div className="place-date-time d-flex align-items-center justify-content-between ">
           <div className="place-date">
@@ -568,7 +580,11 @@ export const handleQrApps = (data) => {
           <QRCode size={150} value={prp.url} viewBox={`0 0 256 256`} />
         </div>
         <div className="text">
-          {prp.image && prp.image !== undefined ? <img style={{width:'200px'}} src={BASE_URL+prp.image} /> : ""}
+          {prp.image && prp.image !== undefined ? (
+            <img style={{ width: "200px" }} src={BASE_URL + prp.image} />
+          ) : (
+            ""
+          )}
           <h3>{prp.appTitle}</h3>
           <p className="mb-3">{prp.appTitle}</p>
           <p
@@ -576,7 +592,6 @@ export const handleQrApps = (data) => {
           >
             {prp.appDesc}
           </p>
-
         </div>
       </div>
     </div>
@@ -594,21 +609,30 @@ export const handleRssApps = (data) => {
       {data.urlLink.items.length > 0 && (
         <>
           <div
-            className={`h-100 ${
-              data.theame.value == "White Background" ? "bg-white" : "bg-black"
-            } `}
-            style={{ padding: "5% 2% 2% 2%" }}
+          // className={`h-100 ${
+          //   data.theame.value == "White Background" ? "bg-white" : "bg-black"
+          // } `}
+          // style={{ padding: "5% 2% 2% 2%" }}
           >
             <Carousel
               interval={data.slideDuration * 1000}
               indicators={false}
               animation={"slide"}
-              className="h-100"
+              className="h-100 aaa"
             >
               {data.urlLink.items.map((item, i) => {
                 return (
-                  <div className="h-100">
-                    <div className=" h-100">
+                  <div
+                    className="h-100 "
+                    style={{
+                      background: `url(${newsimg})`,
+                      backgroundColor: "rgba(248, 247, 216, 0.7)",
+                      backgroundPosition: "bottom center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
+                    }}
+                  >
+                    <div className=" h-100 uuuuu">
                       <div
                         className="text-center  "
                         // style={{
@@ -674,12 +698,10 @@ export const handleStockApps = (data, stock) => {
               <th>STOCK</th>
               <th>PRICE</th>
               <th>% CHANGE</th>
-              { prp.isPriceChange ? <th>CHANGE</th> : ''}
-              { prp.volume ? <th>VOLUMES</th> : ''}
-              {
-                prp.isHigh ? <th>52 Wk HIGH</th> : ''
-              }
-              { prp.isLow ? <th>52 Wk LOW</th> :"" }
+              {prp.isPriceChange ? <th>CHANGE</th> : ""}
+              {prp.volume ? <th>VOLUMES</th> : ""}
+              {prp.isHigh ? <th>52 Wk HIGH</th> : ""}
+              {prp.isLow ? <th>52 Wk LOW</th> : ""}
             </tr>
           </thead>
 
@@ -697,12 +719,14 @@ export const handleStockApps = (data, stock) => {
                       >
                         {item.changesPercentage}
                       </td>
-                      { prp.isPriceChange ? <td className="stockTd">{item.changes} %</td> : '' }
-                      { prp.volume ? <td>--</td> : ''}
-                      {
-                        prp.isHigh ? <td>--</td> : ''
-                      }
-                      { prp.isLow ? <td>--</td> :"" }
+                      {prp.isPriceChange ? (
+                        <td className="stockTd">{item.changes} %</td>
+                      ) : (
+                        ""
+                      )}
+                      {prp.volume ? <td>--</td> : ""}
+                      {prp.isHigh ? <td>--</td> : ""}
+                      {prp.isLow ? <td>--</td> : ""}
                     </tr>
                   )
                 );
@@ -780,8 +804,7 @@ export const handleAqiApps = (data, weatherInfo) => {
 export const handleQuoteApps = (data, quoteData) => {
   const prp = JSON.parse(data, quoteData);
   return (
-
-   <div
+    <div
       className={`basic-list-group image-preview-container media-content  bulletin-bg text-black ${prp.color.value}`}
       style={{ color: "white", textAlign: "center" }}
     >
@@ -791,58 +814,70 @@ export const handleQuoteApps = (data, quoteData) => {
         animation={"slide"}
         className="h-100"
       >
-        {quoteData && quoteData.length > 0 && quoteData.map((item1, index1) => {
-          {console.log(item1, item1.quote)}
-          return (
-            <>
-              <div
-                key={index1}
-                className="text-center d-flex "
-                style={{
-                  borderRadius: "18px",
-                  margin: "20px",
-                  marginTop:"25%",
-                  flexDirection: "column",
-                }}
-              >
-                <div className="mt-2">
-                  {
-                    prp.fontStyle.value == 'italic'
-                      ? 
-                        <>
-                        <strong><i>{item1['quote']}</i></strong>
-                        <p><i>{item1.author}</i></p>
-                        </>
-                      : 
-                        ''
-                  }
-                  {
-                    prp.fontStyle.value == 'regular'
-                      ? 
-                        <>
-                        <strong>{item1['quote']}</strong>
+        {quoteData &&
+          quoteData.length > 0 &&
+          quoteData.map((item1, index1) => {
+            {
+              console.log(item1, item1.quote);
+            }
+            return (
+              <>
+                <div
+                  key={index1}
+                  className="text-center d-flex "
+                  style={{
+                    borderRadius: "18px",
+                    margin: "20px",
+                    marginTop: "25%",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div>
+                    <img
+                      src={quote}
+                      style={{ height: "50px" }}
+                      alt="quote-icon"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    {prp.fontStyle.value == "italic" ? (
+                      <>
+                        <strong>
+                          <i>{item1["quote"]}</i>
+                        </strong>
+                        <p>
+                          <i>- {item1.author}</i>
+                        </p>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                    {prp.fontStyle.value == "regular" ? (
+                      <>
+                        <strong>{item1["quote"]}</strong>
                         <p>{item1.author}</p>
-                        </>
-                      : 
-                        ''
-                  }
+                      </>
+                    ) : (
+                      ""
+                    )}
 
-                  {  
-                    prp.fontStyle.value == 'bold'
-                      ? 
-                        <>
-                        <strong><b>{item1['quote']}</b></strong>
-                        <p><b>{item1.author}</b></p>
-                        </>
-                      : 
-                        ''
-                  }
-                  
+                    {prp.fontStyle.value == "bold" ? (
+                      <>
+                        <strong>
+                          <b>{item1["quote"]}</b>
+                        </strong>
+                        <p>
+                          <b>{item1.author}</b>
+                        </p>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
-              </div>
-            </>
-          );
-        })}
+              </>
+            );
+          })}
       </Carousel>
     </div>
   );
@@ -850,63 +885,212 @@ export const handleQuoteApps = (data, quoteData) => {
 
 export const handleNewsApps = (data, newsData) => {
   const prp = JSON.parse(data);
-  console.log("news", newsData)
+  console.log("news", newsData);
   return (
-    <div
-      className="basic-list-group image-preview-container media-content"
-      style={{ color: "white", textAlign: "center" }}
-    >
-      <h2>News About {prp.topic.value}</h2>
-          <Carousel
-            interval={10000}
-            indicators={false}
-            animation={"slide"}
-            className="h-100"
+    <>
+      <div className="bg-white h-100">
+        <div className="bg-black p-3 h-100">
+          {/* news-app-bg */}
+          <div
+            className="basic-list-group image-preview-container media-content "
+            style={{ color: "white", textAlign: "center" }}
           >
-            {newsData && newsData.items.map((item, i) => {
-              {console.log(item.title)}
-              return (
-                <>
-                <Slide direction="right" in={true} timeout={1000}>
-                  <div style={{
-                    maxWidth: "100%",
-                    minWidth:"70%",
-                    height:"5px",
-                    background: "#fff",
-                    margin: "2rem 0",
-                    display: "inline-block"
-                  }}></div>
-                </Slide>
-                <div className=" h-100" key={i}>
-                    <div
-                      className="text-center  "
-                    >
-                        <h1
-                          className={`${
-                            prp.theame.value == "White Background"
-                              ? "text-black"
-                              : "text-white"
-                          } `}
-                        >
-                          {/* text-white */}
+            <h2 className="text-white mb-0">News About {prp.topic.value}</h2>
+            <Carousel
+              interval={10000}
+              indicators={false}
+              animation={"slide"}
+              className="h-100"
+            >
+              {newsData &&
+                newsData.items.map((item, i) => {
+                  {
+                    console.log(item.title);
+                  }
+                  return (
+                    <>
+                      <Slide direction="right" in={true} timeout={1000}>
+                        <div
+                          style={{
+                            maxWidth: "100%",
+                            minWidth: "70%",
+                            height: "5px",
+                            background: "#fff",
+                            margin: "2rem 0",
+                            display: "inline-block",
+                          }}
+                        ></div>
+                      </Slide>
+                      <div className=" h-100" key={i}>
+                        <div className="text-center  ">
+                          <h1
+                            className={`${
+                              prp.theame.value == "White Background"
+                                ? "text-black"
+                                : "text-white"
+                            } `}
+                          >
+                            {item.title}
+                          </h1>
+                          <p
+                            className={`${
+                              prp.theame.value == "White Background"
+                                ? "text-black"
+                                : "text-white"
+                            } `}
+                          >
+                            {item.publisher}
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
+            </Carousel>
+          </div>
+        </div>
+      </div>
 
-                          {item.title}
-                        </h1>
-                        <p
-                          className={`${
-                            prp.theame.value == "White Background"
-                              ? "text-black"
-                              : "text-white"
-                          } `}
-                        >
-                          {item.publisher}
-                        </p>
-                    </div>
-                </div>
-                </>
-              );
-            })}
-          </Carousel>
-    </div>
+      {/* potrait mode */}
+      {/* ......................................... */}
+      {/* <div className="bg-white h-100">
+        <div className="d-flex justify-content-center h-100">
+          <div className="bg-black p-3 h-100">
+          // news-app-bg
+            <div
+              className="basic-list-group image-preview-container media-content "
+              style={{ color: "white", textAlign: "center" }}
+            >
+              <h2 className="text-white mb-0">News About {prp.topic.value}</h2>
+              <Carousel
+                interval={10000}
+                indicators={false}
+                animation={"slide"}
+                className="h-100"
+              >
+                {newsData &&
+                  newsData.items.map((item, i) => {
+                    {
+                      console.log(item.title);
+                    }
+                    return (
+                      <>
+                        <Slide direction="right" in={true} timeout={1000}>
+                          <div
+                            style={{
+                              maxWidth: "100%",
+                              minWidth: "70%",
+                              height: "5px",
+                              background: "#fff",
+                              margin: "2rem 0",
+                              display: "inline-block",
+                            }}
+                          ></div>
+                        </Slide>
+                        <div className=" h-100" key={i}>
+                          <div className="text-center  ">
+                            <h1
+                              className={`${
+                                prp.theame.value == "White Background"
+                                  ? "text-black"
+                                  : "text-white"
+                              } `}
+                            >
+                              {item.title}
+                            </h1>
+                            <p
+                              className={`${
+                                prp.theame.value == "White Background"
+                                  ? "text-black"
+                                  : "text-white"
+                              } `}
+                            >
+                              {item.publisher}
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+              </Carousel>
+            </div>
+          </div>
+        </div>
+      </div> */}
+
+      {/* footer mode */}
+      {/* ............................................ */}
+      {/* <div className="bg-white h-100">
+        <div className=" h-100" style={{ position: "relative" }}>
+          <div
+            className="bg-black p-3 w-100"
+            style={{ position: "absolute", bottom: "0" }}
+          >
+          // news-app-bg
+            <div
+              className="basic-list-group image-preview-container media-content "
+              style={{ color: "white", textAlign: "center" }}
+            >
+              <h2 className="text-white mb-0" style={{ fontSize: "20px" }}>
+                News About {prp.topic.value}
+              </h2>
+              <Carousel
+                interval={10000}
+                indicators={false}
+                animation={"slide"}
+                className="h-100"
+              >
+                {newsData &&
+                  newsData.items.map((item, i) => {
+                    {
+                      console.log(item.title);
+                    }
+                    return (
+                      <>
+                        <Slide direction="right" in={true} timeout={1000}>
+                          <div
+                            style={{
+                              maxWidth: "100%",
+                              minWidth: "70%",
+                              height: "5px",
+                              background: "#fff",
+                              margin: "10px 0",
+                              display: "inline-block",
+                            }}
+                          ></div>
+                        </Slide>
+                        <div className=" h-100" key={i}>
+                          <div className="text-center  ">
+                            <h1
+                              className={`${
+                                prp.theame.value == "White Background"
+                                  ? "text-black"
+                                  : "text-white"
+                              } `}
+                              style={{ fontSize: "20px" }}
+                            >
+                              {item.title}
+                            </h1>
+                            <p
+                              className={`${
+                                prp.theame.value == "White Background"
+                                  ? "text-black"
+                                  : "text-white"
+                              } `}
+                              style={{ fontSize: "14px" }}
+                            >
+                              {item.publisher}
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+              </Carousel>
+            </div>
+          </div>
+        </div>
+      </div> */}
+    </>
   );
 };

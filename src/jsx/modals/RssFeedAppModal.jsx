@@ -9,9 +9,10 @@ import { updateApps, addApps, BASE_URL } from "../../utils/api";
 import Switch from "react-switch";
 import SelectMedia from "./SelecteMedia";
 import Carousel from "react-material-ui-carousel";
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Slide from '@mui/material/Slide';
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Slide from "@mui/material/Slide";
+import newsimg from "../../img/news-image.webp";
 
 const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const options = [
@@ -20,7 +21,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     { value: "white", label: "White Background" },
     { value: "white-center", label: "White Background Center" },
     { value: "bottom-load", label: "Bottom Load" },
-    { label: "Color Background", value: "color-background" }, 
+    { label: "Color Background", value: "color-background" },
   ];
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
@@ -90,43 +91,53 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const list = [
     {
-      title:" title 1We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
-      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+      title:
+        " title 1We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
     },
     {
-      title:" title 2We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
-      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+      title:
+        " title 2We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
     },
     {
-      title:" title 3We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
-      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+      title:
+        " title 3We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
     },
     {
-      title:" title 4We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
-      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+      title:
+        " title 4We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
     },
     {
-      title:" title 5We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
-      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
-    }
+      title:
+        " title 5We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
+    },
   ];
   const data = {
-    slideDuration:10,
-    theame:{
-      value:'classic',
-      label:'Classic'
-    }
-  }
+    slideDuration: 10,
+    theame: {
+      value: "classic",
+      label: "Classic",
+    },
+  };
 
   const handlePreview = () => {
-    if(urlLink && name){
-      setLoading(false)
+    if (urlLink && name) {
+      setLoading(false);
       setPreview(true);
-    }else{
-      setLoading(true)
+    } else {
+      setLoading(true);
       setPreview(false);
     }
-  }
+  };
   return (
     <>
       <SelectMedia
@@ -205,26 +216,25 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 options={options}
                 className="app-option"
               />
-              {
-                selectedImage ? 
+              {selectedImage ? (
                 <>
-                <img
-                  className="media-img img-fluid"
-                  src={`${BASE_URL}${selectedImage}`}
-                  alt="media-img"
-                  style={{
-                    height: "100px",
-                    width: "100px",
-                  }}
-                />
-                <img
-                  onClick={(e) => setSelectedImage(null)}
-                  src={deleteicon}
-                  alt="icon"
-                  style={{ height: "20px",cursor:"pointer" }}
-                />
+                  <img
+                    className="media-img img-fluid"
+                    src={`${BASE_URL}${selectedImage}`}
+                    alt="media-img"
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                    }}
+                  />
+                  <img
+                    onClick={(e) => setSelectedImage(null)}
+                    src={deleteicon}
+                    alt="icon"
+                    style={{ height: "20px", cursor: "pointer" }}
+                  />
                 </>
-                :
+              ) : (
                 <Button
                   className="btn btn-sm mr-2"
                   variant="outline-light"
@@ -234,16 +244,16 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 >
                   Image
                 </Button>
-              }
+              )}
               <Button
-                  className="btn btn-sm mr-2"
-                  variant="outline-light"
-                  onClick={(e) => {
-                    handlePreview(true);
-                  }}
-                >
-                  Preview
-                </Button>
+                className="btn btn-sm mr-2"
+                variant="outline-light"
+                onClick={(e) => {
+                  handlePreview(true);
+                }}
+              >
+                Preview
+              </Button>
               {/* <div className="d-flex align-items-center justify-content-between mt-3">
                 <label className="mb-0 mr-3">Enable Animation?</label>
                 <Switch
@@ -316,73 +326,190 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 {/* <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />
                 </div> */}
-                {
-                  loading && <h1>Loading</h1>
-                }
-                {
-                  preview &&
+                {loading && <h1>Loading</h1>}
+                {preview && (
                   <div
-                  className="basic-list-group image-preview-container media-content"
-                  style={{ color: "white"}}
-                >
-                  {(
-                    <>
-                      
-                      <div
-                        className={`h-100 ${data.theame.value == 'White Background' ? 'bg-white' : 'bg-black'} `}
-                        style={{ padding: "5% 2% 2% 2%" }}
-                      >
-                            
-                        <Carousel
-                          interval={(data.slideDuration) * 1000}
-                          indicators={false}
-                          animation={"slide"}
-                          className="h-100"
+                    className="basic-list-group image-preview-container media-content"
+                    style={{ color: "white" }}
+                  >
+                    {
+                      <>
+                        {/* <div
+                          // className={`h-100 ${
+                          //   data.theame.value == "White Background"
+                          //     ? "bg-white"
+                          //     : "bg-black"
+                          // } `}
+                          // style={{ padding: "5% 2% 2% 2%" }}
+                          className="h-100 news-app-bg-img"
+                          style={{
+                            background: `url(${newsimg})`,
+                            position: "relative",
+                          }}
                         >
-                          {list.map((item, i) => {
-                            return (
-                              <>
-                              <Slide direction="right" in={true} timeout={1000}>
-                                <div style={{
-                                  maxWidth: "100%",
-                                  minWidth:"70%",
-                                  height:"5px",
-                                  background: "#fff",
-                                  margin: "2rem 0",
-                                  display: "inline-block"
-                                }}>  </div>
-                              </Slide>
-                              <div className="h-100">
-                                <div className=" h-100">
-                                  <div
-                                    className="text-center  "
-                                  >
-                                    <div className="mt-2 hhhhhh" key={i}>
-                                      <h1 className={`${data.theame.value == 'White Background' ? 'text-black' : 'text-white'} `}>
-                                        {item.title}
-                                      </h1>
-                                      <p className={`${data.theame.value == 'White Background' ? 'text-black' : 'text-white'} `}>{item.content}</p>
+                          <div>
+                            <Carousel
+                              interval={data.slideDuration * 1000}
+                              indicators={false}
+                              animation={"slide"}
+                              className="h-100"
+                            >
+                              {list.map((item, i) => {
+                                return (
+                                  <>
+                                    <Slide
+                                      direction="right"
+                                      in={true}
+                                      timeout={1000}
+                                    >
+                                      <div
+                                        style={{
+                                          maxWidth: "100%",
+                                          minWidth: "70%",
+                                          height: "5px",
+                                          background: "#fff",
+                                          margin: "2rem 0",
+                                          display: "inline-block",
+                                        }}
+                                      >
+                                        {" "}
+                                      </div>
+                                    </Slide>
+                                    <div className="h-100">
+                                      <div className=" h-100">
+                                        <div className="text-center  ">
+                                          <div className="mt-2 hhhhhh" key={i}>
+                                            <h1
+                                              // className={`${
+                                              //   data.theame.value ==
+                                              //   "White Background"
+                                              //     ? "text-black"
+                                              //     : "text-white"
+                                              // } `}
+                                              className="text-white"
+                                            >
+                                              {item.title}
+                                            </h1>
+                                            <p
+                                              // className={`${
+                                              //   data.theame.value ==
+                                              //   "White Background"
+                                              //     ? "text-black"
+                                              //     : "text-white"
+                                              // } `}
+                                              className="text-white"
+                                            >
+                                              {item.content}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
-                                  </div>
-                                </div>
-                              </div>
-                              </>
-                            );
-                          })}
-                        </Carousel>
-                        <div style={{position:'absolute',bottom:'20px',right:'10%'}}>
-                        <Slide direction="up" in={true} mountOnEnter unmountOnExit timeout={1000}>
-                          <img style={{
-                            width:'100px', height:"100px"
-                          }} src={"https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"} />
-                        </Slide>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
+                                  </>
+                                );
+                              })}
+                            </Carousel>
+                            <div
+                              style={{
+                                position: "absolute",
+                                bottom: "20px",
+                                right: "10%",
+                                zIndex: 1,
+                              }}
+                            >
+                              <Slide
+                                direction="up"
+                                in={true}
+                                mountOnEnter
+                                unmountOnExit
+                                timeout={1000}
+                              >
+                                <img
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                  }}
+                                  src={
+                                    "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
+                                  }
+                                />
+                              </Slide>
+                            </div>
+                          </div>
+                        </div> */}
 
-                }
+                        <div
+                          className="h-100 news-app-bg-img"
+                          style={{
+                            background: `url(${newsimg})`,
+                            position: "relative",
+                          }}
+                        >
+                          <div className="d-flex justify-content-center align-items-center h-100">
+                            <div className="blur-bg-news-app">
+                              <Carousel
+                                interval={data.slideDuration * 1000}
+                                indicators={false}
+                                animation={"slide"}
+                                className="h-100"
+                              >
+                                {list.map((item, i) => {
+                                  return (
+                                    <>
+                                      <div className="h-100">
+                                        <div className=" h-100">
+                                          <div className="text-center  ">
+                                            <div
+                                              className="mt-2 hhhhhh"
+                                              key={i}
+                                            >
+                                              <h1 className="text-white">
+                                                {item.title}
+                                              </h1>
+                                              <p className="text-white">
+                                                {item.content}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </Carousel>
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  bottom: "0px",
+                                  right: "5%",
+                                  zIndex: 1,
+                                }}
+                              >
+                                <Slide
+                                  direction="up"
+                                  in={true}
+                                  mountOnEnter
+                                  unmountOnExit
+                                  timeout={1000}
+                                >
+                                  <img
+                                    style={{
+                                      width: "100px",
+                                      height: "100px",
+                                    }}
+                                    src={
+                                      "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
+                                    }
+                                  />
+                                </Slide>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    }
+                  </div>
+                )}
               </div>
             </div>
           </form>
