@@ -1702,6 +1702,8 @@ padding: 20px 60px;
   background-size: cover;
 }
 
+
+
 .news-app-bg-img::after{
   content: "";
   background: rgba(17, 19, 17, 0.7);
