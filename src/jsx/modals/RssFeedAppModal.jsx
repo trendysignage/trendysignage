@@ -214,17 +214,18 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 value={theame}
                 onChange={setTheame}
                 options={options}
-                className="app-option"
+                className="app-option mb-3"
               />
               {selectedImage ? (
                 <>
                   <img
-                    className="media-img img-fluid"
+                    className="media-img img-fluid mr-3"
                     src={`${BASE_URL}${selectedImage}`}
                     alt="media-img"
                     style={{
-                      height: "100px",
-                      width: "100px",
+                      height: "50px",
+                      width: "50px",
+                      objectFit: "cover",
                     }}
                   />
                   <img
@@ -232,6 +233,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     src={deleteicon}
                     alt="icon"
                     style={{ height: "20px", cursor: "pointer" }}
+                    className="mr-3"
                   />
                 </>
               ) : (
@@ -334,6 +336,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   >
                     {
                       <>
+                        {/* classic mode */}
                         {/* <div
                           // className={`h-100 ${
                           //   data.theame.value == "White Background"
@@ -437,8 +440,8 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                             </div>
                           </div>
                         </div> */}
-
-                        <div
+                        {/* blurred mode */}
+                        {/* <div
                           className="h-100 news-app-bg-img"
                           style={{
                             background: `url(${newsimg})`,
@@ -503,6 +506,237 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                                   />
                                 </Slide>
                               </div>
+                            </div>
+                          </div>
+                        </div> */}
+
+                        {/* white backgroung mode */}
+
+                        {/* <div
+                         
+                          className="h-100 bg-white"
+                        >
+                          <div>
+                            <Carousel
+                              interval={data.slideDuration * 1000}
+                              indicators={false}
+                              animation={"slide"}
+                              className="h-100"
+                            >
+                              {list.map((item, i) => {
+                                return (
+                                  <>
+                                    <div
+                                      style={{ width: "100%", height: "200px" }}
+                                    >
+                                      <img
+                                        src={newsimg}
+                                        alt="new-img"
+                                        style={{ objectFit: "cover" }}
+                                      />
+                                    </div>
+                                    <Slide
+                                      direction="right"
+                                      in={true}
+                                      timeout={1000}
+                                    >
+                                      <div
+                                        style={{
+                                          maxWidth: "100%",
+                                          minWidth: "60%",
+                                          height: "8px",
+                                          background: "#000",
+                                          margin: "20px 0 10px 0",
+                                          display: "inline-block",
+                                        }}
+                                      >
+                                       
+                                      </div>
+                                    </Slide>
+                                    <div className="h-100">
+                                      <div className=" h-100">
+                                        <div className="text-left  ">
+                                          <div className="mt-2 " key={i}>
+                                            <h1
+                                             
+                                              style={{ fontSize: "22px" }}
+                                              className="text-black mb-4"
+                                            >
+                                              {item.title}
+                                            </h1>
+                                            <p
+                                            
+                                              className="text-black"
+                                            >
+                                              {item.content}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </>
+                                );
+                              })}
+                            </Carousel>
+                            <div style={{ textAlign: "end" }}>
+                              <Slide
+                                direction="up"
+                                in={true}
+                                mountOnEnter
+                                unmountOnExit
+                                timeout={1000}
+                              >
+                                <img
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                  }}
+                                  src={
+                                    "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
+                                  }
+                                />
+                              </Slide>
+                            </div>
+                          </div>
+                        </div> */}
+
+                        {/* white backgroung center */}
+
+                        {/* <div
+                          className="h-100 bg-white"
+                          style={{ padding: "20px" }}
+                        >
+                          <div>
+                            <Carousel
+                              interval={data.slideDuration * 1000}
+                              indicators={false}
+                              animation={"slide"}
+                              className="h-100"
+                            >
+                              {list.map((item, i) => {
+                                return (
+                                  <>
+                                    <div
+                                      style={{
+                                        width: "180px",
+                                        height: "120px",
+                                        margin: "auto",
+                                      }}
+                                    >
+                                      <img
+                                        src={newsimg}
+                                        alt="new-img"
+                                        style={{ objectFit: "cover" }}
+                                      />
+                                    </div>
+
+                                    <div className="h-100">
+                                      <div className=" h-100">
+                                        <div className="text-center  ">
+                                          <div className="mt-2 " key={i}>
+                                            <h1
+                                              style={{ fontSize: "22px" }}
+                                              className="text-black mb-4"
+                                            >
+                                              {item.title}
+                                            </h1>
+                                            <p className="text-black">
+                                              {item.content}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </>
+                                );
+                              })}
+                            </Carousel>
+                            <div style={{ textAlign: "center" }}>
+                              <Slide
+                                direction="up"
+                                in={true}
+                                mountOnEnter
+                                unmountOnExit
+                                timeout={1000}
+                              >
+                                <img
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                  }}
+                                  src={
+                                    "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
+                                  }
+                                />
+                              </Slide>
+                            </div>
+                          </div>
+                        </div> */}
+
+                        {/* bottom load mode */}
+
+                        <div style={{ position: "relative", height: "100%" }}>
+                          <div
+                            className="h-100 news-app-bg-img-bottom"
+                            style={{
+                              background: `url(${newsimg})`,
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "between",
+                            }}
+                          >
+                            <div style={{ textAlign: "end", zIndex: 1 }}>
+                              <Slide
+                                direction="up"
+                                in={true}
+                                mountOnEnter
+                                unmountOnExit
+                                timeout={1000}
+                              >
+                                <img
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                  }}
+                                  src={
+                                    "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
+                                  }
+                                />
+                              </Slide>
+                            </div>
+                            <div className="p-3 w-100">
+                              <Carousel
+                                interval={data.slideDuration * 1000}
+                                indicators={false}
+                                animation={"slide"}
+                              >
+                                {list.map((item, i) => {
+                                  return (
+                                    <>
+                                      <div className="h-100">
+                                        <div className=" h-100">
+                                          <div
+                                            className="text-left h-100 "
+                                            style={{ position: "relative" }}
+                                          >
+                                            <div className="mt-2 " key={i}>
+                                              <h1
+                                                className="text-white"
+                                                style={{ fontSize: "20px" }}
+                                              >
+                                                {item.title}
+                                              </h1>
+                                              <p className="text-white">
+                                                {item.content}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </Carousel>
                             </div>
                           </div>
                         </div>
