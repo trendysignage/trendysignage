@@ -15,6 +15,7 @@ import RssFeedAppModal from "../../../modals/RssFeedAppModal";
 import AirQualityAppModal from "../../../modals/AirQualityAppModal";
 import QuoteModel from "../../../modals/QuoteModel";
 import AllNewsAppModal from "../../../modals/AllNewsAppModal";
+import GoogleSlideAppModal from "../../../modals/GoogleSlideAppModal";
 
 const CompositionTable = ({ allMedia, addComposition }) => {
   const [showUrlApp, setShowUrlApp] = useState(false);
@@ -30,7 +31,8 @@ const CompositionTable = ({ allMedia, addComposition }) => {
   const [showRssApp, setShowRssApp] = useState(false)
   const [showAqiApp, setShowAqiApp] = useState(false)
   const [showQuote, setShowQuote] = useState(false)
-  const [showNews, setShowNews] = useState(false)
+  const [showNews, setShowNews] = useState(false);
+  const [showGoogleSlides, setShowGoogleSlides] = useState(false);
 
   const videoMetaDuration = (media) => {
     const properties = JSON.parse(media?.properties);
@@ -81,6 +83,9 @@ const CompositionTable = ({ allMedia, addComposition }) => {
     }
     else if(data.type == "news-apps"){
       setShowNews(true)
+    }
+    else if(data.type == "google-apps"){
+      setShowGoogleSlides(true)
     }
   };
 
@@ -164,6 +169,12 @@ const CompositionTable = ({ allMedia, addComposition }) => {
         mediaData={selectedMedia}
         actionType={"edit"}
       />
+      <GoogleSlideAppModal 
+        setShowUrlApp={() => setShowGoogleSlides(false)}
+        show={showGoogleSlides}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
       <Table
         responsive
         className="custom-table screen-table layout-table h-100"
@@ -233,6 +244,8 @@ const CompositionTable = ({ allMedia, addComposition }) => {
                       media.type == "bulletin-apps" ||
                       media.type == "quote-apps" ||
                       media.type == "news-apps" ||
+                      media.type == "google-apps" ||
+                      media.type == "people-apps" ||
                       media.type == "stocks-apps" ? (
                         // <button
                         //   onClick={(e) => {

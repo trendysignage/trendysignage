@@ -6,9 +6,12 @@ import { useState, useEffect } from "react";
 import { updateApps, addApps } from "../../utils/api";
 import {handleGoogleApps} from '../../utils/UtilsService';
 import useDrivePicker from 'react-google-drive-picker'
-import GooglePicker from 'react-google-picker';
+//import GooglePicker from 'react-google-picker';
+import moment from 'moment'
 
 const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
+  const tokenDetailsString = localStorage.getItem('googleAuth');
+  const [authToken, setAuthToken] = useState(null)
   const [name, setName] = useState("");
   const [openPicker, data,authResponse] = useDrivePicker(); 
   const [fileData, setFileData] = useState(null);
@@ -24,9 +27,10 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
     openPicker({
       clientId: "374562955931-mhli1rlb1kuhip30lhe58u0nht8bd2lg.apps.googleusercontent.com",
       developerKey: "AIzaSyCMJk6QpvPCdibrNzpOQlFrqpDgf4-GHjw",
-      viewId: "SPREADSHEETS",
+      //viewId: "SPREADSHEETS",
+      viewId: "DOCS",
+      token:authToken,
       customScopes:['https://www.googleapis.com/auth/drive.readonly'],
-      token: "ya29.a0AfB_byCY0mqRf-95hioAzlpvD7BW8BfqJS4xgz4gMMm0ow99aOT7yAFPT3lTz6oQAnT8ZYFUiXcFmMKiQ5f6xWfmGFpit7K9AvxET7L_a3_sq8eELYmQqSubEDQAx0OVupmeVAdrW4p86snWPjCPH45G8c_QwgleGwaCgYKAZESARASFQGOcNnCX336P3oZPCqfwCDAU_O3jw0169",
       showUploadView: true,
       showUploadFolders: true,
       supportDrives: true,
@@ -47,6 +51,27 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
   }
 
   useEffect(() => {
+    console.log("tokenDetailsString",tokenDetailsString);
+    if(tokenDetailsString){
+      const tokenDetails = JSON.parse(tokenDetailsString);
+      let expireDate = tokenDetails.expirationTime;
+      let todaysDate = moment().format();
+      console.log("todays",expireDate,todaysDate);
+      if (todaysDate > expireDate) {
+        console.log("Hello1");
+          setAuthToken(null)
+      }else{
+        console.log("Hello2");
+        setAuthToken(tokenDetails.access_token);
+      }
+      
+    }
+    console.log("data",data);
+    if(data && data.access_token){
+      console.log("Loging in");
+      data.expirationTime = moment().add(3599,'seconds').format();
+      localStorage.setItem('googleAuth', JSON.stringify(data));
+    }
     if (mediaData) {
       console.log("media", mediaData, actionType);
       const jsonString = JSON.parse(mediaData.appData);
@@ -58,7 +83,7 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
         jsonString.orientationMode ? jsonString.orientationMode : "landscape"
       );
     }
-  }, [mediaData]);
+  }, [mediaData,tokenDetailsString]);
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
@@ -106,10 +131,8 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
   };
 
   useEffect(() => {
-    if(data){
-      console.log("data",data);
-    }
-  },[data, fileURL])
+    
+  },[data, fileURL, tokenDetailsString])
 
   return (
     <>
@@ -197,7 +220,7 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
                   </li>
                 </ul>
               </div>
-              <Button onClick={() => handleOpenPicker()}>Login With Google</Button>
+              <Button onClick={() => handleOpenPicker()}>{authToken ?"Open Picker" :"Login With Google"}</Button>
               {/* <GooglePicker 
                 clientId="374562955931-mhli1rlb1kuhip30lhe58u0nht8bd2lg.apps.googleusercontent.com"
                 developerKey="AIzaSyCMJk6QpvPCdibrNzpOQlFrqpDgf4-GHjw"
