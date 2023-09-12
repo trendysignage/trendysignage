@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
+import { connect } from "react-redux";
 import scheduleIcon from "../../../img/schedule-icon.png";
 import quickPlayIcon from "../../../img/quickplay-icon.png";
 import defaultComparisonIcon from "../../../img/comparison-icon.png";
@@ -26,8 +27,10 @@ import deleteIcon from "../../../img/delete-icon.png";
 import edit from "../../../img/edit-composition.png";
 import { useHistory } from "react-router-dom";
 import TableLoader from "../../components/TableLoader";
+import LockScreen from "../../pages/LockScreen";
 
-const PushScreen = () => {
+
+const PushScreen = ({permission}) => {
   const history = useHistory();
   const [scheduleData, setScheduleData] = useState([]);
   const [quickPlayData, setQuickPlayData] = useState([]);
@@ -277,10 +280,9 @@ const PushScreen = () => {
         {showPublishBtn && !showDefaultScreen && !showDefaultComp ? (
           <Row>
             <Col lg="4" md="4" sm="12" xs="12">
-              <Link
-                to={{
-                  pathname: `/SelectComparison`,
-                }}
+              {
+                permission && permission.permission.SCHEDULE.add ? <Link
+                to={{ pathname: `/SelectComparison`}}
               >
                 <div className="push-column text-center">
                   <div className="push-column-icon d-flex align-items-center justify-content-center">
@@ -296,6 +298,21 @@ const PushScreen = () => {
                   </p>
                 </div>
               </Link>
+              :
+                <div className="push-column text-center">
+                  <div className="push-column-icon d-flex align-items-center justify-content-center">
+                    <img
+                      className="layout-select-img"
+                      src={scheduleIcon}
+                      alt="menu-icon"
+                    />
+                  </div>
+                  <h6>Schedule</h6>
+                  <p>
+                    Scheduled content gets displayed only for time you choose
+                  </p>
+                </div>
+              }
             </Col>
             {/* <Col lg="4" md="4" sm="12" xs="12">
               <div className="push-column text-center">
@@ -356,7 +373,6 @@ const PushScreen = () => {
             >
               Schedule
             </Button>
-
             <Button
               className={
                 publishType === "quickplay"
@@ -388,109 +404,116 @@ const PushScreen = () => {
           </div>
         )}
       </div>
-      {!showPublishBtn && publishType && publishType === "quickplay" && (
-        <Table responsive className="custom-table screen-table mb-5">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Date Added</th>
-              <th>Screens Assigned</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>more</th>
-            </tr>
-          </thead>
+      {
+        !showPublishBtn && 
+        publishType && publishType === "quickplay" && (
+          permission && permission.permission.QUICKPLAY.view 
+          ? 
+          <Table responsive className="custom-table screen-table mb-5">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Date Added</th>
+                <th>Screens Assigned</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>more</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {quickPlayData &&
-              quickPlayData.map((composition) => {
-                return (
-                  <tr key={composition._id}>
-                    <td>{composition.name}</td>
-                    <td>
-                      <span className="td-content">
-                        <strong>
-                          {humanReadableFormattedDateString(
-                            composition.createdAt
-                          )}
-                        </strong>
-                        <span>
-                          {getDatetimeIn12Hours(composition.createdAt)}
-                        </span>
-                      </span>
-                    </td>
-                    <td> {composition.screens?.length}</td>
-
-                    <td>
-                      <span className="td-content">
-                        <strong>
-                          {humanReadableFormattedDateString(
-                            composition.createdAt
-                          )}
-                        </strong>
-                        <span>
-                          {getDatetimeIn12Hours(composition.createdAt)}
-                        </span>
-                      </span>
-                    </td>
-
-                    <td>
-                      <span className="td-content">
-                        <strong>
-                          {humanReadableFormattedDateString(
-                            composition.createdAt
-                          )}
-                        </strong>
-                        <span>
-                          {moment(composition.createdAt)
-                            .add(10, "minutes")
-                            .format("hh:mm A")}
-                        </span>
-                      </span>
-                    </td>
-                    <td>
-                      <Dropdown className="dropdown-toggle-menu">
-                        <Dropdown.Toggle variant="" className="p-0  mb-2">
-                          <span className="table-menu-icon">
-                            <img
-                              className="menu-img img-fluid"
-                              src={menuIcon}
-                              alt="menu-icon"
-                            />
+            <tbody>
+              {quickPlayData &&
+                quickPlayData.map((composition) => {
+                  return (
+                    <tr key={composition._id}>
+                      <td>{composition.name}</td>
+                      <td>
+                        <span className="td-content">
+                          <strong>
+                            {humanReadableFormattedDateString(
+                              composition.createdAt
+                            )}
+                          </strong>
+                          <span>
+                            {getDatetimeIn12Hours(composition.createdAt)}
                           </span>
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          <Dropdown.Item
-                            href="#"
-                            className="dropdown-list-item"
-                            onClick={(e) => {
-                              handleDeleteQuickPlay(e, composition._id);
-                            }}
-                          >
-                            <div className="d-flex">
-                              <div className="dropdown-list-icon">
-                                <img
-                                  className="dropdown-list-img img-fluid"
-                                  src={deleteIcon}
-                                  alt="menu-icon"
-                                />
+                        </span>
+                      </td>
+                      <td> {composition.screens?.length}</td>
+
+                      <td>
+                        <span className="td-content">
+                          <strong>
+                            {humanReadableFormattedDateString(
+                              composition.createdAt
+                            )}
+                          </strong>
+                          <span>
+                            {getDatetimeIn12Hours(composition.createdAt)}
+                          </span>
+                        </span>
+                      </td>
+
+                      <td>
+                        <span className="td-content">
+                          <strong>
+                            {humanReadableFormattedDateString(
+                              composition.createdAt
+                            )}
+                          </strong>
+                          <span>
+                            {moment(composition.createdAt)
+                              .add(10, "minutes")
+                              .format("hh:mm A")}
+                          </span>
+                        </span>
+                      </td>
+                      <td>
+                        <Dropdown className="dropdown-toggle-menu">
+                          <Dropdown.Toggle variant="" className="p-0  mb-2">
+                            <span className="table-menu-icon">
+                              <img
+                                className="menu-img img-fluid"
+                                src={menuIcon}
+                                alt="menu-icon"
+                              />
+                            </span>
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            <Dropdown.Item
+                              href="#"
+                              className="dropdown-list-item"
+                              onClick={(e) => {
+                                handleDeleteQuickPlay(e, composition._id);
+                              }}
+                              disabled={permission && !permission.permission.QUICKPLAY.delete}
+                            >
+                              <div className="d-flex">
+                                <div className="dropdown-list-icon">
+                                  <img
+                                    className="dropdown-list-img img-fluid"
+                                    src={deleteIcon}
+                                    alt="menu-icon"
+                                  />
+                                </div>
+                                <div className="dropdown-menu-list">
+                                  <span className="menu-heading">Delete</span>
+                                  <span className="menu-description">
+                                    Get to know more about screen info
+                                  </span>
+                                </div>
                               </div>
-                              <div className="dropdown-menu-list">
-                                <span className="menu-heading">Delete</span>
-                                <span className="menu-description">
-                                  Get to know more about screen info
-                                </span>
-                              </div>
-                            </div>
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </Table>
+          : <LockScreen message={"You don't have permssion to access this !!!"} />
+          
       )}
       {!showPublishBtn &&
         publishType &&
@@ -561,179 +584,190 @@ const PushScreen = () => {
             </Table>
           </>
         )}
-      {!showPublishBtn && publishType && publishType === "schedule" && (
-        <Table responsive className="custom-table screen-table mb-5">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Date Added</th>
-              <th>Screens Assigned</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>more</th>
-            </tr>
-          </thead>
+      {
+        !showPublishBtn && 
+        publishType && publishType === "schedule" && (
+          permission && permission.permission.SCHEDULE.view ? 
+              
+            <Table responsive className="custom-table screen-table mb-5">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Date Added</th>
+                  <th>Screens Assigned</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>more</th>
+                </tr>
+              </thead>
 
-          <tbody>
-            {scheduleData &&
-              scheduleData.map((composition) => {
-                const maxDates = composition.sequence.reduce((max, obj) => {
-                  const parseDts = obj.dates.map((dt) => new Date(dt));
-                  const objMax =
-                    obj.dates.length > 0 ? Math.max(...parseDts) : null;
-                  return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
-                }, null);
-                const formatedDt = moment(new Date(maxDates)).format(
-                  "YYYY-MM-DD"
-                );
+              <tbody>
+                {scheduleData &&
+                  scheduleData.map((composition) => {
+                    const maxDates = composition.sequence.reduce((max, obj) => {
+                      const parseDts = obj.dates.map((dt) => new Date(dt));
+                      const objMax =
+                        obj.dates.length > 0 ? Math.max(...parseDts) : null;
+                      return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
+                    }, null);
+                    const formatedDt = moment(new Date(maxDates)).format(
+                      "YYYY-MM-DD"
+                    );
 
-                const minDates = composition.sequence.reduce((min, obj) => {
-                  const parseDt = obj.dates.map((dt) => new Date(dt));
-                  const objMin =
-                    parseDt.length > 0 ? Math.min(...parseDt) : null;
-                  return objMin ? (min ? Math.min(min, objMin) : objMin) : min;
-                }, null);
+                    const minDates = composition.sequence.reduce((min, obj) => {
+                      const parseDt = obj.dates.map((dt) => new Date(dt));
+                      const objMin =
+                        parseDt.length > 0 ? Math.min(...parseDt) : null;
+                      return objMin ? (min ? Math.min(min, objMin) : objMin) : min;
+                    }, null);
 
-                const formatedDtMin = moment(new Date(minDates)).format(
-                  "YYYY-MM-DD"
-                );
+                    const formatedDtMin = moment(new Date(minDates)).format(
+                      "YYYY-MM-DD"
+                    );
 
-                const maxTime = composition.sequence.reduce((max, obj) => {
-                  const parseDts = obj.dates.map((dt) => new Date(dt));
-                  const objMax =
-                    obj.dates.length > 0 ? Math.max(...parseDts) : null;
-                  return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
-                }, null);
-                const endTime = findEndTime(
-                  composition?.sequence[composition?.sequence.length - 1]
-                );
+                    const maxTime = composition.sequence.reduce((max, obj) => {
+                      const parseDts = obj.dates.map((dt) => new Date(dt));
+                      const objMax =
+                        obj.dates.length > 0 ? Math.max(...parseDts) : null;
+                      return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
+                    }, null);
+                    const endTime = findEndTime(
+                      composition?.sequence[composition?.sequence.length - 1]
+                    );
 
-                return (
-                  <tr key={composition._id}>
-                    <td>{composition.name}</td>
-                    <td>
-                      <span className="td-content">
-                        <strong>
-                          {humanReadableFormattedDateString(
-                            composition.createdAt
-                          )}
-                        </strong>
-                        <span>
-                          {getDatetimeIn12Hours(composition.createdAt)}
-                        </span>
-                      </span>
-                    </td>
-                    <td> {composition.screens?.length}</td>
-
-                    <td>
-                      <div>
-                        <span className="td-content">
-                          <strong> {formatedDtMin}</strong>
-                          <span>
-                            {convertTimestampTo12HourFormat(
-                              composition?.sequence[0]?.timings[0]?.startTime
-                            )}
+                    return (
+                      <tr key={composition._id}>
+                        <td>{composition.name}</td>
+                        <td>
+                          <span className="td-content">
+                            <strong>
+                              {humanReadableFormattedDateString(
+                                composition.createdAt
+                              )}
+                            </strong>
+                            <span>
+                              {getDatetimeIn12Hours(composition.createdAt)}
+                            </span>
                           </span>
-                        </span>
-                      </div>
-                    </td>
+                        </td>
+                        <td> {composition.screens?.length}</td>
 
-                    <td>
-                      <spam className="td-content">
-                        <strong>{formatedDt}</strong>
+                        <td>
+                          <div>
+                            <span className="td-content">
+                              <strong> {formatedDtMin}</strong>
+                              <span>
+                                {convertTimestampTo12HourFormat(
+                                  composition?.sequence[0]?.timings[0]?.startTime
+                                )}
+                              </span>
+                            </span>
+                          </div>
+                        </td>
 
-                        <span>{convertTimestampTo12HourFormat(endTime)}</span>
-                      </spam>
-                    </td>
-                    <td>
-                      <Dropdown className="dropdown-toggle-menu">
-                        <Dropdown.Toggle variant="" className="p-0  mb-2">
-                          <span className="table-menu-icon">
-                            <img
-                              className="menu-img img-fluid"
-                              src={menuIcon}
-                              alt="menu-icon"
-                            />
-                          </span>
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          <Dropdown.Item
-                            href={`/design-month-schedule/${composition._id}`}
-                            className="dropdown-list-item"
+                        <td>
+                          <spam className="td-content">
+                            <strong>{formatedDt}</strong>
+
+                            <span>{convertTimestampTo12HourFormat(endTime)}</span>
+                          </spam>
+                        </td>
+                        <td>
+                          <Dropdown 
+                            className="dropdown-toggle-menu"
                           >
-                            <div className="d-flex">
-                              <div className="dropdown-list-icon">
+                            <Dropdown.Toggle variant="" className="p-0  mb-2">
+                              <span className="table-menu-icon">
                                 <img
-                                  className="dropdown-list-img img-fluid"
-                                  src={edit}
+                                  className="menu-img img-fluid"
+                                  src={menuIcon}
                                   alt="menu-icon"
                                 />
-                              </div>
-                              <div className="dropdown-menu-list">
-                                <span className="menu-heading">Edit</span>
-                                <span className="menu-description">
-                                  Get to know more about screen info
-                                </span>
-                              </div>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            href="#"
-                            className="dropdown-list-item"
-                            onClick={() => {
-                              handleDeleteSchedule(composition._id);
-                              console.log("oooo");
-                            }}
-                          >
-                            <div className="d-flex">
-                              <div className="dropdown-list-icon">
-                                <img
-                                  className="dropdown-list-img img-fluid"
-                                  src={deleteIcon}
-                                  alt="menu-icon"
-                                />
-                              </div>
-                              <div className="dropdown-menu-list">
-                                <span className="menu-heading">Delete</span>
-                                <span className="menu-description">
-                                  Get to know more about screen info
-                                </span>
-                              </div>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            href="#"
-                            className="dropdown-list-item"
-                            onClick={() => {
-                              history.push(`/push/view/${composition._id}`);
-                            }}
-                          >
-                            <div className="d-flex">
-                              <div className="dropdown-list-icon">
-                                <img
-                                  className="dropdown-list-img img-fluid"
-                                  src={deleteIcon}
-                                  alt="menu-icon"
-                                />
-                              </div>
-                              <div className="dropdown-menu-list">
-                                <span className="menu-heading">
-                                  View Schedule
-                                </span>
-                                <span className="menu-description">
-                                  Get to know more about screen info
-                                </span>
-                              </div>
-                            </div>
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
+                              </span>
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                              <Dropdown.Item
+                                href={`/design-month-schedule/${composition._id}`}
+                                disabled={permission && !permission.permission.SCHEDULE.edit}
+                                className="dropdown-list-item"
+                              >
+                                <div className="d-flex">
+                                  <div className="dropdown-list-icon">
+                                    <img
+                                      className="dropdown-list-img img-fluid"
+                                      src={edit}
+                                      alt="menu-icon"
+                                    />
+                                  </div>
+                                  <div className="dropdown-menu-list">
+                                    <span className="menu-heading">Edit</span>
+                                    <span className="menu-description">
+                                      Get to know more about screen info
+                                    </span>
+                                  </div>
+                                </div>
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                href="#"
+                                className="dropdown-list-item"
+                                onClick={() => {
+                                  handleDeleteSchedule(composition._id);
+                                  console.log("oooo");
+                                }}
+                                disabled={permission && !permission.permission.SCHEDULE.delete}
+                              >
+                                <div className="d-flex">
+                                  <div className="dropdown-list-icon">
+                                    <img
+                                      className="dropdown-list-img img-fluid"
+                                      src={deleteIcon}
+                                      alt="menu-icon"
+                                    />
+                                  </div>
+                                  <div className="dropdown-menu-list">
+                                    <span className="menu-heading">Delete</span>
+                                    <span className="menu-description">
+                                      Get to know more about screen info
+                                    </span>
+                                  </div>
+                                </div>
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                href="#"
+                                className="dropdown-list-item"
+                                disabled={permission && !permission.permission.SCHEDULE.view}
+                                onClick={() => {
+                                  history.push(`/push/view/${composition._id}`);
+                                }}
+                              >
+                                <div className="d-flex">
+                                  <div className="dropdown-list-icon">
+                                    <img
+                                      className="dropdown-list-img img-fluid"
+                                      src={deleteIcon}
+                                      alt="menu-icon"
+                                    />
+                                  </div>
+                                  <div className="dropdown-menu-list">
+                                    <span className="menu-heading">
+                                      View Schedule
+                                    </span>
+                                    <span className="menu-description">
+                                      Get to know more about screen info
+                                    </span>
+                                  </div>
+                                </div>
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </Table>
+        :
+            <LockScreen message={"You don't have permssion to access this !!!"} />
       )}
       {showPublishBtn &&
         checkedValues &&
@@ -925,5 +959,10 @@ const PushScreen = () => {
     </>
   );
 };
-
-export default PushScreen;
+const mapStateToProps = (state) => {
+  return {
+      auth: state.auth.auth,
+      permission : state.auth.permission
+  };
+};
+export default connect(mapStateToProps)(PushScreen);

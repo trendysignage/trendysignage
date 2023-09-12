@@ -9,6 +9,48 @@ import { toast } from "react-toastify";
 import AddDeviceProfile from "../../modals/AddDeviceProfile";
 import SelectScreenModal from "../../modals/SelectScreenModal";
 import Datatable from "react-data-table-component";
+import Box from '@mui/material/Box';
+
+import { DataGrid, GridToolbarExport,
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector} from '@mui/x-data-grid';
+  import Pagination from '@mui/material/Pagination';
+import LinearProgress from '@mui/material/LinearProgress';
+import CustomNoRowsOverlay from '../CustomNoRowsOverlay';
+import QuickSearchToolbar from '../QuickSearchToolbar';
+import { GridToolbarContainer } from '@mui/x-data-grid';
+
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      {/* <GridToolbarColumnsButton  color='success' title="ABC" label={'ds'} startIcon={<Avatar />}  /> */}
+      {/* <GridToolbarExport color='success' csvOptions={
+        {
+          fileName: 'customerList',
+          utf8WithBom: true,
+        }} /> */}
+      <QuickSearchToolbar/>
+    </GridToolbarContainer>
+  );
+}
+
+function CustomPagination() {
+const apiRef = useGridApiContext();
+const page = useGridSelector(apiRef, gridPageSelector);
+const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+return (
+  <Pagination
+    color="primary"
+    count={pageCount}
+    page={page + 1}
+    onChange={(event, value) => apiRef.current.setPage(value - 1)}
+  />
+);
+}
+
 
 const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh, loading }) => {
   const [showProfileModel, setShowProfileModel] = useState(false);
@@ -48,7 +90,8 @@ const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh, loading }) => {
     setIsRefresh(!isRefresh);
   };
 
-  const renderAction = (value) => {
+  const renderAction = (params) => {
+    const {value} = params;
     return (
       <Dropdown className="dropdown-toggle profile-dropdown">
         <Dropdown.Toggle variant="" className="p-0  mb-2">
@@ -145,19 +188,29 @@ const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh, loading }) => {
       sortable: false,
     },
   ];
-  // const rows = [];
-  // if(allDeviceProfile){
-  //   allDeviceProfile.forEach((item) => {
-  //       rows.push({
-  //             id:item._id,
-  //             name:item.name,
-  //             created: humanReadableFormattedDateString(item.createdAt),
-  //             updated: humanReadableFormattedDateString(item.createdAt),
-  //             assignedScreen:item.screens.length,
-  //             action:item
-  //         });
-  //     });
-  // }
+  const rows1 = [];
+  if(allDeviceProfile){
+    allDeviceProfile.forEach((item) => {
+        rows1.push({
+              id:item._id,
+              name:item.name,
+              created: humanReadableFormattedDateString(item.createdAt),
+              updated: humanReadableFormattedDateString(item.createdAt),
+              assignedScreen:item.screens.length,
+              action:item
+          });
+      });
+  }
+
+  const columns1 = [
+    { field: 'id', headerName: 'ID', flex: 1  },
+    { field: 'name', headerName: 'Name',  flex: 1, disableExport: true },
+    { field: 'created', headerName: 'Created At', flex: 1  },
+    { field: 'updated', headerName: 'Updated At', flex: 1  },
+    { field: 'assignedScreen', headerName: 'Assigned Screen', flex: 1 },
+    {field: 'action', headerName:'Action', flex:1,renderCell:renderAction, disableExport: true},
+  ];
+  
 
   return (
     <>
@@ -177,13 +230,33 @@ const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh, loading }) => {
         selectedScreen={selectedScreen}
         setSelectedScreen={setSelectedScreen}
       />
-      <Datatable
+      {/* <Datatable
         className="profile"
         columns={columns}
         data={allDeviceProfile}
         pagination
         sorting
-      />
+      /> */}
+      <Box sx={{ height: 400, width: '100%' }}>
+        <DataGrid
+          components={{
+              NoRowsOverlay: CustomNoRowsOverlay,
+              Toolbar: CustomToolbar,
+              LoadingOverlay: LinearProgress,
+              Pagination: CustomPagination,
+          }}
+          rows={rows1}
+          columns={columns1}
+          pageSize={10}
+          rowsPerPageOptions={[5]}
+          //checkboxSelection
+          disableSelectionOnClick
+          experimentalFeatures={{ newEditingApi: true }}
+          loading={loading}
+          pagination
+        />
+      </Box>
+
       {/* <Table responsive className="custom-table screen-table">
         <thead>
           <tr>

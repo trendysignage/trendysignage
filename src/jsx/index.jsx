@@ -43,6 +43,8 @@ import reportsList from "./components/reports/reportsList";
 import ReportsList from "./components/reports/reportsList";
 import PeopleSpace from "./components/integrations/PeopleSpace";
 import Createtemplate from "./components/integrations/Createtemplate";
+import Verification from "./pages/Verification";
+import LockScreen from "./pages/LockScreen"
 
 const Markup = () => {
   let path = window.location.pathname;
@@ -81,6 +83,7 @@ const Markup = () => {
     { url: "reports-list", component: ReportsList },
     { url: "people-space", component: PeopleSpace },
     { url: "create-template", component: Createtemplate },
+    { url: "lock-screen" , component : LockScreen }
   ];
   console.log(path);
   return (

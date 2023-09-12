@@ -16,7 +16,7 @@ import DeleteConfirmation from "../../modals/DeleteConfirmation";
 import { deleteMedia, BASE_URL } from "../../../utils/api";
 import PublishMediaModal from "../../modals/PublishMediaModal";
 
-const ListMedia = ({ allMedia, callAllMediaApi }) => {
+const ListMedia = ({ allMedia, callAllMediaApi, auth, permission}) => {
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState("");
@@ -264,6 +264,7 @@ const ListMedia = ({ allMedia, callAllMediaApi }) => {
                             setSelectedMedia(media);
                             setDeleteModal(true);
                           }}
+                          disabled={permission && !permission.permission.ASSETS.delete}
                         >
                           <div className="d-flex">
                             <div className="dropdown-list-icon">

@@ -30101,4 +30101,30 @@ div.pac-container {
   left: 10%;
 }
 
+.dataTables_wrapper input[type="search"], .dataTables_wrapper input[type="text"], .dataTables_wrapper select {
+  border: 0px solid #e2e2e2 !important;
+}
+
+.css-r11z79-MuiDataGrid-root{
+  font-family: 'poppins', sans-serif !important;
+  font-size: 0.6rem !important;
+  border:0px !important;
+}
+.css-1jbbcbn-MuiDataGrid-columnHeaderTitle{
+  font-weight: 600 !important;
+}
+
+.css-1e2bxag-MuiDataGrid-root{
+  border:0px solid rgba(224, 224, 224, 1) !important;
+  font-weight: 400 !important;
+  font-size: 0.775rem !important;
+  line-height: 1.43 !important;
+  letter-spacing: 0.01071em !important;
+  font-family: "Roboto", sans-serif !important;
+}
+
+.rdg-selected {
+  border: 2px solid #66afe9 !important;
+}
+
 /*# sourceMappingURL=style.css.map */

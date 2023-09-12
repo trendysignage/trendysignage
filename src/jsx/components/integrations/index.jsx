@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import {connect} from 'react-redux'
 import weather from "../../../img/weather.svg";
 import menuIcon from "../../../img/menu-icon.png";
 import UrlAppModal from "../../modals/UrlAppModal";
@@ -18,6 +19,8 @@ import GoogleSlideAppModal from "../../modals/GoogleSlideAppModal";
 import QuoteModel from "../../modals/QuoteModel.jsx";
 import AllNewsAppModal from "../../modals/AllNewsAppModal";
 import { Button, Dropdown } from "react-bootstrap";
+
+
 // import Form from "react-bootstrap/Form";
 // import { usePlacesWidget } from "react-google-autocomplete";
 import { useHistory } from "react-router-dom";
@@ -28,7 +31,8 @@ import Paper from '@mui/material/Paper';
 import Slide from '@mui/material/Slide';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export default function Integrations() {
+const Integrations = ({permission, auth}) => {
+  console.log('auth',auth)
   const history = useHistory();
   console.log("React ENV", process.env.REACT_APP_TITLE);
   const [showUrlApp, setShowUrlApp] = useState(false);
@@ -67,50 +71,52 @@ export default function Integrations() {
   const handleChange = (e, type) => {
     e.preventDefault();
     console.log(type);
-    if (type && type == "url-app") {
-      setShowUrlApp(true);
-    }
-    if (type && type == "rss-feed") {
-      setShowRssFeedApp(true);
-    }
-    if (type && type == "youtube") {
-      setShowYoutubeApp(true);
-    }
-    if (type && type == "scroller") {
-      setShowScrollerTextApp(true);
-    }
-    if (type && type == "text") {
-      setShowTextApp(true);
-    }
-    if (type && type == "clock-app") {
-      setShowClockApp(true);
-    }
-    if (type && type == "weather") {
-      setShowWeatherApp(true);
-    }
-    if (type && type == "qr-code") {
-      setShowQrCodeApp(true);
-    }
-    if (type && type == "air-quality-app") {
-      setShowAirQualityApp(true);
-    }
-    if (type && type == "stocks") {
-      setShowStocksApp(true);
-    }
-    if (type && type == "bulletin-app") {
-      setShowBulletinBoardApp(true);
-    }
-    if (type && type == "google-slides") {
-      setShowGoogleSlideApp(true);
-    }
-    if (type && type == "quotes") {
-      setShowQuotesApp(true);
-    }
-    if (type && type == "all-news-app") {
-      setShowNewsApp(true);
-    }
-    if (type && type == "people-space") {
-      history.push("/people-space");
+    if(permission && permission.permission.APPS.add){
+      if (type && type == "url-app") {
+        setShowUrlApp(true);
+      }
+      if (type && type == "rss-feed") {
+        setShowRssFeedApp(true);
+      }
+      if (type && type == "youtube") {
+        setShowYoutubeApp(true);
+      }
+      if (type && type == "scroller") {
+        setShowScrollerTextApp(true);
+      }
+      if (type && type == "text") {
+        setShowTextApp(true);
+      }
+      if (type && type == "clock-app") {
+        setShowClockApp(true);
+      }
+      if (type && type == "weather") {
+        setShowWeatherApp(true);
+      }
+      if (type && type == "qr-code") {
+        setShowQrCodeApp(true);
+      }
+      if (type && type == "air-quality-app") {
+        setShowAirQualityApp(true);
+      }
+      if (type && type == "stocks") {
+        setShowStocksApp(true);
+      }
+      if (type && type == "all-news-app") {
+        setShowBulletinBoardApp(true);
+      }
+      if (type && type == "bulletin-app") {
+        setShowBulletinBoardApp(true);
+      }
+      if (type && type == "google-slides") {
+        setShowGoogleSlideApp(true);
+      }
+      if (type && type == "quotes") {
+        setShowQuotesApp(true);
+      }
+      if (type && type == "people-space") {
+        history.push("/people-space");
+      }
     }
   };
 
@@ -402,3 +408,14 @@ export default function Integrations() {
     </>
   );
 }
+
+
+const mapStateToProps = (state) => {
+  return {
+      // errorMessage: state.auth.errorMessage,
+      // successMessage: state.auth.successMessage,
+      auth: state.auth.auth,
+      permission : state.auth.permission
+  };
+};
+export default connect(mapStateToProps)(Integrations);
