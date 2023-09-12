@@ -13,7 +13,7 @@ import orange from "../../src/img/push-pin 2.svg";
 import blue from "../../src/img/push-pin 3.svg";
 import Celsius from "../../src/img/thermometer 1.svg";
 import { BASE_URL } from "./api";
-
+import Iframe from "react-iframe";
 import Slide from "@mui/material/Slide";
 import QRCode from "react-qr-code";
 import { Table } from "react-bootstrap";
@@ -889,13 +889,13 @@ export const handleNewsApps = (data, newsData) => {
   return (
     <>
       <div className="bg-white h-100">
-        <div className="bg-black p-3 h-100">
-          {/* news-app-bg */}
+        <div className={`${prp.theame.value == 'white' ? 'news-app-bg' : 'bg-black'} p-3 h-100`}>
+          {/*  */}
           <div
             className="basic-list-group image-preview-container media-content "
             style={{ color: "white", textAlign: "center" }}
           >
-            <h2 className="text-white mb-0">News About {prp.topic.value}</h2>
+            <h2 className={`${prp.theame.value == 'white' ? '' : 'text-white'} mb-0`}>News About {prp.topic.value}</h2>
             <Carousel
               interval={10000}
               indicators={false}
@@ -925,7 +925,7 @@ export const handleNewsApps = (data, newsData) => {
                         <div className="text-center  ">
                           <h1
                             className={`${
-                              prp.theame.value == "White Background"
+                              prp.theame.value == "white"
                                 ? "text-black"
                                 : "text-white"
                             } `}
@@ -934,7 +934,7 @@ export const handleNewsApps = (data, newsData) => {
                           </h1>
                           <p
                             className={`${
-                              prp.theame.value == "White Background"
+                              prp.theame.value == "white"
                                 ? "text-black"
                                 : "text-white"
                             } `}
@@ -1094,3 +1094,30 @@ export const handleNewsApps = (data, newsData) => {
     </>
   );
 };
+
+export const handleGoogleApps = (data) => {
+  const prp = JSON.parse(data);
+  console.log("text app ", prp);
+  return (
+      <div className="basic-list-group image-preview-container media-content">
+        {
+          prp && prp.fileData && prp.fileURL ?
+          <Iframe
+            url={prp.fileURL}
+            width="100%"
+            height="100%"
+            // id=""
+            // className=""
+            display="block"
+            position="relative"
+          />
+           : <>Loading</>
+        }
+        
+    </div>
+  )
+};
+
+
+// AIzaSyCMJk6QpvPCdibrNzpOQlFrqpDgf4-GHjw
+// AIzaSyDwH-RU1-mcb9_z3MobeWInZ-jCxBn2kTw

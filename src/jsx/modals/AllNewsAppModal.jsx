@@ -28,7 +28,7 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   ];
   const themeOptions = [
     { value: "classic", label: "Classic View" },
-    { value: "white-background-center", label: "White Background Center" },
+    { value: "white", label: "White Background Center" },
   ];
   const [selectedTheame, setSelectedTheame] = useState({
     value: "classic",
