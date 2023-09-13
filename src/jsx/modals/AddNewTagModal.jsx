@@ -24,21 +24,22 @@ const AddNewTagModal = ({ setNewTagModal, selected }) => {
           <p>Type in new name to create your tag</p>
         </div>
         <div className="tag-name-row d-flex flex-wrap">
-
-          {selected  && selected.tags && selected.tags.map((tag) =>{
-            return (
-            <Badge  className="tag-name" variant="outline-primary">
-            <span className="tag-name-content">{tag}</span>
-            <span className="tag-close">
-              <img
-                className="tag-close-icon"
-                src={tagCloseIcon}
-                alt="tag-icon"
-              />
-            </span>
-          </Badge>
-          )})}
-          
+          {selected &&
+            selected.tags &&
+            selected.tags.map((tag) => {
+              return (
+                <Badge className="tag-name" variant="outline-primary">
+                  <span className="tag-name-content">{tag}</span>
+                  <span className="tag-close">
+                    <img
+                      className="tag-close-icon"
+                      src={tagCloseIcon}
+                      alt="tag-icon"
+                    />
+                  </span>
+                </Badge>
+              );
+            })}
         </div>
         <Row>
           <Col lg={12} md={12} sm={12} xs={12}>
