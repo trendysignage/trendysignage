@@ -3,7 +3,7 @@ import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 
 
-const TemplateAddContent = ({ setShowUrlApp, show, setSlides, slides,editItem, setEditItem }) => {
+const TemplateAddContent = ({ setShowUrlApp, show, setSlides, slides,editItem, setEditItem, slideIndex }) => {
   const [name, setName] = useState(null);
   const [message, setMessage] = useState(null);
   const [err, setErr] = useState(false);
@@ -11,7 +11,8 @@ const TemplateAddContent = ({ setShowUrlApp, show, setSlides, slides,editItem, s
   const [slideId, setSlideId] = useState(null);
 
   useEffect(() => {
-    if(editItem){
+    console.log("eeee", editItem)
+    if(editItem && editItem !== null){
       console.log("editIte", editItem)
       setSlideId(editItem.id);
       setName(editItem.name);
@@ -27,27 +28,30 @@ const TemplateAddContent = ({ setShowUrlApp, show, setSlides, slides,editItem, s
     if (name == "" || name == null) {
       setErr(true);
       setErrorMessage("Name is required");
+      return;
     }
-    else if (message == "" || message == null) {
+    if (message == "" || message == null) {
       setErr(true);
       setErrorMessage("Message is required");
+      return;
     }
-    if (err) {
-      return false;
-    } else {
-      const newArr = slides;
-      if(editItem){
-        console.log(slideId)
-        newArr[slideId].name    = name;
-        newArr[slideId].message = message
-      }else{
-        newArr.push({name,message});
-      }
-      setSlides(newArr);
-      setShowUrlApp(false);
-      setMessage("");
-      setName("");
+    var newArr = slides;
+    if(editItem){
+      console.log(slideId)
+      newArr[slideId].name    = name;
+      newArr[slideId].message = message
+    }else{
+      newArr = [
+          ...slides.slice(0, slideIndex+1),
+          {name,message},
+          ...slides.slice(slideIndex+1)
+      ];
     }
+    setSlides(newArr);
+    setEditItem(null)
+    setShowUrlApp(false);
+    setMessage("");
+    setName("");
   }
   return (
     <>

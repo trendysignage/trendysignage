@@ -83,6 +83,7 @@ const Markup = () => {
     { url: "reports-list", component: ReportsList },
     { url: "people-space", component: PeopleSpace },
     { url: "create-template", component: Createtemplate },
+    { url: "create-template/:id", component: Createtemplate },
     { url: "lock-screen" , component : LockScreen }
   ];
   console.log(path);

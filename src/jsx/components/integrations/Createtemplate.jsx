@@ -6,26 +6,57 @@ import userimg from "../../../img/Ellipse 151.svg";
 import edit from "../../../img/edit-btn.png";
 import deleteicon from "../../../img/delete-btn.png";
 import EditTemplate from "../../modals/EditTemplate";
-import { updateApps, addApps } from "../../../utils/api";
+import { updateApps, addApps, BASE_URL } from "../../../utils/api";
 import SelectMedia from "../../modals/SelecteMedia";
 
+
+
 export default function Createtemplate({history, actionType, mediaId}) {
+  let params = new URLSearchParams(history.location.search);
+  let tempType = params.get("type");
+  console.log("temp", tempType)
   const [showAddContent, setShowAddContent] = useState(false);
   const [showEditTemplate, setShowEditTemplate] = useState(false);
-  const [slides, setSlides] = useState([]);
+  const [slides, setSlides] = useState(
+    tempType && tempType == 'temp1' || tempType == 'temp4' ? 
+      [
+        {
+          name:"Jennifer Winget1",
+          message:"We are proud to have someone like you We are proud to have someone like you."
+        },
+        {
+          name:"Jennifer Winget2",
+          message:"We are proud to have someone like you We are proud to have someone like you."
+        },
+        {
+          name:"Jennifer Winget3",
+          message:"We are proud to have someone like you We are proud to have someone like you."
+        }
+      ]
+    : tempType && tempType == 'temp2' || tempType == 'temp3' || tempType == 'temp5' || tempType == 'temp6' ? 
+    [
+      {
+        name:"Jennifer Winget3",
+        message:"We are proud to have someone like you We are proud to have someone like you."
+      }
+    ]
+    : []
+  );
   const [editItem, setEditItem] = useState(null);
+  const [editImage, setEditImage] = useState(null);
   const [appName, setAppName] = useState(null);
   const [appTitle, setAppTitle] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageModalShow, setImageModalShow] = useState(false);
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [isRefresh, setIsRefresh] = useState(false);
 
 
   useEffect(() => {
-    console.log("slides", slides)
-    if(slides){
-      console.log('slides1', slides);
-    }
-  },[slides]);
+    console.log("slide", slides)
+
+    setIsRefresh(false)
+  },[editItem, slides, isRefresh]);
 
   const handleEdit = (e, item, index) => {
     e.preventDefault();
@@ -36,6 +67,7 @@ export default function Createtemplate({history, actionType, mediaId}) {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
+    console.log("slide", slides);
     if(appName == '' || appName == null){
       return toast.error("App Name is Required", {
         position: "top-right",
@@ -77,7 +109,8 @@ export default function Createtemplate({history, actionType, mediaId}) {
       const dataString = {
         url: appName,
         appTitle,
-        slides
+        slides,
+        tempType
       };
 
       if (actionType && actionType == "edit") {
@@ -115,11 +148,50 @@ export default function Createtemplate({history, actionType, mediaId}) {
     }
   }
 
+  const addSlide = (e, i) => {
+    e.preventDefault();
+    setSlideIndex(i);
+    setShowAddContent(true);
+  }
+
   const handleImage = (e, item, index) => {
     e.preventDefault();
+    item.id = index
+    setEditImage(item);
     setImageModalShow(true);
   }
 
+  const handleDelete = (e, i) => {
+    e.preventDefault();
+    console.log("index",i)
+    const newArra = slides.filter((item, index) => {
+      return index !== i
+    })
+    setSlides(newArra);
+    setIsRefresh(true)
+  }
+   //save reference for dragItem and dragOverItem
+   const dragItem = React.useRef(null);
+   const dragOverItem = React.useRef(null);
+ 
+   //const handle drag sorting
+   const handleSort = () => {
+     //duplicate items
+     let _fruitItems = [...slides];
+ 
+     //remove and save the dragged item content
+     const draggedItemContent = _fruitItems.splice(dragItem.current, 1)[0];
+ 
+     //switch the position
+     _fruitItems.splice(dragOverItem.current, 0, draggedItemContent);
+ 
+     //reset the position ref
+     dragItem.current = null;
+     dragOverItem.current = null;
+ 
+     //update the actual array
+     setSlides(_fruitItems);
+   };
   return (
     <>
       <TemplateAddContent
@@ -130,12 +202,18 @@ export default function Createtemplate({history, actionType, mediaId}) {
         action="add"
         editItem={editItem}
         setEditItem={setEditItem}
+        slideIndex={slideIndex}
       />
       <SelectMedia
         imageModalShow={imageModalShow}
         setImageModalShow={setImageModalShow}
         selectedImage={selectedImage}
         setSelectedImage={setSelectedImage}
+        setSlides={setSlides}
+        slides={slides}
+        action="edit"
+        editImage={editImage}
+        setEditImage={setEditImage}
       />
       <EditTemplate
         setShowUrlApp={() => setShowEditTemplate(false)}
@@ -183,12 +261,20 @@ export default function Createtemplate({history, actionType, mediaId}) {
       {
         slides && slides.length > 0 && slides.map((item, i) => {
           return (
-            <div className="d-flex align-items-center mt-5 template-card" key={i}>
+            <div className="d-flex align-items-center mt-5 template-card" 
+              key={i}
+              draggable
+              onDragStart={(e) => (dragItem.current = i)}
+              onDragEnter={(e) => (dragOverItem.current = i)}
+              onDragEnd={handleSort}
+              onDragOver={(e) => e.preventDefault()}
+            >
               <img
-                src={userimg}
+                src={item.image ? BASE_URL+item.image : userimg}
                 alt="user-image"
                 className="mr-3 template-person-image"
                 onClick={(e) => handleImage(e, item, i)}
+                style={{width:"100px"}}
               />
               <div>
                 <h3>{item.name}</h3>
@@ -202,13 +288,16 @@ export default function Createtemplate({history, actionType, mediaId}) {
                       <img src={edit} alt="edit" height="15px" />
                     </div>
                     <div className="mr-2">
-                      <img src={deleteicon} alt="img" height="15px" />
+                      <img src={deleteicon} alt="img" 
+                        height="15px" 
+                        onClick={(e) => handleDelete(e, i)}
+                      />
                     </div>
 
                     <div
                       className="add-btn-template"
                       style={{ fontSize: "20px" }}
-                      onClick={() => setShowAddContent(true)}
+                      onClick={(e) => addSlide(e,i)}
                     >
                       +
                     </div>
@@ -226,7 +315,7 @@ export default function Createtemplate({history, actionType, mediaId}) {
             className="btn-block"
             variant="info add-screen-btn"
             type="button"
-            onClick={() => setShowAddContent(true)}
+            onClick={(e) => addSlide(e,slides.length)}
           >
             + Add Content
           </Button>
