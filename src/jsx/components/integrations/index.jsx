@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 import weather from "../../../img/weather.svg";
 import menuIcon from "../../../img/menu-icon.png";
 import UrlAppModal from "../../modals/UrlAppModal";
@@ -20,19 +20,18 @@ import QuoteModel from "../../modals/QuoteModel.jsx";
 import AllNewsAppModal from "../../modals/AllNewsAppModal";
 import { Button, Dropdown } from "react-bootstrap";
 
-
 // import Form from "react-bootstrap/Form";
 // import { usePlacesWidget } from "react-google-autocomplete";
 import { useHistory } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
-import Box from '@mui/material/Box';
-import Switch from '@mui/material/Switch';
-import Paper from '@mui/material/Paper';
-import Slide from '@mui/material/Slide';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from "@mui/material/Box";
+import Switch from "@mui/material/Switch";
+import Paper from "@mui/material/Paper";
+import Slide from "@mui/material/Slide";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-const Integrations = ({permission, auth}) => {
-  console.log('auth',auth)
+const Integrations = ({ permission, auth }) => {
+  console.log("auth", auth);
   const history = useHistory();
   console.log("React ENV", process.env.REACT_APP_TITLE);
   const [showUrlApp, setShowUrlApp] = useState(false);
@@ -71,7 +70,7 @@ const Integrations = ({permission, auth}) => {
   const handleChange = (e, type) => {
     e.preventDefault();
     console.log(type);
-    if(permission && permission.permission.APPS.add){
+    if (permission && permission.permission.APPS.add) {
       if (type && type == "url-app") {
         setShowUrlApp(true);
       }
@@ -103,7 +102,7 @@ const Integrations = ({permission, auth}) => {
         setShowStocksApp(true);
       }
       if (type && type == "all-news-app") {
-        setShowBulletinBoardApp(true);
+        setShowNewsApp(true);
       }
       if (type && type == "bulletin-app") {
         setShowBulletinBoardApp(true);
@@ -151,38 +150,48 @@ const Integrations = ({permission, auth}) => {
   // }
 
   const data = {
-    slideDuration:10,
-    theame:{
-      value:'classic',
-      label:'Classic'
-    }
-  }
+    slideDuration: 10,
+    theame: {
+      value: "classic",
+      label: "Classic",
+    },
+  };
   console.log("data rss", data);
   //const prp = JSON.parse(data);
   const list = [
     {
-      title:" title 1We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
-      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+      title:
+        " title 1We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
     },
     {
-      title:" title 2We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
-      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+      title:
+        " title 2We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
     },
     {
-      title:" title 3We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
-      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+      title:
+        " title 3We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
     },
     {
-      title:" title 4We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
-      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
+      title:
+        " title 4We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
     },
     {
-      title:" title 5We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
-      content:"'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta"
-    }
+      title:
+        " title 5We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
+    },
   ];
-  
-  const [checked, setChecked] = useState(true)
+
+  const [checked, setChecked] = useState(true);
 
   // const interval = setInterval(() => {
   //   setChecked(!checked);
@@ -197,12 +206,12 @@ const Integrations = ({permission, auth}) => {
   //   >
   //     {(
   //       <>
-          
+
   //         <div
   //           className={`h-100 ${data.theame.value == 'White Background' ? 'bg-white' : 'bg-black'} `}
   //           style={{ padding: "5% 2% 2% 2%" }}
   //         >
-                
+
   //           <Carousel
   //             interval={(data.slideDuration) * 1000}
   //             indicators={false}
@@ -407,15 +416,14 @@ const Integrations = ({permission, auth}) => {
       />
     </>
   );
-}
-
+};
 
 const mapStateToProps = (state) => {
   return {
-      // errorMessage: state.auth.errorMessage,
-      // successMessage: state.auth.successMessage,
-      auth: state.auth.auth,
-      permission : state.auth.permission
+    // errorMessage: state.auth.errorMessage,
+    // successMessage: state.auth.successMessage,
+    auth: state.auth.auth,
+    permission: state.auth.permission,
   };
 };
 export default connect(mapStateToProps)(Integrations);

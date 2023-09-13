@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 /// images
 import logo from "../../../img/logo.png";
-import logo1 from "../../../img/Frame 1171276339.svg";
+import logo1 from "../../../img/Logo11.svg";
 
 const NavHader = () => {
   const [toggle, setToggle] = useState(false);

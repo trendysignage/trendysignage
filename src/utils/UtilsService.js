@@ -888,14 +888,23 @@ export const handleNewsApps = (data, newsData) => {
   console.log("news", newsData);
   return (
     <>
-      <div className="bg-white h-100">
-        <div className={`${prp.theame.value == 'white' ? 'news-app-bg' : 'bg-black'} p-3 h-100`}>
-          {/*  */}
+      {/* <div className="bg-white h-100">
+        <div
+          className={`${
+            prp.theame.value == "white" ? "news-app-bg" : "bg-black"
+          } p-3 h-100`}
+        >
           <div
             className="basic-list-group image-preview-container media-content "
             style={{ color: "white", textAlign: "center" }}
           >
-            <h2 className={`${prp.theame.value == 'white' ? '' : 'text-white'} mb-0`}>News About {prp.topic.value}</h2>
+            <h2
+              className={`${
+                prp.theame.value == "white" ? "" : "text-white"
+              } mb-0`}
+            >
+              News About {prp.topic.value}
+            </h2>
             <Carousel
               interval={10000}
               indicators={false}
@@ -949,14 +958,14 @@ export const handleNewsApps = (data, newsData) => {
             </Carousel>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* potrait mode */}
       {/* ......................................... */}
       {/* <div className="bg-white h-100">
         <div className="d-flex justify-content-center h-100">
           <div className="bg-black p-3 h-100">
-          // news-app-bg
+            // news-app-bg
             <div
               className="basic-list-group image-preview-container media-content "
               style={{ color: "white", textAlign: "center" }}
@@ -1020,13 +1029,13 @@ export const handleNewsApps = (data, newsData) => {
 
       {/* footer mode */}
       {/* ............................................ */}
-      {/* <div className="bg-white h-100">
+      <div className="bg-white h-100">
         <div className=" h-100" style={{ position: "relative" }}>
           <div
             className="bg-black p-3 w-100"
             style={{ position: "absolute", bottom: "0" }}
           >
-          // news-app-bg
+            // news-app-bg
             <div
               className="basic-list-group image-preview-container media-content "
               style={{ color: "white", textAlign: "center" }}
@@ -1090,7 +1099,7 @@ export const handleNewsApps = (data, newsData) => {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </>
   );
 };
@@ -1099,25 +1108,23 @@ export const handleGoogleApps = (data) => {
   const prp = JSON.parse(data);
   console.log("text app ", prp);
   return (
-      <div className="basic-list-group image-preview-container media-content">
-        {
-          prp && prp.fileData && prp.fileURL ?
-          <Iframe
-            url={prp.fileURL}
-            width="100%"
-            height="100%"
-            // id=""
-            // className=""
-            display="block"
-            position="relative"
-          />
-           : <>Loading</>
-        }
-        
+    <div className="basic-list-group image-preview-container media-content">
+      {prp && prp.fileData && prp.fileURL ? (
+        <Iframe
+          url={prp.fileURL}
+          width="100%"
+          height="100%"
+          // id=""
+          // className=""
+          display="block"
+          position="relative"
+        />
+      ) : (
+        <>Loading</>
+      )}
     </div>
-  )
+  );
 };
-
 
 // AIzaSyCMJk6QpvPCdibrNzpOQlFrqpDgf4-GHjw
 // AIzaSyDwH-RU1-mcb9_z3MobeWInZ-jCxBn2kTw
