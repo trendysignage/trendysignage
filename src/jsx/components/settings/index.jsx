@@ -15,6 +15,7 @@ import Group from "./group";
 import Roles from "./roles";
 import Profile from "./profile";
 import AddDeviceProfile from "../../modals/AddDeviceProfile";
+import ChangePassword from "../../modals/ChangePassword";
 
 const Settings = () => {
   const [dropValue, setDropValue] = useState("Default Content");
@@ -27,7 +28,7 @@ const Settings = () => {
   const [showAddUserModel, setShowAddUserModel] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
   const handleDropDown = (e, data) => {
     e.preventDefault();
     setDropValue(data);
@@ -52,11 +53,11 @@ const Settings = () => {
   };
 
   const callDeviceProfileApi = async () => {
-    setLoading(true)
+    setLoading(true);
     const list = await getDeviceProfile();
     console.log("deviceProfile", list);
     setAllDeviceProfile(list);
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -96,6 +97,11 @@ const Settings = () => {
 
   return (
     <>
+      <ChangePassword
+        setShowModel={() => setShowModal(false)}
+        show={showModal}
+      />
+
       <AddUserModal
         open={showAddUserModel}
         setShowAddUserModel={setShowAddUserModel}
@@ -161,6 +167,13 @@ const Settings = () => {
                 }}
               >
                 Device Profile
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={(e) => {
+                  setShowModal(true);
+                }}
+              >
+                Change Password
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
