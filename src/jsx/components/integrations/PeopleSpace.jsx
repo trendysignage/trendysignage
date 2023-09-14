@@ -1,9 +1,5 @@
 import React from "react";
-
-import person from "../../../img/Ellipse 154.png";
-
 import layout from "../../../img/Frame758532303.svg";
-
 import layout1 from "../../../img/Group 626063.svg";
 import layout2 from "../../../img/Frame 758532294.svg";
 import layout3 from "../../../img/Group 626068 1.svg";

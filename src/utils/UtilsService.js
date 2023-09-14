@@ -11,6 +11,7 @@ import imgexample from "../../src/img/hh.jpeg";
 import yellow from "../../src/img/push-pin 1.svg";
 import orange from "../../src/img/push-pin 2.svg";
 import blue from "../../src/img/push-pin 3.svg";
+import person from "../../src/img/Ellipse 154.png";
 import Celsius from "../../src/img/thermometer 1.svg";
 import { BASE_URL } from "./api";
 import Iframe from "react-iframe";
@@ -1125,6 +1126,96 @@ export const handleGoogleApps = (data) => {
     </div>
   );
 };
+
+
+export const handlePeopleSpace = (data) => {
+  const dummyData = [
+    {
+      "appName" : "Slide 1",
+      "appTitle" : "Title 1"
+    },
+    {
+      "appName" : "Slide 2",
+      "appTitle" : "Title 2"
+    },
+    {
+      "appName" : "Slide 3",
+      "appTitle" : "Title 3"
+    },
+    {
+      "appName" : "Slide 4",
+      "appTitle" : "Title 4"
+    },
+    {
+      "appName" : "Slide 5",
+      "appTitle" : "Title 5"
+    }
+  ];
+  const prp = JSON.parse(data);
+  
+  console.log("Handelling", prp);
+  if(prp.slides && prp.slides.length > 0){
+    if(prp.tempType && (prp.tempType == "temp1" || prp.tempType == 'temp4')){
+      prp.slides = sliceIntoChunks(dummyData, 3);
+        return <>
+        <div className=" h-100" style={{ margin: "2%" }}>
+          {prp?.settingData?.isTitle ? <h5>{prp.appTitle}</h5> : ""}
+          <Carousel
+            interval={10000}
+            indicators={false}
+            animation={"fade"}
+            className="h-100"
+          >
+            {prp.slides.map((item, i) => {
+              return <div className="row people-space text-center" key={i}>
+                <div className="col-12 col-md-4">
+                  <div className="d-flex">
+                      {item.map((item1, index1) => {
+                        return (
+                          <div className="text-center" key={`${i}-${index1}`}>
+                              <img src={item.image ? BASE_URL+item.image : person} alt="person" />
+                              <h3>{item.name}</h3>
+                              <p>{item.message}</p>
+                          </div>
+                        );
+                      })}
+                    </div> 
+                </div>
+              </div>
+            })}
+                
+          </Carousel>
+        </div>
+      </>
+    }else{
+      return <>
+        <div className=" h-100" style={{ margin: "2%" }}>
+          <Carousel
+            interval={10000}
+            indicators={false}
+            animation={"fade"}
+            className="h-100"
+          >
+            {prp.slides.map((item, i) => {
+              return <div className="row people-space text-center" key={i}>
+                <div className="col-12 col-md-4">
+                  <div className="d-flex" >
+                    <div className="text-center" >
+                        <img src={item.image ? BASE_URL+item.image : person} alt="person" />
+                        <h3>{item.name}</h3>
+                        <p>{item.message}</p>
+                    </div>
+                  </div> 
+                </div>
+              </div>
+            })}
+                
+          </Carousel>
+        </div>
+      </>
+    }
+  }
+}
 
 // AIzaSyCMJk6QpvPCdibrNzpOQlFrqpDgf4-GHjw
 // AIzaSyDwH-RU1-mcb9_z3MobeWInZ-jCxBn2kTw

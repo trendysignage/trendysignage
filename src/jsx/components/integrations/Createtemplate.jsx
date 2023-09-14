@@ -6,13 +6,15 @@ import userimg from "../../../img/Ellipse 151.svg";
 import edit from "../../../img/edit-btn.png";
 import deleteicon from "../../../img/delete-btn.png";
 import EditTemplate from "../../modals/EditTemplate";
-import { updateApps, addApps, BASE_URL } from "../../../utils/api";
+import { updateApps, addApps, BASE_URL, getAllMediaDetail } from "../../../utils/api";
 import SelectMedia from "../../modals/SelecteMedia";
-
-
+import { useParams } from "react-router-dom"
+import PeopleSpacePreview from './PeopleSpacePreview'
 
 export default function Createtemplate({history, actionType, mediaId}) {
   let params = new URLSearchParams(history.location.search);
+  const { id } = useParams();
+  console.log("params",id)
   let tempType = params.get("type");
   console.log("temp", tempType)
   const [showAddContent, setShowAddContent] = useState(false);
@@ -50,13 +52,47 @@ export default function Createtemplate({history, actionType, mediaId}) {
   const [imageModalShow, setImageModalShow] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0);
   const [isRefresh, setIsRefresh] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [settingData, setSettingData] = useState({
+    "bgOpacity":100,
+    "bgStyle": {value: 'bree-sarif', label: 'Bree Sarif'},
+    "duration": "20",
+    "isTitle": true,
+    "messageColor": "#000000",
+    "messageStyle": {value: 'bree-sarif', label: 'Bree Sarif'},
+    "nameColor": "#000000",
+    "nameStyle": {value: 'bree-sarif', label: 'Bree Sarif'},
+    "titleColor": "#f20d0d",
+    "titleStyle": {value: 'permanent', label: 'Permanent Maker'}
+  })
+  const callMediaDetailApi = async (id) => {
+    const list = await getAllMediaDetail(id);
+    arrangMediaDetail(list)
+  };
 
+  const arrangMediaDetail = (list) => {
+    if(list){
+      const prp = JSON.parse(list.appData);
+      console.log(prp, list)
+      setAppName(prp.url);
+      setAppTitle(prp.appTitle);
+      setSlides(prp.slides)
+    }
+  }
 
   useEffect(() => {
     console.log("slide", slides)
-
+    if(id){
+      //callMediaDetailApi(id)
+    }
     setIsRefresh(false)
   },[editItem, slides, isRefresh]);
+
+  useEffect(() => {
+    if(id){
+      callMediaDetailApi(id)
+    }
+  },[id]);
 
   const handleEdit = (e, item, index) => {
     e.preventDefault();
@@ -105,45 +141,59 @@ export default function Createtemplate({history, actionType, mediaId}) {
       });
     }
     else{
-      console.log("app", appName, appTitle, slides)
       const dataString = {
         url: appName,
         appTitle,
         slides,
-        tempType
+        tempType,
+        settingData
       };
+      console.log(dataString)
 
-      if (actionType && actionType == "edit") {
-        // await updateApps({
-        //   name,
-        //   appId: mediaId,
-        //   data: JSON.stringify(dataString),
-        // });
-        // setShowUrlApp(false);
-        } else {
-          await addApps({
-            name:appName,
-            type: "people-apps",
-            data: JSON.stringify(dataString),
-          }).then((res) => {
-            console.log("response",res)
-            if(res && res.data.message === 'Success');{
-              history.push(`/create-template/`+res.data.data.media[res.data.data.media.length - 1]._id)
-            }
-          });
-          //setShowUrlApp(false);
-          //setShowUrlRedirectApp(true);
-          return toast.success("You can proceed to create app", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
+      if (id) {
+        await updateApps({
+          name:appName,
+          appId:id,
+          data: JSON.stringify(dataString),
+        }).then((res) => {
+          console.log("response",res)
+          if(res && res.data.message === 'Success');{
+            toast.success("App has been updated successfully !!!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            history.push(`/create-template/`+id+`?type=`+tempType)
+            return
+          }
+        });
+      } else {
+        await addApps({
+          name:appName,
+          type: "people-apps",
+          data: JSON.stringify(dataString),
+        }).then((res) => {
+          console.log("response",res)
+          if(res && res.data.message === 'Success');{
+            toast.success("App has been created successfully !!!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            history.push(`/create-template/`+res.data.data._id+`?type=`+tempType)
+          }
+        });
+      }
       
     }
   }
@@ -170,6 +220,7 @@ export default function Createtemplate({history, actionType, mediaId}) {
     setSlides(newArra);
     setIsRefresh(true)
   }
+
    //save reference for dragItem and dragOverItem
    const dragItem = React.useRef(null);
    const dragOverItem = React.useRef(null);
@@ -218,18 +269,37 @@ export default function Createtemplate({history, actionType, mediaId}) {
       <EditTemplate
         setShowUrlApp={() => setShowEditTemplate(false)}
         show={showEditTemplate}
+        settingData={settingData}
+        setSettingData={setSettingData}
       />
+      {
+        showPreview && <PeopleSpacePreview 
+        showPreview={showPreview}
+        setShowPreview={setShowPreview}
+        data={JSON.stringify({
+          slides,appTitle,appName,tempType,settingData
+        })}
+      />
+      }
+      
       <div className="custom-content-heading d-flex flex-wrap flex-row align-items-center justify-content-between mb-5">
         <h1 className="mb-0">Template</h1>
         <div className="d-flex align-items-center">
-          <Button className="mr-2" variant="info add-screen-btn" type="button">
+          <Button className="mr-2" variant="info add-screen-btn"
+            onClick={(e) => {e.preventDefault();setShowEditTemplate(true)}}
+            type="button">
+            Setting
+          </Button>
+          <Button className="mr-2" variant="info add-screen-btn"
+            onClick={(e) => {e.preventDefault();setShowPreview(true)}}
+            type="button">
             Preview
           </Button>
           <Button className="" variant="info add-screen-btn"
            type="button"
            onClick={(e) => handleCreateApp(e)}
            >
-            Save
+            {id ? "Update" : "Save"}
           </Button>
         </div>
       </div>

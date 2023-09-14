@@ -560,6 +560,13 @@ export async function getAllMediaFilter() {
   return response.data.data.media;
 }
 
+export async function getAllMediaDetail(id) {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/display/media/detail?mediaId=${id}`
+  );
+  return response.data.data.media;
+}
+
 
 export function getPermission() {
   return fetchClient.get(BASE_URL + `/vendor/profile/vendorRole`);
