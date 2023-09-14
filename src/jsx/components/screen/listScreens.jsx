@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Table, Dropdown } from "react-bootstrap";
+import { connect } from 'react-redux';
 import AddNewTagModal from "../../modals/AddNewTagModal";
 import downArrow from "../../../img/down-arrow.png";
 import menuIcon from "../../../img/menu-icon.png";
@@ -9,8 +10,10 @@ import assignIcon from "../../../img/assign-icon.png";
 import takeScreenshotIcon from "../../../img/tack-screenshot-icon.png";
 import { Link } from "react-router-dom";
 import CompositionListModel from "../../modals/CompolistionListModel";
+import { permission } from "../../../utils/api";
 
-const ListScreen = ({ allScreens }) => {
+const ListScreen = ({ allScreens, userPermission }) => {
+  console.log("userPermission", userPermission);
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [selectedScreen, setSelectedScreen] = useState("");
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
@@ -97,7 +100,7 @@ const ListScreen = ({ allScreens }) => {
                         </span>
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        <Dropdown.Item href="#" className="dropdown-list-item">
+                        <Dropdown.Item href="#" className="dropdown-list-item" disabled={userPermission && !userPermission.permission.SCREEN.view}>
                           <Link
                             to={{
                               pathname: `/display/${screen._id}`,
@@ -127,6 +130,7 @@ const ListScreen = ({ allScreens }) => {
                             setShowPublishPopUp(true);
                             setSelectedScreen(screen._id);
                           }}
+                          disabled={userPermission && !userPermission.permission.SCREEN.edit}
                           className="dropdown-list-item"
                         >
                           <div className="d-flex">
@@ -147,7 +151,7 @@ const ListScreen = ({ allScreens }) => {
                             </div>
                           </div>
                         </Dropdown.Item>
-                        <Dropdown.Item href="#" className="dropdown-list-item">
+                        <Dropdown.Item href="#" className="dropdown-list-item" disabled={userPermission && !userPermission.permission.SCREEN.edit}>
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
                               <img
@@ -211,4 +215,10 @@ const ListScreen = ({ allScreens }) => {
   );
 };
 
-export default ListScreen;
+const mapStateToProps = (state) => {
+  return {
+      auth: state.auth.auth,
+      userPermission : state.auth.permission
+  };
+};
+export default connect(mapStateToProps)(ListScreen);

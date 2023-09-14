@@ -5,8 +5,8 @@ import Index from './jsx/index';
 import { connect, useDispatch } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 // action
-import { checkAutoLogin } from './services/AuthService';
-import { isAuthenticated } from './store/selectors/AuthSelectors';
+import { checkAutoLogin, checkAutoPermission } from './services/AuthService';
+import { isAuthenticated, isVerified } from './store/selectors/AuthSelectors';
 /// Style
 import "./vendor/bootstrap-select/dist/css/bootstrap-select.min.css";
 import "./css/style.css";
@@ -14,6 +14,7 @@ import Webplayer from './jsx/components/web-player';
 import Layout from './jsx/components/layout/Layout';
 import PushScreen from './jsx/components/push/PushScreen';
 import Error404 from './jsx/pages/Error404';
+import Verification from './jsx/pages/Verification';
 // import { socket } from './utils/socket';
 
 
@@ -25,6 +26,7 @@ const Login = lazy(() => {
     });
 });
 function App(props) {
+    console.log("sdsad",props)
     let path = window.location.pathname
     path = path.split('/')
     path = path[path.length - 1]
@@ -33,6 +35,7 @@ function App(props) {
     useEffect(() => {
         if (path !== 'web-player') {
             checkAutoLogin(dispatch, props.history);
+            checkAutoPermission(dispatch, props.history)
         }
 
     }, [dispatch, props.history]);
@@ -43,8 +46,6 @@ function App(props) {
             <Route path='/page-forgot-password' component={ForgotPassword} />
             <Route path='/layout' component={Layout} />
             <Route path='/push' component={PushScreen} />
-
-
         </Switch>
     );
     if (path === 'web-player') {
@@ -55,8 +56,26 @@ function App(props) {
         )
     }
     else if (props.isAuthenticated) {
-        return (
-            <>
+        if(props.isVerified){
+            return (
+                <>
+                    <Suspense fallback={
+                        <div id="preloader">
+                            <div className="sk-three-bounce">
+                                <div className="sk-child sk-bounce1"></div>
+                                <div className="sk-child sk-bounce2"></div>
+                                <div className="sk-child sk-bounce3"></div>
+                            </div>
+                        </div>
+                    }
+                    >
+                        <Index />
+                    </Suspense>
+                </>
+            );
+
+        }else{
+            return  <div className="vh-100">
                 <Suspense fallback={
                     <div id="preloader">
                         <div className="sk-three-bounce">
@@ -67,12 +86,16 @@ function App(props) {
                     </div>
                 }
                 >
-                    <Index />
+                    <Switch>
+                        <Route path='/verification' component={Verification} />
+                    </Switch>
                 </Suspense>
-            </>
-        );
+            </div>
+
+        }
 
     } else {
+        
         return (
             <div className="vh-100">
                 <Suspense fallback={
@@ -95,6 +118,7 @@ function App(props) {
 const mapStateToProps = (state) => {
     return {
         isAuthenticated: isAuthenticated(state),
+        isVerified: isVerified(state),
     };
 };
 

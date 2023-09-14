@@ -8,10 +8,12 @@ import googleIcon from '../../../img/google-icon.png'
 import eyeOff from '../../../img/eye-off.svg'
 
 const LoginPage = (props)=>{
-	const [email, setEmail] = useState('demo@example.com');
+	const [email, setEmail] = useState();
+	const [password, setPassword] = useState();
+	// const [email, setEmail] = useState('demo@example.com');
+	// const [password, setPassword] = useState('123456');
     let errorsObj = { email: '', password: '' };
     const [errors, setErrors] = useState(errorsObj);
-    const [password, setPassword] = useState('123456');
     const dispatch = useDispatch();
 
     function onLogin(e) {
@@ -35,7 +37,7 @@ const LoginPage = (props)=>{
     }
 	return (<div>
 		<div className="mb-4">
-			<h3 className="mb-1 font-w600">Welcome Back</h3>
+			<h3 className="mb-1 font-w600">Welcome Backs</h3>
 			<p className="welcome-content-paragraph">Log in with your data that you entered during your registration</p>
 		</div>
 		{props.errorMessage && (
@@ -48,13 +50,13 @@ const LoginPage = (props)=>{
 				{props.successMessage}
 			</div>
 		)}
-		<form onSubmit={onLogin}>
+		<form onSubmit={onLogin} autoComplete='off'>
 			<div className="form-group">
-				<input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)}/>
+				<input type="text" autoComplete='off' className="form-control" value={email} onChange={(e) => setEmail(e.target.value)}/>
 				{errors.email && <div className="text-danger fs-12">{errors.email}</div>}
 			</div>
 			<div className="form-group password-textfield">
-				<input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)}/>
+				<input type="password" autoComplete='off' className="form-control" value={password} onChange={(e) => setPassword(e.target.value)}/>
 			<span className='eye-off'><img src={eyeOff} alt="" className="eye-off"/> </span>
 				{errors.password && <div className="text-danger fs-12">{errors.password}</div>}
 			</div>

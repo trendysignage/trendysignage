@@ -4,6 +4,8 @@ import {
     loginConfirmedAction,
     logout,
 } from '../store/actions/AuthActions';
+import {getPermission} from "../utils/api"
+import { GET_PERMISSION_CONFIRMED_ACTION } from "../store/actions/AuthActions"
 
 export function signUp(email, password) {
     //axios call
@@ -75,6 +77,7 @@ export function checkAutoLogin(dispatch, history) {
     }
 
     tokenDetails = JSON.parse(tokenDetailsString);
+    console.log("expireDate",tokenDetails);
     let expireDate = tokenDetails.token.expires;
     let todaysDate = new Date();
 
@@ -83,8 +86,26 @@ export function checkAutoLogin(dispatch, history) {
         dispatch(logout(history));
         return;
     }
+    if(!tokenDetails.vendor.isVerified){
+        history.push('/verification')
+    }
     dispatch(loginConfirmedAction(tokenDetails));
 
     // const timer = expireDate - todaysDate.getTime();
     // runLogoutTimer(dispatch, timer, history);
+}
+
+
+export function checkAutoPermission(dispatch, history) {
+    getPermission().then((response) => {
+        //console.log("response",response.data);
+        dispatch({type:GET_PERMISSION_CONFIRMED_ACTION,payload:response.data?.data})
+    })
+    .catch((error) => {
+        console.log("error",error.response.data);
+        // const errorMessage = error.response.data.message;
+        // console.log("errorMessage",errorMessage)
+        // dispatch(loginFailedAction(errorMessage));
+    });
+    //dispatch(loginConfirmedAction(tokenDetails));
 }

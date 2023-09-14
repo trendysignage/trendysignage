@@ -6,8 +6,11 @@ import FilterModal from "../../modals/FilterModal";
 import searchIcon from "../../../img/search.png";
 import listIcon from "../../../img/list-icon.png";
 import { getAllScreens } from "../../../utils/api";
+import LockScreen from "../../pages/LockScreen";
+import { connect } from 'react-redux';
 
-const Screen = () => {
+const Screen = ({userPermission}) => {
+  console.log("userPermission", userPermission)
   const [showScreenModal, setShowScreenModal] = useState(false);
   const [showFilterModal, setFilterModal] = useState(false);
   const [allScreens, setAllScreens] = useState("");
@@ -25,18 +28,34 @@ const Screen = () => {
         <h1>Screen</h1>
       </div>
       <div className="form-head d-flex mb-3 align-items-start">
-        <Button
-          className="mr-2"
-          variant="info add-screen-btn"
-          onClick={() => {
-            setShowScreenModal(true);
-          }}
-        >
-          Add New Screen
-          <span className="btn-icon-right">
-            <div class="glyph-icon flaticon-381-add-1"></div>
-          </span>
-        </Button>
+        {
+          userPermission && userPermission.permission.SCREEN.add
+          ? 
+          <Button
+            className="mr-2"
+            variant="info add-screen-btn"
+            onClick={() => {
+              setShowScreenModal(true);
+            }}
+          >
+            Add New Screen
+            <span className="btn-icon-right">
+              <div class="glyph-icon flaticon-381-add-1"></div>
+            </span>
+          </Button>
+          : 
+          <Button
+            className="mr-2"
+            variant="info add-screen-btn"
+            disabled
+          >
+            Add New Screen
+            <span className="btn-icon-right">
+              <div class="glyph-icon flaticon-381-lock-1"></div>
+            </span>
+          </Button>
+        }
+        
         {/* <div className="search-textfield ml-auto d-flex flex-wrap align-items-center">
           <div className="form-group mb-0">
             <input
@@ -68,9 +87,21 @@ const Screen = () => {
           setFilterModal={setFilterModal}
         /> */}
       </div>
-      <ListScreen allScreens={allScreens} />
+      {
+        userPermission && userPermission.permission.SCREEN.view 
+        ? 
+          <ListScreen allScreens={allScreens} />
+        :
+        <LockScreen message={"You don't have permission to access this !!!"} />
+      }
+      
     </>
   );
 };
 
-export default Screen;
+const mapStateToProps = (state) => {
+  return {
+      userPermission : state.auth.permission
+  };
+};
+export default connect(mapStateToProps)(Screen);

@@ -11,7 +11,8 @@ import {
   humanReadableFormattedDateString,
 } from "../../../../utils/UtilsService";
 
-const ListComposition = ({ allComposition, mutate }) => {
+
+const ListComposition = ({ allComposition, mutate, permission }) => {
   console.log(allComposition, "layout page");
   const [deleteModal, setDeleteModal] = useState(false);
   const [showNewTagModal, setNewTagModal] = useState(false);
@@ -113,6 +114,7 @@ const ListComposition = ({ allComposition, mutate }) => {
                       mutate={mutate}
                       setSelected={setSelected}
                       setDeleteModal={setDeleteModal}
+                      permission={permission}
                     />
                   </td>
                 </tr>

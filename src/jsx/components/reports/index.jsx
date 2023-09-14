@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { Col, Row } from "react-bootstrap";
 import { Dropdown } from "react-bootstrap";
 import scheduleIcon from "../../../img/Vector.png";
@@ -11,8 +12,9 @@ import Uptime from "./Uptime";
 import Media from "./Media";
 import Audit from "./Audit";
 import backicon from "../../../img/backicon.png";
+import LockScreen from "../../pages/LockScreen";
 
-const Reports = () => {
+const Reports = ({permission}) => {
   const history = useHistory();
   const [showGenerateModal, setShowGenerateModal] = useState(false);
   const [reportType, setReportType] = useState("");
@@ -24,7 +26,9 @@ const Reports = () => {
 
   const handleClick = (e, type) => {
     e.preventDefault();
-    history.push(`/reports?report=${type}`);
+    if(permission && permission.permission.REPORTS.view){
+      history.push(`/reports?report=${type}`);
+    }
   };
 
   const handleDropDown = (e, data) => {
@@ -46,14 +50,16 @@ const Reports = () => {
   }, [reportSlug, filter]);
 
   useEffect(() => {
-    if (reportSlug && reportSlug == "media-report") {
-      setReportType("Media Report");
-    }
-    if (reportSlug && reportSlug == "uptime-report") {
-      setReportType("Uptime Report");
-    }
-    if (reportSlug && reportSlug == "audit-logs") {
-      setReportType("Audit Logs");
+    if(permission && permission.permission.REPORTS.view){
+      if (reportSlug && reportSlug == "media-report") {
+        setReportType("Media Report");
+      }
+      if (reportSlug && reportSlug == "uptime-report") {
+        setReportType("Uptime Report");
+      }
+      if (reportSlug && reportSlug == "audit-logs") {
+        setReportType("Audit Logs");
+      }
     }
   }, [reportData]);
 
@@ -202,17 +208,17 @@ const Reports = () => {
           </div>
 
           {reportSlug && reportSlug == "uptime-report" ? (
-            <Uptime reportData={reportData} />
+            permission && permission.permission.REPORTS.view ? <Uptime reportData={reportData} /> : <LockScreen message={"You don't have permssion to access this !!!"} />
           ) : (
             ""
           )}
           {reportSlug && reportSlug == "media-report" ? (
-            <Media reportData={reportData} />
+            permission && permission.permission.REPORTS.view ? <Media reportData={reportData} /> : <LockScreen message={"You don't have permssion to access this !!!"} />
           ) : (
             ""
           )}
           {reportSlug && reportSlug == "audit-logs" ? (
-            <Audit reportData={reportData} />
+            permission && permission.permission.REPORTS.view ? <Audit reportData={reportData} /> : <LockScreen message={"You don't have permssion to access this !!!"} />
           ) : (
             ""
           )}
@@ -230,4 +236,10 @@ const Reports = () => {
     </>
   );
 };
-export default Reports;
+const mapStateToProps = (state) => {
+  return {
+      auth: state.auth.auth,
+      permission : state.auth.permission
+  };
+};
+export default connect(mapStateToProps)(Reports);
