@@ -200,6 +200,7 @@ export default function Createtemplate({history, actionType, mediaId}) {
 
   const addSlide = (e, i) => {
     e.preventDefault();
+    setEditItem(null)
     setSlideIndex(i);
     setShowAddContent(true);
   }

@@ -108,7 +108,7 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData }) => {
                 <div>
                   <label className="mb-0">Title Font</label>
                 </div>
-                <div style={{ width: "120px" }}>
+                <div style={{ marginLeft:"10px",marginRight:"10px", width: "120px" }}>
                   <input type="color" name="titleColor" onChange={(e) => setTitleColor(e.target.value)} id="titleColor" value={titleColor} className="  form-control " required />
                 </div>
                 <div style={{ width: "150px" }}>
@@ -130,7 +130,7 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData }) => {
                 <div>
                   <label className="mb-0">Name</label>
                 </div>
-                <div style={{ width: "120px" }}>
+                <div style={{ marginLeft:"10px",marginRight:"10px", width: "120px" }}>
                 <input type="color" name="nameColor" id="nameColor" onChange={(e) => setNameColor(e.target.value)} value={nameColor} className="  form-control " required />
                 </div>
                 <div style={{ width: "150px" }}>
@@ -147,7 +147,7 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData }) => {
                 <div>
                   <label className="mb-0">Message</label>
                 </div>
-                <div style={{ width: "120px" }}>
+                <div style={{ marginLeft:"10px",marginRight:"10px", width: "120px" }}>
                 <input type="color" name="messageColor" id="messageColor" onChange={(e) => setMessageColor(e.target.value)} value={messageColor} className="  form-control " required />
                 </div>
                 <div style={{ width: "150px" }}>
@@ -167,7 +167,7 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData }) => {
                 <div style={{ width: "120px" }}>
                   <input type="color" name="bgColor" id="bgColor" onChange={(e) => setBgColor(e.target.value)} value={bgColor} className="  form-control " required />
                 </div>
-                <div style={{ width: "150px" }}>
+                <div style={{ marginLeft:"10px",marginRight:"10px",  width: "150px" }}>
                   <Select
                     value={bgStyle}
                     onChange={setBgStyle}
@@ -181,7 +181,7 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData }) => {
                 <div>
                   <label className="mb-0">Background Opacity</label>
                 </div>
-                <div style={{ mergin:"10px", width: "150px" }}>
+                <div style={{ marginLeft:"10px",marginRight:"10px", width: "150px" }}>
                   <Slider
                     size="small"
                     value={bgOpacity}

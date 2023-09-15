@@ -4,6 +4,7 @@ import cancelIcon from "../../img/cancel-icon.png";
 
 
 const TemplateAddContent = ({ setShowUrlApp, show, setSlides, slides,editItem, setEditItem, slideIndex }) => {
+  console.log("editing",editItem);
   const [name, setName] = useState(null);
   const [message, setMessage] = useState(null);
   const [err, setErr] = useState(false);
@@ -17,6 +18,10 @@ const TemplateAddContent = ({ setShowUrlApp, show, setSlides, slides,editItem, s
       setSlideId(editItem.id);
       setName(editItem.name);
       setMessage(editItem.message);
+    }else{
+      setSlideId(null);
+      setName("");
+      setMessage("");
     }
   },[editItem, slideId])
 
