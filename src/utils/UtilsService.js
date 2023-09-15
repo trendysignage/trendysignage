@@ -1127,74 +1127,308 @@ export const handleGoogleApps = (data) => {
   );
 };
 
-
 export const handlePeopleSpace = (data) => {
   const prp = JSON.parse(data);
   console.log("Handelling", prp);
-  if(prp.slides && prp.slides.length > 0){
-    if(prp.tempType && (prp.tempType == "temp1" || prp.tempType == 'temp4')){
+  if (prp.slides && prp.slides.length > 0) {
+    if (prp.tempType && prp.tempType == "temp1") {
       prp.slides = sliceIntoChunks(prp.slides, 3);
-        return <>
-        <div className=" h-100" style={{ margin: "2%" }}>
-          {prp?.settingData?.isTitle ? <h5>{prp.appTitle}</h5> : ""}
-          <Carousel
-            interval={10000}
-            duration={500}
-            indicators={false}
-            animation={"fade"}
-            className="h-100"
+      return (
+        <>
+          <div
+            className=" h-100"
+            style={{
+              background:
+                "linear-gradient(120deg, #FF5F9E -11.45%, #FAACC5 35.49%, #FFE6DD 104.09%)",
+            }}
           >
-            {prp.slides.map((item, i) => {
-              return <div className="row people-space text-center" key={i}>
-                <div className="col-12 col-md-4">
-                  <div className="d-flex">
-                      {item.map((item1, index1) => {
-                        return (
-                          <div className="text-center" key={`${i}-${index1}`}>
-                              <img style={{width:"100px"}} src={item1.image ? BASE_URL+item1.image : person} alt="person" />
-                              <h3>{item1.name}</h3>
-                              <p>{item1.message}</p>
-                          </div>
-                        );
-                      })}
-                    </div> 
-                </div>
-              </div>
-            })}
-                
-          </Carousel>
-        </div>
-      </>
-    }else{
-      return <>
-        <div className=" h-100" style={{ margin: "2%" }}>
-          <Carousel
-            interval={10000}
-            duration={500}
-            indicators={false}
-            animation={"fade"}
-            className="h-100"
-          >
-            {prp.slides.map((item, i) => {
-              return <div className="row people-space text-center" key={i}>
-                <div className="col-12 col-md-4">
-                  <div className="d-flex" >
-                    <div className="text-center" >
-                        <img style={{width:"100px"}} src={item.image ? BASE_URL+item.image : person} alt="person" />
-                        <h3>{item.name}</h3>
-                        <p>{item.message}</p>
+            {/* {prp?.settingData?.isTitle ? <h5>{prp.appTitle}</h5> : ""} */}
+            <h2 className="text-center pt-3" style={{ color: "#AA144C" }}>
+              appTitle
+            </h2>
+
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div
+                    className="row people-space text-center w-100 m-0"
+                    key={i}
+                  >
+                    <div>
+                      <div className="d-flex mx-2">
+                        {item.map((item1, index1) => {
+                          return (
+                            <div className="text-center" key={`${i}-${index1}`}>
+                              <img
+                                style={{
+                                  width: "200px",
+                                  height: "200px",
+                                  borderRadius: "50%",
+                                }}
+                                src={
+                                  item1.image ? BASE_URL + item1.image : person
+                                }
+                                alt="person"
+                              />
+                              <h3 style={{ color: "#AA144C" }}>{item1.name}</h3>
+                              <p style={{ color: "#AA144C" }}>
+                                {item1.message}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div> 
-                </div>
-              </div>
-            })}
-                
-          </Carousel>
-        </div>
-      </>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    } else if (prp.tempType && prp.tempType == "temp4") {
+      prp.slides = sliceIntoChunks(prp.slides, 3);
+      return (
+        <>
+          <div className=" h-100 temp4-bg">
+            {/* {prp?.settingData?.isTitle ? <h5>{prp.appTitle}</h5> : ""} */}
+            <h2 className="text-center pt-3" style={{ color: "#2512AD" }}>
+              temp 4
+            </h2>
+
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div className=" w-100 m-0" key={i}>
+                    <div>
+                      <div className=" mx-2">
+                        {item.map((item1, index1) => {
+                          return (
+                            <div
+                              className="d-flex align-items-center"
+                              key={`${i}-${index1}`}
+                            >
+                              <div>
+                                <img
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    borderRadius: "50%",
+                                  }}
+                                  src={
+                                    item1.image
+                                      ? BASE_URL + item1.image
+                                      : person
+                                  }
+                                  alt="person"
+                                />
+                              </div>
+                              <div>
+                                <h3 style={{ color: "#2512AD" }}>
+                                  {item1.name}
+                                </h3>
+                                <p style={{ color: "#2512AD", margin: 0 }}>
+                                  {item1.message}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    } else if (prp.tempType && prp.tempType == "temp2") {
+      return (
+        <>
+          <div className=" h-100 temp2-bg" style={{ margin: "2%" }}>
+            <h2 className="text-center pt-3" style={{ color: "#076923" }}>
+              temp 2
+            </h2>
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div className="row w-100 h-100" key={i}>
+                    <div className="w-100">
+                      <div className="d-flex w-100 align-items-center">
+                        <div className="">
+                          <img
+                            style={{
+                              width: "300px",
+                              height: "400px",
+                              borderRadius: "10px",
+                            }}
+                            src={item.image ? BASE_URL + item.image : person}
+                            alt="person"
+                          />
+                        </div>
+                        <div style={{ color: "#076923" }}>
+                          <h3 style={{ color: "#076923" }}>{item.name}</h3>
+                          <p>{item.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    } else if (prp.tempType && prp.tempType == "temp3") {
+      return (
+        <>
+          <div className=" h-100 temp3-bg" style={{ margin: "2%" }}>
+            <h2 className="text-center pt-3" style={{ color: "#2512AD" }}>
+              temp 3
+            </h2>
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div className="row w-100 h-100" key={i}>
+                    <div className="w-100">
+                      <div className="d-flex w-100 align-items-center">
+                        <div className="">
+                          <img
+                            style={{
+                              width: "300px",
+                              height: "300px",
+                              borderRadius: "50%",
+                            }}
+                            src={item.image ? BASE_URL + item.image : person}
+                            alt="person"
+                          />
+                        </div>
+                        <div style={{ color: "#2512AD" }}>
+                          <h3 style={{ color: "#2512AD" }}>{item.name}</h3>
+                          <p>{item.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    } else if (prp.tempType && prp.tempType == "temp5") {
+      return (
+        <>
+          <div className=" h-100 temp5-bg" style={{ margin: "2%" }}>
+            <h2 className="text-center pt-3" style={{ color: "#fff" }}>
+              temp 5
+            </h2>
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div className="row w-100 h-100" key={i}>
+                    <div className="w-100">
+                      <div className="d-flex w-100 align-items-center">
+                        <div className="">
+                          <img
+                            style={{
+                              width: "300px",
+                              height: "300px",
+                              borderRadius: "50%",
+                            }}
+                            src={item.image ? BASE_URL + item.image : person}
+                            alt="person"
+                          />
+                        </div>
+                        <div style={{ color: "#fff" }}>
+                          <h3 style={{ color: "#fff" }}>{item.name}</h3>
+                          <p>{item.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    } else if (prp.tempType && prp.tempType == "temp6") {
+      return (
+        <>
+          <div className=" h-100 temp6-bg text-center" style={{ margin: "2%" }}>
+            <h2 className="text-center pt-3" style={{ color: "#AA144C" }}>
+              temp 5
+            </h2>
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div className="row w-100 h-100" key={i}>
+                    <div className="w-100">
+                      <div className=" w-100 ">
+                        <img
+                          style={{
+                            width: "200px",
+                            height: "200px",
+                            borderRadius: "50%",
+                          }}
+                          src={item.image ? BASE_URL + item.image : person}
+                          alt="person"
+                        />
+
+                        <div style={{ color: "#AA144C" }}>
+                          <h3 style={{ color: "#AA144C" }}>{item.name}</h3>
+                          <p>{item.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
     }
   }
-}
+};
 
 // AIzaSyCMJk6QpvPCdibrNzpOQlFrqpDgf4-GHjw
 // AIzaSyDwH-RU1-mcb9_z3MobeWInZ-jCxBn2kTw

@@ -1782,6 +1782,31 @@ input[type="radio"]:before {
   border: 1.7px solid #b3005e;
   border-radius: 100px;
   background-color: #fff;}
+  .temp4-bg{
+    background: url(../img/temp4.svg);
+    background-position: center;
+  }
+  .temp2-bg{
+    background: url(../img/tem2.svg);
+    background-position: center;
+    background-size: cover;
+  }
+  .temp3-bg{
+    background: url(../img/temp3.svg);
+    background-position: center;
+    background-size: cover;
+  }
+  .temp5-bg{
+    background: url(../img/temp5.svg);
+    background-position: center;
+    background-size: cover;
+  }
+  .temp6-bg{
+    background: url(../img/temp6.svg);
+    background-position: center;
+    background-size: cover;
+  }
+  
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;
