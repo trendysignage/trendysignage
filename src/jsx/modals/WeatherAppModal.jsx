@@ -45,7 +45,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [preview, setPreview] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false); 
   const [orientationMode, setOrientation] = useState("landscape");
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (mediaData) {
