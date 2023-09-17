@@ -90,14 +90,16 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
 
     setErr(false);
     setErrorMessage("");
-    if (name == "") {
+    if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      return
     }
 
     if(!fileURL){
       setErr(true);
       setErrorMessage("File URL is required");
+      return
     }
 
     if (err) {
@@ -105,7 +107,7 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
     } else {
       console.log("Hello", err);
       const dataString = {
-        url: name,
+        url: name.trim(),
         fileURL,
         fileData,
         orientationMode,
@@ -113,22 +115,32 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
 
       if (actionType && actionType == "edit") {
         await updateApps({
-          name,
+          name:name.trim(),
           appId: mediaId,
           data: JSON.stringify(dataString),
         });
         setShowUrlApp(false);
       } else {
         await addApps({
-          name,
+          name:name.trim(),
           type: "google-apps",
           data: JSON.stringify(dataString),
         });
-        setShowUrlApp(false);
+        handleClose(false);
         setShowUrlRedirectApp(true);
       }
     }
   };
+
+  const handleClose = (val) => {
+    setAuthToken(null)
+    setName("");
+    setFileData(null);
+    setFileURL(null);
+    setErrorMessage("");
+    setOrientation("landscape");
+    setShowUrlApp(val)
+  }
 
   useEffect(() => {
     
@@ -149,7 +161,7 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -336,7 +348,7 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
               <Button
                 className="cancel-btn w-100"
                 variant="outline-light"
-                onClick={() => setShowUrlApp(false)}
+                onClick={(e) => {e.preventDefault(); handleClose(false)}}
               >
                 Cancel
               </Button>

@@ -57,9 +57,10 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
     setErr(false);
     setErrorMessage("");
-    if (name == "") {
+    if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      return
     }
 
     if (err) {
@@ -67,7 +68,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
     } else {
       console.log("Hello", err);
       const dataString = {
-        url: name,
+        url: name.trim(),
         fontStyle: selectedFontOption,
         color,
         orientationMode,
@@ -75,18 +76,18 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
       if (actionType && actionType == "edit") {
         await updateApps({
-          name,
+          name:name.trim(),
           appId: mediaId,
           data: JSON.stringify(dataString),
         });
         setShowUrlApp(false);
       } else {
         await addApps({
-          name,
+          name:name.trim(),
           type: "quote-apps",
           data: JSON.stringify(dataString),
         });
-        setShowUrlApp(false);
+        handleClose(false);
         setShowUrlRedirectApp(true);
       }
     }
@@ -130,6 +131,27 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setPreview(false);
     }
   };
+
+  const handleClose = (val) => {
+    setQuoteData(null);
+    setQuotePreviewData(null);
+
+    setColor({
+      value: "lightYellow",
+      label: "Light Yellow",
+    });
+    setSelectedFontOption({
+      value: "regular",
+      label: "Regular",
+    });
+    setShowUrlRedirectApp(false);
+    setName("");
+    setDuration(10);
+    setErr(false);
+    setErrorMessage("");
+    setOrientation("landscape");
+    setShowUrlApp(val)
+  }
   return (
     <>
       <Modal
@@ -145,7 +167,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -286,7 +308,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
               <Button
                 className="cancel-btn w-100"
                 variant="outline-light"
-                onClick={() => setShowUrlApp(false)}
+                onClick={(e) => {e.preventDefault(); handleClose(false)}}
               >
                 Cancel
               </Button>

@@ -80,11 +80,11 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
     setErr(false);
     setErrorMessage("");
-    if (name == "") {
+    if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
       return;
-    } else if (
+    } if (
       location.address == "" ||
       location.latitude == "" ||
       location.longitude == ""
@@ -97,7 +97,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     const dataString = {
       theme: selectedTheme.value,
       temp: selectedTemp.value,
-      url: name,
+      url: name.trim(),
       isForcast,
       isAnimated,
       isCorner,
@@ -107,18 +107,18 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name,
+        name:name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
     } else {
       await addApps({
-        name,
+        name:name.trim(),
         type: "weather-apps",
         data: JSON.stringify(dataString),
       });
-      setShowUrlApp(false);
+      handleClose(false);
       setShowUrlRedirectApp(true);
     }
   };
@@ -150,6 +150,27 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     }
   }
 
+  const handleClose = (val) => {
+    setName("");
+    setLocation({
+      address: "",
+      latitude: "",
+      longitude: "",
+    });
+    setSelectedTheme({
+      value: "Classic",
+      label: "Classic",
+    });
+    setSelectedTemp({
+      value: "Celsius",
+      label: "Celsius",
+    });
+    setIsForcast(false);
+    setIsCorner(false);
+    setIsAnimated(false);
+    setShowUrlApp(val)
+  }
+
   return (
     <>
       <Modal
@@ -165,7 +186,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -239,7 +260,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   onChange={(e) => setIsForcast(e.target.checked)}
                 />
               </div>
-              <div className="col-6">
+              {/* <div className="col-6">
                 <label className="mt-3 mr-3">Animation</label>
                 <input
                   type="checkbox"
@@ -248,7 +269,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   checked={isAnimated}
                   onChange={(e) => setIsAnimated(e.target.checked)}
                 />
-              </div>
+              </div> */}
               <div className="col-6">
                 <label className="mt-3 mr-3">Corner</label>
                 <input
@@ -347,7 +368,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
               <Button className="cancel-btn w-100"
-                onClick={() => setShowUrlApp(false)}
+                onClick={(e) => {e.preventDefault(); handleClose(false)}}
                 variant="outline-light"
               >
                 Cancel

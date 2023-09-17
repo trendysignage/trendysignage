@@ -56,15 +56,16 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
     setErr(false);
     setErrorMessage("");
-    if (name == "") {
+    if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      return
     }
     if (err) {
       return false;
     }
     const dataString = {
-      url: name,
+      url: name.trim(),
       slideDuration,
       isHigh,
       isLow,
@@ -76,18 +77,18 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name,
+        name:name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
     } else {
       await addApps({
-        name,
+        name:name.trim(),
         type: "stocks-apps",
         data: JSON.stringify(dataString),
       });
-      setShowUrlApp(false);
+      handleClose(false);
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -126,6 +127,22 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     return handleStockApps(data, stock);
     
   }
+
+  const handleClose = (val) => {
+    setName("");
+    setIsPriceChange(false);
+    setIsHigh(false);
+    setIsLow(false);
+    setVolume(false);
+    setSlideDuration(10);
+    setStock(null);
+    setStockType({
+      value: "Day Gainers",
+      label: "Day Gainers",
+    });
+    setOrientation("landscape");
+    setShowUrlApp(val)
+  }
   return (
     <>
       <Modal
@@ -141,7 +158,7 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -336,7 +353,7 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
               <Button className="cancel-btn w-100"
-                onClick={() => setShowUrlApp(false)}
+                onClick={(e) => {e.preventDefault(); handleClose(false)}}
                 variant="outline-light">
                 Cancel
               </Button>

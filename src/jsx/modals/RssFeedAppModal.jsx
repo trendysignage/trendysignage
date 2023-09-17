@@ -5,7 +5,7 @@ import deleteicon from "../../img/delete-btn.png";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-import { updateApps, addApps, BASE_URL } from "../../utils/api";
+import { updateApps, addApps, BASE_URL, rssParser } from "../../utils/api";
 import Switch from "react-switch";
 import SelectMedia from "./SelecteMedia";
 import Carousel from "react-material-ui-carousel";
@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Slide from "@mui/material/Slide";
 import newsimg from "../../img/news-image.webp";
+import { handleRssApps } from "../../utils/UtilsService";
 
 const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const options = [
@@ -38,8 +39,12 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [errMessage, setErrorMessage] = useState("");
   const [preview, setPreview] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false); 
+  const [orientationMode, setOrientation] = useState("landscape");
+  const [previewData, setPreviewData] = useState(null)
 
   useEffect(() => {
+    //rssParser();
     if (mediaData) {
       const jsonString = JSON.parse(mediaData.appData);
       setName(mediaData.title);
@@ -56,34 +61,38 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
     setErr(false);
     setErrorMessage("");
-    if (name == "") {
+    if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      return;
     }
     if (err) {
       return false;
     }
     const dataString = {
-      url: name,
-      urlLink,
-      slideDuration,
+      url: name.trim(),
+      urlLink:urlLink.trim(),
+      slideDuration:slideDuration.trim(),
       theame,
+      selectedImage,
+      orientationMode
     };
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name,
+        name:name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
     } else {
       await addApps({
-        name,
+        name:name.trim(),
         type: "rss-apps",
         data: JSON.stringify(dataString),
       });
-      setShowUrlApp(false);
+      //setShowUrlApp(false);
+      handleClose(false)
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -129,15 +138,43 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     },
   };
 
+  const handleClose = (val) => {
+    setName("");
+    setUrlLink('');
+    setSlideDuration(10)
+    setTheame({
+      value: "white-background",
+      label: "White Background",
+    });
+    setSelectedImage(null);
+    setOrientation('landscape')
+    setShowUrlApp(val)
+  }
+
+  // const rssParserHandle = async() => {
+  //   const data = await rssParser()
+  // }
+  
+
   const handlePreview = () => {
-    if (urlLink && name) {
-      setLoading(false);
-      setPreview(true);
-    } else {
-      setLoading(true);
-      setPreview(false);
+    if(name && urlLink){
+      setPreview(true)
+      const dt = handleRssApps({
+        url: name,
+        urlLink,
+        slideDuration,
+        theame,
+        selectedImage,
+        urlLink:{items:list},
+        orientationMode
+      });
+      console.log("rssfeed",dt)
+      setPreviewData(dt)
+      
+    }else{
+      setPreview(false)
     }
-  };
+  }
   return (
     <>
       <SelectMedia
@@ -159,7 +196,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -270,17 +307,18 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
               </div> */}
             </div>
             <div className="col-6 ">
-              <div className="d-flex">
+              <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="landscape"
+                    id="landscape"
+                    checked={orientationMode === 'landscape'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    
                   />
                   <label
                     className="form-check-label mt-0"
@@ -293,11 +331,14 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="potrait"
+                    id="potrait"
+                    checked={orientationMode === 'potrait'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
+                    //disabled
+                    // style={{cursor:"not-allowed"}}
+                    // placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -308,13 +349,14 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 </div>
                 <div className="form-check">
                   <input
+                    placeholder="Preview Not Available"
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="footer"
+                    id="footer"
+                    checked={orientationMode === 'footer'}
+                    onChange={(e) => {setOrientation(e.target.value)}}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -325,487 +367,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100 rss-feed-app-form-icon">
-                {/* <div className="text-center">
-                  <img src={icon} width="60px" height="60px" className="mb-3" />
-                </div> */}
-                {loading && <h1>Loading</h1>}
-                {preview && (
-                  <div
-                    className="basic-list-group image-preview-container media-content"
-                    style={{ color: "white" }}
-                  >
-                    {
-                      <>
-                        {/* classic mode */}
-                        {/* <div
-                          // className={`h-100 ${
-                          //   data.theame.value == "White Background"
-                          //     ? "bg-white"
-                          //     : "bg-black"
-                          // } `}
-                          // style={{ padding: "5% 2% 2% 2%" }}
-                          className="h-100 news-app-bg-img"
-                          style={{
-                            background: `url(${newsimg})`,
-                            position: "relative",
-                          }}
-                        >
-                          <div>
-                            <Carousel
-                              interval={data.slideDuration * 1000}
-                              indicators={false}
-                              animation={"slide"}
-                              className="h-100"
-                            >
-                              {list.map((item, i) => {
-                                return (
-                                  <>
-                                    <Slide
-                                      direction="right"
-                                      in={true}
-                                      timeout={1000}
-                                    >
-                                      <div
-                                        style={{
-                                          maxWidth: "100%",
-                                          minWidth: "70%",
-                                          height: "5px",
-                                          background: "#fff",
-                                          margin: "2rem 0",
-                                          display: "inline-block",
-                                        }}
-                                      >
-                                        {" "}
-                                      </div>
-                                    </Slide>
-                                    <div className="h-100">
-                                      <div className=" h-100">
-                                        <div className="text-center  ">
-                                          <div className="mt-2 hhhhhh" key={i}>
-                                            <h1
-                                              // className={`${
-                                              //   data.theame.value ==
-                                              //   "White Background"
-                                              //     ? "text-black"
-                                              //     : "text-white"
-                                              // } `}
-                                              className="text-white"
-                                            >
-                                              {item.title}
-                                            </h1>
-                                            <p
-                                              // className={`${
-                                              //   data.theame.value ==
-                                              //   "White Background"
-                                              //     ? "text-black"
-                                              //     : "text-white"
-                                              // } `}
-                                              className="text-white"
-                                            >
-                                              {item.content}
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </>
-                                );
-                              })}
-                            </Carousel>
-                            <div
-                              style={{
-                                position: "absolute",
-                                bottom: "20px",
-                                right: "10%",
-                                zIndex: 1,
-                              }}
-                            >
-                              <Slide
-                                direction="up"
-                                in={true}
-                                mountOnEnter
-                                unmountOnExit
-                                timeout={1000}
-                              >
-                                <img
-                                  style={{
-                                    width: "100px",
-                                    height: "100px",
-                                  }}
-                                  src={
-                                    "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
-                                  }
-                                />
-                              </Slide>
-                            </div>
-                          </div>
-                        </div> */}
-                        {/* blurred mode */}
-                        {/* <div
-                          className="h-100 news-app-bg-img"
-                          style={{
-                            background: `url(${newsimg})`,
-                            position: "relative",
-                          }}
-                        >
-                          <div className="d-flex justify-content-center align-items-center h-100">
-                            <div className="blur-bg-news-app">
-                              <Carousel
-                                interval={data.slideDuration * 1000}
-                                indicators={false}
-                                animation={"slide"}
-                                className="h-100"
-                              >
-                                {list.map((item, i) => {
-                                  return (
-                                    <>
-                                      <div className="h-100">
-                                        <div className=" h-100">
-                                          <div className="text-center  ">
-                                            <div
-                                              className="mt-2 hhhhhh"
-                                              key={i}
-                                            >
-                                              <h1 className="text-white">
-                                                {item.title}
-                                              </h1>
-                                              <p className="text-white">
-                                                {item.content}
-                                              </p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  );
-                                })}
-                              </Carousel>
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  bottom: "0px",
-                                  right: "5%",
-                                  zIndex: 1,
-                                }}
-                              >
-                                <Slide
-                                  direction="up"
-                                  in={true}
-                                  mountOnEnter
-                                  unmountOnExit
-                                  timeout={1000}
-                                >
-                                  <img
-                                    style={{
-                                      width: "100px",
-                                      height: "100px",
-                                    }}
-                                    src={
-                                      "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
-                                    }
-                                  />
-                                </Slide>
-                              </div>
-                            </div>
-                          </div>
-                        </div> */}
-
-                        {/* white backgroung mode */}
-
-                        {/* <div
-                         
-                          className="h-100 bg-white"
-                        >
-                          <div>
-                            <Carousel
-                              interval={data.slideDuration * 1000}
-                              indicators={false}
-                              animation={"slide"}
-                              className="h-100"
-                            >
-                              {list.map((item, i) => {
-                                return (
-                                  <>
-                                    <div
-                                      style={{ width: "100%", height: "200px" }}
-                                    >
-                                      <img
-                                        src={newsimg}
-                                        alt="new-img"
-                                        style={{ objectFit: "cover" }}
-                                      />
-                                    </div>
-                                    <Slide
-                                      direction="right"
-                                      in={true}
-                                      timeout={1000}
-                                    >
-                                      <div
-                                        style={{
-                                          maxWidth: "100%",
-                                          minWidth: "60%",
-                                          height: "8px",
-                                          background: "#000",
-                                          margin: "20px 0 10px 0",
-                                          display: "inline-block",
-                                        }}
-                                      >
-                                       
-                                      </div>
-                                    </Slide>
-                                    <div className="h-100">
-                                      <div className=" h-100">
-                                        <div className="text-left  ">
-                                          <div className="mt-2 " key={i}>
-                                            <h1
-                                             
-                                              style={{ fontSize: "22px" }}
-                                              className="text-black mb-4"
-                                            >
-                                              {item.title}
-                                            </h1>
-                                            <p
-                                            
-                                              className="text-black"
-                                            >
-                                              {item.content}
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </>
-                                );
-                              })}
-                            </Carousel>
-                            <div style={{ textAlign: "end" }}>
-                              <Slide
-                                direction="up"
-                                in={true}
-                                mountOnEnter
-                                unmountOnExit
-                                timeout={1000}
-                              >
-                                <img
-                                  style={{
-                                    width: "100px",
-                                    height: "100px",
-                                  }}
-                                  src={
-                                    "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
-                                  }
-                                />
-                              </Slide>
-                            </div>
-                          </div>
-                        </div> */}
-
-                        {/* white backgroung center */}
-
-                        {/* <div
-                          className="h-100 bg-white"
-                          style={{ padding: "20px" }}
-                        >
-                          <div>
-                            <Carousel
-                              interval={data.slideDuration * 1000}
-                              indicators={false}
-                              animation={"slide"}
-                              className="h-100"
-                            >
-                              {list.map((item, i) => {
-                                return (
-                                  <>
-                                    <div
-                                      style={{
-                                        width: "180px",
-                                        height: "120px",
-                                        margin: "auto",
-                                      }}
-                                    >
-                                      <img
-                                        src={newsimg}
-                                        alt="new-img"
-                                        style={{ objectFit: "cover" }}
-                                      />
-                                    </div>
-
-                                    <div className="h-100">
-                                      <div className=" h-100">
-                                        <div className="text-center  ">
-                                          <div className="mt-2 " key={i}>
-                                            <h1
-                                              style={{ fontSize: "22px" }}
-                                              className="text-black mb-4"
-                                            >
-                                              {item.title}
-                                            </h1>
-                                            <p className="text-black">
-                                              {item.content}
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </>
-                                );
-                              })}
-                            </Carousel>
-                            <div style={{ textAlign: "center" }}>
-                              <Slide
-                                direction="up"
-                                in={true}
-                                mountOnEnter
-                                unmountOnExit
-                                timeout={1000}
-                              >
-                                <img
-                                  style={{
-                                    width: "100px",
-                                    height: "100px",
-                                  }}
-                                  src={
-                                    "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
-                                  }
-                                />
-                              </Slide>
-                            </div>
-                          </div>
-                        </div> */}
-
-                        {/* bottom load mode */}
-                        {/* <div className="h-100 protrait-rss bg-white">
-                          <div style={{ position: "relative", height: "100%" }}>
-                            <div
-                              className="h-100 news-app-bg-img-bottom"
-                              style={{
-                                background: `url(${newsimg})`,
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "between",
-                              }}
-                            >
-                              <div style={{ textAlign: "end", zIndex: 1 }}>
-                                <Slide
-                                  direction="up"
-                                  in={true}
-                                  mountOnEnter
-                                  unmountOnExit
-                                  timeout={1000}
-                                >
-                                  <img
-                                    style={{
-                                      width: "100px",
-                                      height: "100px",
-                                    }}
-                                    src={
-                                      "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
-                                    }
-                                  />
-                                </Slide>
-                              </div>
-                              <div className="p-3 w-100">
-                                <Carousel
-                                  interval={data.slideDuration * 1000}
-                                  indicators={false}
-                                  animation={"slide"}
-                                >
-                                  {list.map((item, i) => {
-                                    return (
-                                      <>
-                                        <div className="h-100">
-                                          <div className=" h-100">
-                                            <div
-                                              className="text-left h-100 "
-                                              style={{ position: "relative" }}
-                                            >
-                                              <div className="mt-2 " key={i}>
-                                                <h1
-                                                  className="text-white"
-                                                  style={{ fontSize: "20px" }}
-                                                >
-                                                  {item.title}
-                                                </h1>
-                                                <p className="text-white">
-                                                  {item.content}
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </>
-                                    );
-                                  })}
-                                </Carousel>
-                              </div>
-                            </div>
-                          </div>
-                        </div> */}
-
-                        {/* fotter mode */}
-                        <div className="h-100  bg-white">
-                          <div style={{ position: "relative", height: "100%" }}>
-                            <div
-                              className=" w-100"
-                              style={{ position: "absolute", bottom: 0 }}
-                            >
-                              <div className="p-3 w-100 ">
-                                <Carousel
-                                  interval={data.slideDuration * 1000}
-                                  indicators={false}
-                                  animation={"slide"}
-                                >
-                                  {list.map((item, i) => {
-                                    return (
-                                      <>
-                                        <div className="h-100">
-                                          <div className=" h-100 d-flex">
-                                            <div
-                                              className="bg-white"
-                                              style={{ width: "200px" }}
-                                            >
-                                              <img
-                                                style={{
-                                                  width: "100%",
-                                                  height: "100%",
-                                                }}
-                                                src={
-                                                  "https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"
-                                                }
-                                              />
-                                            </div>
-
-                                            <div
-                                              className="text-left h-100 bg-black pl-2"
-                                              style={{
-                                                position: "relative",
-                                                background:
-                                                  "linear-gradient(270deg, #B3005E 0.07%, #060047 64.62%)",
-                                              }}
-                                            >
-                                              <div className="mt-2 " key={i}>
-                                                <h1
-                                                  className="text-white"
-                                                  style={{ fontSize: "20px" }}
-                                                >
-                                                  {item.title}
-                                                </h1>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </>
-                                    );
-                                  })}
-                                </Carousel>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    }
-                  </div>
-                )}
+                { previewData && preview ? previewData : ''}
               </div>
             </div>
           </form>
@@ -813,7 +375,9 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100" variant="outline-light"
+                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+              >
                 Cancel
               </Button>
             </Col>

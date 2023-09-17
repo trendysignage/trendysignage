@@ -119,36 +119,6 @@ const Integrations = ({ permission, auth }) => {
     }
   };
 
-  // const getWeatherDetail = async() => {
-  //   const locationData  = await getWeather('noida');
-  //   console.log('getLocation', locationData);
-  // }
-  // useEffect(() => {
-  //   getWeatherDetail();
-  // },[])
-
-  // const [addressError, setAddressError] = useState("");
-  // const { ref: bootstrapRef } = usePlacesWidget({
-  //     apiKey : "AIzaSyA_JO9H6JEScutFurdvFw1t-v31GIf2Q2o",
-  //     onPlaceSelected: (place) => {handleLocation(place)},
-  //     options: {
-  //         types: ["(regions)"],
-  //         componentRestrictions: { country: ["IN", 'AE'] },
-  //     },
-  // });
-
-  // const handleLocation = (place) => {
-  //   let location = JSON.parse(JSON.stringify(place?.geometry?.location));
-  //   console.log("location",location )
-  //   const adres = {
-  //       address : place.formatted_address,
-  //       latitude : location.lat,
-  //       longitude : location.lng
-  //   }
-  //   //handleUpdate({...values,['address'] : adres})
-  //   //setAdd(adres);
-  // }
-
   const data = {
     slideDuration: 10,
     theame: {

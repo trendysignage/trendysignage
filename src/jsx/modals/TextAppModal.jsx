@@ -19,8 +19,8 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     { value: "Bold", label: "Bold" },
   ];
   const options1 = [
-    { value: "100", label: "Slow" },
-    { value: "200", label: "Medium" },
+    { value: "100", label: "100" },
+    { value: "200", label: "200" },
     { value: "300", label: "300" },
     { value: "400", label: "400" },
     { value: "500", label: "500" },
@@ -38,11 +38,8 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [name, setName] = useState("");
   const [orientationMode, setOrientation] = useState("landscape");
   const [content, setContent] = useState("");
-  const [selectedStyle, setSelectedStyle] = useState({
-    value: "Regular",
-    label: "Regular",
-  });
-  const [weight, setWeight] = useState({ value: "slow", label: "Slow" });
+  const [selectedStyle, setSelectedStyle] = useState({value: "Regular",label: "Regular"});
+  const [weight, setWeight] = useState({ value: "100", label: "100" });
   const [allign, setAllign] = useState({ value: "left", label: "Left" });
   const [familyStyle, setFamilyStyle] = useState({
     value: "Fira Sans",
@@ -82,12 +79,15 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
     setErr(false);
     setErrorMessage("");
-    if (name == "") {
+    if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
-    } else if (content == "") {
+      return;
+    }
+    if (content.trim() == "") {
       setErr(true);
       setErrorMessage("Content is required");
+      return;
     }
 
     if (err) {
@@ -101,22 +101,22 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         familyStyle: familyStyle.value,
         backGroundColor: backColor,
         style: selectedStyle.value,
-        url: name,
+        url: name.trim(),
         isTransparent,
         orientationMode,
-        content,
+        content:content.trim(),
       };
 
       if (actionType && actionType == "edit") {
         await updateApps({
-          name,
+          name:name.trim(),
           appId: mediaId,
           data: JSON.stringify(dataString),
         });
         setShowUrlApp(false);
       } else {
         await addApps({
-          name,
+          name:name.trim(),
           type: "text-apps",
           data: JSON.stringify(dataString),
         });
@@ -125,6 +125,20 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       }
     }
   };
+
+  const handleClose = (val) => {
+    setName("");
+    setOrientation("landscape");
+    setContent("");
+    setSelectedStyle({value: "Regular",label: "Regular"});
+    setWeight({ value: "slow", label: "Slow" });
+    setAllign({ value: "left", label: "Left" });
+    setFamilyStyle({value: "Fira Sans",label: "Fira Sans"});
+    setIsTransparent(false);
+    setTextColor("#000000");
+    setBackColor("#000000");
+    setShowUrlApp(val)
+  }
   return (
     <>
       <Modal
@@ -140,7 +154,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -341,7 +355,10 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100"
+                variant="outline-light"
+                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+              >
                 Cancel
               </Button>
             </Col>

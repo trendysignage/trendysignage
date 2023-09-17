@@ -40,7 +40,6 @@ const SelectMedia = ({ setImageModalShow, imageModalShow,setSelectedImage, selec
     }else{
       setSelectedImage(checkedItems)
     }
-    setEditImage(null);
     setImageModalShow(false);
     setCheckedItems(null)
   };

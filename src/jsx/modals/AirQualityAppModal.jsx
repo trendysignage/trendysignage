@@ -80,7 +80,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       return;
     }
     const dataString = {
-      url: name,
+      url: name.trim(),
       location,
       aqiLocation,
       theame,
@@ -89,18 +89,18 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name,
+        name:name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
     } else {
       await addApps({
-        name,
+        name:name.trim(),
         type: "aqi-apps",
         data: JSON.stringify(dataString),
       });
-      setShowUrlApp(false);
+      handleClose(false);
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -147,6 +147,27 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     }
   }
 
+  const handleClose = (val) => {
+    setName("");
+    setLocation({
+      address: "",
+      latitude: "",
+      longitude: "",
+    });
+    setAqiLocation({ value: "us", label: "us" });
+    setMediaId(null);
+    setTheame({
+      value: "Light Mode",
+      label: "Light Mode",
+    });
+    setErr(false);
+    setErrorMessage("");
+    setOrientation("landscape");
+    setWeatherInfo(null);
+    setAQIData(null);
+    setShowUrlApp(val)
+  }
+
   return (
     <>
       <Modal
@@ -162,7 +183,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -310,7 +331,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
               <Button className="cancel-btn w-100"
                  variant="outline-light"
-                 onClick={() => setShowUrlApp(false)}
+                 onClick={(e) => {e.preventDefault(); handleClose(false)}}
               >
                 Cancel
               </Button>

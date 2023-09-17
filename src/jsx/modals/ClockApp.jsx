@@ -85,12 +85,15 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
     setErr(false);
     setErrorMessage("");
-    if (name == "") {
+    if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
-    } else if (timeZone == "") {
+      return;
+    }
+    if (timeZone == "") {
       setErr(true);
       setErrorMessage("TimeZone is required");
+      return;
     }
 
     if (err) {
@@ -98,7 +101,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     } else {
       console.log("Hello", err);
       const dataString = {
-        url: name,
+        url: name.trim(),
         timeZone,
         hideDate,
         hiddenLocation,
@@ -112,18 +115,18 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
       if (actionType && actionType == "edit") {
         await updateApps({
-          name,
+          name:name.trim(),
           appId: mediaId,
           data: JSON.stringify(dataString),
         });
         setShowUrlApp(false);
       } else {
         await addApps({
-          name,
+          name:name.trim(),
           type: "clock-apps",
           data: JSON.stringify(dataString),
         });
-        setShowUrlApp(false);
+        handleClose(false);
         setShowUrlRedirectApp(true);
       }
     }
@@ -136,6 +139,24 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     }else{
       setPreview(false)
     }
+  }
+  const handleClose = (val) => {
+    setName(null);
+    setClockType("regular");
+    setTimeFormat({
+      value: "Analogue - 12 hour",
+      label: "Analogue - 12 hour",
+    });
+    setDeviceTime(false);
+    setHiddenLocation(false);
+    setHideDate(false);
+    setRoundeCorner(false);
+    setTimeZone({ value: "UTC", label: "UTC" });
+    setLanguage(null);
+    setPreview(false);
+    setIsRefresh(false); 
+    setColor({ value: "Light Yellow", label: "Light Yellow" });
+    setShowUrlApp(val)
   }
   return (
     <>
@@ -152,7 +173,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -390,7 +411,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
               <Button className="cancel-btn w-100" variant="outline-light"
-                onClick={() => setShowUrlApp(false)}
+                onClick={(e) => {e.preventDefault(); handleClose(false)}}
               >
                 Cancel
               </Button>
