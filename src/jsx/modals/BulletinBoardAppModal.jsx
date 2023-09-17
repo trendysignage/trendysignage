@@ -42,6 +42,7 @@ const BulletinBoardAppModal = ({
   ];
   const [checked, setChecked] = useState(false);
   const [bulletin, setBulletin] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (nextChecked) => {
     setChecked(nextChecked);
@@ -49,17 +50,16 @@ const BulletinBoardAppModal = ({
 
   const handleBulletin = (e) => {
     e.preventDefault();
-    console.log(selectedImage);
     const data = bulletin;
     if (bulletinType) {
       data[bulletinType].image = selectedImage;
-      data[bulletinType].title = selectedTitle;
-      data[bulletinType].content = selectedContent;
+      data[bulletinType].title = selectedTitle.trim();
+      data[bulletinType].content = selectedContent.trim();
     } else {
       const newData = {
-        title: selectedTitle,
+        title: selectedTitle.trim(),
         image: selectedImage,
-        content: selectedContent,
+        content: selectedContent.trim(),
       };
       data.push(newData);
     }
@@ -75,7 +75,6 @@ const BulletinBoardAppModal = ({
     const newData = bulletin.filter((item, index) => {
       return data != index;
     });
-    console.log("filter", newData, data, bulletin);
     setBulletin(newData);
     setIsBulletin(false);
     setSelectedContent(null);
@@ -115,18 +114,17 @@ const BulletinBoardAppModal = ({
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     setErr(false);
     setErrorMessage("");
     if (name == "") {
       setErr(true);
       setErrorMessage("App Name is required");
-    }
-    if (err) {
-      return false;
+      setIsLoading(false)
+      return
     }
     const dataString = {
-      url: name,
+      url: name.trim(),
       bulletinFormat,
       bulletin,
       duration,
@@ -135,22 +133,44 @@ const BulletinBoardAppModal = ({
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name,
+        name:name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
+      setIsLoading(false)
     } else {
       await addApps({
-        name,
+        name:name.trim(),
         type: "bulletin-apps",
         data: JSON.stringify(dataString),
       });
-      setShowUrlApp(false);
+      handleClose(false);
+      setIsLoading(false)
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
   };
+
+  const handleClose = (val) => {
+    setName(null);
+    setIsBulletin(false);
+    setSelectedTitle(null);
+    setSelectedContent(null);
+    setBulletinType(null);
+    setDuration(10);
+    setBulletinFormat("single");
+    setErr(false);
+    setErrorMessage("");
+    setSelectedImage(null);
+    setColorScheme({
+      value: "Light Yellow",
+      label: "Light Yellow",
+    });
+    setChecked(false);
+    setBulletin([]);
+    setShowUrlApp(val)
+  }
   return (
     <>
       <SelectMedia
@@ -172,7 +192,7 @@ const BulletinBoardAppModal = ({
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -504,7 +524,9 @@ const BulletinBoardAppModal = ({
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100" variant="outline-light"
+                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+              >
                 Cancel
               </Button>
             </Col>
@@ -514,6 +536,7 @@ const BulletinBoardAppModal = ({
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App
               </Button>

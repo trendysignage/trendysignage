@@ -31,6 +31,7 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
     { value: "rightToLeft", label: "Right to Left" },
     { value: "leftToRight", label: "Left to Right" },
   ];
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if(mediaData){
@@ -51,21 +52,22 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
 
   const handleCreateApp = async(e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     setErr(false);
     setErrorMessage("");
-    if(name == ''){
+    if(name.trim() == ''){
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false)
+      return 
     }
-    else if(text == ''){
+    if(text.trim() == ''){
       setErr(true);
       setErrorMessage("Text is required");
+      setIsLoading(false)
+      return;
     }
 
-    if(err){
-      return false;
-    }else{
       console.log("Hello", err)
       const dataString = {
         allign:allign,
@@ -73,30 +75,41 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
         textColor:tColor,
         backGroundColor:backColor,
         style:selectedStyle,
-        url:name,
-        text
+        url:name.trim(),
+        text:text.trim()
       }
   
       if(actionType && actionType == 'edit'){
         await updateApps({
-          name,
+          name:name.trim(),
           appId:mediaId,
           data:JSON.stringify(dataString)
         });
         setShowScrollerTextApp(false)
       }else{
         await addApps({
-          name,
+          name:name.trim(),
           type:'scroller',
           data:JSON.stringify(dataString)
         });
-        setShowScrollerTextApp(false)
+        setShowScrollerTextApp(false);
+        setIsLoading(false)
         setShowUrlRedirectApp(true)
       }
       console.log(name, text, selectedStyle, speed, allign)
 
-    }
     
+  }
+
+  const handleClose = (val) => {
+    setName("");
+    setText('');
+    setSelectedStyle({ value: "regular", label: "Regular"});
+    setSpeed({ value: "slow", label: "Slow" });
+    setAllign({ value: "rightToLeft", label: "Right to Left" });
+    setBackColor("#000000");
+    setTextColor("#000000")
+    setShowScrollerTextApp(val)
   }
   return (
     <>
@@ -113,7 +126,7 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
           <Button
             variant=""
             className="close"
-            onClick={() => setShowScrollerTextApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -229,7 +242,7 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
               <Button className="cancel-btn w-100" variant="outline-light"
-                 onClick={() => setShowScrollerTextApp(false)}
+                 onClick={(e) => {e.preventDefault(); handleClose(false)}}
               >
                 Cancel
               </Button>
@@ -241,6 +254,7 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
                 className="btn btn-primary btn-block primary-btn"
                 //   onClick={() => setNewTagModal(false)}
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
                 >
                   {actionType && actionType == 'edit' ? 'Update' : 'Create'} App
                 </Button>

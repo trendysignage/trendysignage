@@ -1,7 +1,63 @@
+import React, {useEffect, useState} from 'react';
 import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 
-const TemplateAddContent = ({ setShowUrlApp, show }) => {
+
+const TemplateAddContent = ({ setShowUrlApp, show, setSlides, slides,editItem, setEditItem, slideIndex }) => {
+  console.log("editing",editItem);
+  const [name, setName] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [err, setErr] = useState(false);
+  const [errMessage, setErrorMessage] = useState("");
+  const [slideId, setSlideId] = useState(null);
+
+  useEffect(() => {
+    console.log("eeee", editItem)
+    if(editItem && editItem !== null){
+      console.log("editIte", editItem)
+      setSlideId(editItem.id);
+      setName(editItem.name);
+      setMessage(editItem.message);
+    }else{
+      setSlideId(null);
+      setName("");
+      setMessage("");
+    }
+  },[editItem, slideId])
+
+  const addSlides = (e) => {
+    e.preventDefault();
+    console.log("title",name, message)
+    setErr(false);
+    setErrorMessage("");
+    if (name == "" || name == null) {
+      setErr(true);
+      setErrorMessage("Name is required");
+      return;
+    }
+    if (message == "" || message == null) {
+      setErr(true);
+      setErrorMessage("Message is required");
+      return;
+    }
+    var newArr = slides;
+    if(editItem){
+      console.log(slideId)
+      newArr[slideId].name    = name;
+      newArr[slideId].message = message
+    }else{
+      newArr = [
+          ...slides.slice(0, slideIndex+1),
+          {name,message},
+          ...slides.slice(slideIndex+1)
+      ];
+    }
+    setSlides(newArr);
+    setEditItem(null)
+    setShowUrlApp(false);
+    setMessage("");
+    setName("");
+  }
   return (
     <>
       <Modal
@@ -30,6 +86,9 @@ const TemplateAddContent = ({ setShowUrlApp, show }) => {
         </Modal.Header>
         <Modal.Body className="pt-0">
           <p>Enter content you need to add in your template</p>
+          {
+            err && errMessage ? <h6 className="alert alert-danger">{errMessage}</h6> : ''
+          }
           <form
           // onSubmit={handleSubmit}
           >
@@ -40,6 +99,10 @@ const TemplateAddContent = ({ setShowUrlApp, show }) => {
 
               <input
                 type="text"
+                name="name"
+                value={name}
+                id="name"
+                onChange={(e) => setName(e.target.value)}
                 className="  form-control "
                 placeholder="Give a name"
                 required
@@ -50,6 +113,10 @@ const TemplateAddContent = ({ setShowUrlApp, show }) => {
 
               <textarea
                 type="text"
+                name="message"
+                id="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 className="form-control"
                 rows={5}
                 placeholder="Eg. Hope this year be full of colors"
@@ -62,6 +129,7 @@ const TemplateAddContent = ({ setShowUrlApp, show }) => {
             variant=""
             type="button"
             className="btn btn-primary btn-block primary-btn"
+            onClick={(e) => {addSlides(e)}}
           >
             Add Content
           </Button>

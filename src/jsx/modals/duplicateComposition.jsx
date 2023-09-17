@@ -27,7 +27,7 @@ const DuplicateComposition = ({
       </Modal.Header>
       <Modal.Body>
         <div className="add-screen-paragraph">
-          <p>The Composition will be copied with all it's proporties. Just change the contents and play.</p>
+          <p>The Composition will be copied with all it's properties. Just change the contents and play.</p>
         </div>
 
         <Row>

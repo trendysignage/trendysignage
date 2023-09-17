@@ -11,12 +11,16 @@ import imgexample from "../../src/img/hh.jpeg";
 import yellow from "../../src/img/push-pin 1.svg";
 import orange from "../../src/img/push-pin 2.svg";
 import blue from "../../src/img/push-pin 3.svg";
+import person from "../../src/img/Ellipse 154.png";
 import Celsius from "../../src/img/thermometer 1.svg";
 import { BASE_URL } from "./api";
-
-import Slide from '@mui/material/Slide';
+import Iframe from "react-iframe";
+import Slide from "@mui/material/Slide";
 import QRCode from "react-qr-code";
 import { Table } from "react-bootstrap";
+import quote from "../../src/img/quote.svg";
+import newsimg from "../../src/img/news-image.webp";
+import ReactPlayer from "react-player";
 
 export const isValidDate = (d) => {
   return d instanceof Date && !isNaN(d);
@@ -397,10 +401,12 @@ export const handleTextApps = (data) => {
 export const handleClockApps = (data) => {
   const prp = JSON.parse(data);
   let tF = "";
-  Moment.globalLocale = 'fr';
+  Moment.globalLocale = "fr";
   const cdate = new Date();
-  let timeZ = prp.timeZone ? prp.timeZone.value : "Asia/Kolkata"
-  let chicago_datetime_str = new Date().toLocaleString("en-US", { timeZone: timeZ });
+  let timeZ = prp.timeZone ? prp.timeZone.value : "India Standard Time";
+  let chicago_datetime_str = new Date().toLocaleString("en-US", {
+    timeZone: timeZ,
+  });
   let date_chicago = new Date(chicago_datetime_str);
   //prp.timeFormat = "Analogue - 12 hourt";
   console.log("timeFormat", prp);
@@ -411,7 +417,9 @@ export const handleClockApps = (data) => {
   ) {
     return (
       <div
-        className={`basic-list-group image-preview-container media-content ${prp.color} ${prp.roundCorner ? 'border-bg' : ''}`}
+        className={`basic-list-group image-preview-container media-content ${
+          prp.color
+        } ${prp.roundCorner ? "border-bg" : ""}`}
         style={{ fontSize: "50px", color: "#000", textAlign: "center" }}
         // border-bg
       >
@@ -433,14 +441,17 @@ export const handleClockApps = (data) => {
     if (prp.timeFormat == "Digital - 12 hour") {
       tF = "hh:mm A";
     } else if (prp.timeFormat == "Digital - 24hour") {
-      tF = "HH:MM A";
+      tF = "HH:mm A";
     }
 
     return (
       <div
-        className={`basic-list-group image-preview-container media-content ${prp.color} ${prp.roundCorner ? 'border-bg' : ''}`}
+        className={`basic-list-group image-preview-container media-content ${
+          prp.color
+        } ${prp.roundCorner ? "border-bg" : ""}`}
         style={{ fontSize: "100px", color: "#000", textAlign: "center" }}
       >
+        {console.log("tf",tF, date_chicago)}
         <Moment format={tF} date={date_chicago} locale={"fr"} />
         {/* <Moment>{date_chicago}</Moment> */}
         {!prp.hideDate ? (
@@ -456,19 +467,19 @@ export const handleClockApps = (data) => {
 };
 
 export const handleWeatherApps = (data, weatherInfo) => {
-  //console.log("Hi this is weather", data, weatherInfo)
   const prp = JSON.parse(data);
   console.log("data", prp);
-  const theme = prp.theme.value;
-  // getWeather('Noida').then((resp) => {
-  //   console.log("weatherDetail",resp)
-  // });
+
   return (
     <div
       className="basic-list-group image-preview-container media-content "
       style={{ color: "white" }}
     >
-      <div className={`classic-bg w-100 h-100 weather-app-bg ${prp.isCorner ? 'border-bg' : ''}`}>
+      <div
+        className={`${prp.theme == 'classic' ? 'classic-bg' : ''} ${prp.theme == 'color' ? 'classic-bg' : ''} ${prp.theme == 'grey' ? 'weather-app-bg' : ''} w-100 h-100  ${
+          prp.isCorner ? "border-bg" : ""
+        }`}
+      >
         {/* weather-app-bg border-bg */}
         <div className="place-date-time d-flex align-items-center justify-content-between ">
           <div className="place-date">
@@ -494,15 +505,24 @@ export const handleWeatherApps = (data, weatherInfo) => {
                 {weatherInfo &&
                   weatherInfo.list &&
                   weatherInfo.list[1] &&
-                  (prp && prp.temp === "Celsius"
+                  (prp && prp.temp === "celsius"
                     ? (weatherInfo.list[1].main.temp / 10).toFixed(1)
                     : ((weatherInfo.list[1].main.temp * 9) / 50 + 32).toFixed(
                         1
-                      ) + " F")}
+                      ))}
               </h1>{" "}
-              <span className="Celsius ml-2">
-                <img src={Celsius} />
-              </span>
+                {
+                  prp.temp === "celsius"
+                    ? 
+                    <span className="Celsius ml-2">
+                      <img src={Celsius} />
+                    </span>
+                    : 
+                    <span className="Celsius ml-2" style={{fontSize:"20px"}}>
+                      <span>&#176;</span> F
+                    </span>
+                    
+                }
             </div>
 
             <h2 className="text-white">
@@ -533,14 +553,24 @@ export const handleWeatherApps = (data, weatherInfo) => {
                         </p>
                         <div className="d-flex align-items-center">
                           <h2>
-                            {prp.temp === "Celsius"
+                            {prp.temp === "celsius"
                               ? (item.main.temp / 10).toFixed(1)
-                              : ((item.main.temp * 9) / 50 + 32).toFixed(1) +
-                                " F"}
+                              : ((item.main.temp * 9) / 50 + 32).toFixed(1)
+                            }
                           </h2>
-                          <span className="Celsius ml-2">
-                            <img src={Celsius} />
-                          </span>
+                          {
+                            prp.temp === "celsius"
+                              ? 
+                              <span className="Celsius ml-2">
+                                <img src={Celsius} />
+                              </span>
+                              : 
+                              <span className="Celsius ml-2" style={{fontSize:"20px"}}>
+                                <span>&#176;</span> F
+                              </span>
+                              
+                          }
+                          
                         </div>
 
                         <p>{item.weather[0].description}</p>
@@ -568,7 +598,11 @@ export const handleQrApps = (data) => {
           <QRCode size={150} value={prp.url} viewBox={`0 0 256 256`} />
         </div>
         <div className="text">
-          {prp.image && prp.image !== undefined ? <img style={{width:'200px'}} src={BASE_URL+prp.image} /> : ""}
+          {prp.image && prp.image !== undefined ? (
+            <img style={{ width: "200px" }} src={BASE_URL + prp.image} />
+          ) : (
+            ""
+          )}
           <h3>{prp.appTitle}</h3>
           <p className="mb-3">{prp.appTitle}</p>
           <p
@@ -576,7 +610,6 @@ export const handleQrApps = (data) => {
           >
             {prp.appDesc}
           </p>
-
         </div>
       </div>
     </div>
@@ -586,74 +619,976 @@ export const handleQrApps = (data) => {
 export const handleRssApps = (data) => {
   console.log("data rss", data);
   //const prp = JSON.parse(data);
-  return (
-    <div
-      className="basic-list-group image-preview-container media-content"
-      style={{ color: "white", textAlign: "center" }}
+  const list = data.urlLink.items;
+  if(data.orientationMode == 'footer'){
+    return (
+      <div className="basic-list-group image-preview-container media-content" style={{ color: "white" }}>
+        <div className="h-100  bg-white">
+            <div style={{ position: "relative", height: "100%" }}>
+              <div
+                className=" w-100"
+                style={{ position: "absolute", bottom: 0 }}
+              >
+                <div className="p-3 w-100 ">
+                  <Carousel
+                    interval={10000}
+                    indicators={false}
+                    animation={"slide"}
+                  >
+                    {list.map((item, i) => {
+                      {console.log(item.content)}
+                      return (
+                        <>
+                          <div className="h-100" key={i}>
+                            <div className=" h-100 d-flex">
+                              {
+                                data.selectedImage ? <div
+                                className="bg-white"
+                                style={{ width: "200px" }}
+                              >
+                                <img
+                                  style={{
+                                    width: "100%",
+                                    height: "100%",
+                                  }}
+                                  src={BASE_URL+data.selectedImage}
+                                />
+                              </div> : ''
+                              }
+                              
+                              <div
+                                className="text-left h-100 bg-black pl-2"
+                                style={{
+                                  position: "relative",
+                                  background:
+                                    "linear-gradient(270deg, #B3005E 0.07%, #060047 64.62%)",
+                                }}
+                              >
+                                <div className="mt-2 " key={i}>
+                                  <h1
+                                    className="text-white"
+                                    style={{ fontSize: "20px" }}
+                                  >
+                                    {item.content}
+                                  </h1>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })}
+                  </Carousel>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>)
+  }else if(data.orientationMode == 'potrait'){
+    let htmlData = "";
+    if(data.theame.value == 'classic'){
+      htmlData = <div
+      className="h-100 news-app-bg-img"
+      style={{
+        background: `url(${newsimg})`,
+        position: "relative",
+      }}
     >
-      {data.urlLink.items.length > 0 && (
-        <>
-          <div
-            className={`h-100 ${
-              data.theame.value == "White Background" ? "bg-white" : "bg-black"
-            } `}
-            style={{ padding: "5% 2% 2% 2%" }}
-          >
-            <Carousel
-              interval={data.slideDuration * 1000}
-              indicators={false}
-              animation={"slide"}
-              className="h-100"
+      <div>
+        <Carousel
+          interval={data.slideDuration * 1000}
+          indicators={false}
+          animation={"slide"}
+          className="h-100"
+        >
+          {list.map((item, i) => {
+            return (
+              <>
+                <Slide
+                  direction="right"
+                  in={true}
+                  timeout={1000}
+                >
+                  <div
+                    style={{
+                      maxWidth: "100%",
+                      minWidth: "70%",
+                      height: "5px",
+                      background: "#fff",
+                      margin: "2rem 0",
+                      display: "inline-block",
+                    }}
+                  >
+                    {" "}
+                  </div>
+                </Slide>
+                <div className="h-100">
+                  <div className=" h-100">
+                    <div className="text-center  ">
+                      <div className="mt-2 hhhhhh" key={i}>
+                        <h1
+                          // className={`${
+                          //   data.theame.value ==
+                          //   "White Background"
+                          //     ? "text-black"
+                          //     : "text-white"
+                          // } `}
+                          className="text-white"
+                        >
+                          {item.title}
+                        </h1>
+                        <p
+                          // className={`${
+                          //   data.theame.value ==
+                          //   "White Background"
+                          //     ? "text-black"
+                          //     : "text-white"
+                          // } `}
+                          className="text-white"
+                        >
+                          {item.content}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+        </Carousel>
+        <div
+          style={{
+            position: "absolute",
+            bottom: "20px",
+            right: "10%",
+            zIndex: 1,
+          }}
+        >
+          {
+              data.selectedImage && <Slide
+              direction="up"
+              in={true}
+              mountOnEnter
+              unmountOnExit
+              timeout={1000}
             >
-              {data.urlLink.items.map((item, i) => {
-                return (
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={BASE_URL+data.selectedImage}
+              />
+              </Slide>
+          }
+        </div>
+      </div>
+    </div>
+    }
+    else if(data.theame.value == 'blurred'){
+      htmlData = <div
+      className="h-100 news-app-bg-img"
+      style={{
+        //background: `url(${newsimg})`,
+        position: "relative",
+      }}
+    >
+      <div className="d-flex justify-content-center align-items-center h-100">
+        <div className="blur-bg-news-app">
+          <Carousel
+            interval={data.slideDuration * 1000}
+            indicators={false}
+            animation={"slide"}
+            className="h-100"
+          >
+            {list.map((item, i) => {
+              return (
+                <>
                   <div className="h-100">
                     <div className=" h-100">
-                      <div
-                        className="text-center  "
-                        // style={{
-                        //   borderRadius: "18px",
-                        //   margin: "20px",
-                        //   flexDirection: "column",
-                        //   width: "30%",
-                        // }}
-                      >
-                        {/* <div>
-                            <img src={imgexample} alt="image" />
-                          </div> */}
-                        <div className="mt-2 hhhhhh" key={i}>
-                          <h1
-                            className={`${
-                              data.theame.value == "White Background"
-                                ? "text-black"
-                                : "text-white"
-                            } `}
-                          >
-                            {/* text-white */}
-
-                            {item["title"]}
+                      <div className="text-center  ">
+                        <div
+                          className="mt-2 hhhhhh"
+                          key={i}
+                        >
+                          <h1 className="text-white">
+                            {item.title}
                           </h1>
-                          <p
-                            className={`${
-                              data.theame.value == "White Background"
-                                ? "text-black"
-                                : "text-white"
-                            } `}
-                          >
-                            {item["content"]}
+                          <p className="text-white">
+                            {item.content}
                           </p>
                         </div>
                       </div>
                     </div>
                   </div>
+                </>
+              );
+            })}
+          </Carousel>
+          <div
+            style={{
+              position: "absolute",
+              bottom: "0px",
+              right: "5%",
+              zIndex: 1,
+            }}
+          >
+            {
+              data.selectedImage && <Slide
+              direction="up"
+              in={true}
+              mountOnEnter
+              unmountOnExit
+              timeout={1000}
+            >
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={BASE_URL+data.selectedImage}
+              />
+              </Slide>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+    else if(data.theame.value == 'white'){
+      htmlData = <div
+                         
+      className="h-100 bg-white"
+    >
+      <div>
+        <Carousel
+          interval={data.slideDuration * 1000}
+          indicators={false}
+          animation={"slide"}
+          className="h-100"
+        >
+          {list.map((item, i) => {
+            return (
+              <>
+                <div
+                  style={{ width: "100%", height: "200px" }}
+                >
+                  <img
+                    src={newsimg}
+                    alt="new-img"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+                <Slide
+                  direction="right"
+                  in={true}
+                  timeout={1000}
+                >
+                  <div
+                    style={{
+                      maxWidth: "100%",
+                      minWidth: "60%",
+                      height: "8px",
+                      background: "#000",
+                      margin: "20px 0 10px 0",
+                      display: "inline-block",
+                    }}
+                  >
+                   
+                  </div>
+                </Slide>
+                <div className="h-100">
+                  <div className=" h-100">
+                    <div className="text-left  ">
+                      <div className="mt-2 " key={i}>
+                        <h1
+                         
+                          style={{ fontSize: "22px" }}
+                          className="text-black mb-4"
+                        >
+                          {item.title}
+                        </h1>
+                        <p
+                        
+                          className="text-black"
+                        >
+                          {item.content}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+        </Carousel>
+        <div style={{ textAlign: "end" }}>
+        {
+              data.selectedImage && <Slide
+              direction="up"
+              in={true}
+              mountOnEnter
+              unmountOnExit
+              timeout={1000}
+            >
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={BASE_URL+data.selectedImage}
+              />
+              </Slide>
+          }
+        </div>
+      </div>
+    </div>
+    }
+    else if(data.theame.value == 'white-center'){
+      htmlData = <div
+      className="h-100 bg-white"
+      style={{ padding: "20px" }}
+    >
+      <div>
+        <Carousel
+          interval={data.slideDuration * 1000}
+          indicators={false}
+          animation={"slide"}
+          className="h-100"
+        >
+          {list.map((item, i) => {
+            return (
+              <>
+                <div
+                  style={{
+                    width: "180px",
+                    height: "120px",
+                    margin: "auto",
+                  }}
+                >
+                  <img
+                    src={newsimg}
+                    alt="new-img"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+
+                <div className="h-100">
+                  <div className=" h-100">
+                    <div className="text-center  ">
+                      <div className="mt-2 " key={i}>
+                        <h1
+                          style={{ fontSize: "22px" }}
+                          className="text-black mb-4"
+                        >
+                          {item.title}
+                        </h1>
+                        <p className="text-black">
+                          {item.content}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+        </Carousel>
+        <div style={{ textAlign: "center" }}>
+          {
+              data.selectedImage && <Slide
+              direction="up"
+              in={true}
+              mountOnEnter
+              unmountOnExit
+              timeout={1000}
+            >
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={BASE_URL+data.selectedImage}
+              />
+              </Slide>
+          }
+        </div>
+      </div>
+    </div>
+    }
+    else if(data.theame.value == 'bottom-load'){
+      htmlData = <div className="h-100 protrait-rss bg-white">
+      <div style={{ position: "relative", height: "100%" }}>
+        <div
+          className="h-100 news-app-bg-img-bottom"
+          style={{
+            background: `url(${newsimg})`,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "between",
+          }}
+        >
+          <div style={{ textAlign: "end", zIndex: 1 }}>
+          {
+              data.selectedImage && <Slide
+              direction="up"
+              in={true}
+              mountOnEnter
+              unmountOnExit
+              timeout={1000}
+            >
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={BASE_URL+data.selectedImage}
+              />
+              </Slide>
+          }
+          </div>
+          <div className="p-3 w-100">
+            <Carousel
+              interval={data.slideDuration * 1000}
+              indicators={false}
+              animation={"slide"}
+            >
+              {list.map((item, i) => {
+                return (
+                  <>
+                    <div className="h-100">
+                      <div className=" h-100">
+                        <div
+                          className="text-left h-100 "
+                          style={{ position: "relative" }}
+                        >
+                          <div className="mt-2 " key={i}>
+                            <h1
+                              className="text-white"
+                              style={{ fontSize: "20px" }}
+                            >
+                              {item.title}
+                            </h1>
+                            <p className="text-white">
+                              {item.content}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
                 );
               })}
             </Carousel>
           </div>
-        </>
-      )}
+        </div>
+      </div>
     </div>
-  );
+    }
+    else if(data.theame.value == 'color-background'){
+      htmlData = <h4>Pending</h4>
+    }
+    return (
+      
+              <div
+                  className="basic-list-group image-preview-container media-content"
+                  style={{ color: "white",marginRight:'10%',marginLeft:'10%' }}
+              >
+                  {htmlData}
+              </div>
+    )
+  }else if(data.orientationMode == 'landscape'){
+    let htmlData = "";
+    if(data.theame.value == 'classic'){
+      htmlData = <div
+      className="h-100 news-app-bg-img"
+      style={{
+        background: `url(${newsimg})`,
+        position: "relative",
+      }}
+    >
+      <div>
+        <Carousel
+          interval={data.slideDuration * 1000}
+          indicators={false}
+          animation={"slide"}
+          className="h-100"
+        >
+          {list.map((item, i) => {
+            return (
+              <>
+                <Slide
+                  direction="right"
+                  in={true}
+                  timeout={1000}
+                >
+                  <div
+                    style={{
+                      maxWidth: "100%",
+                      minWidth: "70%",
+                      height: "5px",
+                      background: "#fff",
+                      margin: "2rem 0",
+                      display: "inline-block",
+                    }}
+                  >
+                    {" "}
+                  </div>
+                </Slide>
+                <div className="h-100">
+                  <div className=" h-100">
+                    <div className="text-center  ">
+                      <div className="mt-2 hhhhhh" key={i}>
+                        <h1
+                          // className={`${
+                          //   data.theame.value ==
+                          //   "White Background"
+                          //     ? "text-black"
+                          //     : "text-white"
+                          // } `}
+                          className="text-white"
+                        >
+                          {item.title}
+                        </h1>
+                        <p
+                          // className={`${
+                          //   data.theame.value ==
+                          //   "White Background"
+                          //     ? "text-black"
+                          //     : "text-white"
+                          // } `}
+                          className="text-white"
+                        >
+                          {item.content}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+        </Carousel>
+        <div
+          style={{
+            position: "absolute",
+            bottom: "20px",
+            right: "10%",
+            zIndex: 1,
+          }}
+        >
+          {
+              data.selectedImage && <Slide
+              direction="up"
+              in={true}
+              mountOnEnter
+              unmountOnExit
+              timeout={1000}
+            >
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={BASE_URL+data.selectedImage}
+              />
+              </Slide>
+          }
+        </div>
+      </div>
+    </div>
+    }
+    else if(data.theame.value == 'blurred'){
+      htmlData = <div
+      className="h-100 news-app-bg-img"
+      style={{
+        //background: `url(${newsimg})`,
+        position: "relative",
+      }}
+    >
+      <div className="d-flex justify-content-center align-items-center h-100">
+        <div className="blur-bg-news-app">
+          <Carousel
+            interval={data.slideDuration * 1000}
+            indicators={false}
+            animation={"slide"}
+            className="h-100"
+          >
+            {list.map((item, i) => {
+              return (
+                <>
+                  <div className="h-100">
+                    <div className=" h-100">
+                      <div className="text-center  ">
+                        <div
+                          className="mt-2 hhhhhh"
+                          key={i}
+                        >
+                          <h1 className="text-white">
+                            {item.title}
+                          </h1>
+                          <p className="text-white">
+                            {item.content}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            })}
+          </Carousel>
+          <div
+            style={{
+              position: "absolute",
+              bottom: "0px",
+              right: "5%",
+              zIndex: 1,
+            }}
+          >
+            {
+              data.selectedImage && <Slide
+              direction="up"
+              in={true}
+              mountOnEnter
+              unmountOnExit
+              timeout={1000}
+            >
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={BASE_URL+data.selectedImage}
+              />
+              </Slide>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+    else if(data.theame.value == 'white'){
+      htmlData = <div
+                         
+      className="h-100 bg-white"
+    >
+      <div>
+        <Carousel
+          interval={data.slideDuration * 1000}
+          indicators={false}
+          animation={"slide"}
+          className="h-100"
+        >
+          {list.map((item, i) => {
+            return (
+              <>
+                <div
+                  style={{ width: "100%", height: "200px" }}
+                >
+                  <img
+                    src={newsimg}
+                    alt="new-img"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+                <Slide
+                  direction="right"
+                  in={true}
+                  timeout={1000}
+                >
+                  <div
+                    style={{
+                      maxWidth: "100%",
+                      minWidth: "60%",
+                      height: "8px",
+                      background: "#000",
+                      margin: "20px 0 10px 0",
+                      display: "inline-block",
+                    }}
+                  >
+                   
+                  </div>
+                </Slide>
+                <div className="h-100">
+                  <div className=" h-100">
+                    <div className="text-left  ">
+                      <div className="mt-2 " key={i}>
+                        <h1
+                         
+                          style={{ fontSize: "22px" }}
+                          className="text-black mb-4"
+                        >
+                          {item.title}
+                        </h1>
+                        <p
+                        
+                          className="text-black"
+                        >
+                          {item.content}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+        </Carousel>
+        <div style={{ textAlign: "end" }}>
+        {
+              data.selectedImage && <Slide
+              direction="up"
+              in={true}
+              mountOnEnter
+              unmountOnExit
+              timeout={1000}
+            >
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={BASE_URL+data.selectedImage}
+              />
+              </Slide>
+          }
+        </div>
+      </div>
+    </div>
+    }
+    else if(data.theame.value == 'white-center'){
+      htmlData = <div
+      className="h-100 bg-white"
+      style={{ padding: "20px" }}
+    >
+      <div>
+        <Carousel
+          interval={data.slideDuration * 1000}
+          indicators={false}
+          animation={"slide"}
+          className="h-100"
+        >
+          {list.map((item, i) => {
+            return (
+              <>
+                <div
+                  style={{
+                    width: "180px",
+                    height: "120px",
+                    margin: "auto",
+                  }}
+                >
+                  <img
+                    src={newsimg}
+                    alt="new-img"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+
+                <div className="h-100">
+                  <div className=" h-100">
+                    <div className="text-center  ">
+                      <div className="mt-2 " key={i}>
+                        <h1
+                          style={{ fontSize: "22px" }}
+                          className="text-black mb-4"
+                        >
+                          {item.title}
+                        </h1>
+                        <p className="text-black">
+                          {item.content}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+        </Carousel>
+        <div style={{ textAlign: "center" }}>
+          {
+              data.selectedImage && <Slide
+              direction="up"
+              in={true}
+              mountOnEnter
+              unmountOnExit
+              timeout={1000}
+            >
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={BASE_URL+data.selectedImage}
+              />
+              </Slide>
+          }
+        </div>
+      </div>
+    </div>
+    }
+    else if(data.theame.value == 'bottom-load'){
+      htmlData = <div className="h-100 protrait-rss bg-white">
+      <div style={{ position: "relative", height: "100%" }}>
+        <div
+          className="h-100 news-app-bg-img-bottom"
+          style={{
+            background: `url(${newsimg})`,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "between",
+          }}
+        >
+          <div style={{ textAlign: "end", zIndex: 1 }}>
+          {
+              data.selectedImage && <Slide
+              direction="up"
+              in={true}
+              mountOnEnter
+              unmountOnExit
+              timeout={1000}
+            >
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={BASE_URL+data.selectedImage}
+              />
+              </Slide>
+          }
+          </div>
+          <div className="p-3 w-100">
+            <Carousel
+              interval={data.slideDuration * 1000}
+              indicators={false}
+              animation={"slide"}
+            >
+              {list.map((item, i) => {
+                return (
+                  <>
+                    <div className="h-100">
+                      <div className=" h-100">
+                        <div
+                          className="text-left h-100 "
+                          style={{ position: "relative" }}
+                        >
+                          <div className="mt-2 " key={i}>
+                            <h1
+                              className="text-white"
+                              style={{ fontSize: "20px" }}
+                            >
+                              {item.title}
+                            </h1>
+                            <p className="text-white">
+                              {item.content}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+            </Carousel>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+    else if(data.theame.value == 'color-background'){
+      htmlData = <h4>Pending</h4>
+    }
+    return (
+              <div
+                  className="basic-list-group image-preview-container media-content"
+                  style={{ color: "white" }}
+              >
+                <h6>{data.theame.value}</h6>
+                  {htmlData}
+              </div>
+    )
+  }
+  
+  // return (
+  //   <div
+  //     className="basic-list-group image-preview-container media-content"
+  //     style={{ color: "white", textAlign: "center" }}
+  //   >
+  //     {data.urlLink.items.length > 0 && (
+  //       <>
+  //         <div
+  //         // className={`h-100 ${
+  //         //   data.theame.value == "White Background" ? "bg-white" : "bg-black"
+  //         // } `}
+  //         // style={{ padding: "5% 2% 2% 2%" }}
+  //         >
+  //           <Carousel
+  //             interval={data.slideDuration * 1000}
+  //             indicators={false}
+  //             animation={"slide"}
+  //             className="h-100 aaa"
+  //           >
+  //             {data.urlLink.items.map((item, i) => {
+  //               return (
+  //                 <div
+  //                   className="h-100 "
+  //                   style={{
+  //                     background: `url(${newsimg})`,
+  //                     backgroundColor: "rgba(248, 247, 216, 0.7)",
+  //                     backgroundPosition: "bottom center",
+  //                     backgroundRepeat: "no-repeat",
+  //                     backgroundSize: "cover",
+  //                   }}
+  //                 >
+  //                   <div className=" h-100 uuuuu">
+  //                     <div
+  //                       className="text-center  "
+  //                       // style={{
+  //                       //   borderRadius: "18px",
+  //                       //   margin: "20px",
+  //                       //   flexDirection: "column",
+  //                       //   width: "30%",
+  //                       // }}
+  //                     >
+  //                       {/* <div>
+  //                           <img src={imgexample} alt="image" />
+  //                         </div> */}
+  //                       <div className="mt-2 hhhhhh" key={i}>
+  //                         <h1
+  //                           className={`${
+  //                             data.theame.value == "White Background"
+  //                               ? "text-black"
+  //                               : "text-white"
+  //                           } `}
+  //                         >
+  //                           {/* text-white */}
+
+  //                           {item["title"]}
+  //                         </h1>
+  //                         <p
+  //                           className={`${
+  //                             data.theame.value == "White Background"
+  //                               ? "text-black"
+  //                               : "text-white"
+  //                           } `}
+  //                         >
+  //                           {item["content"]}
+  //                         </p>
+  //                       </div>
+  //                     </div>
+  //                   </div>
+  //                 </div>
+  //               );
+  //             })}
+  //           </Carousel>
+  //         </div>
+  //       </>
+  //     )}
+  //   </div>
+  // );
 };
 
 export const handleStockApps = (data, stock) => {
@@ -674,12 +1609,10 @@ export const handleStockApps = (data, stock) => {
               <th>STOCK</th>
               <th>PRICE</th>
               <th>% CHANGE</th>
-              { prp.isPriceChange ? <th>CHANGE</th> : ''}
-              { prp.volume ? <th>VOLUMES</th> : ''}
-              {
-                prp.isHigh ? <th>52 Wk HIGH</th> : ''
-              }
-              { prp.isLow ? <th>52 Wk LOW</th> :"" }
+              {prp.isPriceChange ? <th>CHANGE</th> : ""}
+              {prp.volume ? <th>VOLUMES</th> : ""}
+              {prp.isHigh ? <th>52 Wk HIGH</th> : ""}
+              {prp.isLow ? <th>52 Wk LOW</th> : ""}
             </tr>
           </thead>
 
@@ -697,12 +1630,14 @@ export const handleStockApps = (data, stock) => {
                       >
                         {item.changesPercentage}
                       </td>
-                      { prp.isPriceChange ? <td className="stockTd">{item.changes} %</td> : '' }
-                      { prp.volume ? <td>--</td> : ''}
-                      {
-                        prp.isHigh ? <td>--</td> : ''
-                      }
-                      { prp.isLow ? <td>--</td> :"" }
+                      {prp.isPriceChange ? (
+                        <td className="stockTd">{item.changes} %</td>
+                      ) : (
+                        ""
+                      )}
+                      {prp.volume ? <td>--</td> : ""}
+                      {prp.isHigh ? <td>--</td> : ""}
+                      {prp.isLow ? <td>--</td> : ""}
                     </tr>
                   )
                 );
@@ -780,8 +1715,7 @@ export const handleAqiApps = (data, weatherInfo) => {
 export const handleQuoteApps = (data, quoteData) => {
   const prp = JSON.parse(data, quoteData);
   return (
-
-   <div
+    <div
       className={`basic-list-group image-preview-container media-content  bulletin-bg text-black ${prp.color.value}`}
       style={{ color: "white", textAlign: "center" }}
     >
@@ -791,58 +1725,70 @@ export const handleQuoteApps = (data, quoteData) => {
         animation={"slide"}
         className="h-100"
       >
-        {quoteData && quoteData.length > 0 && quoteData.map((item1, index1) => {
-          {console.log(item1, item1.quote)}
-          return (
-            <>
-              <div
-                key={index1}
-                className="text-center d-flex "
-                style={{
-                  borderRadius: "18px",
-                  margin: "20px",
-                  marginTop:"25%",
-                  flexDirection: "column",
-                }}
-              >
-                <div className="mt-2">
-                  {
-                    prp.fontStyle.value == 'italic'
-                      ? 
-                        <>
-                        <strong><i>{item1['quote']}</i></strong>
-                        <p><i>{item1.author}</i></p>
-                        </>
-                      : 
-                        ''
-                  }
-                  {
-                    prp.fontStyle.value == 'regular'
-                      ? 
-                        <>
-                        <strong>{item1['quote']}</strong>
+        {quoteData &&
+          quoteData.length > 0 &&
+          quoteData.map((item1, index1) => {
+            {
+              console.log(item1, item1.quote);
+            }
+            return (
+              <>
+                <div
+                  key={index1}
+                  className="text-center d-flex "
+                  style={{
+                    borderRadius: "18px",
+                    margin: "20px",
+                    marginTop: "25%",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div>
+                    <img
+                      src={quote}
+                      style={{ height: "50px" }}
+                      alt="quote-icon"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    {prp.fontStyle.value == "italic" ? (
+                      <>
+                        <strong>
+                          <i>{item1["quote"]}</i>
+                        </strong>
+                        <p>
+                          <i>- {item1.author}</i>
+                        </p>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                    {prp.fontStyle.value == "regular" ? (
+                      <>
+                        <strong>{item1["quote"]}</strong>
                         <p>{item1.author}</p>
-                        </>
-                      : 
-                        ''
-                  }
+                      </>
+                    ) : (
+                      ""
+                    )}
 
-                  {  
-                    prp.fontStyle.value == 'bold'
-                      ? 
-                        <>
-                        <strong><b>{item1['quote']}</b></strong>
-                        <p><b>{item1.author}</b></p>
-                        </>
-                      : 
-                        ''
-                  }
-                  
+                    {prp.fontStyle.value == "bold" ? (
+                      <>
+                        <strong>
+                          <b>{item1["quote"]}</b>
+                        </strong>
+                        <p>
+                          <b>{item1.author}</b>
+                        </p>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
-              </div>
-            </>
-          );
-        })}
+              </>
+            );
+          })}
       </Carousel>
     </div>
   );
@@ -850,63 +1796,572 @@ export const handleQuoteApps = (data, quoteData) => {
 
 export const handleNewsApps = (data, newsData) => {
   const prp = JSON.parse(data);
-  console.log("news", newsData)
+  console.log("news", newsData);
   return (
-    <div
-      className="basic-list-group image-preview-container media-content"
-      style={{ color: "white", textAlign: "center" }}
-    >
-      <h2>News About {prp.topic.value}</h2>
-          <Carousel
-            interval={10000}
-            indicators={false}
-            animation={"slide"}
-            className="h-100"
+    <>
+      {/* <div className="bg-white h-100">
+        <div
+          className={`${
+            prp.theame.value == "white" ? "news-app-bg" : "bg-black"
+          } p-3 h-100`}
+        >
+          <div
+            className="basic-list-group image-preview-container media-content "
+            style={{ color: "white", textAlign: "center" }}
           >
-            {newsData && newsData.items.map((item, i) => {
-              {console.log(item.title)}
-              return (
-                <>
-                <Slide direction="right" in={true} timeout={1000}>
-                  <div style={{
-                    maxWidth: "100%",
-                    minWidth:"70%",
-                    height:"5px",
-                    background: "#fff",
-                    margin: "2rem 0",
-                    display: "inline-block"
-                  }}></div>
-                </Slide>
-                <div className=" h-100" key={i}>
-                    <div
-                      className="text-center  "
-                    >
-                        <h1
-                          className={`${
-                            prp.theame.value == "White Background"
-                              ? "text-black"
-                              : "text-white"
-                          } `}
-                        >
-                          {/* text-white */}
+            <h2
+              className={`${
+                prp.theame.value == "white" ? "" : "text-white"
+              } mb-0`}
+            >
+              News About {prp.topic.value}
+            </h2>
+            <Carousel
+              interval={10000}
+              indicators={false}
+              animation={"slide"}
+              className="h-100"
+            >
+              {newsData &&
+                newsData.items.map((item, i) => {
+                  {
+                    console.log(item.title);
+                  }
+                  return (
+                    <>
+                      <Slide direction="right" in={true} timeout={1000}>
+                        <div
+                          style={{
+                            maxWidth: "100%",
+                            minWidth: "70%",
+                            height: "5px",
+                            background: "#fff",
+                            margin: "2rem 0",
+                            display: "inline-block",
+                          }}
+                        ></div>
+                      </Slide>
+                      <div className=" h-100" key={i}>
+                        <div className="text-center  ">
+                          <h1
+                            className={`${
+                              prp.theame.value == "white"
+                                ? "text-black"
+                                : "text-white"
+                            } `}
+                          >
+                            {item.title}
+                          </h1>
+                          <p
+                            className={`${
+                              prp.theame.value == "white"
+                                ? "text-black"
+                                : "text-white"
+                            } `}
+                          >
+                            {item.publisher}
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
+            </Carousel>
+          </div>
+        </div>
+      </div> */}
 
-                          {item.title}
-                        </h1>
-                        <p
-                          className={`${
-                            prp.theame.value == "White Background"
-                              ? "text-black"
-                              : "text-white"
-                          } `}
-                        >
-                          {item.publisher}
-                        </p>
-                    </div>
-                </div>
-                </>
-              );
-            })}
-          </Carousel>
+      {/* potrait mode */}
+      {/* ......................................... */}
+      {/* <div className="bg-white h-100">
+        <div className="d-flex justify-content-center h-100">
+          <div className="bg-black p-3 h-100">
+            // news-app-bg
+            <div
+              className="basic-list-group image-preview-container media-content "
+              style={{ color: "white", textAlign: "center" }}
+            >
+              <h2 className="text-white mb-0">News About {prp.topic.value}</h2>
+              <Carousel
+                interval={10000}
+                indicators={false}
+                animation={"slide"}
+                className="h-100"
+              >
+                {newsData &&
+                  newsData.items.map((item, i) => {
+                    {
+                      console.log(item.title);
+                    }
+                    return (
+                      <>
+                        <Slide direction="right" in={true} timeout={1000}>
+                          <div
+                            style={{
+                              maxWidth: "100%",
+                              minWidth: "70%",
+                              height: "5px",
+                              background: "#fff",
+                              margin: "2rem 0",
+                              display: "inline-block",
+                            }}
+                          ></div>
+                        </Slide>
+                        <div className=" h-100" key={i}>
+                          <div className="text-center  ">
+                            <h1
+                              className={`${
+                                prp.theame.value == "White Background"
+                                  ? "text-black"
+                                  : "text-white"
+                              } `}
+                            >
+                              {item.title}
+                            </h1>
+                            <p
+                              className={`${
+                                prp.theame.value == "White Background"
+                                  ? "text-black"
+                                  : "text-white"
+                              } `}
+                            >
+                              {item.publisher}
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+              </Carousel>
+            </div>
+          </div>
+        </div>
+      </div> */}
+
+      {/* footer mode */}
+      {/* ............................................ */}
+      <div className="bg-white h-100">
+        <div className=" h-100" style={{ position: "relative" }}>
+          <div
+            className="bg-black p-3 w-100"
+            style={{ position: "absolute", bottom: "0" }}
+          >
+            // news-app-bg
+            <div
+              className="basic-list-group image-preview-container media-content "
+              style={{ color: "white", textAlign: "center" }}
+            >
+              <h2 className="text-white mb-0" style={{ fontSize: "20px" }}>
+                News About {prp.topic.value}
+              </h2>
+              <Carousel
+                interval={10000}
+                indicators={false}
+                animation={"slide"}
+                className="h-100"
+              >
+                {newsData &&
+                  newsData.items.map((item, i) => {
+                    {
+                      console.log(item.title);
+                    }
+                    return (
+                      <>
+                        <Slide direction="right" in={true} timeout={1000}>
+                          <div
+                            style={{
+                              maxWidth: "100%",
+                              minWidth: "70%",
+                              height: "5px",
+                              background: "#fff",
+                              margin: "10px 0",
+                              display: "inline-block",
+                            }}
+                          ></div>
+                        </Slide>
+                        <div className=" h-100" key={i}>
+                          <div className="text-center  ">
+                            <h1
+                              className={`${
+                                prp.theame.value == "White Background"
+                                  ? "text-black"
+                                  : "text-white"
+                              } `}
+                              style={{ fontSize: "20px" }}
+                            >
+                              {item.title}
+                            </h1>
+                            <p
+                              className={`${
+                                prp.theame.value == "White Background"
+                                  ? "text-black"
+                                  : "text-white"
+                              } `}
+                              style={{ fontSize: "14px" }}
+                            >
+                              {item.publisher}
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+              </Carousel>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export const handleGoogleApps = (data) => {
+  const prp = JSON.parse(data);
+  console.log("text app ", prp);
+  return (
+    <div className="basic-list-group image-preview-container media-content">
+      {prp && prp.fileData && prp.fileURL ? (
+        <Iframe
+          url={prp.fileURL}
+          width="100%"
+          height="100%"
+          // id=""
+          // className=""
+          display="block"
+          position="relative"
+        />
+      ) : (
+        <>Loading</>
+      )}
     </div>
   );
 };
+
+export const handlePeopleSpace = (data) => {
+  const prp = JSON.parse(data);
+  console.log("Handelling", prp);
+  if (prp.slides && prp.slides.length > 0) {
+    if (prp.tempType && prp.tempType == "temp1") {
+      prp.slides = sliceIntoChunks(prp.slides, 3);
+      return (
+        <>
+          <div
+            className=" h-100"
+            style={{
+              background:
+                "linear-gradient(120deg, #FF5F9E -11.45%, #FAACC5 35.49%, #FFE6DD 104.09%)",
+            }}
+          >
+            {/* {prp?.settingData?.isTitle ? <h5>{prp.appTitle}</h5> : ""} */}
+            <h2 className="text-center pt-3" style={{ color: "#AA144C" }}>
+              appTitle
+            </h2>
+
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div
+                    className="row people-space text-center w-100 m-0"
+                    key={i}
+                  >
+                    <div>
+                      <div className="d-flex mx-2">
+                        {item.map((item1, index1) => {
+                          return (
+                            <div className="text-center" key={`${i}-${index1}`}>
+                              <img
+                                style={{
+                                  width: "200px",
+                                  height: "200px",
+                                  borderRadius: "50%",
+                                }}
+                                src={
+                                  item1.image ? BASE_URL + item1.image : person
+                                }
+                                alt="person"
+                              />
+                              <h3 style={{ color: "#AA144C" }}>{item1.name}</h3>
+                              <p style={{ color: "#AA144C" }}>
+                                {item1.message}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    } else if (prp.tempType && prp.tempType == "temp4") {
+      prp.slides = sliceIntoChunks(prp.slides, 3);
+      return (
+        <>
+          <div className=" h-100 temp4-bg">
+            {/* {prp?.settingData?.isTitle ? <h5>{prp.appTitle}</h5> : ""} */}
+            <h2 className="text-center pt-3" style={{ color: "#2512AD" }}>
+              temp 4
+            </h2>
+
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div className=" w-100 m-0" key={i}>
+                    <div>
+                      <div className=" mx-2">
+                        {item.map((item1, index1) => {
+                          return (
+                            <div
+                              className="d-flex align-items-center"
+                              key={`${i}-${index1}`}
+                            >
+                              <div>
+                                <img
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    borderRadius: "50%",
+                                  }}
+                                  src={
+                                    item1.image
+                                      ? BASE_URL + item1.image
+                                      : person
+                                  }
+                                  alt="person"
+                                />
+                              </div>
+                              <div>
+                                <h3 style={{ color: "#2512AD" }}>
+                                  {item1.name}
+                                </h3>
+                                <p style={{ color: "#2512AD", margin: 0 }}>
+                                  {item1.message}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    } else if (prp.tempType && prp.tempType == "temp2") {
+      return (
+        <>
+          <div className=" h-100 temp2-bg" style={{ margin: "2%" }}>
+            <h2 className="text-center pt-3" style={{ color: "#076923" }}>
+              temp 2
+            </h2>
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div className="row w-100 h-100" key={i}>
+                    <div className="w-100">
+                      <div className="d-flex w-100 align-items-center">
+                        <div className="">
+                          <img
+                            style={{
+                              width: "300px",
+                              height: "400px",
+                              borderRadius: "10px",
+                            }}
+                            src={item.image ? BASE_URL + item.image : person}
+                            alt="person"
+                          />
+                        </div>
+                        <div style={{ color: "#076923" }}>
+                          <h3 style={{ color: "#076923" }}>{item.name}</h3>
+                          <p>{item.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    } else if (prp.tempType && prp.tempType == "temp3") {
+      return (
+        <>
+          <div className=" h-100 temp3-bg" style={{ margin: "2%" }}>
+            <h2 className="text-center pt-3" style={{ color: "#2512AD" }}>
+              temp 3
+            </h2>
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div className="row w-100 h-100" key={i}>
+                    <div className="w-100">
+                      <div className="d-flex w-100 align-items-center">
+                        <div className="">
+                          <img
+                            style={{
+                              width: "300px",
+                              height: "300px",
+                              borderRadius: "50%",
+                            }}
+                            src={item.image ? BASE_URL + item.image : person}
+                            alt="person"
+                          />
+                        </div>
+                        <div style={{ color: "#2512AD" }}>
+                          <h3 style={{ color: "#2512AD" }}>{item.name}</h3>
+                          <p>{item.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    } else if (prp.tempType && prp.tempType == "temp5") {
+      return (
+        <>
+          <div className=" h-100 temp5-bg" style={{ margin: "2%" }}>
+            <h2 className="text-center pt-3" style={{ color: "#fff" }}>
+              temp 5
+            </h2>
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div className="row w-100 h-100" key={i}>
+                    <div className="w-100">
+                      <div className="d-flex w-100 align-items-center">
+                        <div className="">
+                          <img
+                            style={{
+                              width: "300px",
+                              height: "300px",
+                              borderRadius: "50%",
+                            }}
+                            src={item.image ? BASE_URL + item.image : person}
+                            alt="person"
+                          />
+                        </div>
+                        <div style={{ color: "#fff" }}>
+                          <h3 style={{ color: "#fff" }}>{item.name}</h3>
+                          <p>{item.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    } else if (prp.tempType && prp.tempType == "temp6") {
+      return (
+        <>
+          <div className=" h-100 temp6-bg text-center" style={{ margin: "2%" }}>
+            <h2 className="text-center pt-3" style={{ color: "#AA144C" }}>
+              temp 5
+            </h2>
+            <Carousel
+              interval={10000}
+              duration={500}
+              indicators={false}
+              animation={"fade"}
+              className="h-100"
+            >
+              {prp.slides.map((item, i) => {
+                return (
+                  <div className="row w-100 h-100" key={i}>
+                    <div className="w-100">
+                      <div className=" w-100 ">
+                        <img
+                          style={{
+                            width: "200px",
+                            height: "200px",
+                            borderRadius: "50%",
+                          }}
+                          src={item.image ? BASE_URL + item.image : person}
+                          alt="person"
+                        />
+
+                        <div style={{ color: "#AA144C" }}>
+                          <h3 style={{ color: "#AA144C" }}>{item.name}</h3>
+                          <p>{item.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      );
+    }
+  }
+};
+
+export const handleYoutubeApps = (data) => {
+  const prp = JSON.parse(data);
+
+  if(prp.url){
+    return <div
+        className={`basic-list-group video-container media-content`}
+    >
+      <ReactPlayer
+        url={`${prp.url}`}
+        width="100%"
+        height="100%"
+        light={false}
+        loop={true}
+        playing={true}
+        controls={true}
+        muted={true}
+      />
+    </div>
+  }else{
+    return <h6>Loading...</h6>
+  }
+}
+
+// AIzaSyCMJk6QpvPCdibrNzpOQlFrqpDgf4-GHjw
+// AIzaSyDwH-RU1-mcb9_z3MobeWInZ-jCxBn2kTw

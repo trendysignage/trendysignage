@@ -25,6 +25,8 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [orientationMode, setOrientation] = useState("landscape");
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageModalShow, setImageModalShow] = useState(false);
+  const [previewData, setPreviewData] = useState(null)
+  const [isLoading, setIsLoading] = useState(false);
 
   const colorOptions = [
     { value: "lightYellow", label: "Light Yellow" },
@@ -52,49 +54,56 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
-    if (name == "") {
+    if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
-    } else if (urlLink == "") {
+      setIsLoading(false);
+      return
+    }if (urlLink.trim() == "") {
       setErr(true);
       setErrorMessage("URL Link is required");
-    } else if (appTitle == "") {
+      setIsLoading(false);
+      return
+    } if (appTitle.trim() == "") {
       setErr(true);
       setErrorMessage("App Title is required");
-    } else if (appDesc == "") {
+      setIsLoading(false);
+      return
+    } if (appDesc.trim() == "") {
       setErr(true);
       setErrorMessage("App Description is required");
-    }
-    if (err) {
-      return false;
+      setIsLoading(false);
+      return
     }
     const dataString = {
-      url: urlLink,
-      appTitle,
-      appDesc,
-      name,
+      url: urlLink.trim(),
+      appTitle:appTitle.trim(),
+      appDesc:appDesc.trim(),
+      name:name.trim(),
       color,
       orientationMode,
       image:selectedImage
     };
-console.log(dataString)
+    console.log(dataString)
     if (actionType && actionType == "edit") {
       await updateApps({
-        name,
+        name:name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
+      setIsLoading(false);
     } else {
       await addApps({
-        name,
+        name:name.trim(),
         type: "qrcode-apps",
         data: JSON.stringify(dataString),
       });
-      setShowUrlApp(false);
+      handleClose(false);
+      setIsLoading(false);
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -102,11 +111,30 @@ console.log(dataString)
 
   const handlePreview = () => {
     if(name && urlLink && appTitle){
-      setIsRefresh(true)
       setPreview(true)
+      setPreviewData(handleQrApps(JSON.stringify({
+        url: urlLink,
+        appTitle,
+        appDesc,
+        name,
+        color,
+        orientationMode,
+        image:selectedImage
+      })))
+      
     }else{
       setPreview(false)
     }
+  }
+
+  const handleClose = (val) => {
+    setName("");
+    setUrlLink("");
+    setAppTitle("");
+    setAppDesc("");
+    setColor({ value: "lightYellow", label: "Light Yellow" });
+    setOrientation("landscape");
+    setShowUrlApp(val)
   }
   return (
     <>
@@ -129,7 +157,7 @@ console.log(dataString)
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+             onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -172,7 +200,7 @@ console.log(dataString)
                   setUrlLink(e.target.value);
                 }}
               />
-              <label className="mt-3">App Tital</label>
+              <label className="mt-3">App Title</label>
               <input
                 type="text"
                 className="  form-control "
@@ -277,9 +305,9 @@ console.log(dataString)
                     id="potrait"
                     checked={orientationMode === 'potrait'}
                     onChange={(e) => {setOrientation(e.target.value)}}
-                    disabled
-                    style={{cursor:"not-allowed"}}
-                    placeholder="Preview Not Available"
+                    //disabled
+                    // style={{cursor:"not-allowed"}}
+                    // placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -289,18 +317,16 @@ console.log(dataString)
                   </label>
                 </div>
               </div>
-              <div className="d-flex justify-content-center align-items-center h-100 qr-code-app-form-icon">
-                {
-                  preview && handleQrApps(JSON.stringify({
-                    url: urlLink,
-                    appTitle,
-                    appDesc,
-                    name,
-                    color,
-                    orientationMode,
-                    image:selectedImage
-                  }))
+              <div className="d-flex justify-content-center align-items-center h-100">
+                { orientationMode && orientationMode == 'potrait' ? 
+                    <div className="d-flex justify-content-center h-100" style={{backgroundColor:'none'}}>
+                      <div className="p-3 h-100">
+                        { previewData && preview ? previewData : ''}
+                      </div>
+                    </div>
+                  : <>{ previewData && preview ? previewData : ''}</>
                 }
+                
               </div>
             </div>
           </form>
@@ -308,7 +334,9 @@ console.log(dataString)
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100" variant="outline-light"
+                 onClick={(e) => {e.preventDefault(); handleClose(false)}}
+              >
                 Cancel
               </Button>
             </Col>
@@ -318,6 +346,7 @@ console.log(dataString)
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App
               </Button>

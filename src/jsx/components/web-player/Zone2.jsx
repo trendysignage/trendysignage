@@ -15,7 +15,8 @@ import {
   handleAqiApps,
   handleStockApps,
   handleQuoteApps,
-  handleNewsApps
+  handleNewsApps,
+  handleGoogleApps
 } from "../../../utils/UtilsService";
 
 const Zone2 = ({
@@ -317,7 +318,17 @@ const Zone2 = ({
                   <>
                     {getNewsDataZone1(contents.zones[0].content[currentIndex].data)}
                   </>
-                ):contents.zones[0].content[currentIndex].type ===
+                ): contents.zones[0].content[currentIndex].type ===
+                "google-apps" ? (
+                <>
+                  {handleGoogleApps(contents.zones[0].content[currentIndex].data)}
+                </>
+                ) :contents.zones[1].content[current1Index].type ===
+                "stocks-apps" ? (
+                <>
+                  {getStockDataZone1(contents.zones[0].content[current1Index].data)}
+                </>
+                ) :contents.zones[0].content[currentIndex].type ===
                   "quote-apps" ? (
                   <>
                     {getQuoteDataZone1(contents.zones[0].content[currentIndex].data)}
@@ -446,20 +457,25 @@ const Zone2 = ({
                       contents.zones[1].content[current1Index].data
                     )}
                   </>
-                ) :contents.zones[0].content[currentIndex].type ===
+                ) :contents.zones[1].content[current1Index].type ===
                   "stocks-apps" ? (
                   <>
-                    {getStockDataZone2(contents.zones[2].content[currentIndex].data)}
+                    {getStockDataZone2(contents.zones[1].content[current1Index].data)}
                   </>
-                ):contents.zones[0].content[currentIndex].type ===
+                ) : contents.zones[1].content[currentIndex].type ===
+                "google-apps" ? (
+                <>
+                  {handleGoogleApps(contents.zones[1].content[current1Index].data)}
+                </>
+                ) :contents.zones[1].content[current1Index].type ===
                   "news-apps" ? (
                   <>
-                    {getNewsDataZone2(contents.zones[2].content[currentIndex].data)}
+                    {getNewsDataZone2(contents.zones[1].content[current1Index].data)}
                   </>
-                ):contents.zones[0].content[currentIndex].type ===
+                ):contents.zones[1].content[currentIndex].type ===
                   "quote-apps" ? (
                   <>
-                    {getQuoteDataZone2(contents.zones[2].content[currentIndex].data)}
+                    {getQuoteDataZone2(contents.zones[1].content[current1Index].data)}
                   </>
                 ): (
                   <></>

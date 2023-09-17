@@ -41,6 +41,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [orientationMode, setOrientation] = useState("landscape");
   const [weatherInfo, setWeatherInfo] = useState(null);
   const [aqiData, setAQIData]  = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (mediaData) {
@@ -63,12 +64,13 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     setErr(false);
     setErrorMessage("");
     if (name == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false)
       return;
     } else if (
       location.address == "" ||
@@ -77,10 +79,11 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     ) {
       setErr(true);
       setErrorMessage("Location is required");
+      setIsLoading(false)
       return;
     }
     const dataString = {
-      url: name,
+      url: name.trim(),
       location,
       aqiLocation,
       theame,
@@ -89,18 +92,20 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name,
+        name:name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
+      setIsLoading(false)
     } else {
       await addApps({
-        name,
+        name:name.trim(),
         type: "aqi-apps",
         data: JSON.stringify(dataString),
       });
-      setShowUrlApp(false);
+      handleClose(false);
+      setIsLoading(false)
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -147,6 +152,27 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     }
   }
 
+  const handleClose = (val) => {
+    setName("");
+    setLocation({
+      address: "",
+      latitude: "",
+      longitude: "",
+    });
+    setAqiLocation({ value: "us", label: "us" });
+    setMediaId(null);
+    setTheame({
+      value: "Light Mode",
+      label: "Light Mode",
+    });
+    setErr(false);
+    setErrorMessage("");
+    setOrientation("landscape");
+    setWeatherInfo(null);
+    setAQIData(null);
+    setShowUrlApp(val)
+  }
+
   return (
     <>
       <Modal
@@ -162,7 +188,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -310,7 +336,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
               <Button className="cancel-btn w-100"
                  variant="outline-light"
-                 onClick={() => setShowUrlApp(false)}
+                 onClick={(e) => {e.preventDefault(); handleClose(false)}}
               >
                 Cancel
               </Button>
@@ -321,6 +347,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App
               </Button>

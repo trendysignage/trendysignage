@@ -13,7 +13,7 @@ import {
   handleQrApps,
   handleRssApps,
   handleAqiApps,
-  handleStockApps, handleQuoteApps, handleNewsApps
+  handleStockApps, handleQuoteApps, handleNewsApps, handleGoogleApps
 } from "../../../utils/UtilsService";
 
 const Zone1 = ({ contents, currentIndex, viewImage }) => {
@@ -233,10 +233,15 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                 <>
                   {getNewsDataZone1(contents.zones[0].content[currentIndex].data)}
                 </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                "google-apps" ? (
+                <>
+                  {handleGoogleApps(contents.zones[0].content[currentIndex].data)}
+                </>
                 ) :contents.zones[0].content[currentIndex].type ===
                 "stocks-apps" ? (
                 <>
-                  {getStockDataZone1(contents.zones[0].content[currentIndex].data)}
+                  {getStockDataZone1(contents.zones[0].content[currentIndex].data)}handleGoogleApps
                 </>
               ) : (
                 <></>

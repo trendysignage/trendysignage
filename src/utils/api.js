@@ -1,6 +1,9 @@
 import fetchClient from "./fetchClient";
 import axios from "axios";
 export const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+let Parser = require('rss-parser');
+
+
 
 export function login(email, password) {
   const role = "vendor";
@@ -560,7 +563,23 @@ export async function getAllMediaFilter() {
   return response.data.data.media;
 }
 
+export async function getAllMediaDetail(id) {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/display/media/detail?mediaId=${id}`
+  );
+  return response.data.data.media;
+}
+
 
 export function getPermission() {
   return fetchClient.get(BASE_URL + `/vendor/profile/vendorRole`);
+}
+
+export async function rssParser() {
+  
+  let parser = new Parser();
+  let feed = await parser.parseURL('https://www.reddit.com/.rss');
+  console.log("feed",feed);
+
+
 }

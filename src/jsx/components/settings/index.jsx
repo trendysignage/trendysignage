@@ -16,9 +16,10 @@ import Group from "./group";
 import Roles from "./roles";
 import Profile from "./profile";
 import AddDeviceProfile from "../../modals/AddDeviceProfile";
+import ChangePassword from "../../modals/ChangePassword";
 
-const Settings = ({permission}) => {
-  console.log("permission",permission)
+const Settings = ({ permission }) => {
+  console.log("permission", permission);
   const [dropValue, setDropValue] = useState("Default Content");
   const [allUsers, setAllUsers] = useState([]);
   const [allGroups, setAllGroups] = useState([]);
@@ -29,6 +30,7 @@ const Settings = ({permission}) => {
   const [showAddUserModel, setShowAddUserModel] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleDropDown = (e, data) => {
     e.preventDefault();
@@ -54,11 +56,11 @@ const Settings = ({permission}) => {
   };
 
   const callDeviceProfileApi = async () => {
-    setLoading(true)
+    setLoading(true);
     const list = await getDeviceProfile();
     console.log("deviceProfile", list);
     setAllDeviceProfile(list);
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -114,6 +116,10 @@ const Settings = ({permission}) => {
         setIsRefresh={setIsRefresh}
         loading={loading}
       />
+      <ChangePassword
+        setShowModel={() => setShowModal(false)}
+        show={showModal}
+      />
       <div
         className="custom-content-heading d-flex flex-wrap"
         style={{ minHeight: "600px !important" }}
@@ -163,6 +169,13 @@ const Settings = ({permission}) => {
                 }}
               >
                 Device Profile
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={(e) => {
+                  setShowModal(true);
+                }}
+              >
+                Change Password
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -243,8 +256,8 @@ const Settings = ({permission}) => {
 
 const mapStateToProps = (state) => {
   return {
-      auth: state.auth.auth,
-      permission : state.auth.permission
+    auth: state.auth.auth,
+    permission: state.auth.permission,
   };
 };
 export default connect(mapStateToProps)(Settings);
