@@ -31,6 +31,7 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
     { value: "rightToLeft", label: "Right to Left" },
     { value: "leftToRight", label: "Left to Right" },
   ];
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if(mediaData){
@@ -51,23 +52,22 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
 
   const handleCreateApp = async(e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     setErr(false);
     setErrorMessage("");
     if(name.trim() == ''){
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false)
       return 
     }
     if(text.trim() == ''){
       setErr(true);
       setErrorMessage("Text is required");
+      setIsLoading(false)
       return;
     }
 
-    if(err){
-      return false;
-    }else{
       console.log("Hello", err)
       const dataString = {
         allign:allign,
@@ -92,12 +92,12 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
           type:'scroller',
           data:JSON.stringify(dataString)
         });
-        setShowScrollerTextApp(false)
+        setShowScrollerTextApp(false);
+        setIsLoading(false)
         setShowUrlRedirectApp(true)
       }
       console.log(name, text, selectedStyle, speed, allign)
 
-    }
     
   }
 
@@ -254,6 +254,7 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
                 className="btn btn-primary btn-block primary-btn"
                 //   onClick={() => setNewTagModal(false)}
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
                 >
                   {actionType && actionType == 'edit' ? 'Update' : 'Create'} App
                 </Button>

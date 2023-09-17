@@ -45,6 +45,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [preview, setPreview] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false); 
   const [orientationMode, setOrientation] = useState("landscape");
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (mediaData) {
@@ -77,12 +78,13 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false)
       return;
     } if (
       location.address == "" ||
@@ -91,6 +93,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     ) {
       setErr(true);
       setErrorMessage("Location is required");
+      setIsLoading(false)
       return;
     }
     console.log("Hello", err);
@@ -119,6 +122,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         data: JSON.stringify(dataString),
       });
       handleClose(false);
+      setIsLoading(false)
       setShowUrlRedirectApp(true);
     }
   };
@@ -380,6 +384,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App
               </Button>

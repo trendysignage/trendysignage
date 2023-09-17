@@ -53,6 +53,8 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [preview, setPreview] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false); 
   const [color, setColor] = useState({ value: "Light Yellow", label: "Light Yellow" });
+  const [isLoading, setIsLoading] = useState(false);
+  
 
   const handleChange = (e) => {
     console.log(e.target);
@@ -82,53 +84,53 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false);
       return;
     }
     if (timeZone == "") {
       setErr(true);
       setErrorMessage("TimeZone is required");
+      setIsLoading(false);
       return;
     }
 
-    if (err) {
-      return false;
-    } else {
-      console.log("Hello", err);
-      const dataString = {
-        url: name.trim(),
-        timeZone,
-        hideDate,
-        hiddenLocation,
-        deviceTime,
-        timeFormat: timeFormat.value,
-        roundCorner,
-        clockType,
-        color,
-        orientationMode
-      };
+    console.log("Hello", err);
+    const dataString = {
+      url: name.trim(),
+      timeZone,
+      hideDate,
+      hiddenLocation,
+      deviceTime,
+      timeFormat: timeFormat.value,
+      roundCorner,
+      clockType,
+      color,
+      orientationMode
+    };
 
-      if (actionType && actionType == "edit") {
-        await updateApps({
-          name:name.trim(),
-          appId: mediaId,
-          data: JSON.stringify(dataString),
-        });
-        setShowUrlApp(false);
-      } else {
-        await addApps({
-          name:name.trim(),
-          type: "clock-apps",
-          data: JSON.stringify(dataString),
-        });
-        handleClose(false);
-        setShowUrlRedirectApp(true);
-      }
+    if (actionType && actionType == "edit") {
+      await updateApps({
+        name:name.trim(),
+        appId: mediaId,
+        data: JSON.stringify(dataString),
+      });
+      setShowUrlApp(false);
+      setIsLoading(false);
+    } else {
+      await addApps({
+        name:name.trim(),
+        type: "clock-apps",
+        data: JSON.stringify(dataString),
+      });
+      handleClose(false);
+      setIsLoading(false);
+      setShowUrlRedirectApp(true);
     }
   };
   const handlePreview = () => {
@@ -422,6 +424,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App
               </Button>

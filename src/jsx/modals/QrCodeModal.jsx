@@ -26,6 +26,7 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageModalShow, setImageModalShow] = useState(false);
   const [previewData, setPreviewData] = useState(null)
+  const [isLoading, setIsLoading] = useState(false);
 
   const colorOptions = [
     { value: "lightYellow", label: "Light Yellow" },
@@ -53,28 +54,29 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false);
       return
     }if (urlLink.trim() == "") {
       setErr(true);
       setErrorMessage("URL Link is required");
+      setIsLoading(false);
       return
     } if (appTitle.trim() == "") {
       setErr(true);
       setErrorMessage("App Title is required");
+      setIsLoading(false);
       return
     } if (appDesc.trim() == "") {
       setErr(true);
       setErrorMessage("App Description is required");
+      setIsLoading(false);
       return
-    }
-    if (err) {
-      return false;
     }
     const dataString = {
       url: urlLink.trim(),
@@ -93,6 +95,7 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
+      setIsLoading(false);
     } else {
       await addApps({
         name:name.trim(),
@@ -100,6 +103,7 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         data: JSON.stringify(dataString),
       });
       handleClose(false);
+      setIsLoading(false);
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -342,6 +346,7 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App
               </Button>

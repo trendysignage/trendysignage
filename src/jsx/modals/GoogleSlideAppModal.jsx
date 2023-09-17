@@ -23,6 +23,7 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
   const [preview, setPreview] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [orientationMode, setOrientation] = useState("landscape");
+  const [isLoading, setIsLoading] = useState(false);
   const handleOpenPicker = () => {
     openPicker({
       clientId: "374562955931-mhli1rlb1kuhip30lhe58u0nht8bd2lg.apps.googleusercontent.com",
@@ -87,24 +88,22 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false);
       return
     }
 
     if(!fileURL){
       setErr(true);
       setErrorMessage("File URL is required");
+      setIsLoading(false);
       return
     }
-
-    if (err) {
-      return false;
-    } else {
       console.log("Hello", err);
       const dataString = {
         url: name.trim(),
@@ -120,6 +119,7 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
           data: JSON.stringify(dataString),
         });
         setShowUrlApp(false);
+        setIsLoading(false);
       } else {
         await addApps({
           name:name.trim(),
@@ -127,9 +127,9 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
           data: JSON.stringify(dataString),
         });
         handleClose(false);
+        setIsLoading(false);
         setShowUrlRedirectApp(true);
       }
-    }
   };
 
   const handleClose = (val) => {
@@ -359,6 +359,7 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App
               </Button>

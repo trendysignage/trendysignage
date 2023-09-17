@@ -42,6 +42,7 @@ const BulletinBoardAppModal = ({
   ];
   const [checked, setChecked] = useState(false);
   const [bulletin, setBulletin] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (nextChecked) => {
     setChecked(nextChecked);
@@ -113,16 +114,14 @@ const BulletinBoardAppModal = ({
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     setErr(false);
     setErrorMessage("");
     if (name == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false)
       return
-    }
-    if (err) {
-      return false;
     }
     const dataString = {
       url: name.trim(),
@@ -139,6 +138,7 @@ const BulletinBoardAppModal = ({
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
+      setIsLoading(false)
     } else {
       await addApps({
         name:name.trim(),
@@ -146,6 +146,7 @@ const BulletinBoardAppModal = ({
         data: JSON.stringify(dataString),
       });
       handleClose(false);
+      setIsLoading(false)
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -535,6 +536,7 @@ const BulletinBoardAppModal = ({
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App
               </Button>

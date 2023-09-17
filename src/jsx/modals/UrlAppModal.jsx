@@ -18,6 +18,7 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [urlLink, setUrlLink] = useState(""); 
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if(mediaData){
@@ -30,19 +31,20 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   },[mediaData])
   const handleCreateApp = async(e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if(name.trim() == ''){
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false);
+      return 
     }
     if(urlLink.trim() == ''){
       setErr(true);
       setErrorMessage("URL Link is required");
-    }
-    if(err){
-      return false;
+      setIsLoading(false);
+      return
     }
     const dataString = {
       url:urlLink.trim(),
@@ -64,7 +66,9 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         data:JSON.stringify(dataString)
       });
       //setShowUrlApp(false)
+
       handleClose(false)
+      setIsLoading(false);
       setShowUrlRedirectApp(true)
     }
     
@@ -169,6 +173,7 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == 'edit' ? 'Update' : 'Create'} App
                 

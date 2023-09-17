@@ -41,6 +41,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [orientationMode, setOrientation] = useState("landscape");
   const [weatherInfo, setWeatherInfo] = useState(null);
   const [aqiData, setAQIData]  = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (mediaData) {
@@ -63,12 +64,13 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     setErr(false);
     setErrorMessage("");
     if (name == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false)
       return;
     } else if (
       location.address == "" ||
@@ -77,6 +79,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     ) {
       setErr(true);
       setErrorMessage("Location is required");
+      setIsLoading(false)
       return;
     }
     const dataString = {
@@ -94,6 +97,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
+      setIsLoading(false)
     } else {
       await addApps({
         name:name.trim(),
@@ -101,6 +105,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         data: JSON.stringify(dataString),
       });
       handleClose(false);
+      setIsLoading(false)
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -342,6 +347,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App
               </Button>

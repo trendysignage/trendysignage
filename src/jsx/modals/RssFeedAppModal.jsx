@@ -42,6 +42,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [isRefresh, setIsRefresh] = useState(false); 
   const [orientationMode, setOrientation] = useState("landscape");
   const [previewData, setPreviewData] = useState(null)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     //rssParser();
@@ -58,16 +59,14 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false);
       return;
-    }
-    if (err) {
-      return false;
     }
     const dataString = {
       url: name.trim(),
@@ -92,7 +91,8 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         data: JSON.stringify(dataString),
       });
       //setShowUrlApp(false);
-      handleClose(false)
+      handleClose(false);
+      setIsLoading(false);
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -386,6 +386,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 variant=""
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
+                disabled={isLoading}
                 onClick={(e) => handleCreateApp(e)}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App

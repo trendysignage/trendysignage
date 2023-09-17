@@ -18,6 +18,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [isRefresh, setIsRefresh] = useState(false); 
   const [orientationMode, setOrientation] = useState("landscape");
   const [previewData, setPreviewData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (mediaData) {
@@ -33,19 +34,20 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false)
+      return
     }
     if (urlLink.trim() == "") {
       setErr(true);
       setErrorMessage("URL Link is required");
-    }
-    if (err) {
-      return false;
+      setIsLoading(false)
+      return
     }
     const dataString = {
       url: urlLink,
@@ -66,7 +68,8 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         data: JSON.stringify(dataString),
       });
       //setShowUrlApp(false);
-      handleClose(false)
+      handleClose(false);
+      setIsLoading(false);
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -230,6 +233,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 variant=""
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
+                disabled={isLoading}
                 onClick={(e) => handleCreateApp(e)}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App

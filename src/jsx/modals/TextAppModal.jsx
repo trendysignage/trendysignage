@@ -51,6 +51,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [tColor, setTextColor] = useState("#000000");
   const [backColor, setBackColor] = useState("#000000");
   const [mediaId, setMediaId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (mediaData) {
@@ -76,23 +77,21 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false);
       return;
     }
     if (content.trim() == "") {
       setErr(true);
       setErrorMessage("Content is required");
+      setIsLoading(false);
       return;
     }
-
-    if (err) {
-      return false;
-    } else {
       console.log("Hello", err);
       const dataString = {
         allign: allign.value,
@@ -113,6 +112,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
           appId: mediaId,
           data: JSON.stringify(dataString),
         });
+        setIsLoading(false);
         setShowUrlApp(false);
       } else {
         await addApps({
@@ -121,9 +121,9 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
           data: JSON.stringify(dataString),
         });
         setShowUrlApp(false);
+        setIsLoading(false);
         setShowUrlRedirectApp(true);
       }
-    }
   };
 
   const handleClose = (val) => {
@@ -368,6 +368,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == "edit" ? "Update" : "Create"} App
               </Button>
