@@ -4,8 +4,9 @@ import {
     saveTokenInLocalStorage,
     signUp
 } from '../../services/AuthService';
-import { login, register, otpVerification, getResetPassword, sentOtpAgain, socialLoginApi } from '../../utils/api';
 
+
+import { login, register, otpVerification, getResetPassword, sentOtpAgain, socialLoginApi } from '../../utils/api';
 export const SIGNUP_CONFIRMED_ACTION = '[signup action] confirmed signup';
 export const SIGNUP_FAILED_ACTION = '[signup action] failed signup';
 export const LOGIN_CONFIRMED_ACTION = '[login action] confirmed login';
@@ -58,6 +59,7 @@ export function loginAction(email, password, history) {
     return (dispatch) => {
         login(email, password)
             .then((response) => {
+                //response.data.data.vendor.isVerified = false;
                 const token = response.data.data;
                 saveTokenInLocalStorage(token);
                 dispatch(loginConfirmedAction(token));

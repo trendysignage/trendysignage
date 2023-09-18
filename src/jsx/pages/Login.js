@@ -176,7 +176,7 @@ function Login(props) {
             }}
         >
           <GoogleLoginButton />
-        </LoginSocialGoogle> */}
+          </LoginSocialGoogle> */}
           <div className="new-account add-new-account  text-center mt-2">
             <p className="mb-0">
               Don't have an account?{" "}

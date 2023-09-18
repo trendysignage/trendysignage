@@ -107,7 +107,8 @@ export async function validateScreenCode(code) {
     );
     return response.data.statusCode === 200;
   } catch (error) {
-    return false;
+    console.log("err", error?.response?.data)
+    return error?.response?.data;
   }
 }
 
