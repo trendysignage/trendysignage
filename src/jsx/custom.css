@@ -1,3 +1,23 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Montserrat:wght@100;300;500&family=Poppins&display=swap');
+  .fira-sans{
+    font-family: 'Fira Sans', sans-serif;
+
+  }
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Montserrat:wght@100;300;500&family=Poppins&display=swap');
+.roboto{
+  font-family: 'Montserrat', sans-serif;
+
+}
+  
+
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Manrope&family=Montserrat:wght@100;300;500&family=Poppins&display=swap');
+.manrope{
+  font-family: 'Manrope', sans-serif;
+}
+ 
 :root {
   --font-stack: "Barlow", sans-serif;
   --font-manrope: "Manrope", sans-serif;
@@ -1254,6 +1274,25 @@ height: 196px;
 .youtube-app-form-icon{
   background: rgba(255, 0, 0, 0.10);
 }
+.Bulletin-board-app-form-icon{
+  background: rgba(242, 214, 141, 0.13);
+}
+.google-slide-icon{
+  background: rgba(242, 214, 141, 0.13);
+}
+.quote-app-form-icon{
+  background: rgba(94, 91, 221, 0.10);
+}
+.model-info-h{
+font-weight: 600;
+}
+.google-slide-form{
+  color:#000
+}
+.google-slide-form li{
+ 
+  list-style: inside;
+}
 .youtube-info{
   padding: 20px;
   border-radius: 8px;
@@ -1397,9 +1436,8 @@ overflow: unset;
     width: 100%;
     height: 100%;
 }
-.orange{
-  background-color: #F99156;
-}
+
+
 .qr-app-container .qr-box{
   display: flex;
   width: calc(100% - 300px);
@@ -1436,7 +1474,287 @@ color: #000;
     width: fit-content;
     border-radius: 10px;
     }
+  .orange, .orangeUrl{
+    background-color: #F99156 !important;
+  }
+  .skyBlue, .skyBlueUrl{
+    background-color: #87CEEB !important;
+  }
+  
+  .lightYellow, .lightYellowUrl{
+    background-color: #f6f671 !important;
+  }
+    .clock-app{
+      width: 300px;
+      height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+   
 
+    }
+    .clock-app .clock{
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      margin-top: 0%;
+      background-color: #000;
+    }
+    .weather-app-bg{
+      /* background: url(../img/cloudy.svg) no-repeat center; */
+      background-color: rgba(0, 0, 0, 0.8);
+
+    }
+    .classic-bg{
+      /* background: linear-gradient(180deg, #0796C2 0%, #69D3F4 100%); */
+      background: url(../img/rainy1.svg);
+      background-position: bottom center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .border-bg{
+      border-radius: 20px;
+    }
+    .place-date-time{
+      padding: 100px 50px 100px 50px;
+    }
+    .place-date h1{
+      font-size: 50px;
+      font-weight: 400;
+      color: #fff;
+    }
+    .place-date p{
+      font-size: 20px;
+    }
+    .time p{
+      font-size: 20px;
+    }
+    .weather-app-bg .row h1{
+      font-size: 80px;
+      font-weight: 400;
+      color: #fff;
+    }
+    .weather-app-bg .row .temperature h2{
+      font-size: 40px;
+      font-weight: 400;
+      color: #fff;
+    }
+    .other-day-weather .day{
+      font-size: 20px;
+      margin-bottom: 0;
+    }
+    .other-day-weather  h2{
+      font-size: 30px;
+      font-weight: 400;
+      margin-bottom: 20px;
+      color: #fff;
+      margin-bottom: 0;
+    }
+    .temperature-box {
+      padding-left: 50px;
+    }
+.air-quality{
+  height: 250px;
+  width: 250px;
+  border: 15px solid rgb(212, 202, 47);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.air-quality h1{
+  font-size: 60px;
+  font-weight: 600;
+}
+.air-quality .moderate{
+  background-color: rgba(212, 202, 47, 0.2);
+    color: rgb(212, 202, 47);
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 6px;
+}
+.other-detail{
+  height: 50px;
+  width: 50px;
+}
+.justify-content-evenly{
+  flex-grow: 1;
+  justify-content: space-evenly;
+}
+.other-detail p{
+  font-size: 12px;
+}
+.other-detail h4{
+  font-size: 24px;
+}
+.gap-1{
+  gap: 1rem;
+}
+.bg-color-air-app{
+  background-color:  rgba(212, 202, 47, 1);
+  padding: 20px;
+}
+.air-quality-app-container{
+  border-radius: 10px;
+}
+.bulletin-action{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.bulletin-bg{
+  background-color: #F99156;
+}
+.single-bulletin-app{
+
+  width: 100%;
+  height: 100%;
+  /* margin: 0 2% 2% 2%; */
+  background: #fff;
+  color: #000;
+  border-radius: 10px;
+
+}
+.single-bulletin-text{
+  flex-grow: 1;
+  text-align: left;
+  padding-left: 25px;
+  padding-top: 20px;
+}
+.stock-table td{
+color: #fff;
+}
+.people-space img{
+cursor: pointer;
+}
+.people-space{
+  row-gap: 20px;
+}
+.people-space .title{
+  font-size: 18px;
+  color: #1A1A1A;
+  font-weight: 500;
+}
+.gap-2{
+  gap: 2rem;
+}
+.template-app-name label{
+color: #1A1A1A;
+font-weight: 500;
+font-size: 16px;
+
+}
+.template-app-name input{
+  color: #B3005E;
+  border-radius: 12px;
+border: 2px solid  #B3005E;
+font-weight: 500;
+}
+.template-add-content div{
+  border-radius: 20px;
+border: 1px solid #000;
+padding: 20px 60px;
+}
+.template-person-image{
+  border-radius: 50%;
+}
+.template-card{
+  border-radius: 20px;
+  border: 1.5px solid #1A1A1A;
+  padding: 20px;
+}
+.template-card h3{ 
+  color: #1A1A1A;
+    font-size: 22px;
+}
+.template-card p{ 
+  color: #1A1A1A;
+    font-size: 14px;
+    font-weight: 300;
+}
+.add-template div{
+  background-color: #F4F4F4;
+  padding: 0px 8px 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-template .add-btn-template{
+  font-size: 20px;
+  font-weight: 500;
+  padding-bottom: 0px !important;
+}
+.bulletin-table tr td{
+  border: 0;
+}
+.bulletin-table tr .bulletin-action{
+
+  height: 80px;
+}
+
+.news-app-bg{
+
+  background-color: white;
+  color:black !important;
+
+
+}
+.news-app-opacity{
+  background-color: #000;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+.news-app-bg-img::after{
+  content: "";
+  background: rgba(17, 19, 17, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.news-app-bg-img-bottom::after{
+  content: "";
+  background: rgba(17, 19, 17, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+}
+.blur-bg-news-app{
+ 
+  width: 90%;
+  height: 90%;
+  padding: 20px;
+
+  overflow: hidden;
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  background-color: rgba(76, 76, 76, .42);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, .125);
+  text-align: center;
+  z-index: 9;
+  color: #fff;
+  position: relative;
+}
+.protrait-rss{
+  display: flex;
+  justify-content: center;
+}
+.protrait-rss div{
+  min-width: 350px;
+}
 .checkbox-success .custom-control-input:checked ~ .custom-control-label::before{
   background-color: #b3005e !important;
     border-color: #b3005e !important;
@@ -1453,6 +1771,42 @@ color: #000;
   border: 1.7px solid #b3005e !important;
 }
 
+input[type="radio"]:before {
+  content: "";
+  display: block;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  bottom: 3px;
+  right: 2px;
+  border: 1.7px solid #b3005e;
+  border-radius: 100px;
+  background-color: #fff;}
+  .temp4-bg{
+    background: url(../img/temp4.svg);
+    background-position: center;
+  }
+  .temp2-bg{
+    background: url(../img/tem2.svg);
+    background-position: center;
+    background-size: cover;
+  }
+  .temp3-bg{
+    background: url(../img/temp3.svg);
+    background-position: center;
+    background-size: cover;
+  }
+  .temp5-bg{
+    background: url(../img/temp5.svg);
+    background-position: center;
+    background-size: cover;
+  }
+  .temp6-bg{
+    background: url(../img/temp6.svg);
+    background-position: center;
+    background-size: cover;
+  }
+  
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;
@@ -3245,6 +3599,18 @@ thead {
   border-color: rgb(255, 228, 148) !important;
 }
 
+.losers{
+  color : #fa1010 !important
+}
+.gainers{
+  color:#87e487 !important
+}
+
+.stockTd{
+  color:#fff !important;
+}
+
+
 
 @media (orientation: portrait) {
   .potrait-view .container-fluid {
@@ -3253,3 +3619,11 @@ thead {
 }
 }
  
+@keyframes example {
+  0%  {top:0px;}
+  100% {top:100px;}
+}
+
+.custModal{
+  z-index: 99 !important;
+}

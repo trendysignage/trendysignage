@@ -1,6 +1,9 @@
 import fetchClient from "./fetchClient";
 import axios from "axios";
 export const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+let Parser = require('rss-parser');
+
+
 
 export function login(email, password) {
   const role = "vendor";
@@ -493,24 +496,90 @@ export async function assignScreenProfile(postdata) {
   return response;
 }
 
-export async function getWeather(city) {
-  const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=19a9d73346ffb54dbd9cb4c652ef2bd7`)
-  .then(function (response) {
-      console.log("response",response)
-      return response.json()
-  }) 
-  .then(function (jsonData){
-      return jsonData
-  })
+export async function getWeather(lat, long) {
 
-  return resp;
+  const rapidHeader = {
+    headers: {
+      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
+      'X-RapidAPI-Host': 'open-weather13.p.rapidapi.com'
+    }
+  }
+  const response = await fetchClient.get(
+    `https://open-weather13.p.rapidapi.com/city/fivedaysforcast/${lat}/${long}`,rapidHeader
+  );
+  return response.data;
+
 }
+
+export async function getStock(type) {
+
+  const rapidHeader = {
+    headers: {
+      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
+      'X-RapidAPI-Host': 'stock-surge.p.rapidapi.com'
+    }
+  }
+  const response = await fetchClient.get(
+    `https://stock-surge.p.rapidapi.com/api/v1/performance/${type}`,rapidHeader
+  );
+  return response.data;
+
+}
+
+export async function getQuotes(formData) {
+
+  const rapidHeader = {
+    headers: {
+      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
+      'X-RapidAPI-Host': 'andruxnet-random-famous-quotes.p.rapidapi.com'
+    }
+  }
+  const response = await fetchClient.get(
+    `https://andruxnet-random-famous-quotes.p.rapidapi.com?cat=${formData.cat}&count=${formData.count}`, rapidHeader
+  );
+  return response.data;
+
+}
+
+export async function getNews(keyword) {
+
+  const rapidHeader = {
+    headers: {
+      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
+      'X-RapidAPI-Host': 'google-news13.p.rapidapi.com'
+    }
+  }
+  const response = await fetchClient.get(
+    `https://google-news13.p.rapidapi.com/search?keyword=${keyword}&lr:`, rapidHeader
+  );
+  return response.data;
+
+}
+
 export async function getAllMediaFilter() {
-  const response = await fetchClient.get(BASE_URL + `/vendor/display/media?limit=100`);
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/display/media?limit=100`
+  );
+  return response.data.data.media;
+}
+
+export async function getAllMediaDetail(id) {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/display/media/detail?mediaId=${id}`
+  );
   return response.data.data.media;
 }
 
 
 export function getPermission() {
   return fetchClient.get(BASE_URL + `/vendor/profile/vendorRole`);
+}
+
+export async function rssParser() {
+  
+  let parser = new Parser();
+  let feed = await parser.parseURL('https://www.reddit.com/.rss');
+  console.log("feed",feed);
+
+
 }

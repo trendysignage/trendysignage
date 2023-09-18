@@ -18,8 +18,8 @@ import Profile from "./profile";
 import AddDeviceProfile from "../../modals/AddDeviceProfile";
 import ChangePassword from "../../modals/ChangePassword";
 
-const Settings = ({permission}) => {
-  console.log("permission",permission)
+const Settings = ({ permission }) => {
+  console.log("permission", permission);
   const [dropValue, setDropValue] = useState("Default Content");
   const [allUsers, setAllUsers] = useState([]);
   const [allGroups, setAllGroups] = useState([]);
@@ -119,6 +119,10 @@ const Settings = ({permission}) => {
         setShowProfileModel={setShowProfileModel}
         setIsRefresh={setIsRefresh}
         loading={loading}
+      />
+      <ChangePassword
+        setShowModel={() => setShowModal(false)}
+        show={showModal}
       />
       <div
         className="custom-content-heading d-flex flex-wrap"
@@ -256,8 +260,8 @@ const Settings = ({permission}) => {
 
 const mapStateToProps = (state) => {
   return {
-      auth: state.auth.auth,
-      permission : state.auth.permission
+    auth: state.auth.auth,
+    permission: state.auth.permission,
   };
 };
 export default connect(mapStateToProps)(Settings);

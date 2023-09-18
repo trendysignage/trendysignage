@@ -13,6 +13,9 @@ import StocksAppModal from "../../../modals/StocksAppModal";
 import BulletinBoardAppModal from "../../../modals/BulletinBoardAppModal";
 import RssFeedAppModal from "../../../modals/RssFeedAppModal";
 import AirQualityAppModal from "../../../modals/AirQualityAppModal";
+import QuoteModel from "../../../modals/QuoteModel";
+import AllNewsAppModal from "../../../modals/AllNewsAppModal";
+import GoogleSlideAppModal from "../../../modals/GoogleSlideAppModal";
 
 const CompositionTable = ({ allMedia, addComposition }) => {
   const [showUrlApp, setShowUrlApp] = useState(false);
@@ -27,6 +30,9 @@ const CompositionTable = ({ allMedia, addComposition }) => {
   const [showQrCodeApp, setShowQrCodeApp] = useState(false);
   const [showRssApp, setShowRssApp] = useState(false)
   const [showAqiApp, setShowAqiApp] = useState(false)
+  const [showQuote, setShowQuote] = useState(false)
+  const [showNews, setShowNews] = useState(false);
+  const [showGoogleSlides, setShowGoogleSlides] = useState(false);
 
   const videoMetaDuration = (media) => {
     const properties = JSON.parse(media?.properties);
@@ -72,6 +78,15 @@ const CompositionTable = ({ allMedia, addComposition }) => {
     else if(data.type == "aqi-apps"){
       setShowAqiApp(true)
     }
+    else if(data.type == "quote-apps"){
+      setShowQuote(true)
+    }
+    else if(data.type == "news-apps"){
+      setShowNews(true)
+    }
+    else if(data.type == "google-apps"){
+      setShowGoogleSlides(true)
+    }
   };
 
   return (
@@ -85,6 +100,12 @@ const CompositionTable = ({ allMedia, addComposition }) => {
       <YoutubeAppModal
         setShowUrlApp={() => setShowYoutubeApp(false)}
         show={showYoutubeApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <AllNewsAppModal
+        setShowUrlApp={() => setShowNews(false)}
+        show={showNews}
         mediaData={selectedMedia}
         actionType={"edit"}
       />
@@ -139,6 +160,18 @@ const CompositionTable = ({ allMedia, addComposition }) => {
       <AirQualityAppModal 
         setShowUrlApp={() => setShowAqiApp(false)}
         show={showAqiApp}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <QuoteModel 
+        setShowUrlApp={() => setShowQuote(false)}
+        show={showQuote}
+        mediaData={selectedMedia}
+        actionType={"edit"}
+      />
+      <GoogleSlideAppModal 
+        setShowUrlApp={() => setShowGoogleSlides(false)}
+        show={showGoogleSlides}
         mediaData={selectedMedia}
         actionType={"edit"}
       />
@@ -209,6 +242,10 @@ const CompositionTable = ({ allMedia, addComposition }) => {
                       media.type == "rss-apps" ||
                       media.type == "aqi-apps" ||
                       media.type == "bulletin-apps" ||
+                      media.type == "quote-apps" ||
+                      media.type == "news-apps" ||
+                      media.type == "google-apps" ||
+                      media.type == "people-apps" ||
                       media.type == "stocks-apps" ? (
                         // <button
                         //   onClick={(e) => {

@@ -13,9 +13,9 @@ import {
   LoginSocialGoogle,
   IResolveParams
 } from 'reactjs-social-login';
-import {
-  GoogleLoginButton
-} from 'react-social-login-buttons';
+// import {
+//   GoogleLoginButton
+// } from 'react-social-login-buttons';
 import logo from "../../img/logo.png";
 import eyeOff from "../../img/eye-off.svg";
 import googleIcon from "../../img/google-icon.png";

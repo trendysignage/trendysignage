@@ -18,6 +18,7 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [urlLink, setUrlLink] = useState(""); 
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if(mediaData){
@@ -30,28 +31,29 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   },[mediaData])
   const handleCreateApp = async(e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
-    if(name == ''){
+    if(name.trim() == ''){
       setErr(true);
       setErrorMessage("App Name is required");
+      setIsLoading(false);
+      return 
     }
-    if(urlLink == ''){
+    if(urlLink.trim() == ''){
       setErr(true);
       setErrorMessage("URL Link is required");
-    }
-    if(err){
-      return false;
+      setIsLoading(false);
+      return
     }
     const dataString = {
-      url:urlLink,
+      url:urlLink.trim(),
       cache:selectedOption.value
     }
     
     if(actionType && actionType == 'edit'){
       await updateApps({
-        name,
+        name:name.trim(),
         //type:'url-apps',
         appId:mediaId,
         data:JSON.stringify(dataString)
@@ -59,16 +61,27 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setShowUrlApp(false)
     }else{
       await addApps({
-        name,
+        name:name.trim(),
         type:'url-apps',
         data:JSON.stringify(dataString)
       });
-      setShowUrlApp(false)
+      //setShowUrlApp(false)
+
+      handleClose(false)
+      setIsLoading(false);
       setShowUrlRedirectApp(true)
     }
     
     //console.log(name, urlLink, selectedOption)
   }
+
+  const handleClose = (val) => {
+    setSelectedOption({value: "disable", label: "disable"});
+    setName("");
+    setUrlLink('');
+    setShowUrlApp(val)
+  }
+
   return (
     <>
       <Modal
@@ -84,7 +97,7 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Button
             variant=""
             className="close"
-            onClick={() => setShowUrlApp(false)}
+            onClick={(e) => {e.preventDefault(); handleClose(false)}}
           >
             <img
               className="cancel-icon"
@@ -147,7 +160,10 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100"
+                variant="outline-light"
+                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+              >
                 Cancel
               </Button>
             </Col>
@@ -157,6 +173,7 @@ const UrlAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
                 onClick={(e) => handleCreateApp(e)}
+                disabled={isLoading}
               >
                 {actionType && actionType == 'edit' ? 'Update' : 'Create'} App
                 

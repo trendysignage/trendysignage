@@ -1,9 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 
 import WebVideoPlayer from "./WebVideoPlayer";
 import ReactPlayer from "react-player";
 import Iframe from "react-iframe";
-import { BASE_URL } from "../../../utils/api";
+import { BASE_URL, getWeather,getStock, getQuotes, getNews} from "../../../utils/api";
 import {
   handleBulletinApps,
   handleScrollerApps,
@@ -13,6 +13,10 @@ import {
   handleQrApps,
   handleRssApps,
   handleAqiApps,
+  handleStockApps,
+  handleQuoteApps,
+  handleNewsApps,
+  handleGoogleApps
 } from "../../../utils/UtilsService";
 
 const Zone2 = ({
@@ -22,6 +26,177 @@ const Zone2 = ({
   current2Index,
   viewImage,
 }) => {
+  const [weatherInfo1, setWeatherInfo1] = useState(null);
+  const [weatherInfo2, setWeatherInfo2] = useState(null);
+  const [stock, setStock] = useState(null);
+  const [stock2, setStock2] = useState(null);
+  const [quotes, setQuotes] = useState(null);
+  const [quotes2, setQuotes2] = useState(null);
+  const [news, setNews] = useState(null);
+  const [news2, setNews2] = useState(null);
+
+  const getStockDetail = async(lat, long) => {
+    const locationData  = await getStock(lat, long);
+    setStock(locationData)
+  }
+  const getStockDetail2 = async(lat, long) => {
+    const locationData  = await getStock(lat, long);
+    setStock2(locationData)
+  }
+
+  const getNewsDetail = async(data) => {
+    const locationData  = await getNews(data);
+    setNews(locationData)
+  }
+  const getNewsDetail2 = async(data) => {
+    const locationData  = await getNews(data);
+    setNews2(locationData)
+  }
+
+  const getQuotesDetail = async(data) => {
+    const locationData  = await getQuotes(data);
+    setQuotes(locationData)
+  }
+  const getQuotesDetail2 = async(data) => {
+    const locationData  = await getQuotes(data);
+    setQuotes2(locationData)
+  }
+
+  const getWeatherDetail1 = async(lat, long, index) => {
+    const locationData  = await getWeather(lat, long);
+    setWeatherInfo1(locationData);
+  }
+  const getWeatherDetail2 = async(lat, long) => {
+    const locationData  = await getWeather(lat, long);
+    setWeatherInfo2(locationData)
+   // console.log('getLocation', locationData);
+  }
+
+  const getWeatherDataZone1 = (data, index) => {
+    const prp = JSON.parse(data);
+    
+    if(!weatherInfo1){
+      //console.log("Hi",prp.location.longitude.toFixed(2), weatherInfo1.city.coord.lon.toFixed(2));
+      getWeatherDetail1(prp.location.latitude, prp.location.longitude, index);
+    }
+    return handleWeatherApps(data, weatherInfo1);
+    
+  }
+  const getWeatherDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!weatherInfo2){
+      console.log("Hello Weather Calling")
+      getWeatherDetail2(prp.location.latitude, prp.location.longitude);
+    }
+    return handleWeatherApps(data, weatherInfo2);
+    
+  }
+
+  const getAqiDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+    
+    if(!weatherInfo1){
+      getWeatherDetail1(prp.location.latitude, prp.location.longitude);
+    }
+    return handleAqiApps(data, weatherInfo1);
+    
+  }
+  const getAqiDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!weatherInfo2){
+      getWeatherDetail2(prp.location.latitude, prp.location.longitude);
+    }
+    return handleAqiApps(data, weatherInfo2);
+    
+  }
+
+  const getStockDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+    console.log("location",prp)
+    let stockType = 'gainers';
+    if(prp.stockType === '"Day Losers"'){
+      stockType = 'losers'
+    }else if(prp.stockType === 'Most Actives'){
+      stockType = 'actives';
+    }
+
+    if(!stock){
+      console.log("Hello Stock Calling")
+      getStockDetail(stockType);
+    }
+    return handleStockApps(data, stock);
+    
+  }
+
+  const getStockDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+    console.log("location",prp)
+    let stockType = 'gainers';
+    if(prp.stockType === '"Day Losers"'){
+      stockType = 'losers'
+    }else if(prp.stockType === 'Most Actives'){
+      stockType = 'actives';
+    }
+
+    if(!stock2){
+      console.log("Hello Stock Calling")
+      getStockDetail2(stockType);
+    }
+    return handleStockApps(data, stock2);
+    
+  }
+
+  const getQuoteDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!quotes){
+      const prms = {
+        cat: 'famous',
+        count: '10'
+      }
+      console.log("Hello Quote Calling")
+      getQuotesDetail(prms);
+    }
+    return handleQuoteApps(data, quotes);
+    
+  }
+  const getQuoteDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!quotes2){
+      const prms = {
+        cat: 'famous',
+        count: '10'
+      }
+      console.log("Hello Quote Calling")
+      getQuotesDetail2(prms);
+    }
+    return handleQuoteApps(data, quotes2);
+    
+  }
+
+  const getNewsDataZone1 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!news){
+      getNewsDetail(prp.topic.value);
+    }
+    return handleNewsApps(data, news);
+    
+  }
+
+  const getNewsDataZone2 = (data) => {
+    const prp = JSON.parse(data);
+
+    if(!news2){
+      getNewsDetail2(prp.topic.value);
+    }
+    return handleNewsApps(data, news2);
+    
+  }
+
   return (
     <>
       {" "}
@@ -120,8 +295,8 @@ const Zone2 = ({
                 ) : contents.zones[0].content[currentIndex].type ===
                   "weather-apps" ? (
                   <>
-                    {handleWeatherApps(
-                      contents.zones[0].content[currentIndex].data
+                    {getWeatherDataZone1(
+                      contents.zones[0].content[currentIndex].data, currentIndex
                     )}
                   </>
                 ) : contents.zones[0].content[currentIndex].type ===
@@ -134,11 +309,32 @@ const Zone2 = ({
                 ) : contents.zones[0].content[currentIndex].type ===
                   "aqi-apps" ? (
                   <>
-                    {handleAqiApps(
+                    {getAqiDataZone1(
                       contents.zones[0].content[currentIndex].data
                     )}
                   </>
-                ) : (
+                ) :contents.zones[0].content[currentIndex].type ===
+                  "news-apps" ? (
+                  <>
+                    {getNewsDataZone1(contents.zones[0].content[currentIndex].data)}
+                  </>
+                ): contents.zones[0].content[currentIndex].type ===
+                "google-apps" ? (
+                <>
+                  {handleGoogleApps(contents.zones[0].content[currentIndex].data)}
+                </>
+                ) :contents.zones[1].content[current1Index].type ===
+                "stocks-apps" ? (
+                <>
+                  {getStockDataZone1(contents.zones[0].content[current1Index].data)}
+                </>
+                ) :contents.zones[0].content[currentIndex].type ===
+                  "quote-apps" ? (
+                  <>
+                    {getQuoteDataZone1(contents.zones[0].content[currentIndex].data)}
+                  </>
+                ):
+                 (
                   <></>
                 )}
               </>
@@ -236,7 +432,7 @@ const Zone2 = ({
                 ) : contents.zones[1].content[current1Index].type ===
                   "weather-apps" ? (
                   <>
-                    {handleWeatherApps(
+                    {getWeatherDataZone2(
                       contents.zones[1].content[current1Index].data
                     )}
                   </>
@@ -257,11 +453,31 @@ const Zone2 = ({
                 ) : contents.zones[1].content[current1Index].type ===
                   "aqi-apps" ? (
                   <>
-                    {handleAqiApps(
+                    {getAqiDataZone2(
                       contents.zones[1].content[current1Index].data
                     )}
                   </>
-                ) : (
+                ) :contents.zones[1].content[current1Index].type ===
+                  "stocks-apps" ? (
+                  <>
+                    {getStockDataZone2(contents.zones[1].content[current1Index].data)}
+                  </>
+                ) : contents.zones[1].content[currentIndex].type ===
+                "google-apps" ? (
+                <>
+                  {handleGoogleApps(contents.zones[1].content[current1Index].data)}
+                </>
+                ) :contents.zones[1].content[current1Index].type ===
+                  "news-apps" ? (
+                  <>
+                    {getNewsDataZone2(contents.zones[1].content[current1Index].data)}
+                  </>
+                ):contents.zones[1].content[currentIndex].type ===
+                  "quote-apps" ? (
+                  <>
+                    {getQuoteDataZone2(contents.zones[1].content[current1Index].data)}
+                  </>
+                ): (
                   <></>
                 )}
               </>
