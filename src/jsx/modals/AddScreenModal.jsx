@@ -36,11 +36,13 @@ const AddScreenModal = ({ setShowScreenModal, callAllScreenApi }) => {
         return false;
       }
       const validateCode =  await validateScreenCode(code)
-      if(validateCode){
-        setStep(2);
-      } else {
+      console.log("dsd", validateCode)
+      if(validateCode && validateCode.statusCode == 400 ){
         setCodeError(true)
-        setShowError("Invalid registration code!")
+        //setShowError("Invalid registration code!")
+        setShowError(validateCode?.message)
+      } else {
+        setStep(2);
       }
       return;
     }
