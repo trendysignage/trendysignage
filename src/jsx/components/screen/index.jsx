@@ -8,8 +8,9 @@ import listIcon from "../../../img/list-icon.png";
 import { getAllScreens } from "../../../utils/api";
 import LockScreen from "../../pages/LockScreen";
 import { connect } from 'react-redux';
+import { toast } from "react-toastify";
 
-const Screen = ({userPermission}) => {
+const Screen = ({userPermission,auth}) => {
   console.log("userPermission", userPermission)
   const [showScreenModal, setShowScreenModal] = useState(false);
   const [showFilterModal, setFilterModal] = useState(false);
@@ -22,6 +23,24 @@ const Screen = ({userPermission}) => {
     const list = await getAllScreens();
     setAllScreens(list);
   };
+
+  const handleShowScreens = (e) => {
+    e.preventDefault();
+    if(allScreens && allScreens.length >= auth.vendor.totalScreens){
+      return toast.error("Please contact Trendy Administrator or email info@frontline.sa", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }else{
+      setShowScreenModal(true);
+    }
+  }
   return (
     <>
       <div className="custom-content-heading d-flex flex-wrap">
@@ -34,8 +53,8 @@ const Screen = ({userPermission}) => {
           <Button
             className="mr-2"
             variant="info add-screen-btn"
-            onClick={() => {
-              setShowScreenModal(true);
+            onClick={(e) => {
+              handleShowScreens(e);
             }}
           >
             Add New Screen
@@ -49,7 +68,7 @@ const Screen = ({userPermission}) => {
             variant="info add-screen-btn"
             disabled
           >
-            Add New Screen
+            Add New Screen 
             <span className="btn-icon-right">
               <div class="glyph-icon flaticon-381-lock-1"></div>
             </span>
@@ -101,7 +120,8 @@ const Screen = ({userPermission}) => {
 
 const mapStateToProps = (state) => {
   return {
-      userPermission : state.auth.permission
+      userPermission : state.auth.permission,
+      auth           : state.auth.auth
   };
 };
 export default connect(mapStateToProps)(Screen);
