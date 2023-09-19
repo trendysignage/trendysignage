@@ -23,7 +23,7 @@ function Verification(props) {
   const [image, setImage] = useState("");
   const [validCode, setValidCode] = useState("");
   const [isCodeValid, setIsCodeValid] = useState(null);
-  const [secret, setSecret] = useState(speakeasy.generateSecret());
+  const [secret, setSecret] = useState(speakeasy.generateSecret({name: 'Trendy'}));
 
   const dispatch = useDispatch();
 
