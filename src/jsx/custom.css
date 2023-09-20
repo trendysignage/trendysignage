@@ -1451,8 +1451,8 @@ overflow: unset;
     justify-content: center;
     flex-wrap: wrap;
     gap: 3rem;
-    width: fit-content;
-    height: auto;
+    /* width: fit-content;
+    height: auto; */
 }
 .qr-app-container .qr-box .qr{
   border: 5px solid #000;

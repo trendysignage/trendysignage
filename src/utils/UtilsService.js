@@ -214,6 +214,7 @@ export const handleBulletinApps = (data) => {
                   className="h-100"
                 >
                   {newArray.map((item, i) => {
+                    console.log(item, "kk");
                     return (
                       <div className="h-100">
                         <div className="row h-100">
@@ -418,24 +419,31 @@ export const handleClockApps = (data) => {
   ) {
     return (
       <div
-        className={`basic-list-group image-preview-container media-content ${
+        className={`basic-list-group image-preview-container media-content d-flex justify-content-center align-items-center ${
           prp.color
         } ${prp.roundCorner ? "border-bg" : ""}`}
-        style={{ fontSize: "50px", color: "#000", textAlign: "center" }}
+        style={{
+          fontSize: "50px",
+          color: "#000",
+          textAlign: "center",
+          backgroundColor: "#FFEC40",
+        }}
         // border-bg
       >
-        <div style={{ position: "relative", paddingTop: "20px" }}>
-          <Clock />
+        <div>
+          <div style={{ position: "relative", paddingTop: "20px" }}>
+            <Clock />
+          </div>
+          {!prp.hideDate ? (
+            <p
+              style={{ fontSize: "20px", marginTop: "20px" }}
+            >{`${cdate.getDate()} ${monthName[cdate.getDay()]} ${
+              dayName[cdate.getDay()]
+            } Indian Standard Time`}</p>
+          ) : (
+            ""
+          )}
         </div>
-        {!prp.hideDate ? (
-          <p
-            style={{ fontSize: "20px", marginTop: "20px" }}
-          >{`${cdate.getDate()} ${monthName[cdate.getDay()]} ${
-            dayName[cdate.getDay()]
-          } Indian Standard Time`}</p>
-        ) : (
-          ""
-        )}
       </div>
     );
   } else {
@@ -447,10 +455,15 @@ export const handleClockApps = (data) => {
 
     return (
       <div
-        className={`basic-list-group image-preview-container media-content ${
+        className={`basic-list-group image-preview-container media-content  d-flex justify-content-center align-items-center ${
           prp.color
         } ${prp.roundCorner ? "border-bg" : ""}`}
-        style={{ fontSize: "100px", color: "#000", textAlign: "center" }}
+        style={{
+          fontSize: "100px",
+          color: "#000",
+          textAlign: "center",
+          backgroundColor: "#FFEC40",
+        }}
       >
         {console.log("tf", tF, date_chicago)}
         <Moment format={tF} date={date_chicago} locale={"fr"} />
@@ -594,16 +607,24 @@ export const handleQrApps = (data) => {
         </div>
         <div className="text">
           {prp.image && prp.image !== undefined ? (
-            <img style={{ width: "200px" }} src={BASE_URL + prp.image} />
+            <img
+              style={{ width: "150px", marginTop: "10px" }}
+              src={BASE_URL + prp.image}
+            />
           ) : (
             ""
           )}
           <h3>{prp.appTitle}</h3>
-          <p className="mb-3">{prp.appTitle}</p>
+          <p className="mb-3">
+            {" "}
+            {prp.appDesc?.length > 45
+              ? prp.appDesc.slice(0, 45) + "..."
+              : prp.appDesc}
+          </p>
           <p
             className={`mb-0 url ${prp.color ? prp.color.value : "orange"}Url`}
           >
-            {prp.appDesc}
+            {prp.url?.length > 45 ? prp.url.slice(0, 45) + "..." : prp.url}
           </p>
         </div>
       </div>
@@ -1541,22 +1562,41 @@ export const handleStockApps = (data, stock) => {
               stock.map((item, index) => {
                 return (
                   index < 10 && (
-                    <tr>
-                      <td className="stockTd">{item.ticker}</td>
-                      <td className="stockTd">{item.price}</td>
+                    <tr className="text-center">
+                      <td className="stockTd text-center">{item.ticker}</td>
+                      <td className="stockTd  text-center">{item.price}</td>
                       <td
-                        className={`${item.changes < 0 ? "losers" : "gainers"}`}
+                        className={`${
+                          item.changes < 0
+                            ? "losers  text-center"
+                            : "gainers  text-center"
+                        }`}
                       >
                         {item.changesPercentage}
                       </td>
                       {prp.isPriceChange ? (
-                        <td className="stockTd">{item.changes} %</td>
+                        <td className="stockTd  text-center">
+                          {item.changes} %
+                        </td>
                       ) : (
                         ""
                       )}
-                      {prp.volume ? <td>--</td> : ""}
-                      {prp.isHigh ? <td>--</td> : ""}
-                      {prp.isLow ? <td>--</td> : ""}
+
+                      {prp.volume ? (
+                        <td className="text-white  text-center">--</td>
+                      ) : (
+                        ""
+                      )}
+                      {prp.isHigh ? (
+                        <td className="text-white  text-center">--</td>
+                      ) : (
+                        ""
+                      )}
+                      {prp.isLow ? (
+                        <td className="text-white  text-center">--</td>
+                      ) : (
+                        ""
+                      )}
                     </tr>
                   )
                 );
