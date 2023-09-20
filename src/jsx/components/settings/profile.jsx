@@ -8,7 +8,6 @@ import { humanReadableFormattedDateString } from "../../../utils/UtilsService";
 import { toast } from "react-toastify";
 import AddDeviceProfile from "../../modals/AddDeviceProfile";
 import SelectScreenModal from "../../modals/SelectScreenModal";
-import Datatable from "react-data-table-component";
 import Box from '@mui/material/Box';
 
 import { DataGrid, GridToolbarExport,
