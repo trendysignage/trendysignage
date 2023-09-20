@@ -43,7 +43,7 @@ import reportsList from "./components/reports/reportsList";
 import ReportsList from "./components/reports/reportsList";
 import PeopleSpace from "./components/integrations/PeopleSpace";
 import Createtemplate from "./components/integrations/Createtemplate";
-import Verification from "./pages/Verification";
+import Verification from "./pages/VerificationBkp";
 import LockScreen from "./pages/LockScreen"
 
 const Markup = () => {

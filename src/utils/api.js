@@ -44,6 +44,16 @@ export async function otpVerification(otp) {
   return response.data.data;
 }
 
+export async function mfaEnablePost(mfa) {
+  const response = await fetchClient.post(BASE_URL + `/vendor/auth/verifyOtp`,mfa);
+  return response.data.data;
+}
+
+export async function verification2fa(otp) {
+  const response = await fetchClient.post(BASE_URL + `/vendor/auth/verifyOtp`,otp);
+  return response.data.data;
+}
+
 
 export async function sentOtpAgain() {
   const response = await fetchClient.post(BASE_URL + `/vendor/auth/resendOtp`);

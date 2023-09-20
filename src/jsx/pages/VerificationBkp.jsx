@@ -11,8 +11,11 @@ import {
  clearErrors,
  logout
 } from "../../store/actions/AuthActions";
+import { Button } from "react-bootstrap";
 //
 import logo from "../../img/logo.png";
+import googleIcon from "../../img/google-icon.png";
+import { authenticator } from 'otplib';
 import crypto from 'crypto';
 import base32Decode from 'base32-decode';
 import base32Encode from 'base32-encode';
@@ -23,9 +26,29 @@ function Verification(props) {
   let errorsObj = { email: "", password: "" };
   const [errors, setErrors] = useState(errorsObj);
   const [image, setImage] = useState("");
+  const [validCode, setValidCode] = useState("");
+  const [isCodeValid, setIsCodeValid] = useState(null);
   const [secret, setSecret] = useState(speakeasy.generateSecret({name: 'Trendy'}));
   const [mfaSecret, setMfaSecret] = useState(null)
+
   const dispatch = useDispatch();
+
+  function onLogin(e) {
+    e.preventDefault();
+    let error = false;
+    const errorObj = { ...errorsObj };
+    if (otp === "") {
+      errorObj.otp = "OTP is Required";
+      error = true;
+    }
+    setErrors(errorObj);
+    if (error) {
+      return;
+    }
+    // dispatch(loadingToggleAction(true));
+    dispatch(verification(otp, props.history));
+  }
+
   const generateHOTP = (secret, counter) =>  {
     const decodedSecret = base32Decode(secret, 'RFC4648');
   
@@ -57,6 +80,16 @@ function Verification(props) {
     return generateHOTP(secret, counter + window);
   }
 
+  const sendOtpAgain = (e) => {
+    e.preventDefault();
+    dispatch(resendOtp(props.history));
+  }
+
+  const handleLoginAgain = (e) => {
+    e.preventDefault();
+    dispatch(logout(props.history));
+  }
+
   const getSecret = async () => {
     console.log("auth", props.auth.vendor.mfa)
     const buffer = await util.promisify(crypto.randomBytes)(14);
@@ -77,6 +110,16 @@ function Verification(props) {
     //   setImage(image_data);
     // });
   }
+
+  const getCode = async () => {
+  
+    const code = speakeasy.totp({
+      secret: secret.hex,
+      encoding: "hex",
+      algorithm: "sha1"
+    });
+    setValidCode(code);
+  };
 
   const verifyCode = (e) => {
     e.preventDefault();
@@ -170,7 +213,18 @@ function Verification(props) {
                     <div className="text-danger fs-12">{errors.otp}</div>
                 )}
                 </div>
+                {/* <div className="recover-password d-flex justify-content-end">
+                    <Button className="revover-password" onClick={(e) => {sendOtpAgain(e)}}>
+                        Resend OTP
+                    </Button>
+                </div> */}
                 <div className="text-center">
+                {/* <button
+                    type="submit"
+                    className="btn btn-primary btn-block btn-pink"
+                >
+                    Verifiy
+                </button> */}
                 <button
                     type="button"
                     className="btn btn-primary btn-block btn-pink"
@@ -180,6 +234,18 @@ function Verification(props) {
                 </button>
                 </div>
             </form>
+            {/* <div className="new-account add-new-account  text-center mt-2">
+                <p className="mb-0">
+                Change your email?{" "}
+                <Button className="signup-link" onClick={(e) => handleLoginAgain(e)}>
+                    Sign up
+                </Button>
+                </p>
+            </div> */}
+
+            {/* <Button className='btn-google-signin' variant='outline-primary'>
+            <img src={googleIcon} alt="" className="logo-icon mr-2"/> <span>Sign in with Google</span>
+            </Button> */}
             </div>
             </div>
           </div>

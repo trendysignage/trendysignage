@@ -14,7 +14,7 @@ import Webplayer from './jsx/components/web-player';
 import Layout from './jsx/components/layout/Layout';
 import PushScreen from './jsx/components/push/PushScreen';
 import Error404 from './jsx/pages/Error404';
-import Verification from './jsx/pages/Verification';
+import Verification from './jsx/pages/VerificationBkp';
 // import { socket } from './utils/socket';
 
 
