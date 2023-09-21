@@ -64,90 +64,103 @@ const ListScreen = ({ allScreens, userPermission }) => {
   const renderAction = (params) => {
     const { value } = params;
     return (
-      <Dropdown className="dropdown-toggle-menu">
-        <Dropdown.Toggle variant="" className="p-0  mb-2">
-          <span className="table-menu-icon">
-            <img
-              className="menu-img img-fluid"
-              src={menuIcon}
-              alt="menu-icon"
-            />
-          </span>
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item
-            href="#"
-            className="dropdown-list-item"
-            disabled={userPermission && !userPermission.permission.SCREEN.view}
-          >
-            <Link
-              to={{
-                pathname: `/display/${value._id}`,
+      <div style={{ zIndex: "100" }}>
+        <Dropdown
+          className="dropdown-toggle-menu"
+
+          // style={{ position: "relative", top: "100%" }}
+        >
+          <Dropdown.Toggle variant="" className="p-0  mb-2">
+            <span className="table-menu-icon">
+              <img
+                className="menu-img img-fluid"
+                src={menuIcon}
+                alt="menu-icon"
+              />
+            </span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu style={{ zIndex: 10000 }}>
+            <Dropdown.Item
+              href="#"
+              className="dropdown-list-item"
+              disabled={
+                userPermission && !userPermission.permission.SCREEN.view
+              }
+            >
+              <Link
+                to={{
+                  pathname: `/display/${value._id}`,
+                }}
+              >
+                <div className="d-flex">
+                  <div className="dropdown-list-icon">
+                    <img
+                      className="dropdown-list-img img-fluid"
+                      src={veiwDetailIcon}
+                      alt="menu-icon"
+                    />
+                  </div>
+                  <div className="dropdown-menu-list">
+                    <span className="menu-heading">View Details</span>
+                    <span className="menu-description">
+                      Get to know more about screen info
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                setShowPublishPopUp(true);
+                setSelectedScreen(value._id);
               }}
+              disabled={
+                userPermission && !userPermission.permission.SCREEN.edit
+              }
+              className="dropdown-list-item"
             >
               <div className="d-flex">
                 <div className="dropdown-list-icon">
                   <img
                     className="dropdown-list-img img-fluid"
-                    src={veiwDetailIcon}
+                    src={defaultComparisonIcon}
                     alt="menu-icon"
                   />
                 </div>
                 <div className="dropdown-menu-list">
-                  <span className="menu-heading">View Details</span>
+                  <span className="menu-heading">
+                    Change Default Composition
+                  </span>
                   <span className="menu-description">
                     Get to know more about screen info
                   </span>
                 </div>
               </div>
-            </Link>
-          </Dropdown.Item>
-          <Dropdown.Item
-            onClick={() => {
-              setShowPublishPopUp(true);
-              setSelectedScreen(value._id);
-            }}
-            disabled={userPermission && !userPermission.permission.SCREEN.edit}
-            className="dropdown-list-item"
-          >
-            <div className="d-flex">
-              <div className="dropdown-list-icon">
-                <img
-                  className="dropdown-list-img img-fluid"
-                  src={defaultComparisonIcon}
-                  alt="menu-icon"
-                />
+            </Dropdown.Item>
+            <Dropdown.Item
+              href="#"
+              className="dropdown-list-item"
+              disabled={
+                userPermission && !userPermission.permission.SCREEN.edit
+              }
+            >
+              <div className="d-flex">
+                <div className="dropdown-list-icon">
+                  <img
+                    className="dropdown-list-img img-fluid"
+                    src={assignIcon}
+                    alt="menu-icon"
+                  />
+                </div>
+                <div className="dropdown-menu-list">
+                  <span className="menu-heading">Assign Quickplay</span>
+                  <span className="menu-description">
+                    Get to know more about screen info
+                  </span>
+                </div>
               </div>
-              <div className="dropdown-menu-list">
-                <span className="menu-heading">Change Default Composition</span>
-                <span className="menu-description">
-                  Get to know more about screen info
-                </span>
-              </div>
-            </div>
-          </Dropdown.Item>
-          <Dropdown.Item
-            href="#"
-            className="dropdown-list-item"
-            disabled={userPermission && !userPermission.permission.SCREEN.edit}
-          >
-            <div className="d-flex">
-              <div className="dropdown-list-icon">
-                <img
-                  className="dropdown-list-img img-fluid"
-                  src={assignIcon}
-                  alt="menu-icon"
-                />
-              </div>
-              <div className="dropdown-menu-list">
-                <span className="menu-heading">Assign Quickplay</span>
-                <span className="menu-description">
-                  Get to know more about screen info
-                </span>
-              </div>
-            </div>
-          </Dropdown.Item>
-          {/* <Dropdown.Item href="#" className="dropdown-list-item">
+            </Dropdown.Item>
+            {/* <Dropdown.Item href="#" className="dropdown-list-item">
             <div className="d-flex">
               <div className="dropdown-list-icon">
                 <img
@@ -166,8 +179,9 @@ const ListScreen = ({ allScreens, userPermission }) => {
               </div>
             </div>
           </Dropdown.Item> */}
-        </Dropdown.Menu>
-      </Dropdown>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
     );
   };
 
@@ -275,6 +289,7 @@ const ListScreen = ({ allScreens, userPermission }) => {
           experimentalFeatures={{ newEditingApi: true }}
           //loading={loading}
           pagination
+          zIndex={-1}
         />
       </Box>
       {showNewTagModal && (
