@@ -56,14 +56,14 @@ export function logout(history) {
 }
 
 export function loginAction(email, password, history) {
-    const mfa = 'R3FF42XS2JQSOIBKPSHU3JI';
-    const mfaEnabled = true;
+    // const mfa = 'R3FF42XS2JQSOIBKPSHU3JI';
+    // const mfaEnabled = true;
     return (dispatch) => {
         login(email, password)
             .then((response) => {
                 //response.data.data.vendor.isVerified = false;
-                response.data.data.vendor.mfa = mfa;
-                response.data.data.vendor.mfaEnabled = mfaEnabled;
+                // response.data.data.vendor.mfa = mfa;
+                // response.data.data.vendor.mfaEnabled = mfaEnabled;
                 if(response.data.data.vendor.mfaEnabled){
                     response.data.data.vendor.isVerified = false;
                 }
@@ -105,9 +105,14 @@ export function socialLoginAction(email, name, token, history) {
 
 export function verification2FaAuth(mfa, history) {
     return (dispatch) => {
-        mfaEnablePost({mfa})
+        mfaEnablePost(mfa)
             .then((response) => {
-                console.log("MFA", response)
+                console.log("MFA", response);
+                const tokenDetailsString = localStorage.getItem('userDetails');
+                let token = JSON.parse(tokenDetailsString);
+                token.vendor.mfa = mfa.mfa;
+                token.vendor.mfaEnabled = mfa.mfaEnabled;
+                saveTokenInLocalStorage(token);
             })
             .catch((error) => {
                 const errorMessage = error.response.data.message;
