@@ -22,7 +22,6 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     { value: "white", label: "White Background" },
     { value: "white-center", label: "White Background Center" },
     { value: "bottom-load", label: "Bottom Load" },
-    { label: "Color Background", value: "color-background" },
   ];
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
@@ -39,9 +38,9 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [errMessage, setErrorMessage] = useState("");
   const [preview, setPreview] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isRefresh, setIsRefresh] = useState(false); 
+  const [isRefresh, setIsRefresh] = useState(false);
   const [orientationMode, setOrientation] = useState("landscape");
-  const [previewData, setPreviewData] = useState(null)
+  const [previewData, setPreviewData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -70,23 +69,23 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     }
     const dataString = {
       url: name.trim(),
-      urlLink:urlLink.trim(),
-      slideDuration:slideDuration.trim(),
+      urlLink: urlLink.trim(),
+      slideDuration: slideDuration.trim(),
       theame,
       selectedImage,
-      orientationMode
+      orientationMode,
     };
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name:name.trim(),
+        name: name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
     } else {
       await addApps({
-        name:name.trim(),
+        name: name.trim(),
         type: "rss-apps",
         data: JSON.stringify(dataString),
       });
@@ -140,41 +139,39 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const handleClose = (val) => {
     setName("");
-    setUrlLink('');
-    setSlideDuration(10)
+    setUrlLink("");
+    setSlideDuration(10);
     setTheame({
       value: "white-background",
       label: "White Background",
     });
     setSelectedImage(null);
-    setOrientation('landscape')
-    setShowUrlApp(val)
-  }
+    setOrientation("landscape");
+    setShowUrlApp(val);
+  };
 
   // const rssParserHandle = async() => {
   //   const data = await rssParser()
   // }
-  
 
   const handlePreview = () => {
-    if(name && urlLink){
-      setPreview(true)
+    if (name && urlLink) {
+      setPreview(true);
       const dt = handleRssApps({
         url: name,
         urlLink,
         slideDuration,
         theame,
         selectedImage,
-        urlLink:{items:list},
-        orientationMode
+        urlLink: { items: list },
+        orientationMode,
       });
-      console.log("rssfeed",dt)
-      setPreviewData(dt)
-      
-    }else{
-      setPreview(false)
+      console.log("rssfeed", dt);
+      setPreviewData(dt);
+    } else {
+      setPreview(false);
     }
-  }
+  };
   return (
     <>
       <SelectMedia
@@ -196,7 +193,10 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
           <Button
             variant=""
             className="close"
-            onClick={(e) => {e.preventDefault(); handleClose(false)}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose(false);
+            }}
           >
             <img
               className="cancel-icon"
@@ -316,9 +316,10 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     name="orientation"
                     value="landscape"
                     id="landscape"
-                    checked={orientationMode === 'landscape'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
-                    
+                    checked={orientationMode === "landscape"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -334,8 +335,10 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     name="orientation"
                     value="potrait"
                     id="potrait"
-                    checked={orientationMode === 'potrait'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
+                    checked={orientationMode === "potrait"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                     //disabled
                     // style={{cursor:"not-allowed"}}
                     // placeholder="Preview Not Available"
@@ -355,8 +358,10 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     name="orientation"
                     value="footer"
                     id="footer"
-                    checked={orientationMode === 'footer'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
+                    checked={orientationMode === "footer"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -367,7 +372,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100 rss-feed-app-form-icon">
-                { previewData && preview ? previewData : ''}
+                {previewData && preview ? previewData : ""}
               </div>
             </div>
           </form>
@@ -375,8 +380,13 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light"
-                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+              <Button
+                className="cancel-btn w-100"
+                variant="outline-light"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClose(false);
+                }}
               >
                 Cancel
               </Button>
