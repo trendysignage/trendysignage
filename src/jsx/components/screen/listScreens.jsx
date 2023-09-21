@@ -64,7 +64,7 @@ const ListScreen = ({ allScreens, userPermission }) => {
   const renderAction = (params) => {
     const { value } = params;
     return (
-      <div style={{ zIndex: "100" }}>
+      <div style={{ zIndex: "10" }}>
         <Dropdown
           className="dropdown-toggle-menu"
 
@@ -79,7 +79,7 @@ const ListScreen = ({ allScreens, userPermission }) => {
               />
             </span>
           </Dropdown.Toggle>
-          <Dropdown.Menu style={{ zIndex: 10000 }}>
+          <Dropdown.Menu style={{ zIndex: 10 }}>
             <Dropdown.Item
               href="#"
               className="dropdown-list-item"
