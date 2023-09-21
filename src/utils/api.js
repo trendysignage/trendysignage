@@ -591,6 +591,10 @@ export async function rssParser() {
   let parser = new Parser();
   let feed = await parser.parseURL('https://www.reddit.com/.rss');
   console.log("feed",feed);
+}
 
 
+export async function addTags(postdata) {
+  const response = await fetchClient.post(BASE_URL + `/vendor/profile/tags`, postdata);
+  return response;
 }
