@@ -1806,6 +1806,7 @@ input[type="radio"]:before {
     background-position: center;
     background-size: cover;
   }
+ 
   
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {

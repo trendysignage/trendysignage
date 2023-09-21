@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {connect, useDispatch } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
-import { logout } from '../../../store/actions/AuthActions';
-import { isAuthenticated } from '../../../store/selectors/AuthSelectors';
+import React, { useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+import { logout } from "../../../store/actions/AuthActions";
+import { isAuthenticated } from "../../../store/selectors/AuthSelectors";
 import Switch from "react-switch";
 import { verification2FaAuth } from '../../../store/actions/AuthActions';
 import { mfaEnablePost } from '../../../utils/api';
@@ -31,15 +31,19 @@ function MfaPage(props){
     }
     return(
         <div className="align-items-center justify-content-between">
-            <label className="mb-0 mr-3">MFA Enabled</label>
-            <Switch
+            <div className="d-flex align-items-center mb-4 ml-4">
+                <label className="mb-0 mr-3 text-white">MFA Enabled</label>
+                <Switch
                 onColor="#B3005E"
-                onChange={(e) => {handleMfa(e)}}
+                onChange={(e) => {
+                    handleMfa(e);
+                }}
                 checked={mfaEnabled}
                 name="deviceTime"
                 id="deviceTime"
                 className="react-switch"
-            />
+                />
+            </div>
         </div>
     )
 } 
