@@ -25,7 +25,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   ];
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
-  const [urlLink, setUrlLink] = useState(null);
+  const [urlLink, setUrlLink] = useState("");
   const [slideDuration, setSlideDuration] = useState(10);
   const [mediaId, setMediaId] = useState(null);
   const [theame, setTheame] = useState({
@@ -67,10 +67,16 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       setIsLoading(false);
       return;
     }
+    if (urlLink.trim() == "") {
+      setErr(true);
+      setErrorMessage("RSS Feed URL is required");
+      setIsLoading(false);
+      return;
+    }
     const dataString = {
       url: name.trim(),
       urlLink: urlLink.trim(),
-      slideDuration: slideDuration.trim(),
+      slideDuration,
       theame,
       selectedImage,
       orientationMode,
@@ -212,7 +218,9 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
             // onSubmit={handleSubmit}
             className="row"
           >
+            
             <div className="form-group col-6 mb-0  url-app-form">
+            {errMessage && <h6 class="alert alert-danger">{errMessage}</h6>}
               <label>Name</label>
               <input
                 type="text"
