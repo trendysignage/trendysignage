@@ -4,7 +4,7 @@ import cancelIcon from "../../img/cancel-icon.png";
 import tagCloseIcon from "../../img/tag-close-icon.png";
 import { addTags } from '../../utils/api';
 
-const AddNewTagModal = ({ setNewTagModal, selected }) => {
+const AddNewTagModal = ({ setNewTagModal, selected, setIsRefresh }) => {
 
     const [tag, setTag] = useState(null);
     const [tagArr, setTagArr] = useState(selected.tags);
@@ -20,7 +20,7 @@ const AddNewTagModal = ({ setNewTagModal, selected }) => {
           newArr.push(tag.trim())
       }
       
-      //await addTags({type:'screen', id:selected._id,tags:newArr});
+      await addTags({type:'screen', id:selected._id,tags:newArr});
       setTagArr(newArr);
       setTag("");
       console.log("OK")
@@ -33,8 +33,10 @@ const AddNewTagModal = ({ setNewTagModal, selected }) => {
       const newArr = tagArr.filter((i, indx) => {
         return indx != index;
       });
-      //await addTags({type:'screen', id:selected._id,tags:newArr});
       setTagArr(newArr);
+      await addTags({type:'screen', id:selected._id,tags:newArr});
+      setTagArr(newArr);
+      setIsRefresh(true)
       setTag("");
       console.log("OK")
 

@@ -13,12 +13,15 @@ import { toast } from "react-toastify";
 const Screen = ({userPermission,auth}) => {
   console.log("userPermission", userPermission)
   const [showScreenModal, setShowScreenModal] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
   const [showFilterModal, setFilterModal] = useState(false);
   const [allScreens, setAllScreens] = useState("");
   // use effect
   useEffect(() => {
+    console.log("Refrshing");
+    setIsRefresh(false);
     callAllScreenApi();
-  }, []);
+  }, [isRefresh]);
   const callAllScreenApi = async () => {
     const list = await getAllScreens();
     setAllScreens(list);
@@ -109,7 +112,7 @@ const Screen = ({userPermission,auth}) => {
       {
         userPermission && userPermission.permission.SCREEN.view 
         ? 
-          <ListScreen allScreens={allScreens} />
+          <ListScreen allScreens={allScreens} setIsRefresh={setIsRefresh} />
         :
         <LockScreen message={"You don't have permission to access this !!!"} />
       }

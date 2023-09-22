@@ -3628,3 +3628,7 @@ thead {
 .custModal{
   z-index: 99 !important;
 }
+
+.MuiDataGrid-root .MuiDataGrid-cell:focus-within {
+  outline: none !important;
+}

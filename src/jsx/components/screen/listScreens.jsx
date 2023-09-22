@@ -55,7 +55,7 @@ function CustomPagination() {
   );
 }
 
-const ListScreen = ({ allScreens, userPermission }) => {
+const ListScreen = ({ allScreens, userPermission, setIsRefresh }) => {
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [selectedScreen, setSelectedScreen] = useState("");
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
@@ -63,7 +63,7 @@ const ListScreen = ({ allScreens, userPermission }) => {
   const renderAction = (params) => {
     const { value } = params;
     return (
-      <div style={{ zIndex: "10" }}>
+      <div>
         <Dropdown
           className="dropdown-toggle-menu"
 
@@ -186,7 +186,6 @@ const ListScreen = ({ allScreens, userPermission }) => {
 
   const tagsRender = (params) => {
     const { value } = params;
-    console.log("value", value);
     return (
       <div>
             <span className="tag-container">
@@ -321,7 +320,7 @@ const ListScreen = ({ allScreens, userPermission }) => {
           pagination
           zIndex={-1}
         /> */}
-      <Table responsive className="custom-table screen-table mb-5">
+    <Table responsive className="custom-table screen-table mb-5">
         <thead>
           <tr>
             <th>Screen</th>
@@ -503,6 +502,7 @@ const ListScreen = ({ allScreens, userPermission }) => {
           setNewTagModal={setNewTagModal}
           allScreens={allScreens}
           selected={selectedScreen}
+          setIsRefresh={setIsRefresh}
         />
       )}
       {showPublishPopUp && (
