@@ -3629,6 +3629,10 @@ thead {
   z-index: 99 !important;
 }
 
-.MuiDataGrid-root .MuiDataGrid-cell:focus-within {
+.MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within {
   outline: none !important;
+}
+.css-1e2bxag-MuiDataGrid-root .MuiDataGrid-row:not(.MuiDataGrid-row--dynamicHeight)>.MuiDataGrid-cell{
+  overflow: none !important;
+  white-space: normal !important;
 }

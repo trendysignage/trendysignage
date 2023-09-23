@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import ListScreen from "./listScreens";
 import AddScreenModal from "../../modals/AddScreenModal";
-import FilterModal from "../../modals/FilterModal";
+// import FilterModal from "../../modals/FilterModal";
 import searchIcon from "../../../img/search.png";
 import listIcon from "../../../img/list-icon.png";
 import { getAllScreens } from "../../../utils/api";
@@ -16,14 +16,35 @@ const Screen = ({userPermission,auth}) => {
   const [isRefresh, setIsRefresh] = useState(false);
   const [showFilterModal, setFilterModal] = useState(false);
   const [allScreens, setAllScreens] = useState("");
+  const [filterData, setFilterData] = useState({
+    groups:[],
+    tags:[],
+    shows:[]
+  });
   // use effect
   useEffect(() => {
-    console.log("Refrshing");
+    console.log("Refrshing",filterData);
     setIsRefresh(false);
     callAllScreenApi();
   }, [isRefresh]);
   const callAllScreenApi = async () => {
-    const list = await getAllScreens();
+    let str = "";
+    if(filterData.groups && filterData.groups.length > 0){
+      filterData.groups.map((grp, i) => {
+        return str += `groups[${i}]=${grp}&`
+      })
+    }
+    if(filterData.tags && filterData.tags.length > 0){
+      filterData.tags.map((tg, i) => {
+        return str += `tags[${i}]=${tg}&`
+      })
+    }
+    if(filterData.shows && filterData.shows.length > 0){
+      filterData.shows.map((tg, i) => {
+        return str += `status[${i}]=${tg}&`
+      })
+    }
+    const list = await getAllScreens(str);
     setAllScreens(list);
   };
 
@@ -112,7 +133,11 @@ const Screen = ({userPermission,auth}) => {
       {
         userPermission && userPermission.permission.SCREEN.view 
         ? 
-          <ListScreen allScreens={allScreens} setIsRefresh={setIsRefresh} />
+          <ListScreen 
+            allScreens={allScreens}
+            setIsRefresh={setIsRefresh} 
+            setFilterData={setFilterData} 
+          />
         :
         <LockScreen message={"You don't have permission to access this !!!"} />
       }

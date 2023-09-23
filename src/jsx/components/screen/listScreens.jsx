@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Dropdown } from "react-bootstrap";
 import { connect } from "react-redux";
 import AddNewTagModal from "../../modals/AddNewTagModal";
@@ -7,10 +7,12 @@ import menuIcon from "../../../img/menu-icon.png";
 import veiwDetailIcon from "../../../img/view-detail-icon.png";
 import defaultComparisonIcon from "../../../img/default-comparison-icon.png";
 import assignIcon from "../../../img/assign-icon.png";
+import listIcon from "../../../img/list-icon.png";
 import takeScreenshotIcon from "../../../img/tack-screenshot-icon.png";
 import { Link } from "react-router-dom";
 import CompositionListModel from "../../modals/CompolistionListModel";
-import Box from "@mui/material/Box";
+import { Button } from "react-bootstrap";
+import FilterModal from "../../modals/FilterModal";
 
 import {
   DataGrid,
@@ -55,10 +57,12 @@ function CustomPagination() {
   );
 }
 
-const ListScreen = ({ allScreens, userPermission, setIsRefresh }) => {
+const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData }) => {
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [selectedScreen, setSelectedScreen] = useState("");
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
+  const [showFilterModal, setFilterModal] = useState(false);
+
 
   const renderAction = (params) => {
     const { value } = params;
@@ -78,7 +82,7 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh }) => {
               />
             </span>
           </Dropdown.Toggle>
-          <Dropdown.Menu style={{ zIndex: 10 }}>
+          <Dropdown.Menu >
             <Dropdown.Item
               href="#"
               className="dropdown-list-item"
@@ -213,17 +217,7 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh }) => {
 
   const groupRender = (params) => {
     const { value } = params;
-    return (
-      <span className="tag-container">
-        {value.map((tag) => {
-          return (
-            <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
-              {tag}
-            </span>
-          );
-        })}
-      </span>
-    );
+    return Array.prototype.map.call(value, s => s.name).toString();;
   };
 
   const lastSeenRender = (params) => {
@@ -302,201 +296,40 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh }) => {
 
   return (
     <>
-        {/* <DataGrid
-          components={{
-            NoRowsOverlay: CustomNoRowsOverlay,
-            Toolbar: CustomToolbar,
-            LoadingOverlay: LinearProgress,
-            Pagination: CustomPagination,
-          }}
-          rows={rows1}
-          columns={columns1}
-          pageSize={10}
-          rowsPerPageOptions={[5]}
-          //checkboxSelection
-          disableSelectionOnClick
-          experimentalFeatures={{ newEditingApi: true }}
-          //loading={loading}
-          pagination
-          zIndex={-1}
-        /> */}
-    <Table responsive className="custom-table screen-table mb-5">
-        <thead>
-          <tr>
-            <th>Screen</th>
-            <th>Last Seen</th>
-            <th>Default Composition</th>
-            <th>Current Schedule</th>
-            {/* <th>Tags</th>
-            <th>Groups</th> */}
-            <th>More</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allScreens !== "" &&
-            allScreens.map((screen) => {
-              return (
-                <tr id={screen._id}>
-                  <td>
-                    <span className="td-content">
-                      <strong>{screen.name}</strong>
-                      <span>{screen.screenLocation}</span>
-                    </span>
-                  </td>
-                  <td>
-                    <span className="d-flex align-items-center">
-                      <span className="status status-green"></span>
-                      <span className="td-content">
-                        <strong>{screen.name}</strong>
-                        <span>{screen.screenLocation}</span>
-                      </span>
-                    </span>
-                  </td>
-                  <td>Default Compo. </td>
-                  <td>No Schedule</td>
-                  {/* <td style={{ width: "180px" }}>
-                    <span className="tag-container">
-                      {screen.tags.map((tag) => {
-                        return (
-                          <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
-                            {tag}
-                          </span>
-                        );
-                      })}
-                    </span>
-
-                    <span
-                      className="down-arrow"
-                      onClick={() => {
-                        setSelectedScreen(screen);
-                        setNewTagModal(true);
-                      }}
-                    >
-                      <img
-                        className="down-arrow-img img-fluid"
-                        src={downArrow}
-                        alt="arrow"
-                      />
-                    </span>
-                  </td>
-                  <td>
-                    {screen.groups.map((group) => {
-                      return (
-                        <span className="my-phone-tag text-truncate ml-1">
-                          {group}
-                        </span>
-                      );
-                    })}
-                  </td> */}
-                  <td>
-                    <Dropdown className="dropdown-toggle-menu">
-                      <Dropdown.Toggle variant="" className="p-0  mb-2">
-                        <span className="table-menu-icon">
-                          <img
-                            className="menu-img img-fluid"
-                            src={menuIcon}
-                            alt="menu-icon"
-                          />
-                        </span>
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item href="#" className="dropdown-list-item" disabled={userPermission && !userPermission.permission.SCREEN.view}>
-                          <Link
-                            to={{
-                              pathname: `/display/${screen._id}`,
-                            }}
-                          >
-                            <div className="d-flex">
-                              <div className="dropdown-list-icon">
-                                <img
-                                  className="dropdown-list-img img-fluid"
-                                  src={veiwDetailIcon}
-                                  alt="menu-icon"
-                                />
-                              </div>
-                              <div className="dropdown-menu-list">
-                                <span className="menu-heading">
-                                  View Details
-                                </span>
-                                <span className="menu-description">
-                                  Get to know more about screen info
-                                </span>
-                              </div>
-                            </div>
-                          </Link>
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={() => {
-                            setShowPublishPopUp(true);
-                            setSelectedScreen(screen._id);
-                          }}
-                          disabled={userPermission && !userPermission.permission.SCREEN.edit}
-                          className="dropdown-list-item"
-                        >
-                          <div className="d-flex">
-                            <div className="dropdown-list-icon">
-                              <img
-                                className="dropdown-list-img img-fluid"
-                                src={defaultComparisonIcon}
-                                alt="menu-icon"
-                              />
-                            </div>
-                            <div className="dropdown-menu-list">
-                              <span className="menu-heading">
-                                Change Default Composition
-                              </span>
-                              <span className="menu-description">
-                                Get to know more about screen info
-                              </span>
-                            </div>
-                          </div>
-                        </Dropdown.Item>
-                        <Dropdown.Item href="#" className="dropdown-list-item" disabled={userPermission && !userPermission.permission.SCREEN.edit}>
-                          <div className="d-flex">
-                            <div className="dropdown-list-icon">
-                              <img
-                                className="dropdown-list-img img-fluid"
-                                src={assignIcon}
-                                alt="menu-icon"
-                              />
-                            </div>
-                            <div className="dropdown-menu-list">
-                              <span className="menu-heading">
-                                Assign Quickplay
-                              </span>
-                              <span className="menu-description">
-                                Get to know more about screen info
-                              </span>
-                            </div>
-                          </div>
-                        </Dropdown.Item>
-                        {/* <Dropdown.Item href="#" className="dropdown-list-item">
-                          <div className="d-flex">
-                            <div className="dropdown-list-icon">
-                              <img
-                                className="dropdown-list-img img-fluid"
-                                src={takeScreenshotIcon}
-                                alt="menu-icon"
-                              />
-                            </div>
-                            <div className="dropdown-menu-list">
-                              <span className="menu-heading">
-                                Take Screenshot
-                              </span>
-                              <span className="menu-description">
-                                Get to know more about screen info
-                              </span>
-                            </div>
-                          </div>
-                        </Dropdown.Item> */}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </Table>
+      <FilterModal
+          showFilterModal={showFilterModal}
+          setFilterModal={setFilterModal}
+          setFilterData={setFilterData}
+          setIsRefresh={setIsRefresh}
+        />
+      <Button
+            className="ml-2 icon-btn"
+            variant="primary"
+            onClick={() => {
+              setFilterModal(true);
+            }}
+          >
+            <img className="icon-icon" src={listIcon} alt="list-icon" />
+          </Button>
+      <DataGrid
+        getRowHeight={() => 'auto'}
+        components={{
+          NoRowsOverlay: CustomNoRowsOverlay,
+          Toolbar: CustomToolbar,
+          LoadingOverlay: LinearProgress,
+          Pagination: CustomPagination,
+        }}
+        rows={rows1}
+        columns={columns1}
+        pageSize={10}
+        rowsPerPageOptions={[5]}
+        //checkboxSelection
+        disableSelectionOnClick
+        experimentalFeatures={{ newEditingApi: true }}
+        //loading={loading}
+        pagination
+        zIndex={-1}
+      />
       {showNewTagModal && (
         <AddNewTagModal
           setNewTagModal={setNewTagModal}

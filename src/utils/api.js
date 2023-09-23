@@ -66,8 +66,13 @@ export async function getResetPassword(email) {
   return response.data.data;
 }
 
-export async function getAllScreens() {
-  const response = await fetchClient.get(BASE_URL + `/vendor/display/screen`);
+export async function getAllScreens(str=null) {
+  let response = "";
+  if(str){
+    response = await fetchClient.get(BASE_URL + `/vendor/display/screen?${str}`);
+  }else{
+    response = await fetchClient.get(BASE_URL + `/vendor/display/screen`);
+  }
   return response.data.data;
 }
 
@@ -431,6 +436,14 @@ export async function addGroups(postdata) {
   return response;
 }
 
+export async function assignScreenGroups(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/display/assignGroups`,
+    postdata
+  );
+  return response;
+}
+
 export async function updateGroups(postdata) {
   const response = await fetchClient.put(
     BASE_URL + `/vendor/profile/groups`,
@@ -597,4 +610,9 @@ export async function rssParser() {
 export async function addTags(postdata) {
   const response = await fetchClient.post(BASE_URL + `/vendor/profile/tags`, postdata);
   return response;
+}
+
+export async function getAllTags(str) {
+  const response = await fetchClient.get(BASE_URL + `/vendor/profile/tags?type=${str}`);
+  return response.data.data;
 }
