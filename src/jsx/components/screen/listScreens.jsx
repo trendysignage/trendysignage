@@ -151,7 +151,7 @@ const ListScreen = ({ allScreens, userPermission }) => {
                             </div>
                           </div>
                         </Dropdown.Item>
-                        <Dropdown.Item href="#" className="dropdown-list-item" disabled={userPermission && !userPermission.permission.SCREEN.edit}>
+                        {/* <Dropdown.Item href="#" className="dropdown-list-item" disabled={userPermission && !userPermission.permission.SCREEN.edit}>
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
                               <img
@@ -169,7 +169,7 @@ const ListScreen = ({ allScreens, userPermission }) => {
                               </span>
                             </div>
                           </div>
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
                         {/* <Dropdown.Item href="#" className="dropdown-list-item">
                           <div className="d-flex">
                             <div className="dropdown-list-icon">

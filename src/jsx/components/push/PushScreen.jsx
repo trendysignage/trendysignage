@@ -28,6 +28,7 @@ import edit from "../../../img/edit-composition.png";
 import { useHistory } from "react-router-dom";
 import TableLoader from "../../components/TableLoader";
 import LockScreen from "../../pages/LockScreen";
+import SelectScreenModal from '../../modals/SelectScreenModal';
 
 
 const PushScreen = ({permission}) => {
@@ -45,6 +46,9 @@ const PushScreen = ({permission}) => {
   const [checkedValuesComp, setCheckedValuesComp] = useState(null);
   const [allComposition, setAllComposition] = useState([]);
   const [allScreens, setAllScreens] = useState("");
+  const [showPublishPopUp, setShowPublishPopUp] = useState(false);
+  const [selectedSchdule, setSelectedSchdule] = useState(null);
+  const [isRefresh, setIsRefresh] = useState(false)
 
   const callAllScreenApi = async () => {
     const list = await getAllScreens();
@@ -84,6 +88,7 @@ const PushScreen = ({permission}) => {
     });
   }
   useEffect(() => {
+    setIsRefresh(false);
     getSchedule();
     callAllScreenApi();
     getAllCompositionList();
@@ -96,7 +101,7 @@ const PushScreen = ({permission}) => {
     if (publishType && publishType === "defaultComposition") {
       getDefault();
     }
-  }, [publishType]);
+  }, [publishType,isRefresh ]);
 
   function handleDeleteSchedule(id) {
     deleteSchedule(id).then((res) => {
@@ -240,6 +245,7 @@ const PushScreen = ({permission}) => {
     setShowPublishBtn(!showPublishBtn);
   };
 
+
   // const handleSubmit = async () => {
   //  await publishMedia({
   //     id: selected._id,
@@ -258,6 +264,13 @@ const PushScreen = ({permission}) => {
   // };
   return (
     <>
+      <SelectScreenModal 
+        setShowPublishPopUp={setShowPublishPopUp}
+        showPublishPopUp={showPublishPopUp} 
+        selectedSchdule = {selectedSchdule}
+        setSelectedSchdule={setSelectedSchdule}
+        setIsRefresh={setIsRefresh}
+      />
       <div className="custom-content-heading d-flex flex-wrap flex-row align-items-center justify-content-between">
         <div>
           <h1 className="mb-1">Push</h1>
@@ -701,6 +714,31 @@ const PushScreen = ({permission}) => {
                                   </div>
                                   <div className="dropdown-menu-list">
                                     <span className="menu-heading">Edit</span>
+                                    <span className="menu-description">
+                                      Get to know more about screen info
+                                    </span>
+                                  </div>
+                                </div>
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                onClick={() => {
+                                    setShowPublishPopUp(true);
+                                    setSelectedSchdule(composition)
+                                    //setSelectedScreen(screen._id);
+                                }}
+                                //disabled={permission && !permission.permission.SCHEDULE.edit}
+                                className="dropdown-list-item"
+                              >
+                                <div className="d-flex">
+                                  <div className="dropdown-list-icon">
+                                    <img
+                                      className="dropdown-list-img img-fluid"
+                                      src={edit}
+                                      alt="menu-icon"
+                                    />
+                                  </div>
+                                  <div className="dropdown-menu-list">
+                                    <span className="menu-heading">Assign Screen</span>
                                     <span className="menu-description">
                                       Get to know more about screen info
                                     </span>
