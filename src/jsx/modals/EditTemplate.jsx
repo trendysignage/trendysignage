@@ -3,40 +3,46 @@ import cancelIcon from "../../img/cancel-icon.png";
 import Switch from "react-switch";
 import Select from "react-select";
 import { useState } from "react";
-import Slider from '@mui/material/Slider';
+import Slider from "@mui/material/Slider";
 
-
-const EditTemplate = ({ setShowUrlApp, show, setSettingData }) => {
+const EditTemplate = ({ setShowUrlApp, show, setSettingData, settingData }) => {
   const fontOptions = [
     { value: "bree-sarif", label: "Bree Sarif" },
     { value: "oswald", label: "Oswald" },
     { value: "permanent", label: "Permanent Maker" },
   ];
 
-
   const [isTitle, setIsTitle] = useState(true);
-  const [titleColor, setTitleColor] = useState("#000000");
-  const [nameColor, setNameColor] = useState("#000000");
-  const [messageColor, setMessageColor] = useState("#000000");
-  const [bgColor, setBgColor] = useState("#000000");
+  const [titleColor, setTitleColor] = useState(settingData.titleColor);
+  const [nameColor, setNameColor] = useState(settingData.nameColor);
+  const [messageColor, setMessageColor] = useState(settingData.messageColor);
+  const [bgColor, setBgColor] = useState(settingData.bgColor);
 
-  const [titleStyle, setTitleStyle] = useState({ value: "bree-sarif", label: "Bree Sarif" });
-  const [nameStyle, setNameStyle] = useState({ value: "bree-sarif", label: "Bree Sarif" });
-  const [messageStyle, setMessageStyle] = useState({ value: "bree-sarif", label: "Bree Sarif" });
-  const [bgStyle, setBgStyle] = useState({ value: "bree-sarif", label: "Bree Sarif" });
-  const [duration, setDuration] = useState(10);
-  const [bgOpacity, setBgOpacity] = useState(100);
+  const [titleStyle, setTitleStyle] = useState(settingData.titleStyle);
+  const [nameStyle, setNameStyle] = useState(settingData.nameStyle);
+  const [messageStyle, setMessageStyle] = useState(settingData.messageStyle);
+  const [bgStyle, setBgStyle] = useState(settingData.bgStyle);
+  const [duration, setDuration] = useState(settingData.duration);
+  const [bgOpacity, setBgOpacity] = useState(settingData.bgOpacity);
 
   const handleUpdate = (e) => {
     e.preventDefault();
     const setting = {
-      isTitle,titleColor,nameColor,messageColor,titleStyle, nameStyle, messageStyle, bgStyle, duration, bgOpacity
-    }
+      isTitle,
+      titleColor,
+      nameColor,
+      messageColor,
+      titleStyle,
+      nameStyle,
+      messageStyle,
+      bgStyle,
+      duration,
+      bgOpacity,
+    };
     console.log("Setting", setting);
     setSettingData(setting);
     setShowUrlApp(false);
-  } 
-
+  };
 
   return (
     <>
@@ -104,21 +110,37 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData }) => {
                   </div>
                 </div>
               </div>
-              <div className="d-flex align-items-center mt-3">
+              <div className="d-flex align-items-center justify-content-between mt-3">
                 <div>
                   <label className="mb-0">Title Font</label>
                 </div>
-                <div style={{ marginLeft:"10px",marginRight:"10px", width: "120px" }}>
-                  <input type="color" name="titleColor" onChange={(e) => setTitleColor(e.target.value)} id="titleColor" value={titleColor} className="  form-control " required />
-                </div>
-                <div style={{ width: "150px" }}>
-                  <Select
-                    value={titleStyle}
-                    onChange={setTitleStyle}
-                    placeholder="English"
-                    options={fontOptions}
-                    className="app-option"
-                  />
+                <div className="d-flex align-items-center ">
+                  <div
+                    style={{
+                      marginLeft: "10px",
+                      marginRight: "10px",
+                      width: "120px",
+                    }}
+                  >
+                    <input
+                      type="color"
+                      name="titleColor"
+                      onChange={(e) => setTitleColor(e.target.value)}
+                      id="titleColor"
+                      value={titleColor}
+                      className="  form-control "
+                      required
+                    />
+                  </div>
+                  <div style={{ width: "150px" }}>
+                    <Select
+                      value={titleStyle}
+                      onChange={setTitleStyle}
+                      placeholder="English"
+                      options={fontOptions}
+                      className="app-option"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -126,62 +148,116 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData }) => {
                 <label className="mt-4">Body</label>
               </strong>
 
-              <div className="d-flex align-items-center mt-3">
+              <div className="d-flex align-items-center justify-content-between mt-3">
                 <div>
                   <label className="mb-0">Name</label>
                 </div>
-                <div style={{ marginLeft:"10px",marginRight:"10px", width: "120px" }}>
-                <input type="color" name="nameColor" id="nameColor" onChange={(e) => setNameColor(e.target.value)} value={nameColor} className="  form-control " required />
-                </div>
-                <div style={{ width: "150px" }}>
-                  <Select
-                    value={nameStyle}
-                    onChange={setNameStyle}
-                    placeholder="English"
-                    options={fontOptions}
-                    className="app-option"
-                  />
+                <div className="d-flex align-items-center ">
+                  <div
+                    style={{
+                      marginLeft: "10px",
+                      marginRight: "10px",
+                      width: "120px",
+                    }}
+                  >
+                    <input
+                      type="color"
+                      name="nameColor"
+                      id="nameColor"
+                      onChange={(e) => setNameColor(e.target.value)}
+                      value={nameColor}
+                      className="  form-control "
+                      required
+                    />
+                  </div>
+                  <div style={{ width: "150px" }}>
+                    <Select
+                      value={nameStyle}
+                      onChange={setNameStyle}
+                      placeholder="English"
+                      options={fontOptions}
+                      className="app-option"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="d-flex align-items-center mt-3">
+              <div className="d-flex align-items-center justify-content-between mt-3">
                 <div>
                   <label className="mb-0">Message</label>
                 </div>
-                <div style={{ marginLeft:"10px",marginRight:"10px", width: "120px" }}>
-                <input type="color" name="messageColor" id="messageColor" onChange={(e) => setMessageColor(e.target.value)} value={messageColor} className="  form-control " required />
-                </div>
-                <div style={{ width: "150px" }}>
-                  <Select
-                    value={messageStyle}
-                    onChange={setMessageStyle}
-                    placeholder="English"
-                    options={fontOptions}
-                    className="app-option"
-                  />
+                <div className="d-flex align-items-center ">
+                  <div
+                    style={{
+                      marginLeft: "10px",
+                      marginRight: "10px",
+                      width: "120px",
+                    }}
+                  >
+                    <input
+                      type="color"
+                      name="messageColor"
+                      id="messageColor"
+                      onChange={(e) => setMessageColor(e.target.value)}
+                      value={messageColor}
+                      className="  form-control "
+                      required
+                    />
+                  </div>
+                  <div style={{ width: "150px" }}>
+                    <Select
+                      value={messageStyle}
+                      onChange={setMessageStyle}
+                      placeholder="English"
+                      options={fontOptions}
+                      className="app-option"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="d-flex align-items-center mt-3">
+              <div className="d-flex align-items-center justify-content-between mt-3">
                 <div>
                   <label className="mb-0">Background</label>
                 </div>
-                <div style={{ width: "120px" }}>
-                  <input type="color" name="bgColor" id="bgColor" onChange={(e) => setBgColor(e.target.value)} value={bgColor} className="  form-control " required />
-                </div>
-                <div style={{ marginLeft:"10px",marginRight:"10px",  width: "150px" }}>
-                  <Select
-                    value={bgStyle}
-                    onChange={setBgStyle}
-                    placeholder="English"
-                    options={fontOptions}
-                    className="app-option"
-                  />
+                <div className="d-flex align-items-center ">
+                  <div style={{ width: "120px" }}>
+                    <input
+                      type="color"
+                      name="bgColor"
+                      id="bgColor"
+                      onChange={(e) => setBgColor(e.target.value)}
+                      value={bgColor}
+                      className="  form-control "
+                      required
+                    />
+                  </div>
+                  <div
+                    style={{
+                      marginLeft: "10px",
+                      width: "150px",
+                    }}
+                  >
+                    <Select
+                      value={bgStyle}
+                      onChange={setBgStyle}
+                      placeholder="English"
+                      options={fontOptions}
+                      className="app-option"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="d-flex align-items-center mt-3">
+              <div className="d-flex align-items-center  justify-content-between mt-3">
                 <div>
                   <label className="mb-0">Background Opacity</label>
                 </div>
-                <div style={{ marginLeft:"10px",marginRight:"10px", width: "150px" }}>
+                <div
+                  style={{
+                    marginLeft: "10px",
+                    marginRight: "10px",
+                    width: "150px",
+                  }}
+                  className="d-flex align-items-center"
+                >
                   <Slider
                     size="small"
                     value={bgOpacity}
@@ -189,8 +265,8 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData }) => {
                     aria-label="Small"
                     valueLabelDisplay="auto"
                   />
+                  <p className="mb-0 ml-3">{bgOpacity}</p>
                 </div>
-                {bgOpacity}
               </div>
             </div>
           </form>
@@ -200,7 +276,7 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData }) => {
             variant=""
             type="button"
             className="btn btn-primary btn-block primary-btn"
-            onClick = {(e) => handleUpdate(e)}
+            onClick={(e) => handleUpdate(e)}
           >
             Update
           </Button>

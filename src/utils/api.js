@@ -243,6 +243,18 @@ export async function pushAddSchedule(postData) {
   }
 }
 
+export async function pushUpdateSchedule(postData) {
+  try {
+    const response = await fetchClient.put(
+      `${BASE_URL}/vendor/push/schedule`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function pushAddDates(postData) {
   try {
     const response = await fetchClient.post(

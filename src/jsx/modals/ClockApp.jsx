@@ -24,7 +24,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const timeZoneOptions = [
     { value: "UTC", label: "UTC" },
-    { value: "Asia/Kolkata", label: "Asia/Kolkata" }
+    { value: "Asia/Kolkata", label: "Asia/Kolkata" },
   ];
   const colorOptions = [
     { value: "lightYellow", label: "Light Yellow" },
@@ -51,10 +51,12 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [timeZone, setTimeZone] = useState({ value: "UTC", label: "UTC" });
   const [language, setLanguage] = useState(null);
   const [preview, setPreview] = useState(false);
-  const [isRefresh, setIsRefresh] = useState(false); 
-  const [color, setColor] = useState({ value: "Light Yellow", label: "Light Yellow" });
+  const [isRefresh, setIsRefresh] = useState(false);
+  const [color, setColor] = useState({
+    value: "Light Yellow",
+    label: "Light Yellow",
+  });
   const [isLoading, setIsLoading] = useState(false);
-  
 
   const handleChange = (e) => {
     console.log(e.target);
@@ -77,8 +79,8 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setHideDate(jsonString.hideDate);
       setTimeZone(jsonString.timeZone);
       setMediaId(mediaData._id);
-      setColor(jsonString.color)
-      setOrientation(jsonString.orientationMode)
+      setColor(jsonString.color);
+      setOrientation(jsonString.orientationMode);
     }
   }, [mediaData, orientationMode, preview]);
 
@@ -111,12 +113,12 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
       roundCorner,
       clockType,
       color,
-      orientationMode
+      orientationMode,
     };
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name:name.trim(),
+        name: name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
@@ -124,7 +126,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setIsLoading(false);
     } else {
       await addApps({
-        name:name.trim(),
+        name: name.trim(),
         type: "clock-apps",
         data: JSON.stringify(dataString),
       });
@@ -134,14 +136,14 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     }
   };
   const handlePreview = () => {
-    console.log(preview)
-    if(name){
-      setIsRefresh(true)
-      setPreview(true)
-    }else{
-      setPreview(false)
+    console.log(preview);
+    if (name) {
+      setIsRefresh(true);
+      setPreview(true);
+    } else {
+      setPreview(false);
     }
-  }
+  };
   const handleClose = (val) => {
     setName(null);
     setClockType("regular");
@@ -156,10 +158,10 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     setTimeZone({ value: "UTC", label: "UTC" });
     setLanguage(null);
     setPreview(false);
-    setIsRefresh(false); 
+    setIsRefresh(false);
     setColor({ value: "Light Yellow", label: "Light Yellow" });
-    setShowUrlApp(val)
-  }
+    setShowUrlApp(val);
+  };
   return (
     <>
       <Modal
@@ -175,7 +177,10 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Button
             variant=""
             className="close"
-            onClick={(e) => {e.preventDefault(); handleClose(false)}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose(false);
+            }}
           >
             <img
               className="cancel-icon"
@@ -215,16 +220,6 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     required
                   />
                 </div>
-                {/* <div className="col-6">
-                  <label className="mt-3 mr-3">World Clock</label>
-                  <input
-                    type="radio"
-                    value="world"
-                    checked={clockType && clockType == "world"}
-                    onChange={(e) => setClockType("world")}
-                    required
-                  />
-                </div> */}
               </div>
 
               <label className="mt-3">Time Format</label>
@@ -312,7 +307,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 options={languageOptions}
                 className="app-option"
               /> */}
-              <label className="mt-3">Color Scheme</label>
+              <label className="mt-3 ">Color Scheme</label>
 
               <Select
                 value={color}
@@ -321,7 +316,9 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 options={colorOptions}
                 className="app-option"
               />
-              <Button onClick={handlePreview}>Preview</Button>
+              <Button className="mt-3" onClick={handlePreview}>
+                Preview
+              </Button>
             </div>
             <div className="col-6 ">
               <div className="d-flex ">
@@ -333,9 +330,10 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     name="orientation"
                     value="landscape"
                     id="landscape"
-                    checked={orientationMode === 'landscape'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
-                    
+                    checked={orientationMode === "landscape"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -351,10 +349,12 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     name="orientation"
                     value="potrait"
                     id="potrait"
-                    checked={orientationMode === 'potrait'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
+                    checked={orientationMode === "potrait"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                     disabled
-                    style={{cursor:"not-allowed"}}
+                    style={{ cursor: "not-allowed" }}
                     placeholder="Preview Not Available"
                   />
                   <label
@@ -372,10 +372,12 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     name="orientation"
                     value="footer"
                     id="footer"
-                    checked={orientationMode === 'footer'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
+                    checked={orientationMode === "footer"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                     disabled
-                    style={{cursor:"not-allowed"}}
+                    style={{ cursor: "not-allowed" }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -389,22 +391,21 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 {/* <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />
                 </div> */}
-                {
-                  orientationMode === "landscape" && preview 
-                  ?
-                  handleClockApps(JSON.stringify({
-                    clockType:"regular",
-                    color:color.value,
-                    deviceTime,
-                    hiddenLocation,
-                    hideDate,
-                    roundCorner,
-                    timeFormat:timeFormat.value,
-                    timeZone,
-                    url:"Clock App"
-                  }))
-                  : ""
-                }
+                {orientationMode === "landscape" && preview
+                  ? handleClockApps(
+                      JSON.stringify({
+                        clockType: "regular",
+                        color: color.value,
+                        deviceTime,
+                        hiddenLocation,
+                        hideDate,
+                        roundCorner,
+                        timeFormat: timeFormat.value,
+                        timeZone,
+                        url: "Clock App",
+                      })
+                    )
+                  : ""}
               </div>
             </div>
           </form>
@@ -412,8 +413,13 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light"
-                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+              <Button
+                className="cancel-btn w-100"
+                variant="outline-light"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClose(false);
+                }}
               >
                 Cancel
               </Button>

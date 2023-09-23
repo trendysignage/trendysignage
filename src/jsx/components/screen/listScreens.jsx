@@ -140,7 +140,7 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
                 </div>
               </div>
             </Dropdown.Item>
-            <Dropdown.Item
+            {/* <Dropdown.Item
               href="#"
               className="dropdown-list-item"
               disabled={
@@ -162,7 +162,7 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
                   </span>
                 </div>
               </div>
-            </Dropdown.Item>
+            </Dropdown.Item> */}
             {/* <Dropdown.Item href="#" className="dropdown-list-item">
             <div className="d-flex">
               <div className="dropdown-list-icon">

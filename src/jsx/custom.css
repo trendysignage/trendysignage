@@ -1451,8 +1451,8 @@ overflow: unset;
     justify-content: center;
     flex-wrap: wrap;
     gap: 3rem;
-    width: fit-content;
-    height: auto;
+    /* width: fit-content;
+    height: auto; */
 }
 .qr-app-container .qr-box .qr{
   border: 5px solid #000;
@@ -1806,8 +1806,49 @@ input[type="radio"]:before {
     background-position: center;
     background-size: cover;
   }
- 
+  .fade-in-text {
+    animation: fadeIn 2s;
+    -webkit-animation: fadeIn 2s;
+    -moz-animation: fadeIn 2s;
+    -o-animation: fadeIn 2s;
+    -ms-animation: fadeIn 2s;
+  }
   
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @-moz-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @-webkit-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @-o-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @-ms-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  .people-setting{
+    width: 33px;
+    height: 33px;
+
+    padding: 8px;
+    box-shadow: 1px 1px 9px rgba(0,0,0,.34901960784313724);
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;
@@ -3102,6 +3143,9 @@ img.single-time-zone {
 .third-composition-second-div .media-content{
   height: 100% !important;
 }
+.third-composition-top-div .media-content{
+  height: 100% !important;
+}
 
 .third-composition-third-div{
   height: 20%;
@@ -3550,6 +3594,7 @@ thead {
 }
 :fullscreen .media-content .video-js {
   height: 100%;
+  width: 100%;
 }
 :fullscreen.landscape-view .modal-dialog{
   /* margin: 0px !important; */
