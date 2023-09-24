@@ -76,14 +76,28 @@ export async function getAllScreens(str=null) {
   return response.data.data;
 }
 
-export async function getAllMedia() {
-  const response = await fetchClient.get(BASE_URL + `/vendor/display/media`);
+export async function getAllMedia(data) {
+  console.log("data", data)
+  let response;
+  if(data && data != ''){
+    response = await fetchClient.get(BASE_URL + `/vendor/display/media?${data}`);
+  }else{
+    response = await fetchClient.get(BASE_URL + `/vendor/display/media`);
+  }
+  
   return response.data.data.media;
 }
-export async function getAllComposition() {
-  const response = await fetchClient.get(
-    BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000`
-  );
+export async function getAllComposition(str = null) {
+  let response;
+  if(str){
+    response = await fetchClient.get(
+      BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000&${str}`
+    );
+  }else{
+    response = await fetchClient.get(
+      BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000`
+    );
+  }
 
   return response.data.data;
 }
@@ -297,8 +311,13 @@ export async function getAllDaySequence(scheduleId) {
   return response.data.data;
 }
 
-export async function getAllSchedule() {
-  const response = await fetchClient.get(BASE_URL + `/vendor/push/schedules`);
+export async function getAllSchedule(str=null) {
+  let response;
+  if(str && str != ''){
+    response = await fetchClient.get(BASE_URL + `/vendor/push/schedules?${str}`);
+  }else{
+    response = await fetchClient.get(BASE_URL + `/vendor/push/schedules`);
+  }
   return response;
 }
 

@@ -4,23 +4,29 @@ import cancelIcon from "../../img/cancel-icon.png";
 import tagCloseIcon from "../../img/tag-close-icon.png";
 import { addTags } from '../../utils/api';
 
-const AddNewTagModal = ({ setNewTagModal, selected, setIsRefresh }) => {
+const AddNewTagModal = ({ setNewTagModal, selected, setIsRefresh, type }) => {
 
     const [tag, setTag] = useState(null);
     const [tagArr, setTagArr] = useState(selected.tags);
 
     const handleTagsSubmit = async(e) => {
-      // if(!tag || tag == ""){
-      //   console.log('Tag is required');
-      //   return;
-      // }
       e.preventDefault();
       const newArr = tagArr;
+      console.log(newArr)
       if(tag && tag != ""){
           newArr.push(tag.trim())
       }
+      console.log(newArr)
+      if(type && type == 'media'){
+        await addTags({type:'media', id:selected._id,tags:newArr});
+      }else if(type && type == 'schedule'){
+        await addTags({type:'schedule', id:selected._id,tags:newArr});
+      }else if(type && type == 'composition'){
+        await addTags({type:'composition', id:selected._id,tags:newArr});
+      }else{
+        await addTags({type:'screen', id:selected._id,tags:newArr});
+      }
       
-      await addTags({type:'screen', id:selected._id,tags:newArr});
       setTagArr(newArr);
       setTag("");
       console.log("OK")
@@ -34,7 +40,15 @@ const AddNewTagModal = ({ setNewTagModal, selected, setIsRefresh }) => {
         return indx != index;
       });
       setTagArr(newArr);
-      await addTags({type:'screen', id:selected._id,tags:newArr});
+      if(type && type == 'media'){
+        await addTags({type:'media', id:selected._id,tags:newArr});
+      }else if(type && type == 'schedule'){
+        await addTags({type:'schedule', id:selected._id,tags:newArr});
+      }else if(type && type == 'composition'){
+        await addTags({type:'composition', id:selected._id,tags:newArr});
+      }else{
+        await addTags({type:'screen', id:selected._id,tags:newArr});
+      }
       setTagArr(newArr);
       setIsRefresh(true)
       setTag("");

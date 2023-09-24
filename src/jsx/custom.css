@@ -3674,6 +3674,10 @@ thead {
   z-index: 99 !important;
 }
 
+.MuiDataGrid-root{
+  min-height:450px;
+}
+
 .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within {
   outline: none !important;
 }

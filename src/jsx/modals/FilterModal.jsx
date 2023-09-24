@@ -5,7 +5,7 @@ import tagCloseIcon from "../../img/tag-close-icon.png";
 import { Link } from "react-router-dom";
 import { getGroups, getAllTags } from '../../utils/api'
 
-const FilterModal = ({ showFilterModal, setFilterModal, setFilterData, setIsRefresh }) => {
+const FilterModal = ({ showFilterModal, setFilterModal, setFilterData, setIsRefresh, type, selectedType }) => {
 
   const [screenShow, setScreenShow] = useState([]);
   const [tags,setTags] = useState([]);
@@ -24,7 +24,7 @@ const FilterModal = ({ showFilterModal, setFilterModal, setFilterData, setIsRefr
   };
 
   const callAllTagsApi = async () => {
-    const list = await getAllTags('screens');
+    const list = await getAllTags(selectedType ? selectedType : 'screens');
     console.log("tags",list)
     setAllTags(list);
   };
@@ -84,7 +84,10 @@ const FilterModal = ({ showFilterModal, setFilterModal, setFilterData, setIsRefr
     >
       <Modal.Header>
         <Modal.Title className="mr-auto">Filter</Modal.Title>
-        <span className="clear-filter-link">Clear Filter</span>
+        <span className="clear-filter-link"
+          onClick={(e) => resetFilter(e)}
+          style={{cursor:'pointer'}}
+        >Clear Filter</span>
         <Button
           variant=""
           className="close"
@@ -94,133 +97,134 @@ const FilterModal = ({ showFilterModal, setFilterModal, setFilterData, setIsRefr
         </Button>
       </Modal.Header>
       <Modal.Body>
-        <div className="filter-row mb-3">
-          <h6>Show</h6>
-          <div className="d-flex flex-wrap">
-            <div className="custom-control custom-checkbox common-checkbox mr-3">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                name="live"
-                id="live"
-                checked={screenShow['live']}
-                onChange={(e) => {console.log(e); setScreenShow({...screenShow,['live']:e.target.checked})}}
-              />
-              <label className="custom-control-label" htmlFor="live">
-                Live
-              </label>
+        {
+          type && type.includes('shows') ?
+          <div className="filter-row mb-3">
+            <h6>Show</h6>
+            <div className="d-flex flex-wrap">
+              <div className="custom-control custom-checkbox common-checkbox mr-3">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  name="live"
+                  id="live"
+                  checked={screenShow['live']}
+                  onChange={(e) => {console.log(e); setScreenShow({...screenShow,['live']:e.target.checked})}}
+                />
+                <label className="custom-control-label" htmlFor="live">
+                  Live
+                </label>
+              </div>
+              <div className="custom-control custom-checkbox common-checkbox mr-3">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  name="offline"
+                  id="offline"
+                  checked={screenShow['offline']}
+                  onChange={(e) => {setScreenShow({...screenShow,['offline']:e.target.checked})}}
+                />
+                <label className="custom-control-label" htmlFor="offline">
+                  Offline
+                </label>
+              </div>
+              <div className="custom-control custom-checkbox common-checkbox mr-3">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  name="deactivated"
+                  id="deactivated"
+                  checked={screenShow['deactivated']}
+                  onChange={(e) => {setScreenShow({...screenShow,['deactivated']:e.target.checked})}}
+                />
+                <label className="custom-control-label" htmlFor="deactivated">
+                  Deactivated
+                </label>
+              </div>
             </div>
-            <div className="custom-control custom-checkbox common-checkbox mr-3">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                name="offline"
-                id="offline"
-                checked={screenShow['offline']}
-                onChange={(e) => {setScreenShow({...screenShow,['offline']:e.target.checked})}}
-              />
-              <label className="custom-control-label" htmlFor="offline">
-                Offline
-              </label>
-            </div>
-            <div className="custom-control custom-checkbox common-checkbox mr-3">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                name="deactivated"
-                id="deactivated"
-                checked={screenShow['deactivated']}
-                onChange={(e) => {setScreenShow({...screenShow,['deactivated']:e.target.checked})}}
-              />
-              <label className="custom-control-label" htmlFor="deactivated">
-                Deactivated
-              </label>
-            </div>
-          </div>
-        </div>
-        <div className="filter-row mb-3">
-          <h6>Tags</h6>
-          {/* <div className="d-flex flex-wrap">
-            <Badge className="badge-common-light mr-2" variant="outline-light">
-              Test Devices
-            </Badge>
-            <Badge className="badge-common-light mr-2" variant="outline-light">
-              Test Devices
-            </Badge>
-            <Badge className="badge-common-light mr-2" variant="outline-light">
-              Test Devices
-            </Badge>
-          </div> */}
-          <div className="tag-content-row d-flex flex-wrap align-items-center">
-            {
-              allTags && allTags.length > 0 
-              ?
-                <>
-                {allTags.map((item) => {
-                  return (
-                    <div className="col-3">
-                    <input
-                      id={"check-"+item}
-                      type="checkbox"
-                      className="   "
-                      required
-                      name={item._id}
-                      checked={tags && tags[item]}
-                      onChange={(e) => setTags({...tags, [item] : e.target.checked})}
-                    />
-                    <label className="mt-3 mr-3">{item}</label>
-                  </div>
-                  )
-                })}
-                </>
-              : 'NO Groups Found'
-            }
-        </div>
-        </div>
-        <div className="filter-row mb-3">
-          <h6>Groups</h6>
-          <div className="d-flex flex-wrap">
-            {/* {
-              allGroups && allGroups.map((item) => {
-                {console.log("dsds");}
-                return (
-                  <Badge 
-                    className={`badge-common-light mr-2 ${groups.includes(item._id) ? 'active' : 'non-active'}`}
-                     variant="outline-light"
-                     onClick = {(e) => {handleGroups(e,item)}}
-                  >
-                    {item.name}
-                  </Badge>
-                );
-              })
-            } */}
+          </div> 
+          : <></>
+        }
+        {
+          type && type.includes('tags') ?
+          <div className="filter-row mb-3">
+            <h6>Tags</h6>
             <div className="tag-content-row d-flex flex-wrap align-items-center">
-            {
-              allGroups && allGroups.length > 0 
-              ?
-                <>
-                {allGroups.map((item) => {
-                  return (
-                    <div className="col-3">
-                    <input
-                      id={"check-"+item._id}
-                      type="checkbox"
-                      className="   "
-                      required
-                      name={item._id}
-                      checked={groups && groups[item._id]}
-                      onChange={(e) => setGroups({...groups, [item._id] : e.target.checked})}
-                    />
-                    <label className="mt-3 mr-3">{item.name}</label>
-                  </div>
-                  )
-                })}
-                </>
-              : 'NO Groups Found'
-            }
+              {
+                allTags && allTags.length > 0 
+                ?
+                  <>
+                  {allTags.map((item) => {
+                    return (
+                      <div className="col-3">
+                      <input
+                        id={"check-"+item}
+                        type="checkbox"
+                        className="   "
+                        required
+                        name={item._id}
+                        checked={tags && tags[item]}
+                        onChange={(e) => setTags({...tags, [item] : e.target.checked})}
+                      />
+                      <label className="mt-3 mr-3">{item}</label>
+                    </div>
+                    )
+                  })}
+                  </>
+                : 'NO Groups Found'
+              }
             </div>
           </div>
-        </div>
+          : <></>
+        }
+        {
+          type && type.includes('groups') ?
+          <div className="filter-row mb-3">
+            <h6>Groups</h6>
+            <div className="d-flex flex-wrap">
+              {/* {
+                allGroups && allGroups.map((item) => {
+                  {console.log("dsds");}
+                  return (
+                    <Badge 
+                      className={`badge-common-light mr-2 ${groups.includes(item._id) ? 'active' : 'non-active'}`}
+                      variant="outline-light"
+                      onClick = {(e) => {handleGroups(e,item)}}
+                    >
+                      {item.name}
+                    </Badge>
+                  );
+                })
+              } */}
+              <div className="tag-content-row d-flex flex-wrap align-items-center">
+              {
+                allGroups && allGroups.length > 0 
+                ?
+                  <>
+                  {allGroups.map((item) => {
+                    return (
+                      <div className="col-3">
+                      <input
+                        id={"check-"+item._id}
+                        type="checkbox"
+                        className="   "
+                        required
+                        name={item._id}
+                        checked={groups && groups[item._id]}
+                        onChange={(e) => setGroups({...groups, [item._id] : e.target.checked})}
+                      />
+                      <label className="mt-3 mr-3">{item.name}</label>
+                    </div>
+                    )
+                  })}
+                  </>
+                : 'NO Groups Found'
+              }
+              </div>
+            </div>
+          </div>
+           : <></>
+        }
       </Modal.Body>
       <Modal.Footer>
         <Button
@@ -230,14 +234,6 @@ const FilterModal = ({ showFilterModal, setFilterModal, setFilterData, setIsRefr
           onClick={(e) => handleFilter(e)}
         >
           Apply
-        </Button>
-        <Button
-          variant=""
-          type="button"
-          className="btn btn-primary btn-block primary-btn"
-          onClick={(e) => resetFilter(e)}
-        >
-          Reset
         </Button>
       </Modal.Footer>
     </Modal>

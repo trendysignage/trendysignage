@@ -296,21 +296,21 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
 
   return (
     <>
-      <FilterModal
+        <FilterModal
           showFilterModal={showFilterModal}
           setFilterModal={setFilterModal}
           setFilterData={setFilterData}
           setIsRefresh={setIsRefresh}
         />
-      <Button
-            className="ml-2 icon-btn"
-            variant="primary"
-            onClick={() => {
-              setFilterModal(true);
-            }}
-          >
-            <img className="icon-icon" src={listIcon} alt="list-icon" />
-          </Button>
+        <Button
+          className="ml-2 icon-btn"
+          variant="primary"
+          onClick={() => {
+            setFilterModal(true);
+          }}
+        >
+          <img className="icon-icon" src={listIcon} alt="list-icon" />
+        </Button>
       <DataGrid
         getRowHeight={() => 'auto'}
         components={{
