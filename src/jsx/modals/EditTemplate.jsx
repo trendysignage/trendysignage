@@ -7,9 +7,9 @@ import Slider from "@mui/material/Slider";
 
 const EditTemplate = ({ setShowUrlApp, show, setSettingData, settingData }) => {
   const fontOptions = [
-    { value: "bree-sarif", label: "Bree Sarif" },
-    { value: "oswald", label: "Oswald" },
-    { value: "permanent", label: "Permanent Maker" },
+    { value: "'Fira Sans', sans-serif", label: "Fira Sans" },
+    { value: "'Montserrat', sans-serif", label: "Montserrat" },
+    { value: "'Manrope', sans-serif", label: "Manrope" },
   ];
 
   const [isTitle, setIsTitle] = useState(true);
@@ -35,7 +35,7 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData, settingData }) => {
       titleStyle,
       nameStyle,
       messageStyle,
-      bgStyle,
+      bgColor,
       duration,
       bgOpacity,
     };
@@ -230,7 +230,7 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData, settingData }) => {
                       required
                     />
                   </div>
-                  <div
+                  {/* <div
                     style={{
                       marginLeft: "10px",
                       width: "150px",
@@ -243,7 +243,7 @@ const EditTemplate = ({ setShowUrlApp, show, setSettingData, settingData }) => {
                       options={fontOptions}
                       className="app-option"
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="d-flex align-items-center  justify-content-between mt-3">

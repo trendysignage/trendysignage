@@ -130,6 +130,7 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
         type: item.type,
         uploaded_date: item.createdAt,
         tags:item,
+        property:item,
         action: item,
       });
     });
@@ -297,6 +298,26 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
       </span>
     )
   }
+  
+  const renderProperties = (params) => {
+    const {value} = params;
+    const prp = value.properties ? JSON.parse(value.properties) : null;
+    if(prp && (prp.height || prp.width || prp.length || prp.size)){
+      return <span className="td-content">
+          <strong>{prp.height ? "Height : "+prp.height : ""}</strong>
+          <br />
+          <strong>{prp.width ? "Width : "+prp.width : ""}</strong>
+          <br />
+          <strong>{prp.size ? "Size : "+prp.size+" MB" : ""}</strong>
+      </span>
+    }else{
+      return <span className="td-content">
+        <strong>{value.type.split("-")[0].toUpperCase()} </strong>
+    </span>
+    }
+    
+
+  }
 
   const columns = [
     { field: "name", headerName: "Name", flex: 1, renderCell: renderName },
@@ -316,6 +337,12 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
       field: "tags",
       headerName: "Tags",
       renderCell:tagsRender,
+      flex: 1,
+    },
+    {
+      field: "property",
+      headerName: "Properties",
+      renderCell:renderProperties,
       flex: 1,
     },
     {

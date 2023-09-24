@@ -188,6 +188,36 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
     );
   };
 
+  const renderSchedule = (params) => {
+    const { value } = params;
+    let sch = '--';
+    if(value[0]){
+      sch = value[0].name
+    }
+    if(value.name){
+      sch = value.name;
+    }
+    return (
+      <span className="td-content">
+        <strong>{sch}</strong>
+      </span>
+    )
+  }
+
+  const renderDefault = (params) => {
+    const { value } = params;
+    let def = '--';
+    if(value.defaultComposition){
+      def = value.defaultComposition.media.name;
+    }
+    return (
+      <span className="td-content">
+        <strong>{def}</strong>
+      </span>
+    )
+  }
+
+
   const tagsRender = (params) => {
     const { value } = params;
     return (
@@ -231,7 +261,6 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
       </span>
     )
   }
-
   const rows1 = [];
   if (allScreens && allScreens.length > 0) {
     allScreens.forEach((item) => {
@@ -242,8 +271,10 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
           location: item.screenLocation,
         },
         last_seen: item,
+        schedule:item.schedule,
         tags: item,
         groups: item.groups,
+        defaultComposition:item,
         default_composition: item.defaultComposition
           ? item.defaultComposition.media.name
           : " -- ",
@@ -276,6 +307,18 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
       field: "default_composition",
       headerName: "Default Composition",
       flex: 1,
+    },
+    {
+      field: "schedule",
+      headerName: "Schedule",
+      flex:1,
+      renderCell:renderSchedule
+    },
+    {
+      field: "defaultComposition",
+      headerName: "Default Comp..",
+      flex:1,
+      renderCell:renderDefault
     },
     { field: "tags", headerName: "Tags", flex: 1, renderCell: tagsRender },
     { field: "groups", headerName: "Groups", flex: 1, renderCell: groupRender },
