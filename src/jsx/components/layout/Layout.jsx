@@ -10,10 +10,41 @@ import { getAllComposition } from "../../../utils/api";
 import ListComposition from "./Composition/listComposition";
 import LockScreen from "../../pages/LockScreen";
 const Layout = ({permission}) => {
-  const { data: allComposition, mutate } = useSWR(
-    "/vendor/layouts/compositions",
-    getAllComposition
-  );
+
+  const [filterData, setFilterData] = useState([])
+  const [allComposition, setAllComposition] = useState([]);
+  const [isRefresh, setIsRefresh] = useState(false)
+
+  // const { data: allComposition, mutate } = useSWR(
+  //   "/vendor/layouts/compositions",
+  //   getAllComposition
+  // );
+  const callAllCompApi = async () => {
+    let str = "";
+    // if(filterData.groups && filterData.groups.length > 0){
+    //   filterData.groups.map((grp, i) => {
+    //     return str += `groups[${i}]=${grp}&`
+    //   })
+    // }
+    if(filterData.tags && filterData.tags.length > 0){
+      filterData.tags.map((tg, i) => {
+        return str += `tags[${i}]=${tg}&`
+      })
+    }
+    // if(filterData.shows && filterData.shows.length > 0){
+    //   filterData.shows.map((tg, i) => {
+    //     return str += `status[${i}]=${tg}&`
+    //   })
+    // }
+    const list = await getAllComposition(str);
+    console.log("list", list)
+    setAllComposition(list);
+  };
+
+  useEffect(() => {
+    setIsRefresh(false)
+    callAllCompApi()
+  },[isRefresh])
 
   return (
     <div>
@@ -81,7 +112,10 @@ const Layout = ({permission}) => {
           )}
 
           {allComposition && (
-            <ListComposition allComposition={allComposition} mutate={mutate} permission={permission} />
+            <ListComposition allComposition={allComposition} 
+            //mutate={mutate} 
+            setIsRefresh={setIsRefresh}
+            permission={permission} setFilterData={setFilterData} />
           )}
         </>
         :

@@ -1807,8 +1807,6 @@ input[type="radio"]:before {
     background-size: cover;
   }
   .fade-in-text {
-  
- 
     animation: fadeIn 2s;
     -webkit-animation: fadeIn 2s;
     -moz-animation: fadeIn 2s;
@@ -3674,4 +3672,16 @@ thead {
 
 .custModal{
   z-index: 99 !important;
+}
+
+.MuiDataGrid-root{
+  min-height:450px;
+}
+
+.MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within {
+  outline: none !important;
+}
+.css-1e2bxag-MuiDataGrid-root .MuiDataGrid-row:not(.MuiDataGrid-row--dynamicHeight)>.MuiDataGrid-cell{
+  overflow: none !important;
+  white-space: normal !important;
 }

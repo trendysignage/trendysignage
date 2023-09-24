@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import ListMedia from "./listMedia";
 import FilterModal from "../../modals/FilterModal";
@@ -12,12 +12,47 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import LockScreen from "../../pages/LockScreen"
 import useSWR from "swr";
 const Media = ({auth, permission}) => {
-  const [showFilterModal, setFilterModal] = useState(false);
   const [showUploadMediaModal, setUploadMediaModal] = useState(false);
-  const { data: allMedia, mutate } = useSWR(
-    "/vendor/display/media",
-    getAllMedia
-  );
+  const [isRefresh, setIsRefresh] = useState(false)
+  const [filterData, setFilterData] = useState({
+    groups:[],
+    tags:[],
+    shows:[]
+  });
+  const [allMedia, setAllMedia] = useState([]);
+  
+  // const { data: allMedia, mutate } = useSWR(
+  //   "/vendor/display/media",
+  //   getAllMedia
+  // );
+  const callAllMedialApi = async () => {
+    let str = "";
+    // if(filterData.groups && filterData.groups.length > 0){
+    //   filterData.groups.map((grp, i) => {
+    //     return str += `groups[${i}]=${grp}&`
+    //   })
+    // }
+    if(filterData.tags && filterData.tags.length > 0){
+      filterData.tags.map((tg, i) => {
+        return str += `tags[${i}]=${tg}&`
+      })
+    }
+    // if(filterData.shows && filterData.shows.length > 0){
+    //   filterData.shows.map((tg, i) => {
+    //     return str += `status[${i}]=${tg}&`
+    //   })
+    // }
+    const list = await getAllMedia(str);
+    console.log("list", list)
+    setAllMedia(list);
+  };
+
+  useEffect(() => {
+    setIsRefresh(false)
+    callAllMedialApi()
+  },[isRefresh])
+
+
   console.log(permission, "kkkkkkkk media page");
 
   
@@ -118,19 +153,18 @@ const Media = ({auth, permission}) => {
                 <img className="icon-icon" src={listIcon} alt="list-icon" />
               </Button>
             </div> */}
-            {/* <FilterModal
-              showFilterModal={showFilterModal}
-              setFilterModal={setFilterModal}
-            /> */}
             <UploadMediaModal
               showUploadMediaModal={showUploadMediaModal}
               setUploadMediaModal={setUploadMediaModal}
-              callAllMediaApi={mutate}
+              //callAllMediaApi={mutate}
+              setIsRefresh={setIsRefresh}
             />
           </div>
       }
       
-      {permission && permission.permission.ASSETS.view ? <ListMedia allMedia={allMedia} auth={auth} callAllMediaApi={mutate} permission={permission} /> : <LockScreen message={"You don't have permission to access this !!!"} />}
+      {permission && permission.permission.ASSETS.view ? <ListMedia allMedia={allMedia} auth={auth} 
+        //callAllMediaApi={mutate}
+       permission={permission} setIsRefresh={setIsRefresh} setFilterData={setFilterData} /> : <LockScreen message={"You don't have permission to access this !!!"} />}
     </>
   );
 };

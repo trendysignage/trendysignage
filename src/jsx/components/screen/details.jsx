@@ -19,11 +19,12 @@ import editComposition from "../../../img/edit-composition.png";
 import clockIcon from "../../../img/clock-icon.png";
 import tagAddIcon from "../../../img/icon-tag-add.png";
 
-import { deleteScreen, getAllScreens } from "../../../utils/api";
+import { deleteScreen, getAllScreens, getGroups, assignScreenGroups } from "../../../utils/api";
 import DeleteConfirmation from "../../modals/DeleteConfirmation";
 import QuickPlayModal from "../../modals/QuickPlayModal";
 import WindowsModal from "../../modals/WindowsModal";
 import UpdateModal from "../../modals/UpdateModal";
+import { toast } from "react-toastify";
 
 const ScreenDetails = () => {
   const history = useHistory();
@@ -35,10 +36,26 @@ const ScreenDetails = () => {
   const [showQuickPlayModal, setQuickPlayModal] = useState(false);
   const [showWindowsModal, setWindowsModal] = useState(false);
   const [showUpdateModal, setUpdateModal] = useState(false);
+  const [allGroups, setAllGroups] = useState([]);
+  const [selectedGroups, setSelectedGroups] = useState([]);
+  const [isRefresh, setIsRefresh] = useState(false);
+  const [isEdit, setIsEdit] = useState(false)
+
   // use effect
   useEffect(() => {
+    setIsRefresh(false)
     callAllScreenApi();
-  }, []);
+    callAllGroupsApi();
+  }, [isRefresh]);
+  useEffect(() => {
+    if(screen){
+      screen.groups.map((i) => {
+        setSelectedGroups({...selectedGroups, [i._id] : true})
+      })
+
+      console.log("selectedGroups",selectedGroups, screen)
+    }
+  }, [screen]);
   const callAllScreenApi = async () => {
     const list = await getAllScreens();
     setScreen(
@@ -47,7 +64,11 @@ const ScreenDetails = () => {
       })
     );
   };
-  console.log(screen, "details screen ");
+  const callAllGroupsApi = async () => {
+    const list = await getGroups();
+    console.log("Groups",list)
+    setAllGroups(list.groups);
+  };
   const handleDelete = async () => {
     setDeleteModal(false);
     await deleteScreen(id);
@@ -65,6 +86,73 @@ const ScreenDetails = () => {
   const handleUpdate = async () => {
     setWindowsModal(false);
   };
+
+  const submitChangeGroups = async(e) => {
+    e.preventDefault();
+    //console.log("selectedGroups",selectedGroups, Object.keys(selectedGroups));
+    const selectedGrp = selectedGroups;
+    const groupsData = Object.keys(selectedGrp).filter((i) => {
+      if(selectedGrp[i] == false){
+        delete selectedGrp[i];
+      }
+      return selectedGrp[i] && selectedGrp[i] == true
+    });
+    console.log(selectedGrp)
+    setSelectedGroups(selectedGrp)
+    if(groupsData.length <= 0){
+      return toast.error("Please add some content...", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    if(!id){
+      return toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    console.log('gp',groupsData, selectedGroups)
+    await assignScreenGroups({
+      screenId:id,
+      groupIds:groupsData
+    })
+    setIsRefresh(true)
+    setIsEdit(false)
+    return toast.success("Groups has been assigned...", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    
+  }
+  // const handleChangeGroups = async(e) => {
+  //   e.preventDefault();
+  //   console.log()
+  //   if(e.target.checked){
+  //     setSelectedGroups({...selectedGroups, [e.target.name] : true})
+  //   }else{
+  //     const newData = selectedGroups;
+  //     delete newData[e.target.name];
+  //     setSelectedGroups(newData);
+  //   }
+  // }
   const defaultAccordion = [
     {
       title: "Content",
@@ -280,6 +368,72 @@ const ScreenDetails = () => {
               <img className="tag-add-icon" src={tagAddIcon} alt="menu-icon" />
             </span>
           </div>
+        </div>
+      ),
+
+      bg: "success",
+    },
+    {
+      title: "Groups",
+      text: (
+        <div className="tag-accordion-content">
+          {
+            
+            !isEdit && <div className="tag-content-row d-flex flex-wrap align-items-center">
+            {
+              screen && screen.groups.map((item) => {
+               return (
+                 <Badge
+                   className="badge-common-light badge-tag mr-2"
+                   variant="outline-light"
+                 >
+                   {item.name}
+                 </Badge>
+               )
+             })
+            }
+              <span className="tag-added" style={{cursor:'pointer'}} onClick={(e) => setIsEdit(true)}>
+                {" "}
+                <img className="tag-add-icon" src={tagAddIcon} alt="menu-icon" />
+              </span>
+            </div>
+            
+          }
+          {
+            isEdit && <div className="tag-content-row d-flex flex-wrap align-items-center">
+            {
+              allGroups && allGroups.length > 0 
+              ?
+                <>
+                {allGroups.map((item) => {
+                  return (
+                    <div className="col-3">
+                    <input
+                      id={"check-"+item._id}
+                      type="checkbox"
+                      className="   "
+                      required
+                      name={item._id}
+                      checked={selectedGroups && selectedGroups[item._id]}
+                      onChange={(e) => setSelectedGroups({...selectedGroups, [item._id] : e.target.checked})}
+                    />
+                    <label className="mt-3 mr-3">{item.name}</label>
+                  </div>
+                  )
+                })}
+                </>
+              : 'NO Groups Found'
+            }
+            <span className="tag-added" onClick = {(e) =>submitChangeGroups(e)}>
+              <Button className="btn btn-sm btn-primary">Save</Button>
+            </span>
+            <span className="tag-added mr-2 ml-2" onClick = {(e) =>setIsEdit(false)}>
+              <Button className="btn btn-sm btn-danger">Cancel</Button>
+            </span>
+            </div>
+          }
+          
+
         </div>
       ),
 

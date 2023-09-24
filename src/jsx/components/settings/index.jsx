@@ -31,7 +31,6 @@ const Settings = ({ permission }) => {
   const [isRefresh, setIsRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
   const handleDropDown = (e, data) => {
     e.preventDefault();
     setDropValue(data);
@@ -100,6 +99,11 @@ const Settings = ({ permission }) => {
 
   return (
     <>
+      <ChangePassword
+        setShowModel={() => setShowModal(false)}
+        show={showModal}
+      />
+
       <AddUserModal
         open={showAddUserModel}
         setShowAddUserModel={setShowAddUserModel}

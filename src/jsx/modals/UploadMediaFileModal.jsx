@@ -7,7 +7,8 @@ import { addMedia } from "../../utils/api";
 const UploadMediaModal = ({
   showUploadMediaModal,
   setUploadMediaModal,
-  callAllMediaApi,
+  //callAllMediaApi,
+  setIsRefresh
 }) => {
   const [file, setFile] = useState([]);
   const [fileMeta, setFileMeta] = useState([]);
@@ -23,7 +24,7 @@ const UploadMediaModal = ({
       c++;
     }
     setIsLoading(false);
-    callAllMediaApi();
+    setIsRefresh(true)
     setUploadMediaModal(false);
     setPreviewList([]);
     setFile([]);

@@ -16,10 +16,11 @@ import PublishMediaModal from "../../../modals/PublishMediaModal";
 
 const CompositionActions = ({
   composition,
-  mutate,
+  //mutate,
   setDeleteModal,
   setSelected,
-  permission
+  permission,
+  setIsRefresh
 }) => {
   const [duplicateModal, setDuplicateModal] = useState(false);
   const [viewDetailsModal, setViewDetailsModal] = useState(false);
@@ -60,8 +61,9 @@ const CompositionActions = ({
     };
     //  console.log(data)
     await postComposition(data);
-    mutate();
+    //mutate();
     setDuplicateModal(false);
+    setIsRefresh(true)
   };
   return (
     <>
