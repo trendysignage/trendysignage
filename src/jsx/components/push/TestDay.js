@@ -7,7 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import { toast } from "react-toastify";
 import {
   BASE_URL,
-  getAllComposition,
+  getAllCompositionSWR,
   getAllMedia,
   saveSequence,
   getAllDaySequence,
@@ -42,7 +42,7 @@ export default function TestDay() {
 
   const { data: allComposition, mutate } = useSWR(
     "/vendor/layouts/compositions",
-    getAllComposition
+    getAllCompositionSWR
   );
 
   let timeFormet = {
@@ -76,24 +76,53 @@ export default function TestDay() {
     });
   }, []);
 
-  const eventFunction = (info) => {
+  function eventFunction(info) {
+    console.log("Sdsd");
     //const newArray = events;
     const id = info.el.fcSeg.eventRange.def.sourceId;
-    const defId = info.event._def.defId;
+    const defId = info.event._def.extendedProps.defId != undefined ? info.event._def.extendedProps.defId : info.event._def.defId ;
     let newArr = events.map((item, i) => {
       if (item.defId == defId) {
-        return {
-          ...item,
-          ["timing"]: info.el.innerText.split("\n\n")[1],
-          ["startTime"]: info.el.innerText.split("\n\n")[1].split(" - ")[0],
-          ["endTime"]: info.el.innerText.split("\n\n")[1].split(" - ")[1],
-        };
+        if(item.startTime && item.endTime){
+         // console.log("time",info.el.innerText.split("\n\n")[1])
+          return { ...item,
+            ["timing"]: info.el.innerText.split("\n\n")[1],
+            ['startTime']:info.el.innerText.split("\n\n")[1].split(" - ")[0],
+            ['endTime']:info.el.innerText.split("\n\n")[1].split(" - ")[1]
+          };
+        }else{
+          return { ...item,
+            ["timing"]: info.el.innerText.split("\n\n")[1]
+          };
+        }
       } else {
         return item;
       }
     });
+   // console.log("resize",newArr)
     setEvents(newArr);
-  };
+  }
+
+  // const eventFunction = (info) => {
+  //   const newArray = events;
+  //   const id = info.el.fcSeg.eventRange.def.sourceId;
+  //   const defId = info.event._def.defId;
+  //   console.log("Resizing",id, defId, events, info);
+  //   const newArr = events.map((item, i) => {
+  //     if (item.defId == defId) {
+  //       return {
+  //         ...item,
+  //         ["timing"]: info.el.innerText.split("\n\n")[1],
+  //         ["startTime"]: info.el.innerText.split("\n\n")[1].split(" - ")[0],
+  //         ["endTime"]: info.el.innerText.split("\n\n")[1].split(" - ")[1],
+  //       };
+  //     } else {
+  //       return item;
+  //     }
+  //   });
+  //   console.log("newArr", newArr)
+  //   setEvents(newArr);
+  // };
   // handle event receive
 
   const handleEventReceive = (eventInfo) => {

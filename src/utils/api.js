@@ -102,6 +102,14 @@ export async function getAllComposition(str = null) {
   return response.data.data;
 }
 
+export async function getAllCompositionSWR(str = null) {
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000`
+  );
+
+  return response.data.data;
+}
+
 export const permission = {
   SCREEN:{ view:false, add:false, edit:false,delete:false},
   ASSETS:{ view:false, add:false, edit:false,delete:false},

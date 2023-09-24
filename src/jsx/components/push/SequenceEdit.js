@@ -7,7 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import { toast } from "react-toastify";
 import {
   BASE_URL,
-  getAllComposition,
+  getAllCompositionSWR,
   getAllMedia,
   updateSequence,
   getAllDaySequence,
@@ -43,7 +43,7 @@ export default function SequenceTime() {
 
   const { data: allComposition, mutate } = useSWR(
     "/vendor/layouts/compositions",
-    getAllComposition
+    getAllCompositionSWR
   );
 
   const callSingleDaySequence = async (schId) => {
@@ -122,9 +122,7 @@ export default function SequenceTime() {
     //const newArray = events;
     const id = info.el.fcSeg.eventRange.def.sourceId;
     const defId = info.event._def.extendedProps.defId != undefined ? info.event._def.extendedProps.defId : info.event._def.defId ;
-    console.log("resize",id,defId,def, info)
     let newArr = events.map((item, i) => {
-     console.log(item.defId,defId)
       if (item.defId == defId) {
         if(item.startTime && item.endTime){
          // console.log("time",info.el.innerText.split("\n\n")[1])
