@@ -37,6 +37,7 @@ const Layout = ({permission}) => {
     //   })
     // }
     const list = await getAllComposition(str);
+
     setAllComposition(list);
   };
 
