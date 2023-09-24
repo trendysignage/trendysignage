@@ -19,13 +19,16 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [mediaId, setMediaId] = useState(null);
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
-  const [color, setColor] = useState({ value: "lightYellow", label: "Light Yellow" });
+  const [color, setColor] = useState({
+    value: "lightYellow",
+    label: "Light Yellow",
+  });
   const [preview, setPreview] = useState(false);
-  const [isRefresh, setIsRefresh] = useState(false); 
+  const [isRefresh, setIsRefresh] = useState(false);
   const [orientationMode, setOrientation] = useState("landscape");
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageModalShow, setImageModalShow] = useState(false);
-  const [previewData, setPreviewData] = useState(null)
+  const [previewData, setPreviewData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const colorOptions = [
@@ -46,8 +49,10 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       setAppTitle(jsonString.appTitle);
       setMediaId(mediaData._id);
       setColor(jsonString.color);
-      setSelectedImage(jsonString.image)
-      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "landscape")
+      setSelectedImage(jsonString.image);
+      setOrientation(
+        jsonString.orientationMode ? jsonString.orientationMode : "landscape"
+      );
     }
   }, [mediaData]);
   console.log("media", mediaData);
@@ -61,36 +66,39 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       setErr(true);
       setErrorMessage("App Name is required");
       setIsLoading(false);
-      return
-    }if (urlLink.trim() == "") {
+      return;
+    }
+    if (urlLink.trim() == "") {
       setErr(true);
       setErrorMessage("URL Link is required");
       setIsLoading(false);
-      return
-    } if (appTitle.trim() == "") {
+      return;
+    }
+    if (appTitle.trim() == "") {
       setErr(true);
       setErrorMessage("App Title is required");
       setIsLoading(false);
-      return
-    } if (appDesc.trim() == "") {
+      return;
+    }
+    if (appDesc.trim() == "") {
       setErr(true);
       setErrorMessage("App Description is required");
       setIsLoading(false);
-      return
+      return;
     }
     const dataString = {
       url: urlLink.trim(),
-      appTitle:appTitle.trim(),
-      appDesc:appDesc.trim(),
-      name:name.trim(),
+      appTitle: appTitle.trim(),
+      appDesc: appDesc.trim(),
+      name: name.trim(),
       color,
       orientationMode,
-      image:selectedImage
+      image: selectedImage,
     };
-    console.log(dataString)
+    console.log(dataString);
     if (actionType && actionType == "edit") {
       await updateApps({
-        name:name.trim(),
+        name: name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
@@ -98,7 +106,7 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
       setIsLoading(false);
     } else {
       await addApps({
-        name:name.trim(),
+        name: name.trim(),
         type: "qrcode-apps",
         data: JSON.stringify(dataString),
       });
@@ -110,22 +118,25 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   };
 
   const handlePreview = () => {
-    if(name && urlLink && appTitle){
-      setPreview(true)
-      setPreviewData(handleQrApps(JSON.stringify({
-        url: urlLink,
-        appTitle,
-        appDesc,
-        name,
-        color,
-        orientationMode,
-        image:selectedImage
-      })))
-      
-    }else{
-      setPreview(false)
+    if (name && urlLink && appTitle) {
+      setPreview(true);
+      setPreviewData(
+        handleQrApps(
+          JSON.stringify({
+            url: urlLink,
+            appTitle,
+            appDesc,
+            name,
+            color,
+            orientationMode,
+            image: selectedImage,
+          })
+        )
+      );
+    } else {
+      setPreview(false);
     }
-  }
+  };
 
   const handleClose = (val) => {
     setName("");
@@ -134,8 +145,8 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     setAppDesc("");
     setColor({ value: "lightYellow", label: "Light Yellow" });
     setOrientation("landscape");
-    setShowUrlApp(val)
-  }
+    setShowUrlApp(val);
+  };
   return (
     <>
       <SelectMedia
@@ -157,7 +168,10 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
           <Button
             variant=""
             className="close"
-             onClick={(e) => {e.preventDefault(); handleClose(false)}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose(false);
+            }}
           >
             <img
               className="cancel-icon"
@@ -239,41 +253,44 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   />
                 </div>
                 <div className="col-4">
-                {
-                  selectedImage ? 
-                  <>
-                  <img
-                    className="media-img img-fluid"
-                    src={`${BASE_URL}${selectedImage}`}
-                    alt="media-img"
-                    style={{
-                      height: "100px",
-                      width: "100px",
-                    }}
-                  />
-                  <img
-                    onClick={(e) => setSelectedImage(null)}
-                    src={deleteicon}
-                    alt="icon"
-                    style={{ height: "20px",cursor:"pointer" }}
-                  />
-                  </>
-                :
-                  <>
-                    <label className="mt-3">Select Media</label>
-                    <div 
-                      onClick={(e) => {
-                        setImageModalShow(true);
-                      }}
-                      style={{cursor:'pointer'}}
-                    >
-                      <img src={qrupload} alt="icon" />
-                    </div>
-                  </>
-              }
+                  {selectedImage ? (
+                    <>
+                      <label className="mt-4"></label>
+                      <div className="d-flex align-items-center mt-3">
+                        <img
+                          className="media-img img-fluid"
+                          src={`${BASE_URL}${selectedImage}`}
+                          alt="media-img"
+                          style={{
+                            width: "138px",
+                          }}
+                        />
+                        <img
+                          onClick={(e) => setSelectedImage(null)}
+                          src={deleteicon}
+                          alt="icon"
+                          style={{ height: "20px", cursor: "pointer" }}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <label className="mt-3">Select Media</label>
+                      <div
+                        onClick={(e) => {
+                          setImageModalShow(true);
+                        }}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <img src={qrupload} alt="icon" />
+                      </div>
+                    </>
+                  )}
                 </div>
-                <Button onClick={handlePreview}>Preview</Button>
               </div>
+              <Button className="mt-3" onClick={handlePreview}>
+                Preview
+              </Button>
             </div>
             <div className="col-6 ">
               <div className="d-flex ">
@@ -285,9 +302,10 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     name="orientation"
                     value="landscape"
                     id="landscape"
-                    checked={orientationMode === 'landscape'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
-                    
+                    checked={orientationMode === "landscape"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -303,8 +321,10 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     name="orientation"
                     value="potrait"
                     id="potrait"
-                    checked={orientationMode === 'potrait'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
+                    checked={orientationMode === "potrait"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                     //disabled
                     // style={{cursor:"not-allowed"}}
                     // placeholder="Preview Not Available"
@@ -318,15 +338,18 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100">
-                { orientationMode && orientationMode == 'potrait' ? 
-                    <div className="d-flex justify-content-center h-100" style={{backgroundColor:'none'}}>
-                      <div className="p-3 h-100">
-                        { previewData && preview ? previewData : ''}
-                      </div>
+                {orientationMode && orientationMode == "potrait" ? (
+                  <div
+                    className="d-flex justify-content-center h-100"
+                    style={{ backgroundColor: "none" }}
+                  >
+                    <div className="p-3 h-100">
+                      {previewData && preview ? previewData : ""}
                     </div>
-                  : <>{ previewData && preview ? previewData : ''}</>
-                }
-                
+                  </div>
+                ) : (
+                  <>{previewData && preview ? previewData : ""}</>
+                )}
               </div>
             </div>
           </form>
@@ -334,8 +357,13 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light"
-                 onClick={(e) => {e.preventDefault(); handleClose(false)}}
+              <Button
+                className="cancel-btn w-100"
+                variant="outline-light"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClose(false);
+                }}
               >
                 Cancel
               </Button>

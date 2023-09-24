@@ -130,6 +130,7 @@ export default function ViewSchedule() {
         <div className="d-flex justify-content-end">
           <Button
             className="mr-2"
+            href={`/design-month-schedule/${id}`}
             // onClick={(e) => {
             //   handlePublish(e);
             // }}

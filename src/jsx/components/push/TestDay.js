@@ -38,7 +38,7 @@ export default function TestDay() {
   const history = useHistory();
   const { id, schedulename } = useParams();
   const [sqName, setSqName] = useState("");
-  const [dragDef, setDragDef] = useState(null)
+  const [dragDef, setDragDef] = useState(null);
 
   const { data: allComposition, mutate } = useSWR(
     "/vendor/layouts/compositions",
@@ -82,98 +82,102 @@ export default function TestDay() {
     const defId = info.event._def.defId;
     let newArr = events.map((item, i) => {
       if (item.defId == defId) {
-        return { ...item,
+        return {
+          ...item,
           ["timing"]: info.el.innerText.split("\n\n")[1],
-          ['startTime']:info.el.innerText.split("\n\n")[1].split(" - ")[0],
-          ['endTime']:info.el.innerText.split("\n\n")[1].split(" - ")[1] };
+          ["startTime"]: info.el.innerText.split("\n\n")[1].split(" - ")[0],
+          ["endTime"]: info.el.innerText.split("\n\n")[1].split(" - ")[1],
+        };
       } else {
         return item;
       }
     });
     setEvents(newArr);
-  }
+  };
   // handle event receive
-  
+
   const handleEventReceive = (eventInfo) => {
-      console.log("handleEventR",renderTime)
-      const id = eventInfo.event._def.sourceId;
-      const [startTime, endTime] = renderTime.split(" - ");
-      const formattedStartTime = startTime.padStart(5, "0");
-      const formattedEndTime =
+    console.log("handleEventR", renderTime);
+    const id = eventInfo.event._def.sourceId;
+    const [startTime, endTime] = renderTime.split(" - ");
+    const formattedStartTime = startTime.padStart(5, "0");
+    const formattedEndTime =
       endTime.length === 5 ? endTime : endTime.padStart(5, "0");
-      const timeRange = `${formattedStartTime} - ${formattedEndTime}`;
-      const checkedItem = events.find((item) => {
-        return item.id == eventInfo.event._def.sourceId
-      });
-      if(checkedItem){
-        const newArr = events.map((item, i) => {
-          console.log("Foundaaaaa", item.id, dragDef,item.timing, renderTime);
-          if (item.id == dragDef && item.timing !== renderTime) {
-            console.log("Found", item.id, dragDef,item.timing, renderTime);
-            return { ...item,
-              ["timing"]: renderTime,
-              ['startTime']:renderTime.split(" - ")[0],
-              ['endTime']:renderTime.split(" - ")[1]
-            };
-          } else {
-            return item;
-          }
-        });
-        setEvents(newArr);
-      }else{
-        const newEvent = {
-          id: id,
-          timing: timeRange,
-          defId: eventInfo.event._def.defId,
-        };
-        setEvents((events) => [...events, newEvent]);
-        setDef({ ...def, [eventInfo.event._def.defId]: true });
-      }
-
-      setDragDef(null)
-    
-  };
-
-  const handleEventClick = (info) => {
-    const defId = info.event._def.extendedProps.defId != undefined ? info.event._def.extendedProps.defId : info.event._def.defId ;
-    setEvents((current) => current.filter((event) => event.defId !== defId));
-    info.event.remove();
-  };
-
-  const eventDragStartFunc = (info) => {
-    console.log("Event Start",info,info.event._def.sourceId)
-    setDragDef(info.event._def.sourceId);
-  }
-
-  const eventDropStopFunc = (info) => {
-    console.log('dfghjrtyu', info)
-  }
-
-  const eventDropFunc = (info) => {
-    console.log("Dropping Func", info, dragDef, events)
-    let newArr = events.map((item, i) => {
-        if (item.id == info.event._def.sourceId) {
-          if(item.startTime && item.endTime){
-            // console.log("time",info.el.innerText.split("\n\n")[1])
-             return { ...item,
-               ["timing"]: info.el.innerText.split("\n\n")[1],
-               ['startTime']:info.el.innerText.split("\n\n")[1].split(" - ")[0],
-               ['endTime']:info.el.innerText.split("\n\n")[1].split(" - ")[1]
-             };
-           }else{
-             return { ...item,
-               ["timing"]: info.el.innerText.split("\n\n")[1]
-             };
-           }
+    const timeRange = `${formattedStartTime} - ${formattedEndTime}`;
+    const checkedItem = events.find((item) => {
+      return item.id == eventInfo.event._def.sourceId;
+    });
+    if (checkedItem) {
+      const newArr = events.map((item, i) => {
+        console.log("Foundaaaaa", item.id, dragDef, item.timing, renderTime);
+        if (item.id == dragDef && item.timing !== renderTime) {
+          console.log("Found", item.id, dragDef, item.timing, renderTime);
+          return {
+            ...item,
+            ["timing"]: renderTime,
+            ["startTime"]: renderTime.split(" - ")[0],
+            ["endTime"]: renderTime.split(" - ")[1],
+          };
         } else {
           return item;
         }
       });
       setEvents(newArr);
-  }
+    } else {
+      const newEvent = {
+        id: id,
+        timing: timeRange,
+        defId: eventInfo.event._def.defId,
+      };
+      setEvents((events) => [...events, newEvent]);
+      setDef({ ...def, [eventInfo.event._def.defId]: true });
+    }
+
+    setDragDef(null);
+  };
+
+  const handleEventClick = (info) => {
+    const defId =
+      info.event._def.extendedProps.defId != undefined
+        ? info.event._def.extendedProps.defId
+        : info.event._def.defId;
+    setEvents((current) => current.filter((event) => event.defId !== defId));
+    info.event.remove();
+  };
+
+  const eventDragStartFunc = (info) => {
+    console.log("Event Start", info, info.event._def.sourceId);
+    setDragDef(info.event._def.sourceId);
+  };
+
+  const eventDropStopFunc = (info) => {
+    console.log("dfghjrtyu", info);
+  };
+
+  const eventDropFunc = (info) => {
+    console.log("Dropping Func", info, dragDef, events);
+    let newArr = events.map((item, i) => {
+      if (item.id == info.event._def.sourceId) {
+        if (item.startTime && item.endTime) {
+          // console.log("time",info.el.innerText.split("\n\n")[1])
+          return {
+            ...item,
+            ["timing"]: info.el.innerText.split("\n\n")[1],
+            ["startTime"]: info.el.innerText.split("\n\n")[1].split(" - ")[0],
+            ["endTime"]: info.el.innerText.split("\n\n")[1].split(" - ")[1],
+          };
+        } else {
+          return { ...item, ["timing"]: info.el.innerText.split("\n\n")[1] };
+        }
+      } else {
+        return item;
+      }
+    });
+    setEvents(newArr);
+  };
 
   const renderEventContent = (eventInfo) => {
-    console.log("eventInfo",eventInfo)
+    console.log("eventInfo", eventInfo);
     const { event } = eventInfo;
     const { title } = event;
     const checkTime = eventInfo.timeText.split(" - ");
@@ -185,27 +189,29 @@ export default function TestDay() {
         checkTime[0].split(":")[1];
       eventInfo.timeText = checkTime[0] + " - " + secondTime;
     }
-    if(event._def.extendedProps.defId != undefined){
+    if (event._def.extendedProps.defId != undefined) {
       if (!def[eventInfo.event._def.extendedProps.defId]) {
-        console.log("Hii")
+        console.log("Hii");
         setRenderTime(eventInfo.timeText);
       }
-    }else{
+    } else {
       if (!def[eventInfo.event._def.defId]) {
-        console.log("Byee")
+        console.log("Byee");
         setRenderTime(eventInfo.timeText);
       }
     }
-    console.log(dragDef && eventInfo.event._def.sourceId)
+    console.log(dragDef && eventInfo.event._def.sourceId);
     // if(dragDef && eventInfo.event._def.sourceId == dragDef){
     //   console.log("event Dragging");
     //   setRenderTime(eventInfo.timeText);
     // }
-    
-    
+
     return (
       <>
-        <div className={`fullcalendar-main-container`}>
+        <div
+          className={`fullcalendar-main-container`}
+          style={{ width: "100%" }}
+        >
           <img
             src={event.extendedProps.custom}
             className="day-schedule-fullcalendar-img"
@@ -223,11 +229,11 @@ export default function TestDay() {
         </div>
       </>
     );
-  }
+  };
   const checkTime = (time) => {
     const timeSplit = time.split(":");
-    return String(timeSplit[0]).padStart(2, '0')+":"+timeSplit[1];
-  }
+    return String(timeSplit[0]).padStart(2, "0") + ":" + timeSplit[1];
+  };
   async function handleSubmit(e) {
     e.preventDefault();
     const scheduleId = id;
@@ -300,16 +306,16 @@ export default function TestDay() {
             required
           />
           {/* {renderTime && ( */}
-            <div className="d-flex justify-content-end">
-              <Button
-                className="mr-2"
-                type="submit"
-                variant="info add-screen-btn"
-                // onClick={(e) => handleSubmit(e)}
-              >
-                Save Sequence
-              </Button>
-            </div>
+          <div className="d-flex justify-content-end">
+            <Button
+              className="mr-2"
+              type="submit"
+              variant="info add-screen-btn"
+              // onClick={(e) => handleSubmit(e)}
+            >
+              Save Sequence
+            </Button>
+          </div>
           {/* )} */}
         </div>
       </form>
@@ -427,6 +433,8 @@ export default function TestDay() {
             headerToolbar={false}
             initialView="timeGridDay"
             slotDuration="00:10:00"
+            fixedMirrorParent={true}
+            slotEventOverlap={false}
             slotLabelInterval={{ hours: 1 }}
             allDaySlot={false}
             eventTimeFormat={timeFormet}
@@ -439,7 +447,6 @@ export default function TestDay() {
             eventAdd={(arg) => {
               console.log("add", arg);
             }}
-            slotEventOverlap={false}
             eventOverlap={false}
             eventContent={renderEventContent}
             contentHeight="700px"
