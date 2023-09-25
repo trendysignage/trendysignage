@@ -36,11 +36,6 @@ const Layout = ({ permission }) => {
     //   })
     // }
     const list = await getAllComposition(str);
-<<<<<<< HEAD
-    console.log("list", list);
-=======
-
->>>>>>> bb60d19e2d5cdacdf84a4f6abcf7da37850c6d3a
     setAllComposition(list);
   };
 
