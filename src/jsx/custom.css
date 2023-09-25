@@ -3688,3 +3688,6 @@ thead {
   overflow: none !important;
   white-space: normal !important;
 }
+.MuiDataGrid-root MuiDataGrid-root--densityStandard css-iclwpf{
+  border:0; 
+}
