@@ -45,7 +45,7 @@ export async function otpVerification(otp) {
 }
 
 export async function mfaEnablePost(mfa) {
-  const response = await fetchClient.post(BASE_URL + `/vendor/auth/verifyOtp`,mfa);
+  const response = await fetchClient.post(BASE_URL + `/vendor/profile/mfa`,mfa);
   return response.data.data;
 }
 
@@ -66,16 +66,43 @@ export async function getResetPassword(email) {
   return response.data.data;
 }
 
-export async function getAllScreens() {
-  const response = await fetchClient.get(BASE_URL + `/vendor/display/screen`);
+export async function getAllScreens(str=null) {
+  let response = "";
+  if(str){
+    response = await fetchClient.get(BASE_URL + `/vendor/display/screen?${str}`);
+  }else{
+    response = await fetchClient.get(BASE_URL + `/vendor/display/screen`);
+  }
   return response.data.data;
 }
 
-export async function getAllMedia() {
-  const response = await fetchClient.get(BASE_URL + `/vendor/display/media`);
+export async function getAllMedia(data) {
+  console.log("data", data)
+  let response;
+  if(data && data != ''){
+    response = await fetchClient.get(BASE_URL + `/vendor/display/media?${data}`);
+  }else{
+    response = await fetchClient.get(BASE_URL + `/vendor/display/media`);
+  }
+  
   return response.data.data.media;
 }
-export async function getAllComposition() {
+export async function getAllComposition(str = null) {
+  let response;
+  if(str){
+    response = await fetchClient.get(
+      BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000&${str}`
+    );
+  }else{
+    response = await fetchClient.get(
+      BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000`
+    );
+  }
+
+  return response.data.data;
+}
+
+export async function getAllCompositionSWR(str = null) {
   const response = await fetchClient.get(
     BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000`
   );
@@ -238,6 +265,18 @@ export async function pushAddSchedule(postData) {
   }
 }
 
+export async function pushUpdateSchedule(postData) {
+  try {
+    const response = await fetchClient.put(
+      `${BASE_URL}/vendor/push/schedule`,
+      postData
+    );
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function pushAddDates(postData) {
   try {
     const response = await fetchClient.post(
@@ -280,8 +319,13 @@ export async function getAllDaySequence(scheduleId) {
   return response.data.data;
 }
 
-export async function getAllSchedule() {
-  const response = await fetchClient.get(BASE_URL + `/vendor/push/schedules`);
+export async function getAllSchedule(str=null) {
+  let response;
+  if(str && str != ''){
+    response = await fetchClient.get(BASE_URL + `/vendor/push/schedules?${str}`);
+  }else{
+    response = await fetchClient.get(BASE_URL + `/vendor/push/schedules`);
+  }
   return response;
 }
 
@@ -426,6 +470,14 @@ export async function getGroups() {
 export async function addGroups(postdata) {
   const response = await fetchClient.post(
     BASE_URL + `/vendor/profile/groups`,
+    postdata
+  );
+  return response;
+}
+
+export async function assignScreenGroups(postdata) {
+  const response = await fetchClient.put(
+    BASE_URL + `/vendor/display/assignGroups`,
     postdata
   );
   return response;
@@ -591,6 +643,15 @@ export async function rssParser() {
   let parser = new Parser();
   let feed = await parser.parseURL('https://www.reddit.com/.rss');
   console.log("feed",feed);
+}
 
 
+export async function addTags(postdata) {
+  const response = await fetchClient.post(BASE_URL + `/vendor/profile/tags`, postdata);
+  return response;
+}
+
+export async function getAllTags(str) {
+  const response = await fetchClient.get(BASE_URL + `/vendor/profile/tags?type=${str}`);
+  return response.data.data;
 }
