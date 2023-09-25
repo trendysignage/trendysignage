@@ -28,12 +28,12 @@ import edit from "../../../img/edit-composition.png";
 import { useHistory } from "react-router-dom";
 import TableLoader from "../../components/TableLoader";
 import LockScreen from "../../pages/LockScreen";
-import SelectScreenModal from '../../modals/SelectScreenModal';
+import SelectScreenModal from "../../modals/SelectScreenModal";
 import ScheduleList from "./ScheduleList";
 import QuickPlayList from "./QuickPlayList";
 import DefComplist from "./DefComplist";
 
-const PushScreen = ({permission}) => {
+const PushScreen = ({ permission }) => {
   const history = useHistory();
   const [scheduleData, setScheduleData] = useState([]);
   const [quickPlayData, setQuickPlayData] = useState([]);
@@ -50,7 +50,7 @@ const PushScreen = ({permission}) => {
   const [allScreens, setAllScreens] = useState("");
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
   const [selectedSchdule, setSelectedSchdule] = useState(null);
-  const [isRefresh, setIsRefresh] = useState(false)
+  const [isRefresh, setIsRefresh] = useState(false);
   const [selectedScreen, setSelectedScreen] = useState("");
   const [filterData, setFilterData] = useState([]);
 
@@ -70,11 +70,11 @@ const PushScreen = ({permission}) => {
   async function getSchedule() {
     setLoading(true);
     let str = "";
-      if(filterData.tags && filterData.tags.length > 0){
-        filterData.tags.map((tg, i) => {
-          return str += `tags[${i}]=${tg}&`
-        })
-      }
+    if (filterData.tags && filterData.tags.length > 0) {
+      filterData.tags.map((tg, i) => {
+        return (str += `tags[${i}]=${tg}&`);
+      });
+    }
     await getAllSchedule(str).then((res) => {
       setScheduleData(res.data.data);
       setLoading(false);
@@ -110,7 +110,7 @@ const PushScreen = ({permission}) => {
     if (publishType && publishType === "defaultComposition") {
       getDefault();
     }
-  }, [publishType,isRefresh ]);
+  }, [publishType, isRefresh]);
 
   function handleDeleteSchedule(id) {
     deleteSchedule(id).then((res) => {
@@ -254,7 +254,6 @@ const PushScreen = ({permission}) => {
     setShowPublishBtn(!showPublishBtn);
   };
 
-
   // const handleSubmit = async () => {
   //  await publishMedia({
   //     id: selected._id,
@@ -273,10 +272,10 @@ const PushScreen = ({permission}) => {
   // };
   return (
     <>
-      <SelectScreenModal 
+      <SelectScreenModal
         setShowPublishPopUp={setShowPublishPopUp}
-        showPublishPopUp={showPublishPopUp} 
-        selectedSchdule = {selectedSchdule}
+        showPublishPopUp={showPublishPopUp}
+        selectedSchdule={selectedSchdule}
         setSelectedSchdule={setSelectedSchdule}
         setIsRefresh={setIsRefresh}
       />
@@ -297,46 +296,45 @@ const PushScreen = ({permission}) => {
           Publish
         </Button>
       </div>
-
-      <div className="layout-row push-row mb-4">
-        {showPublishBtn && !showDefaultScreen && !showDefaultComp ? (
-          <Row>
-            <Col lg="4" md="4" sm="12" xs="12">
-              {
-                permission && permission.permission.SCHEDULE.add ? <Link
-                to={{ pathname: `/SelectComparison`}}
-              >
-                <div className="push-column text-center">
-                  <div className="push-column-icon d-flex align-items-center justify-content-center">
-                    <img
-                      className="layout-select-img"
-                      src={scheduleIcon}
-                      alt="menu-icon"
-                    />
+      <div style={{ position: "relative" }}>
+        <div className="layout-row push-row mb-4">
+          {showPublishBtn && !showDefaultScreen && !showDefaultComp ? (
+            <Row>
+              <Col lg="4" md="4" sm="12" xs="12">
+                {permission && permission.permission.SCHEDULE.add ? (
+                  <Link to={{ pathname: `/SelectComparison` }}>
+                    <div className="push-column text-center">
+                      <div className="push-column-icon d-flex align-items-center justify-content-center">
+                        <img
+                          className="layout-select-img"
+                          src={scheduleIcon}
+                          alt="menu-icon"
+                        />
+                      </div>
+                      <h6>Schedule</h6>
+                      <p>
+                        Scheduled content gets displayed only for time you
+                        choose
+                      </p>
+                    </div>
+                  </Link>
+                ) : (
+                  <div className="push-column text-center">
+                    <div className="push-column-icon d-flex align-items-center justify-content-center">
+                      <img
+                        className="layout-select-img"
+                        src={scheduleIcon}
+                        alt="menu-icon"
+                      />
+                    </div>
+                    <h6>Schedule</h6>
+                    <p>
+                      Scheduled content gets displayed only for time you choose
+                    </p>
                   </div>
-                  <h6>Schedule</h6>
-                  <p>
-                    Scheduled content gets displayed only for time you choose
-                  </p>
-                </div>
-              </Link>
-              :
-                <div className="push-column text-center">
-                  <div className="push-column-icon d-flex align-items-center justify-content-center">
-                    <img
-                      className="layout-select-img"
-                      src={scheduleIcon}
-                      alt="menu-icon"
-                    />
-                  </div>
-                  <h6>Schedule</h6>
-                  <p>
-                    Scheduled content gets displayed only for time you choose
-                  </p>
-                </div>
-              }
-            </Col>
-            {/* <Col lg="4" md="4" sm="12" xs="12">
+                )}
+              </Col>
+              {/* <Col lg="4" md="4" sm="12" xs="12">
               <div className="push-column text-center">
                 <div className="push-column-icon d-flex align-items-center justify-content-center">
                   <img
@@ -375,96 +373,104 @@ const PushScreen = ({permission}) => {
                 </button>
               </div>
             </Col> */}
-          </Row>
-        ) : (
-          <></>
-        )}
-        {!showPublishBtn && (
-          <div className="d-flex mb-2 mt-3">
-            <Button
-              className={
-                publishType === "schedule"
-                  ? "mr-3 activeType"
-                  : "mr-3 push-screen-btn"
-              }
-              variant="info "
-              type="button"
-              onClick={(e) => {
-                setPublishType("schedule");
-              }}
-            >
-              Schedule
-            </Button>
-            <Button
-              className={
-                publishType === "quickplay"
-                  ? "mr-3 activeType"
-                  : "mr-3 push-screen-btn"
-              }
-              variant="info "
-              type="button"
-              onClick={(e) => {
-                setPublishType("quickplay");
-              }}
-            >
-              Quickplay
-            </Button>
-            <Button
-              className={
-                publishType === "defaultComposition"
-                  ? "mr-3 activeType"
-                  : "mr-3 push-screen-btn"
-              }
-              variant="info "
-              type="button"
-              onClick={(e) => {
-                setPublishType("defaultComposition");
-              }}
-            >
-              Default Composition
-            </Button>
-          </div>
-        )}
-      </div>
-      {
-        !showPublishBtn && 
-        publishType && publishType === "quickplay" && (
-          permission && permission.permission.QUICKPLAY.view 
-          ? 
-            <QuickPlayList setIsRefresh={setIsRefresh} data={quickPlayData} 
+            </Row>
+          ) : (
+            <></>
+          )}
+          {!showPublishBtn && (
+            <div className="d-flex mb-2 mt-3">
+              <Button
+                className={
+                  publishType === "schedule"
+                    ? "mr-3 activeType"
+                    : "mr-3 push-screen-btn"
+                }
+                variant="info "
+                type="button"
+                onClick={(e) => {
+                  setPublishType("schedule");
+                }}
+              >
+                Schedule
+              </Button>
+              <Button
+                className={
+                  publishType === "quickplay"
+                    ? "mr-3 activeType"
+                    : "mr-3 push-screen-btn"
+                }
+                variant="info "
+                type="button"
+                onClick={(e) => {
+                  setPublishType("quickplay");
+                }}
+              >
+                Quickplay
+              </Button>
+              <Button
+                className={
+                  publishType === "defaultComposition"
+                    ? "mr-3 activeType"
+                    : "mr-3 push-screen-btn"
+                }
+                variant="info "
+                type="button"
+                onClick={(e) => {
+                  setPublishType("defaultComposition");
+                }}
+              >
+                Default Composition
+              </Button>
+            </div>
+          )}
+        </div>
+        {!showPublishBtn &&
+          publishType &&
+          publishType === "quickplay" &&
+          (permission && permission.permission.QUICKPLAY.view ? (
+            <QuickPlayList
+              setIsRefresh={setIsRefresh}
+              data={quickPlayData}
               handleDeleteQuickPlay={handleDeleteQuickPlay}
               setFilterData={setFilterData}
             />
-          : <LockScreen message={"You don't have permssion to access this !!!"} />
-          
-      )}
-      {!showPublishBtn &&
-        publishType &&
-        publishType === "defaultComposition" && (
-          <>
-            <DefComplist 
-              setIsRefresh={setIsRefresh}
-              data={defaultData}
-              setFilterData={setFilterData}
+          ) : (
+            <LockScreen
+              message={"You don't have permssion to access this !!!"}
             />
-          </>
-        )}
-      {
-        !showPublishBtn && 
-        publishType && publishType === "schedule" && (
-          permission && permission.permission.SCHEDULE.view ? 
-              
-          <>
-            <ScheduleList setIsRefresh={setIsRefresh} data={scheduleData} 
-              setSelectedSchdule={setSelectedSchdule} 
-              setShowPublishPopUp={setShowPublishPopUp}
-              handleDeleteSchedule={handleDeleteSchedule}
-              setFilterData={setFilterData}
+          ))}
+
+        {!showPublishBtn &&
+          publishType &&
+          publishType === "defaultComposition" && (
+            <>
+              <DefComplist
+                setIsRefresh={setIsRefresh}
+                data={defaultData}
+                setFilterData={setFilterData}
+              />
+            </>
+          )}
+        {!showPublishBtn &&
+          publishType &&
+          publishType === "schedule" &&
+          (permission && permission.permission.SCHEDULE.view ? (
+            <>
+              <ScheduleList
+                setIsRefresh={setIsRefresh}
+                data={scheduleData}
+                setSelectedSchdule={setSelectedSchdule}
+                setShowPublishPopUp={setShowPublishPopUp}
+                handleDeleteSchedule={handleDeleteSchedule}
+                setFilterData={setFilterData}
+              />
+            </>
+          ) : (
+            <LockScreen
+              message={"You don't have permssion to access this !!!"}
             />
-          </>
-        :
-            <LockScreen message={"You don't have permssion to access this !!!"} />
-      )}
+          ))}
+      </div>
       {showPublishBtn &&
         checkedValues &&
         checkedValues.length > 0 &&
@@ -657,8 +663,8 @@ const PushScreen = ({permission}) => {
 };
 const mapStateToProps = (state) => {
   return {
-      auth: state.auth.auth,
-      permission : state.auth.permission
+    auth: state.auth.auth,
+    permission: state.auth.permission,
   };
 };
 export default connect(mapStateToProps)(PushScreen);
