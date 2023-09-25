@@ -1821,20 +1821,27 @@ export const handleQuoteApps = (data, quoteData) => {
 
 export const handleNewsApps = (data, newsData) => {
   const prp = JSON.parse(data);
-  console.log(prp);
+  console.log(prp, "lllll");
   if (prp.orientationMode && prp.orientationMode == "footer") {
     return (
       <div className="bg-white h-100">
         <div className=" h-100" style={{ position: "relative" }}>
           <div
-            className="bg-black p-3 w-100"
+            className={`${
+              prp.theame.value == "white" ? "news-app-bg" : "bg-black"
+            } p-3 w-100`}
             style={{ position: "absolute", bottom: "0" }}
           >
             <div
               className="basic-list-group image-preview-container media-content "
-              style={{ color: "white", textAlign: "center" }}
+              style={{ textAlign: "center" }}
             >
-              <h2 className="text-white mb-0" style={{ fontSize: "20px" }}>
+              <h2
+                className={`${
+                  prp.theame.value == "white" ? "text-black" : "text-white"
+                } mb-0`}
+                style={{ fontSize: "20px" }}
+              >
                 News About {prp.topic.value}
               </h2>
               <Carousel
@@ -1856,7 +1863,8 @@ export const handleNewsApps = (data, newsData) => {
                               maxWidth: "100%",
                               minWidth: "70%",
                               height: "5px",
-                              background: "#fff",
+                              background:
+                                prp.theame.value == "white" ? "#000" : "#fff",
                               margin: "10px 0",
                               display: "inline-block",
                             }}
@@ -1866,7 +1874,7 @@ export const handleNewsApps = (data, newsData) => {
                           <div className="text-center  ">
                             <h1
                               className={`${
-                                prp.theame.value == "White Background"
+                                prp.theame.value == "white"
                                   ? "text-black"
                                   : "text-white"
                               } `}
@@ -1876,7 +1884,7 @@ export const handleNewsApps = (data, newsData) => {
                             </h1>
                             <p
                               className={`${
-                                prp.theame.value == "White Background"
+                                prp.theame.value == "white"
                                   ? "text-black"
                                   : "text-white"
                               } `}
@@ -1899,12 +1907,22 @@ export const handleNewsApps = (data, newsData) => {
     return (
       <div className="bg-white h-100">
         <div className="d-flex justify-content-center h-100">
-          <div className="bg-black p-3 h-100">
+          <div
+            className={`${
+              prp.theame.value == "white" ? "news-app-bg" : "bg-black"
+            } p-3 h-100`}
+          >
             <div
               className="basic-list-group image-preview-container media-content "
               style={{ color: "white", textAlign: "center" }}
             >
-              <h2 className="text-white mb-0">News About {prp.topic.value}</h2>
+              <h2
+                className={`${
+                  prp.theame.value == "white" ? "text-black" : "text-white"
+                } mb-0`}
+              >
+                News About {prp.topic.value}
+              </h2>
               <Carousel
                 interval={10000}
                 indicators={false}
@@ -1924,7 +1942,8 @@ export const handleNewsApps = (data, newsData) => {
                               maxWidth: "100%",
                               minWidth: "70%",
                               height: "5px",
-                              background: "#fff",
+                              background:
+                                prp.theame.value == "white" ? "#000" : "#fff",
                               margin: "2rem 0",
                               display: "inline-block",
                             }}
@@ -1934,7 +1953,7 @@ export const handleNewsApps = (data, newsData) => {
                           <div className="text-center  ">
                             <h1
                               className={`${
-                                prp.theame.value == "White Background"
+                                prp.theame.value == "white"
                                   ? "text-black"
                                   : "text-white"
                               } `}
@@ -1943,7 +1962,7 @@ export const handleNewsApps = (data, newsData) => {
                             </h1>
                             <p
                               className={`${
-                                prp.theame.value == "White Background"
+                                prp.theame.value == "White"
                                   ? "text-black"
                                   : "text-white"
                               } `}
@@ -1975,7 +1994,7 @@ export const handleNewsApps = (data, newsData) => {
           >
             <h2
               className={`${
-                prp.theame.value == "white" ? "" : "text-white"
+                prp.theame.value == "white" ? "text-black" : "text-white"
               } mb-0`}
             >
               News About {prp.topic.value}
@@ -1999,7 +2018,9 @@ export const handleNewsApps = (data, newsData) => {
                             maxWidth: "100%",
                             minWidth: "70%",
                             height: "5px",
-                            background: "#fff",
+                            background:
+                              prp.theame.value == "white" ? "#000" : "#fff",
+
                             margin: "2rem 0",
                             display: "inline-block",
                           }}
@@ -2037,7 +2058,6 @@ export const handleNewsApps = (data, newsData) => {
     );
   }
 };
-
 export const handleGoogleApps = (data) => {
   const prp = JSON.parse(data);
   console.log("text app ", prp);
