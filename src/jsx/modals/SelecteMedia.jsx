@@ -6,7 +6,7 @@ import TableLoader from "../components/TableLoader";
 import '../components/Table.css';
 import { toast } from "react-toastify";
 
-const SelectMedia = ({ setImageModalShow, imageModalShow,setSelectedImage, selectedImage}) => {
+const SelectMedia = ({ setImageModalShow, imageModalShow,setSelectedImage, selectedImage, setSlides, slides,editImage, setEditImage}) => {
   const [allMedias, setAllMedias] = useState("");
   const [checkedItems, setCheckedItems] = useState(selectedImage);
   const [published, setPublished] = useState(false);
@@ -19,6 +19,7 @@ const SelectMedia = ({ setImageModalShow, imageModalShow,setSelectedImage, selec
     callAllMediaApi();
   }, [selectedImage]);
 
+
   const callAllMediaApi = async () => {
     setLoading(true);
     const list = await getAllMediaFilter();
@@ -26,18 +27,30 @@ const SelectMedia = ({ setImageModalShow, imageModalShow,setSelectedImage, selec
     setAllMedias(list);
   };
 
-const handleSubmit = async () => {
-    setSelectedImage(checkedItems)
+  const handleSubmit = async () => {
+
+    const newArr = slides;
+    if(editImage){
+      console.log("dsdsd");
+      console.log(editImage)
+      newArr[editImage.id].image    = checkedItems;
+      setSlides(newArr);
+      console.log("Hiiii")
+      setEditImage(null);
+    }else{
+      setSelectedImage(checkedItems)
+    }
     setImageModalShow(false);
     setCheckedItems(null)
-};
-const videoMetaDuration = (media) => {
-    const properties = JSON.parse(media?.properties);
-    if (properties && properties.length) {
-        return (properties.length.toFixed(0) / 60).toFixed(0);
-    }
-    return null;
-};
+  };
+
+  const videoMetaDuration = (media) => {
+      const properties = JSON.parse(media?.properties);
+      if (properties && properties.length) {
+          return (properties.length.toFixed(0) / 60).toFixed(0);
+      }
+      return null;
+  };
   return (
 <>
     

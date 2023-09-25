@@ -25,7 +25,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
   const getScreenCode = async () => {
     let timeoutTimer;
     const getContent = await addScreenCode(id);
-    // console.log(getContent, "llllllll");
+    console.log(getContent, "llllllll");
     setIsVerified(getContent?.isVerified);
     if (getContent.isVerified) {
       if (getContent?.content.length) {

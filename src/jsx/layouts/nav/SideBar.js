@@ -15,6 +15,7 @@ import subscriptionIcon from "../../../img/subscription.png";
 import settingIcon from "../../../img/setting.png";
 
 import Logout from "./Logout";
+import MfaPage from "./MfaPage";
 
 class MM extends Component {
   componentDidMount() {
@@ -173,6 +174,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </MM>
+          <MfaPage />
           <Logout />
         </PerfectScrollbar>
       </div>

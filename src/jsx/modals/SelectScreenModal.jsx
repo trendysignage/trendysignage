@@ -1,12 +1,12 @@
 import { Button, Modal, Row, Col, Badge, Table } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 import { useEffect, useState } from "react";
-import { getAllScreens, assignScreenProfile } from "../../utils/api";
+import { getAllScreens, assignScreenProfile, pushUpdateSchedule } from "../../utils/api";
 import TableLoader from "../components/TableLoader";
 import '../components/Table.css';
 import { toast } from "react-toastify";
 
-const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected, setIsRefresh,selectedScreen, setSelectedScreen}) => {
+const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected, setIsRefresh,selectedScreen, setSelectedScreen, selectedSchdule, setSelectedSchdule}) => {
   const [allScreens, setAllScreens] = useState("");
   const [name, setName] = useState("")
   const [checkedItems, setCheckedItems] = useState({});
@@ -25,6 +25,18 @@ const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected, se
     }
     callAllScreenApi();
   }, [selectedScreen]);
+  
+  useEffect(() => {
+    if(selectedSchdule){
+        setCheckedValues(selectedSchdule.screens);
+        const newCheckedItems = {};
+        selectedSchdule.screens.forEach((item) => {
+            newCheckedItems[item] = true;
+        });
+        setCheckedItems(newCheckedItems);
+    }
+    callAllScreenApi();
+  }, [selectedSchdule]);
 
   const callAllScreenApi = async () => {
     setLoading(true);
@@ -68,28 +80,57 @@ const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected, se
   };
 
   const handleSubmit = async () => {
-    await assignScreenProfile({
-        profileId:selected,
-        screens: checkedValues,
-    })
-    .then((response) => {
-        //setError(null);
-        toast.success("Screen has been assigned to Profile successfully !!!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        });
-        setIsRefresh(true);
-        setShowPublishPopUp(false);
-    })
-    .catch(function (error) {
-        //setError(error.response.data.message);
-    });
+    if(selectedSchdule){
+        console.log("checkedValues",checkedValues);
+        await pushUpdateSchedule({
+          scheduleId: selectedSchdule._id,
+          name: selectedSchdule.name,
+          screens: checkedValues
+        }).then((response) => {
+          //setError(null);
+          toast.success("Screen has been assigned to Schedule successfully !!!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+          setSelectedSchdule(null)
+          setIsRefresh(true);
+          setShowPublishPopUp(false);
+          
+      })
+      .catch(function (error) {
+          //setError(error.response.data.message);
+      });
+    }else{
+      await assignScreenProfile({
+          profileId:selected,
+          screens: checkedValues,
+      })
+      .then((response) => {
+          //setError(null);
+          toast.success("Screen has been assigned to Profile successfully !!!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+          setIsRefresh(true);
+          setShowPublishPopUp(false);
+      })
+      .catch(function (error) {
+          //setError(error.response.data.message);
+      });
+    }
+
   };
   return (
 <>
@@ -115,16 +156,16 @@ const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected, se
       {published && <Modal.Body><div style={{display:"flex", alignItems:"center", justifyContent:"center"}}><h3>Media Published</h3></div></Modal.Body>}
       {!published && (
         <Modal.Body>
-          <div className="mb-3 mr-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="quickplayname"
-                      onChange={(e) => {setName(e.target.value)}}
-                      required="true"
-                      placeholder="Name..."
-                    />
-                  </div>
+            {/* <div className="mb-3 mr-3">
+              <input
+                type="text"
+                className="form-control"
+                id="quickplayname"
+                onChange={(e) => {setName(e.target.value)}}
+                required="true"
+                placeholder="Name..."
+              />
+            </div> */}
           <Table responsive>
             <thead>
               <tr>
@@ -204,13 +245,15 @@ const SelectScreenModal = ({ setShowPublishPopUp, showPublishPopUp, selected, se
         {!published && (
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light">
+              <Button className="cancel-btn w-100"
+                  onClick={(e) => {setShowPublishPopUp(false)}}
+                  variant="outline-light">
                 Cancel
               </Button>
             </Col>
             <Col lg={6} md={6} sm={6} xs={6} className="pl-2 pr-0">
               <Button
-                disabled={checkedValues.length == 0}
+                disabled={!checkedValues || checkedValues.length == 0}
                 variant=""
                 type="button"
                 className="btn btn-primary btn-block primary-btn"

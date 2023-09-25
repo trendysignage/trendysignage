@@ -4,8 +4,9 @@ import {
     saveTokenInLocalStorage,
     signUp
 } from '../../services/AuthService';
-import { login, register, otpVerification, getResetPassword, sentOtpAgain, socialLoginApi } from '../../utils/api';
 
+
+import { login, register, otpVerification, getResetPassword, sentOtpAgain, socialLoginApi, verification2fa, mfaEnablePost } from '../../utils/api';
 export const SIGNUP_CONFIRMED_ACTION = '[signup action] confirmed signup';
 export const SIGNUP_FAILED_ACTION = '[signup action] failed signup';
 export const LOGIN_CONFIRMED_ACTION = '[login action] confirmed login';
@@ -55,9 +56,17 @@ export function logout(history) {
 }
 
 export function loginAction(email, password, history) {
+    // const mfa = 'R3FF42XS2JQSOIBKPSHU3JI';
+    // const mfaEnabled = true;
     return (dispatch) => {
         login(email, password)
             .then((response) => {
+                //response.data.data.vendor.isVerified = false;
+                // response.data.data.vendor.mfa = mfa;
+                // response.data.data.vendor.mfaEnabled = mfaEnabled;
+                if(response.data.data.vendor.mfaEnabled){
+                    response.data.data.vendor.isVerified = false;
+                }
                 const token = response.data.data;
                 saveTokenInLocalStorage(token);
                 dispatch(loginConfirmedAction(token));
@@ -94,6 +103,24 @@ export function socialLoginAction(email, name, token, history) {
     };
 }
 
+export function verification2FaAuth(mfa, history) {
+    return (dispatch) => {
+        mfaEnablePost(mfa)
+            .then((response) => {
+                console.log("MFA", response);
+                const tokenDetailsString = localStorage.getItem('userDetails');
+                let token = JSON.parse(tokenDetailsString);
+                token.vendor.mfa = mfa.mfa;
+                token.vendor.mfaEnabled = mfa.mfaEnabled;
+                saveTokenInLocalStorage(token);
+            })
+            .catch((error) => {
+                const errorMessage = error.response.data.message;
+                console.log("MFA errorMessage",errorMessage)
+                dispatch(loginFailedAction(errorMessage));
+            });
+    };
+}
 
 export function verification(otp, history) {
     return (dispatch) => {
@@ -113,6 +140,35 @@ export function verification(otp, history) {
                 console.log("errorMessage",errorMessage)
                 dispatch(loginFailedAction(errorMessage));
             });
+    };
+}
+
+export function verify2fa(mfaToken, history) {
+    return (dispatch) => {
+        const tokenDetailsString = localStorage.getItem('userDetails');
+        let token = JSON.parse(tokenDetailsString);
+        token.vendor.isVerified=true;
+        token.vendor.mfa = mfaToken;
+        saveTokenInLocalStorage(token);
+        dispatch(loginConfirmedAction(token));
+        history.push('/');
+        window.location.reload();
+        // verification2fa({mfaToken})
+        //     .then((response) => {
+        //         const tokenDetailsString = localStorage.getItem('userDetails');
+        //         let token = JSON.parse(tokenDetailsString);
+        //         token.vendor.isVerified=true;
+        //         token.vendor.mfa = mfaToken;
+        //         saveTokenInLocalStorage(token);
+        //         dispatch(loginConfirmedAction(token));
+		// 		history.push('/');
+        //         window.location.reload();
+        //     })
+        //     .catch((error) => {
+        //         const errorMessage = error.response.data.message;
+        //         console.log("errorMessage",errorMessage)
+        //         dispatch(loginFailedAction(errorMessage));
+        //     });
     };
 }
 

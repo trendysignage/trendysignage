@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 import weather from "../../../img/weather.svg";
-import { Dropdown } from "react-bootstrap";
 import menuIcon from "../../../img/menu-icon.png";
 import UrlAppModal from "../../modals/UrlAppModal";
 import { useState } from "react";
@@ -16,12 +15,24 @@ import AirQualityAppModal from "../../modals/AirQualityAppModal";
 import YoutubeAppModal from "../../modals/YoutubeAppModal";
 import BulletinBoardAppModal from "../../modals/BulletinBoardAppModal";
 import { getWeather } from "../../../utils/api";
-
+import GoogleSlideAppModal from "../../modals/GoogleSlideAppModal";
+import QuoteModel from "../../modals/QuoteModel.jsx";
+import AllNewsAppModal from "../../modals/AllNewsAppModal";
+import { Button, Dropdown } from "react-bootstrap";
 
 // import Form from "react-bootstrap/Form";
 // import { usePlacesWidget } from "react-google-autocomplete";
+import { useHistory } from "react-router-dom";
+import Carousel from "react-material-ui-carousel";
+import Box from "@mui/material/Box";
+import Switch from "@mui/material/Switch";
+import Paper from "@mui/material/Paper";
+import Slide from "@mui/material/Slide";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-const Integrations = ({permission}) => {
+const Integrations = ({ permission, auth }) => {
+  console.log("auth", auth);
+  const history = useHistory();
   console.log("React ENV", process.env.REACT_APP_TITLE);
   const [showUrlApp, setShowUrlApp] = useState(false);
   const [showRssFeedApp, setShowRssFeedApp] = useState(false);
@@ -34,27 +45,32 @@ const Integrations = ({permission}) => {
   const [showAirQualityApp, setShowAirQualityApp] = useState(false);
   const [showYoutubeApp, setShowYoutubeApp] = useState(false);
   const [showBulletinBoardApp, setShowBulletinBoardApp] = useState(false);
+  const [showGoogleSlideApp, setShowGoogleSlideApp] = useState(false);
+  const [showQuotesApp, setShowQuotesApp] = useState(false);
+  const [showNewsApp, setShowNewsApp] = useState(false);
+
   const appList = [
     { title: "URL APP", slug: "url-app", icon: weather },
     { title: "YOUTUBE", slug: "youtube", icon: weather },
-    // { title:'RSS FEED', slug:'rss-feed', icon:weather },
-    // { title:'SCROLLER', slug:'scroller', icon:weather },
-    // { title:'WEATHER', slug:'weather', icon:weather },
-    // { title:'TEXT',   slug:'text', icon:weather },
-    // { title:'CLOCK APP', slug:'clock-app', icon:weather },
-    // { title:'STOCKS', slug:'stocks', icon:weather },
-    // { title:'QR CODE', slug:'qr-code', icon:weather },
-    // { title:'Bulletin App', slug:'all-news-app', icon:weather },
-    // { title:'AIR QUALITY APP', slug:'air-quality-app', icon:weather },
-    // { title:'PEOPLE SPACE', slug:'people-space', icon:weather },
-    // { title:'GOOGLE SLIDES', slug:'google-slides', icon:weather },
-    // { title:'QUOTES', slug:'quotes', icon:weather },
+    { title: "RSS FEED", slug: "rss-feed", icon: weather },
+    { title: "SCROLLER", slug: "scroller", icon: weather },
+    { title: "WEATHER", slug: "weather", icon: weather },
+    { title: "TEXT", slug: "text", icon: weather },
+    { title: "CLOCK APP", slug: "clock-app", icon: weather },
+    { title: "STOCKS", slug: "stocks", icon: weather },
+    { title: "QR CODE", slug: "qr-code", icon: weather },
+    { title: " BULLETIN APP", slug: "bulletin-app", icon: weather },
+    { title: "AIR QUALITY APP", slug: "air-quality-app", icon: weather },
+    { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
+    { title: "GOOGLE SLIDES", slug: "google-slides", icon: weather },
+    { title: "QUOTES", slug: "quotes", icon: weather },
+    { title: "All NEWS APP", slug: "all-news-app", icon: weather },
   ];
 
   const handleChange = (e, type) => {
     e.preventDefault();
     console.log(type);
-    if(permission && permission.permission.APPS.add){
+    if (permission && permission.permission.APPS.add) {
       if (type && type == "url-app") {
         setShowUrlApp(true);
       }
@@ -86,43 +102,135 @@ const Integrations = ({permission}) => {
         setShowStocksApp(true);
       }
       if (type && type == "all-news-app") {
+        setShowNewsApp(true);
+      }
+      if (type && type == "bulletin-app") {
         setShowBulletinBoardApp(true);
       }
-      // if(type && type == 'quotes'){
-      //   setShowUrlApp(true);
-      // }
+      if (type && type == "google-slides") {
+        setShowGoogleSlideApp(true);
+      }
+      if (type && type == "quotes") {
+        setShowQuotesApp(true);
+      }
+      if (type && type == "people-space") {
+        history.push("/people-space");
+      }
     }
   };
 
-  // const getWeatherDetail = async() => {
-  //   const locationData  = await getWeather('noida');
-  //   console.log('getLocation', locationData);
-  // }
-  // useEffect(() => {
-  //   getWeatherDetail()
-  // },[])
+  const data = {
+    slideDuration: 10,
+    theame: {
+      value: "classic",
+      label: "Classic",
+    },
+  };
+  console.log("data rss", data);
+  //const prp = JSON.parse(data);
+  const list = [
+    {
+      title:
+        " title 1We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
+    },
+    {
+      title:
+        " title 2We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
+    },
+    {
+      title:
+        " title 3We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
+    },
+    {
+      title:
+        " title 4We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
+    },
+    {
+      title:
+        " title 5We Consider Requests As They Come': United Nations On Row Over 'Bharat Vs India' Name",
+      content:
+        "'Testament To Our Shared Vision And Collaboration For Better Future': PM Modi At ASEAN-India Summit In Jakarta",
+    },
+  ];
 
-  // const [addressError, setAddressError] = useState("");
-  // const { ref: bootstrapRef } = usePlacesWidget({
-  //     apiKey : "AIzaSyA_JO9H6JEScutFurdvFw1t-v31GIf2Q2o",
-  //     onPlaceSelected: (place) => {handleLocation(place)},
-  //     options: {
-  //         types: ["(regions)"],
-  //         componentRestrictions: { country: ["IN", 'AE'] },
-  //     },
-  // });
+  const [checked, setChecked] = useState(true);
 
-  // const handleLocation = (place) => {
-  //   let location = JSON.parse(JSON.stringify(place?.geometry?.location));
-  //   console.log("location",location )
-  //   const adres = {
-  //       address : place.formatted_address,
-  //       latitude : location.lat,
-  //       longitude : location.lng
-  //   }
-  //   //handleUpdate({...values,['address'] : adres})
-  //   //setAdd(adres);
-  // }
+  // const interval = setInterval(() => {
+  //   setChecked(!checked);
+  //   setInterval(() => {
+  //     setChecked(!checked);
+  //   }, 1000)
+  // }, 10000);
+  // return (
+  //   <div
+  //     className="basic-list-group image-preview-container media-content"
+  //     style={{ color: "white"}}
+  //   >
+  //     {(
+  //       <>
+
+  //         <div
+  //           className={`h-100 ${data.theame.value == 'White Background' ? 'bg-white' : 'bg-black'} `}
+  //           style={{ padding: "5% 2% 2% 2%" }}
+  //         >
+
+  //           <Carousel
+  //             interval={(data.slideDuration) * 1000}
+  //             indicators={false}
+  //             animation={"slide"}
+  //             className="h-100"
+  //           >
+  //             {list.map((item, i) => {
+  //               return (
+  //                 <>
+  //                 <Slide direction="right" in={checked} timeout={1000}>
+  //                   <div style={{
+  //                     maxWidth: "100%",
+  //                     minWidth:"70%",
+  //                     height:"5px",
+  //                     background: "#fff",
+  //                     margin: "2rem 0",
+  //                     display: "inline-block"
+  //                   }}></div>
+  //                 </Slide>
+  //                 <div className="h-100">
+  //                   <div className=" h-100">
+  //                     <div
+  //                       className="text-center  "
+  //                     >
+  //                       <div className="mt-2 hhhhhh" key={i}>
+  //                         <h1 className={`${data.theame.value == 'White Background' ? 'text-black' : 'text-white'} `}>
+  //                           {item.title}
+  //                         </h1>
+  //                         <p className={`${data.theame.value == 'White Background' ? 'text-black' : 'text-white'} `}>{item.content}</p>
+  //                       </div>
+  //                     </div>
+  //                   </div>
+  //                 </div>
+  //                 </>
+  //               );
+  //             })}
+  //           </Carousel>
+  //           <div style={{position:'absolute',bottom:'20px',right:'10%'}}>
+  //           <Slide direction="up" in={checked} mountOnEnter unmountOnExit timeout={1000}>
+  //             <img style={{
+  //               width:'100px', height:"100px"
+  //             }} src={"https://ssapi.trendysignage.com/6436ac4945920161d6b13dab/image/trendy_1694100200126.png"} />
+  //           </Slide>
+  //           </div>
+  //         </div>
+  //       </>
+  //     )}
+  //   </div>
+  // );
 
   return (
     <>
@@ -159,7 +267,7 @@ const Integrations = ({permission}) => {
         {appList.map((item) => {
           return (
             <div className="app-card ">
-              {/* <div className="d-flex justify-content-end mr-3 mt-3">
+              <div className="d-flex justify-content-end mr-3 mt-3">
                 <Dropdown
                   className="dropdown-toggle-menu app-card-menu"
                   drop="left"
@@ -201,7 +309,7 @@ const Integrations = ({permission}) => {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-              </div> */}
+              </div>
               <div
                 className="d-flex align-items-center justify-content-center"
                 onClick={(e) => {
@@ -260,22 +368,32 @@ const Integrations = ({permission}) => {
           show={showYoutubeApp}
         />
       )}
-
       <BulletinBoardAppModal
         setShowUrlApp={() => setShowBulletinBoardApp(false)}
         show={showBulletinBoardApp}
       />
+      <GoogleSlideAppModal
+        setShowUrlApp={() => setShowGoogleSlideApp(false)}
+        show={showGoogleSlideApp}
+      />
+      <QuoteModel
+        setShowUrlApp={() => setShowQuotesApp(false)}
+        show={showQuotesApp}
+      />
+      <AllNewsAppModal
+        setShowUrlApp={() => setShowNewsApp(false)}
+        show={showNewsApp}
+      />
     </>
   );
-}
-
+};
 
 const mapStateToProps = (state) => {
   return {
-      // errorMessage: state.auth.errorMessage,
-      // successMessage: state.auth.successMessage,
-      auth: state.auth.auth,
-      permission : state.auth.permission
+    // errorMessage: state.auth.errorMessage,
+    // successMessage: state.auth.successMessage,
+    auth: state.auth.auth,
+    permission: state.auth.permission,
   };
 };
 export default connect(mapStateToProps)(Integrations);

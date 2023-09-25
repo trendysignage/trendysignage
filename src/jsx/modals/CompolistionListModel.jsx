@@ -81,7 +81,7 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
         size="md"
       >
         <Modal.Header>
-          <Modal.Title>{type==="media" ? "Publish Media" : "Assign Quickplay"}</Modal.Title>
+          <Modal.Title>{type==="media" ? "Publish Media" :(type == 'composition' ? 'Change Default Composition' : "Assign Quickplay")}</Modal.Title>
           <Button
             variant=""
             className="close"
