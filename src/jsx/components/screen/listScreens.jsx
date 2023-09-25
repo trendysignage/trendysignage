@@ -195,8 +195,8 @@ const ListScreen = ({
   const renderSchedule = (params) => {
     const { value } = params;
     let sch = "--";
-    if (value[0]) {
-      sch = value[0].name;
+    if (value[0] && value[0] !== undefined) {
+      sch = value[0]?.name;
     }
     if (value.name) {
       sch = value.name;
