@@ -429,6 +429,7 @@ const PushScreen = ({ permission }) => {
           publishType === "quickplay" &&
           (permission && permission.permission.QUICKPLAY.view ? (
             <QuickPlayList
+              history={history}
               setIsRefresh={setIsRefresh}
               data={quickPlayData}
               handleDeleteQuickPlay={handleDeleteQuickPlay}
@@ -445,6 +446,7 @@ const PushScreen = ({ permission }) => {
           publishType === "defaultComposition" && (
             <>
               <DefComplist
+                history={history}
                 setIsRefresh={setIsRefresh}
                 data={defaultData}
                 setFilterData={setFilterData}
@@ -457,6 +459,7 @@ const PushScreen = ({ permission }) => {
           (permission && permission.permission.SCHEDULE.view ? (
             <>
               <ScheduleList
+                history={history}
                 setIsRefresh={setIsRefresh}
                 data={scheduleData}
                 setSelectedSchdule={setSelectedSchdule}
