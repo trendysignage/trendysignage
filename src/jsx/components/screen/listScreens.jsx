@@ -292,9 +292,17 @@ const ListScreen = ({
     const { value } = params;
     return (
       <span className="td-content">
-        <strong>{value.name}</strong>
+        <strong>
+          {value.name.length > 11
+            ? value.name.slice(0, 11) + "..."
+            : value.name}
+        </strong>
         <br />
-        <span>{value.location}</span>
+        <span className="oooo">
+          {value.location.length > 11
+            ? value.location.slice(0, 11) + "..."
+            : value.location}
+        </span>
       </span>
     );
   };
