@@ -87,6 +87,13 @@ export async function getAllMedia(data) {
   
   return response.data.data.media;
 }
+
+export async function getAllMediaSWR() {
+  const response = await fetchClient.get(BASE_URL + `/vendor/display/media`);
+  
+  return response.data.data.media;
+}
+
 export async function getAllComposition(str = null) {
   let response;
   if(str){

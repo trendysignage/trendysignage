@@ -48,7 +48,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import CustomNoRowsOverlay from "../CustomNoRowsOverlay";
 import QuickSearchToolbar from "../QuickSearchToolbar";
 import { GridToolbarContainer } from "@mui/x-data-grid";
-import FilterModal from "../../modals/FilterModal";
+import FilterModal from "../../modals/FilterModal"; 
 
 function CustomToolbar() {
   return (
