@@ -117,8 +117,16 @@ const ListComposition = ({
           {content.type === "video" && content.duration.toFixed(0) / 60}
         </span>
         <span className="name-content d-flex flex-column flex-grow-1">
-          <strong>{value.name}</strong>
-          <span>{value.createdBy}</span>
+          <strong>
+            {value.name.length > 7
+              ? value.name.slice(0, 7) + "..."
+              : value.name}
+          </strong>
+          <span>
+            {value.createdBy.length > 11
+              ? value.createdBy.slice(0, 11) + "..."
+              : value.createdBy}
+          </span>
         </span>
       </span>
     );

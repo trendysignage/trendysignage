@@ -249,9 +249,18 @@ const ListMedia = ({
         </span>
         <span className="name-content d-flex flex-column flex-grow-1">
           <strong>
-            {value.title.split("/")[value.title.split("/").length - 1]}
+            {value.title.split("/")[value.title.split("/").length - 1].length >
+            7
+              ? value.title
+                  .split("/")
+                  [value.title.split("/").length - 1].slice(0, 7) + "..."
+              : value.title.split("/")[value.title.split("/").length - 1]}
           </strong>
-          <span>{value.createdBy.name}</span>
+          <span>
+            {value?.createdBy?.name.length > 11
+              ? value?.createdBy?.name.slice(0, 11) + "..."
+              : value?.createdBy?.name}
+          </span>
         </span>
       </span>
     );

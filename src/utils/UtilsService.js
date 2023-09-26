@@ -2058,7 +2058,6 @@ export const handleNewsApps = (data, newsData) => {
     );
   }
 };
-
 export const handleGoogleApps = (data) => {
   const prp = JSON.parse(data);
   console.log("text app ", prp);
