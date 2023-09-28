@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Dropdown, Card, Button } from "react-bootstrap";
-import menuIcon from "../../../img/menu-icon.png";
+import menuIcon from "../../../img/menu-icon.svg";
 import assignIcon from "../../../img/assign-icon.png";
 import takeScreenshotIcon from "../../../img/tack-screenshot-icon.png";
 import { addDeviceProfile, deleteDeviceProfile } from "../../../utils/api";
@@ -8,18 +8,21 @@ import { humanReadableFormattedDateString } from "../../../utils/UtilsService";
 import { toast } from "react-toastify";
 import AddDeviceProfile from "../../modals/AddDeviceProfile";
 import SelectScreenModal from "../../modals/SelectScreenModal";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 
-import { DataGrid, GridToolbarExport,
+import {
+  DataGrid,
+  GridToolbarExport,
   gridPageCountSelector,
   gridPageSelector,
   useGridApiContext,
-  useGridSelector} from '@mui/x-data-grid';
-  import Pagination from '@mui/material/Pagination';
-import LinearProgress from '@mui/material/LinearProgress';
-import CustomNoRowsOverlay from '../CustomNoRowsOverlay';
-import QuickSearchToolbar from '../QuickSearchToolbar';
-import { GridToolbarContainer } from '@mui/x-data-grid';
+  useGridSelector,
+} from "@mui/x-data-grid";
+import Pagination from "@mui/material/Pagination";
+import LinearProgress from "@mui/material/LinearProgress";
+import CustomNoRowsOverlay from "../CustomNoRowsOverlay";
+import QuickSearchToolbar from "../QuickSearchToolbar";
+import { GridToolbarContainer } from "@mui/x-data-grid";
 
 function CustomToolbar() {
   return (
@@ -30,26 +33,25 @@ function CustomToolbar() {
           fileName: 'customerList',
           utf8WithBom: true,
         }} /> */}
-      <QuickSearchToolbar/>
+      <QuickSearchToolbar />
     </GridToolbarContainer>
   );
 }
 
 function CustomPagination() {
-const apiRef = useGridApiContext();
-const page = useGridSelector(apiRef, gridPageSelector);
-const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+  const apiRef = useGridApiContext();
+  const page = useGridSelector(apiRef, gridPageSelector);
+  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
 
-return (
-  <Pagination
-    color="primary"
-    count={pageCount}
-    page={page + 1}
-    onChange={(event, value) => apiRef.current.setPage(value - 1)}
-  />
-);
+  return (
+    <Pagination
+      color="primary"
+      count={pageCount}
+      page={page + 1}
+      onChange={(event, value) => apiRef.current.setPage(value - 1)}
+    />
+  );
 }
-
 
 const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh, loading }) => {
   const [showProfileModel, setShowProfileModel] = useState(false);
@@ -90,7 +92,7 @@ const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh, loading }) => {
   };
 
   const renderAction = (params) => {
-    const {value} = params;
+    const { value } = params;
     return (
       <Dropdown className="dropdown-toggle profile-dropdown">
         <Dropdown.Toggle variant="" className="p-0  mb-2">
@@ -188,28 +190,33 @@ const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh, loading }) => {
     },
   ];
   const rows1 = [];
-  if(allDeviceProfile){
+  if (allDeviceProfile) {
     allDeviceProfile.forEach((item) => {
-        rows1.push({
-              id:item._id,
-              name:item.name,
-              created: humanReadableFormattedDateString(item.createdAt),
-              updated: humanReadableFormattedDateString(item.createdAt),
-              assignedScreen:item.screens.length,
-              action:item
-          });
+      rows1.push({
+        id: item._id,
+        name: item.name,
+        created: humanReadableFormattedDateString(item.createdAt),
+        updated: humanReadableFormattedDateString(item.createdAt),
+        assignedScreen: item.screens.length,
+        action: item,
       });
+    });
   }
 
   const columns1 = [
-    { field: 'id', headerName: 'ID', flex: 1  },
-    { field: 'name', headerName: 'Name',  flex: 1, disableExport: true },
-    { field: 'created', headerName: 'Created At', flex: 1  },
-    { field: 'updated', headerName: 'Updated At', flex: 1  },
-    { field: 'assignedScreen', headerName: 'Assigned Screen', flex: 1 },
-    {field: 'action', headerName:'Action', flex:1,renderCell:renderAction, disableExport: true},
+    { field: "id", headerName: "ID", flex: 1 },
+    { field: "name", headerName: "Name", flex: 1, disableExport: true },
+    { field: "created", headerName: "Created At", flex: 1 },
+    { field: "updated", headerName: "Updated At", flex: 1 },
+    { field: "assignedScreen", headerName: "Assigned Screen", flex: 1 },
+    {
+      field: "action",
+      headerName: "Action",
+      flex: 1,
+      renderCell: renderAction,
+      disableExport: true,
+    },
   ];
-  
 
   return (
     <>
@@ -236,13 +243,13 @@ const Profile = ({ allDeviceProfile, setIsRefresh, isRefresh, loading }) => {
         pagination
         sorting
       /> */}
-      <Box sx={{ height: 400, width: '100%' }}>
+      <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
           components={{
-              NoRowsOverlay: CustomNoRowsOverlay,
-              Toolbar: CustomToolbar,
-              LoadingOverlay: LinearProgress,
-              Pagination: CustomPagination,
+            NoRowsOverlay: CustomNoRowsOverlay,
+            Toolbar: CustomToolbar,
+            LoadingOverlay: LinearProgress,
+            Pagination: CustomPagination,
           }}
           rows={rows1}
           columns={columns1}

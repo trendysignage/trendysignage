@@ -655,20 +655,20 @@ body {
   font-family: var(--font-manrope);
   color: #676d6d;
 }
-.table.custom-table .status {
+.status {
   width: 10px;
   height: 10px;
   display: inline-block;
   margin-right: 16px;
   border-radius: 100%;
 }
-.table.custom-table .status-green {
+.status-green {
   background: var(--green-status);
 }
-.table.custom-table .status-red {
+.status-red {
   background: var(--red-status);
 }
-.table.custom-table .my-phone-tag {
+.my-phone-tag {
   border: 0.6px solid #060047;
   border-radius: 37px;
   padding: 6px 12px;
@@ -681,7 +681,7 @@ body {
   vertical-align: middle;
   width: 70px;
 }
-.table.custom-table .down-arrow {
+ .down-arrow {
   width: 16px;
   height: 16px;
   display: inline-block;

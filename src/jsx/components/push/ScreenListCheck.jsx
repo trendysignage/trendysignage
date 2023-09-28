@@ -5,26 +5,29 @@ import quickPlayIcon from "../../../img/quickplay-icon.png";
 import defaultComparisonIcon from "../../../img/comparison-icon.png";
 import { Link } from "react-router-dom";
 import { Button, Table, Dropdown } from "react-bootstrap";
-import { deleteSchedule, getAllSchedule, getQuickPlay, deleteQuickPlay, getDefaultComposition, getAllScreens, getAllComposition } from "../../../utils/api";
+import {
+  deleteSchedule,
+  getAllSchedule,
+  getQuickPlay,
+  deleteQuickPlay,
+  getDefaultComposition,
+  getAllScreens,
+  getAllComposition,
+} from "../../../utils/api";
 import { useEffect } from "react";
 import {
   getDatetimeIn12Hours,
   humanReadableFormattedDateString,
 } from "../../../utils/UtilsService";
 import moment from "moment";
-import menuIcon from "../../../img/menu-icon.png";
+import menuIcon from "../../../img/menu-icon.svg";
 import deleteIcon from "../../../img/delete-icon.png";
 import edit from "../../../img/edit-composition.png";
 import { useHistory } from "react-router-dom";
 import TableLoader from "../../components/TableLoader";
 
-const ScreenListCheck = ({screens}) => {
+const ScreenListCheck = ({ screens }) => {
   const history = useHistory();
-
-
-
-
-
 
   function convertTimestampTo12HourFormat(timestamp) {
     if (!timestamp) {
@@ -71,7 +74,7 @@ const ScreenListCheck = ({screens}) => {
   }
 
   const handleCheckboxChange = (event, type) => {
-    if(type == 'screen'){
+    if (type == "screen") {
       const newCheckedItems = {
         ...checkedItems,
         [event.target.name]: event.target.checked,
@@ -84,8 +87,7 @@ const ScreenListCheck = ({screens}) => {
       }
       setCheckedValues(selectedScreens);
       setCheckedItems(newCheckedItems);
-    }
-    else{
+    } else {
       setCheckedValuesComp(event.target.name);
     }
   };
@@ -123,79 +125,88 @@ const ScreenListCheck = ({screens}) => {
   // };
   return (
     <>
-          <button className="btn btn-sm btn-primary" onClick={(e) => {console.log(checkedItems, checkedValues)}}>Proceed</button>
-          <Table responsive>
-            <thead>
-              <tr>
-                <th className="width50">
-                  <div className="custom-control custom-checkbox checkbox-success check-lg mr-3">
-                    <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="checkbox1_exam_all"
-                      onChange={handleSelectAllChange}
-                      required=""
-                    />
-                    <label
-                      className="custom-control-label"
-                      htmlFor="checkbox1_exam_all"
-                    ></label>
-                  </div>
-                </th>
-                <th>Screen</th>
-                <th>Last Seen</th>
-                <th>Default Composition</th>
-                <th>Current Schedule</th>
-              </tr>
-            </thead>
-            {loading  ? (
-          <TableLoader colSpan={5}/>
+      <button
+        className="btn btn-sm btn-primary"
+        onClick={(e) => {
+          console.log(checkedItems, checkedValues);
+        }}
+      >
+        Proceed
+      </button>
+      <Table responsive>
+        <thead>
+          <tr>
+            <th className="width50">
+              <div className="custom-control custom-checkbox checkbox-success check-lg mr-3">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  id="checkbox1_exam_all"
+                  onChange={handleSelectAllChange}
+                  required=""
+                />
+                <label
+                  className="custom-control-label"
+                  htmlFor="checkbox1_exam_all"
+                ></label>
+              </div>
+            </th>
+            <th>Screen</th>
+            <th>Last Seen</th>
+            <th>Default Composition</th>
+            <th>Current Schedule</th>
+          </tr>
+        </thead>
+        {loading ? (
+          <TableLoader colSpan={5} />
         ) : (
-            <tbody>
-              {allScreens !== "" &&
-                allScreens.map((screen) => {
-                  return (
-                    <tr>
-                      <td>
-                        <div className="custom-control custom-checkbox checkbox-success check-lg mr-3">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id={screen._id}
-                            name={screen._id}
-                            checked={checkedItems[screen._id]}
-                            onChange={(e) =>{handleCheckboxChange(e,"screen")}}
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor={screen._id}
-                          ></label>
-                        </div>
-                      </td>
+          <tbody>
+            {allScreens !== "" &&
+              allScreens.map((screen) => {
+                return (
+                  <tr>
+                    <td>
+                      <div className="custom-control custom-checkbox checkbox-success check-lg mr-3">
+                        <input
+                          type="checkbox"
+                          className="custom-control-input"
+                          id={screen._id}
+                          name={screen._id}
+                          checked={checkedItems[screen._id]}
+                          onChange={(e) => {
+                            handleCheckboxChange(e, "screen");
+                          }}
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor={screen._id}
+                        ></label>
+                      </div>
+                    </td>
 
-                      <td>
+                    <td>
+                      <span className="td-content">
+                        <strong>{screen.name}</strong>
+                        <span>{screen.screenLocation}</span>
+                      </span>
+                    </td>
+                    <td>
+                      <span className="d-flex align-items-center">
+                        <span className="status status-green"></span>
                         <span className="td-content">
                           <strong>{screen.name}</strong>
                           <span>{screen.screenLocation}</span>
                         </span>
-                      </td>
-                      <td>
-                        <span className="d-flex align-items-center">
-                          <span className="status status-green"></span>
-                          <span className="td-content">
-                            <strong>{screen.name}</strong>
-                            <span>{screen.screenLocation}</span>
-                          </span>
-                        </span>
-                      </td>
-                      <td>Default Compo. </td>
-                      <td>No Schedule</td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-            )}
-          </Table>
+                      </span>
+                    </td>
+                    <td>Default Compo. </td>
+                    <td>No Schedule</td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        )}
+      </Table>
     </>
   );
 };

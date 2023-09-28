@@ -23,7 +23,7 @@ import {
   humanReadableFormattedDateString,
 } from "../../../utils/UtilsService";
 import moment from "moment";
-import menuIcon from "../../../img/menu-icon.png";
+import menuIcon from "../../../img/menu-icon.svg";
 import deleteIcon from "../../../img/delete-icon.png";
 import edit from "../../../img/edit-composition.png";
 import { useHistory } from "react-router-dom";
@@ -32,7 +32,7 @@ import LockScreen from "../../pages/LockScreen";
 import SelectScreenModal from "../../modals/SelectScreenModal";
 
 import AddNewTagModal from "../../modals/AddNewTagModal";
-import downArrow from "../../../img/down-arrow.png";
+import downArrow from "../../../img/down-arrow.svg";
 import listIcon from "../../../img/list-icon.png";
 
 import {
@@ -48,7 +48,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import CustomNoRowsOverlay from "../CustomNoRowsOverlay";
 import QuickSearchToolbar from "../QuickSearchToolbar";
 import { GridToolbarContainer } from "@mui/x-data-grid";
-import FilterModal from "../../modals/FilterModal"; 
+import FilterModal from "../../modals/FilterModal";
 
 function CustomToolbar() {
   return (
@@ -155,6 +155,7 @@ const ScheduleList = ({
               className="menu-img img-fluid"
               src={menuIcon}
               alt="menu-icon"
+              style={{ height: "50px" }}
             />
           </span>
         </Dropdown.Toggle>
@@ -263,13 +264,26 @@ const ScheduleList = ({
     return (
       <div>
         <span className="tag-container">
-          {value.tags.map((tag) => {
-            return (
+          {value.tags.length > 2 ? (
+            <>
               <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
+                {value.tags[0]}
+              </span>
+              <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
+                {value.tags[1]}
+              </span>
+              <span>...</span>
+            </>
+          ) : (
+            value.tags.map((tag, index) => (
+              <span
+                key={index}
+                className="my-phone-tag text-truncate ml-1 mr-1 mb-1"
+              >
                 {tag}
               </span>
-            );
-          })}
+            ))
+          )}
         </span>
         <span
           className="down-arrow"
@@ -391,6 +405,9 @@ const ScheduleList = ({
       flex: 1,
       renderCell: renderAction,
       disableExport: true,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
     },
   ];
 
