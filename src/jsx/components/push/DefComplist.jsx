@@ -276,7 +276,7 @@ const DefComplist = ({
     { field: "name", headerName: "Name", flex: 1 },
     {
       field: "createdAt",
-      headerName: "Crated At",
+      headerName: "Created at",
       flex: 1,
       renderCell: renderDate,
       disableExport: true,
