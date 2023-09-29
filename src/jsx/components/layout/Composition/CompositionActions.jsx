@@ -5,7 +5,7 @@ import veiwDetailIcon from "../../../../img/view-detail-icon.png";
 import defaultComparisonIcon from "../../../../img/default-comparison-icon.png";
 import assignIcon from "../../../../img/assign-icon.png";
 import takeScreenshotIcon from "../../../../img/tack-screenshot-icon.png";
-import edit from "../../../../img/edit-composition.png";
+import edit from "../../../../img/edit-composition.svg";
 import deleteIcon from "../../../../img/delete-icon.png";
 
 import { Link } from "react-router-dom";

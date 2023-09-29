@@ -1,39 +1,13 @@
 import React, { useState } from "react";
-import { Col, Row } from "react-bootstrap";
-import { connect } from "react-redux";
-import scheduleIcon from "../../../img/schedule-icon.png";
-import quickPlayIcon from "../../../img/quickplay-icon.png";
-import defaultComparisonIcon from "../../../img/comparison-icon.png";
-import { Link } from "react-router-dom";
-import { Button, Table, Dropdown } from "react-bootstrap";
-import {
-  deleteSchedule,
-  getAllSchedule,
-  getQuickPlay,
-  deleteQuickPlay,
-  getDefaultComposition,
-  getAllScreens,
-  getAllComposition,
-  setDefaultComposition,
-  BASE_URL,
-} from "../../../utils/api";
-import { useEffect } from "react";
+
 import {
   getDatetimeIn12Hours,
   humanReadableFormattedDateString,
 } from "../../../utils/UtilsService";
 import moment from "moment";
-import menuIcon from "../../../img/menu-icon.png";
-import deleteIcon from "../../../img/delete-icon.png";
-import edit from "../../../img/edit-composition.png";
-import { useHistory } from "react-router-dom";
-import TableLoader from "../../components/TableLoader";
-import LockScreen from "../../pages/LockScreen";
-import SelectScreenModal from "../../modals/SelectScreenModal";
 
 import AddNewTagModal from "../../modals/AddNewTagModal";
 import downArrow from "../../../img/down-arrow.svg";
-import listIcon from "../../../img/list-icon.png";
 
 import {
   DataGrid,

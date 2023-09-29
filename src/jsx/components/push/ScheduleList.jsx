@@ -25,7 +25,7 @@ import {
 import moment from "moment";
 import menuIcon from "../../../img/menu-icon.svg";
 import deleteIcon from "../../../img/delete-icon.png";
-import edit from "../../../img/edit-composition.png";
+import edit from "../../../img/edit-composition.svg";
 import { useHistory } from "react-router-dom";
 import TableLoader from "../../components/TableLoader";
 import LockScreen from "../../pages/LockScreen";
