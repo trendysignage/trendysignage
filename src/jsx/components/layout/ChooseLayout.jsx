@@ -1,6 +1,6 @@
 import React from "react";
 import useSWR from "swr";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 import { Col, Row } from "react-bootstrap";
 import layoutSelected from "../../../img/layout-select-img.png";
 import layoutSelected1 from "../../../img/Group 625949.png";
@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { getLayouts } from "../../../utils/api";
 import LockScreen from "../../pages/LockScreen";
 
-const ChooseLayout = ({permission}) => {
+const ChooseLayout = ({ permission }) => {
   const { data: layouts } = useSWR("/vendor/layouts", getLayouts);
   const Landscape = layouts
     ? layouts.filter((layout) => layout.screenType === "landscape")
@@ -20,18 +20,17 @@ const ChooseLayout = ({permission}) => {
     ? layouts.filter((layout) => layout.screenType === "potrait")
     : [];
 
-  console.log("permission", permission)
+  console.log("permission", permission);
   return (
     <>
       <div className="custom-content-heading d-flex flex-wrap flex-column">
         <h1 className="mb-1">Choose Layout</h1>
         <p className="three-layout-paragrapgh">
-          Select one of three layout for your composition
+          Select layout for your composition
         </p>
       </div>
       <div className="layout-row">
-        {
-          permission && permission.permission.COMPOSITION.add ? 
+        {permission && permission.permission.COMPOSITION.add ? (
           <Row>
             {layouts &&
               Landscape.map((layout, index) => {
@@ -110,17 +109,19 @@ const ChooseLayout = ({permission}) => {
                 );
               })}
           </Row>
-        :
-        <LockScreen message={" You don't have permission to access this !!! "} />
-        }
+        ) : (
+          <LockScreen
+            message={" You don't have permission to access this !!! "}
+          />
+        )}
       </div>
     </>
   );
 };
 const mapStateToProps = (state) => {
   return {
-      auth: state.auth.auth,
-      permission : state.auth.permission
+    auth: state.auth.auth,
+    permission: state.auth.permission,
   };
 };
 export default connect(mapStateToProps)(ChooseLayout);

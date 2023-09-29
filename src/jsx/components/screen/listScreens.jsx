@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Table, Dropdown } from "react-bootstrap";
 import { connect } from "react-redux";
 import AddNewTagModal from "../../modals/AddNewTagModal";
-import downArrow from "../../../img/down-arrow.png";
-import menuIcon from "../../../img/menu-icon.png";
+import downArrow from "../../../img/down-arrow.svg";
+import menuIcon from "../../../img/menu-icon.svg";
 import veiwDetailIcon from "../../../img/view-detail-icon.png";
 import defaultComparisonIcon from "../../../img/default-comparison-icon.png";
 import assignIcon from "../../../img/assign-icon.png";
@@ -27,6 +27,10 @@ import LinearProgress from "@mui/material/LinearProgress";
 import CustomNoRowsOverlay from "../CustomNoRowsOverlay";
 import QuickSearchToolbar from "../QuickSearchToolbar";
 import { GridToolbarContainer } from "@mui/x-data-grid";
+import {
+  getDatetimeIn12Hours,
+  humanReadableFormattedDateString,
+} from "../../../utils/UtilsService";
 
 function CustomToolbar() {
   return (
@@ -83,6 +87,7 @@ const ListScreen = ({
                 className="menu-img img-fluid"
                 src={menuIcon}
                 alt="menu-icon"
+                style={{ height: "50px" }}
               />
             </span>
           </Dropdown.Toggle>
@@ -226,13 +231,26 @@ const ListScreen = ({
     return (
       <div>
         <span className="tag-container">
-          {value.tags.map((tag) => {
-            return (
+          {value.tags.length > 2 ? (
+            <>
               <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
+                {value.tags[0]}
+              </span>
+              <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
+                {value.tags[1]}
+              </span>
+              <span>...</span>
+            </>
+          ) : (
+            value.tags.map((tag, index) => (
+              <span
+                key={index}
+                className="my-phone-tag text-truncate ml-1 mr-1 mb-1"
+              >
                 {tag}
               </span>
-            );
-          })}
+            ))
+          )}
         </span>
         <span
           className="down-arrow"
@@ -257,11 +275,18 @@ const ListScreen = ({
 
   const lastSeenRender = (params) => {
     const { value } = params;
+    console.log(value, "kkk");
     return (
       <span className="d-flex align-items-center">
-        <span className="status status-green"></span>
+        <span
+          className={`status ${
+            value.isConnected ? "status-green" : "status-red"
+          }`}
+        ></span>
         <span className="td-content">
           <span>{value.isConnected ? "ONLINE" : "OFFLINE"}</span>
+          {/* <strong>{humanReadableFormattedDateString(value)}</strong>{" "}
+          <span>{getDatetimeIn12Hours(value)}</span> */}
         </span>
       </span>
     );
@@ -323,16 +348,11 @@ const ListScreen = ({
     },
     {
       field: "schedule",
-      headerName: "Schedule",
+      headerName: "Current Schedule",
       flex: 1,
       renderCell: renderSchedule,
     },
-    {
-      field: "defaultComposition",
-      headerName: "Default Comp..",
-      flex: 1,
-      renderCell: renderDefault,
-    },
+
     { field: "tags", headerName: "Tags", flex: 1, renderCell: tagsRender },
     { field: "groups", headerName: "Groups", flex: 1, renderCell: groupRender },
     {
@@ -341,6 +361,9 @@ const ListScreen = ({
       flex: 1,
       renderCell: renderAction,
       disableExport: true,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
     },
   ];
 

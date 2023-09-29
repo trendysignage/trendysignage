@@ -1676,7 +1676,7 @@ export const handleStockApps = (data, stock) => {
 };
 
 export const handleAqiApps = (data, weatherInfo) => {
-  const prp = JSON.parse(data);
+  const prp = JSON.parse(data, "aqi");
   return (
     <div className="basic-list-group image-preview-container media-content text-black bg-color-air-app">
       <div className="air-quality-app-container d-flex  justify-content-center align-items-center h-100 bg-white">

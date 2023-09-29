@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import weather from "../../../img/weather.svg";
-import menuIcon from "../../../img/menu-icon.png";
+import menuIcon from "../../../img/menu-icon.svg";
 import UrlAppModal from "../../modals/UrlAppModal";
 import { useState } from "react";
 import RssFeedAppModal from "../../modals/RssFeedAppModal";

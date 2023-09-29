@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { updateApps, addApps } from "../../utils/api";
 import { handleYoutubeApps } from "../../utils/UtilsService";
 
-
 const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
@@ -15,7 +14,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [muteOptions, setMuteOptions] = useState(false);
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
-  const [isRefresh, setIsRefresh] = useState(false); 
+  const [isRefresh, setIsRefresh] = useState(false);
   const [orientationMode, setOrientation] = useState("landscape");
   const [previewData, setPreviewData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,20 +33,20 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
-      setIsLoading(false)
-      return
+      setIsLoading(false);
+      return;
     }
     if (urlLink.trim() == "") {
       setErr(true);
       setErrorMessage("URL Link is required");
-      setIsLoading(false)
-      return
+      setIsLoading(false);
+      return;
     }
     const dataString = {
       url: urlLink,
@@ -56,14 +55,14 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name:name.trim(),
+        name: name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
     } else {
       await addApps({
-        name:name.trim(),
+        name: name.trim(),
         type: "youtube-apps",
         data: JSON.stringify(dataString),
       });
@@ -77,20 +76,23 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const handleClose = (val) => {
     setName("");
-    setUrlLink('');
-    setMuteOptions(false)
-    setShowUrlApp(val)
-  }
+    setUrlLink("");
+    setMuteOptions(false);
+    setShowUrlApp(val);
+  };
 
   const handlePreview = () => {
-    if(name && urlLink){
-      setPreviewData(handleYoutubeApps(JSON.stringify({
-        url: urlLink,
-        mute: muteOptions,
-      })))
-      
+    if (name && urlLink) {
+      setPreviewData(
+        handleYoutubeApps(
+          JSON.stringify({
+            url: urlLink,
+            mute: muteOptions,
+          })
+        )
+      );
     }
-  }
+  };
 
   return (
     <>
@@ -102,12 +104,15 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       >
         <Modal.Header className="border-0">
           <Modal.Title className="mr-auto app-modal-heading">
-            Video App
+            Youtube App
           </Modal.Title>
           <Button
             variant=""
             className="close"
-            onClick={(e) => {e.preventDefault(); handleClose(false)}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose(false);
+            }}
           >
             <img
               className="cancel-icon"
@@ -133,7 +138,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              <label className="mt-3">Video Url</label>
+              <label className="mt-3">Video URL</label>
               <input
                 type="text"
                 className="  form-control "
@@ -172,9 +177,10 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     name="orientation"
                     value="landscape"
                     id="landscape"
-                    checked={orientationMode === 'landscape'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
-                    
+                    checked={orientationMode === "landscape"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -190,8 +196,10 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     name="orientation"
                     value="potrait"
                     id="potrait"
-                    checked={orientationMode === 'potrait'}
-                    onChange={(e) => {setOrientation(e.target.value)}}
+                    checked={orientationMode === "potrait"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                     //disabled
                     // style={{cursor:"not-allowed"}}
                     // placeholder="Preview Not Available"
@@ -205,15 +213,18 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100">
-                { orientationMode && orientationMode == 'potrait' ? 
-                    <div className="d-flex justify-content-center h-100" style={{backgroundColor:'none'}}>
-                      <div className="p-3 h-100">
-                        { previewData ? previewData : ''}
-                      </div>
+                {orientationMode && orientationMode == "potrait" ? (
+                  <div
+                    className="d-flex justify-content-center h-100"
+                    style={{ backgroundColor: "none" }}
+                  >
+                    <div className="p-3 h-100">
+                      {previewData ? previewData : ""}
                     </div>
-                  : <>{ previewData ? previewData : ''}</>
-                }
-                
+                  </div>
+                ) : (
+                  <>{previewData ? previewData : ""}</>
+                )}
               </div>
             </div>
           </form>
@@ -221,9 +232,13 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100"
+              <Button
+                className="cancel-btn w-100"
                 variant="outline-light"
-                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClose(false);
+                }}
               >
                 Cancel
               </Button>

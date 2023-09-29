@@ -121,6 +121,7 @@ function Login(props) {
                 type="email"
                 autoComplete="off"
                 className="form-control"
+                placeholder="Enter Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -132,6 +133,7 @@ function Login(props) {
               <input
                 type="password"
                 className="form-control"
+                placeholder="Enter Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

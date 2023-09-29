@@ -201,7 +201,7 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   setName(e.target.value);
                 }}
               />
-              <label className="mt-3">Url Link</label>
+              <label className="mt-3">URL Link</label>
               <input
                 type="text"
                 className="  form-control "

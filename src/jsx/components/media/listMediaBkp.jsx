@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Table, Dropdown } from "react-bootstrap";
 import AddNewTagModal from "../../modals/AddNewTagModal";
 import downArrow from "../../../img/down-arrow.png";
-import menuIcon from "../../../img/menu-icon.png";
+import menuIcon from "../../../img/menu-icon.svg";
 import defaultComparisonIcon from "../../../img/default-comparison-icon.png";
 import emptyMediaImg from "../../../img/addmedia-empty-img.png";
 import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
@@ -16,7 +16,7 @@ import DeleteConfirmation from "../../modals/DeleteConfirmation";
 import { deleteMedia, BASE_URL } from "../../../utils/api";
 import PublishMediaModal from "../../modals/PublishMediaModal";
 
-const ListMedia = ({ allMedia, callAllMediaApi, auth, permission}) => {
+const ListMedia = ({ allMedia, callAllMediaApi, auth, permission }) => {
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState("");
@@ -264,7 +264,9 @@ const ListMedia = ({ allMedia, callAllMediaApi, auth, permission}) => {
                             setSelectedMedia(media);
                             setDeleteModal(true);
                           }}
-                          disabled={permission && !permission.permission.ASSETS.delete}
+                          disabled={
+                            permission && !permission.permission.ASSETS.delete
+                          }
                         >
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
