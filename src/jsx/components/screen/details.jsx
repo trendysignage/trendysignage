@@ -8,6 +8,7 @@ import {
   DropdownButton,
   Badge,
 } from "react-bootstrap";
+import downArrow from "../../../img/down-arrow.svg";
 
 import { useParams, useHistory } from "react-router-dom";
 import editIcon from "../../../img/edit-icon.png";
@@ -30,6 +31,7 @@ import QuickPlayModal from "../../modals/QuickPlayModal";
 import WindowsModal from "../../modals/WindowsModal";
 import UpdateModal from "../../modals/UpdateModal";
 import { toast } from "react-toastify";
+import AddNewTagModal from "../../modals/AddNewTagModal";
 
 const ScreenDetails = () => {
   const history = useHistory();
@@ -45,6 +47,9 @@ const ScreenDetails = () => {
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [selectedScreen, setSelectedScreen] = useState("");
+  const [showNewTagModal, setNewTagModal] = useState(false);
+
   // use effect
   useEffect(() => {
     setIsRefresh(false);
@@ -156,6 +161,39 @@ const ScreenDetails = () => {
   //     setSelectedGroups(newData);
   //   }
   // }
+  const tagsRender = (params) => {
+    return (
+      <div>
+        <span className="tag-container">
+          {params?.tag?.map((tag, index) => (
+            <span
+              key={index}
+              className="my-phone-tag text-truncate ml-1 mr-1 mb-1"
+            >
+              {tag}
+            </span>
+          ))}
+        </span>
+        <span
+          className="down-arrow"
+          onClick={(e) => {
+            handleTags(e, params);
+          }}
+        >
+          <img
+            className="down-arrow-img img-fluid"
+            src={downArrow}
+            alt="arrow"
+          />
+        </span>
+      </div>
+    );
+  };
+  const handleTags = (e, item) => {
+    e.preventDefault();
+    setSelectedScreen(item);
+    setNewTagModal(!showNewTagModal);
+  };
   const defaultAccordion = [
     {
       title: "Content",
@@ -352,7 +390,7 @@ const ScreenDetails = () => {
       text: (
         <div className="tag-accordion-content">
           <div className="tag-content-row d-flex flex-wrap align-items-center">
-            <Badge
+            {/* <Badge
               className="badge-common-light badge-tag mr-2"
               variant="outline-light"
             >
@@ -369,7 +407,8 @@ const ScreenDetails = () => {
               variant="outline-light"
             >
               Test Devices
-            </Badge>
+            </Badge> */}
+            {tagsRender(screen)}
             <span className="tag-added">
               {" "}
               <img className="tag-add-icon" src={tagAddIcon} alt="menu-icon" />
@@ -621,6 +660,14 @@ const ScreenDetails = () => {
           handleUpdate={handleUpdate}
         />
       </div>
+      {showNewTagModal && (
+        <AddNewTagModal
+          setNewTagModal={setNewTagModal}
+          allScreens={screen}
+          selected={selectedScreen}
+          setIsRefresh={setIsRefresh}
+        />
+      )}
     </>
   );
 };
