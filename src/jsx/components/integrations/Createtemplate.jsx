@@ -67,92 +67,135 @@ export default function Createtemplate({ history, actionType, mediaId }) {
   const [isRefresh, setIsRefresh] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [settingData, setSettingData] = useState(
-    tempType ?(
-      tempType == 'temp1' ? {
-        bgOpacity: 100,
-        bgStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        duration: "20",
-        isTitle: true,
-        messageColor: "#AA144C",
-        messageStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        nameColor: "#AA144C",
-        nameStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        titleColor: "#AA144C",
-        titleStyle: { value: "permanent", label: "Permanent Maker" },
-      } 
-      :tempType == 'temp2' ? {
-        bgOpacity: 100,
-        bgStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        duration: "20",
-        isTitle: true,
-        messageColor: "#2512AD",
-        messageStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        nameColor: "#2512AD",
-        nameStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        titleColor: "#2512AD",
-        titleStyle: { value: "permanent", label: "Permanent Maker" },
-      }
-      :tempType == 'temp3' ? {
-        bgOpacity: 100,
-        bgStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        duration: "20",
-        isTitle: true,
-        messageColor: "#076923",
-        messageStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        nameColor: "#076923",
-        nameStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        titleColor: "#076923",
-        titleStyle: { value: "permanent", label: "Permanent Maker" },
-      }
-      :tempType == 'temp4' ? {
-        bgOpacity: 100,
-        bgStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        duration: "20",
-        isTitle: true,
-        messageColor: "#2512AD",
-        messageStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        nameColor: "#2512AD",
-        nameStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        titleColor: "#2512AD",
-        titleStyle: { value: "permanent", label: "Permanent Maker" },
-      }
-      :tempType == 'temp5' ? {
-        bgOpacity: 100,
-        bgStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        duration: "20",
-        isTitle: true,
-        messageColor: "#fff",
-        messageStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        nameColor: "#fff",
-        nameStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        titleColor: "#fff",
-        titleStyle: { value: "permanent", label: "Permanent Maker" },
-      }
-      :tempType == 'temp6' ? {
-        bgOpacity: 100,
-        bgStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        duration: "20",
-        isTitle: true,
-        messageColor: "#AA144C",
-        messageStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        nameColor: "#AA144C",
-        nameStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        titleColor: "#AA144C",
-        titleStyle: { value: "permanent", label: "Permanent Maker" },
-      }
-      :""
-      ) : {
-        bgOpacity: 100,
-        bgStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        duration: "20",
-        isTitle: true,
-        messageColor: "#000000",
-        messageStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        nameColor: "#000000",
-        nameStyle: { value: "bree-sarif", label: "Bree Sarif" },
-        titleColor: "#f20d0d",
-        titleStyle: { value: "permanent", label: "Permanent Maker" },
-    }
+    tempType
+      ? tempType == "temp1"
+        ? {
+            bgOpacity: 100,
+            bgColor: "#FAACC5",
+            duration: "20",
+            isTitle: true,
+            messageColor: "#AA144C",
+            messageStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+            nameColor: "#AA144C",
+            nameStyle: { value: "'Fira Sans', sans-serif", label: "Fira Sans" },
+            titleColor: "#AA144C",
+            titleStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+          }
+        : tempType == "temp2"
+        ? {
+            bgOpacity: 100,
+            bgColor: "#78e176",
+
+            duration: "20",
+            isTitle: true,
+            messageColor: "#076923",
+            messageStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+            nameColor: "#076923",
+            nameStyle: { value: "'Fira Sans', sans-serif", label: "Fira Sans" },
+            titleColor: "#076923",
+            titleStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+          }
+        : tempType == "temp3"
+        ? {
+            bgOpacity: 100,
+            bgColor: "#78e176b8",
+            duration: "20",
+            isTitle: true,
+            messageColor: "#2512AD",
+            messageStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+            nameColor: "#2512AD",
+            nameStyle: { value: "'Fira Sans', sans-serif", label: "Fira Sans" },
+            titleColor: "#2512AD",
+            titleStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+          }
+        : tempType == "temp4"
+        ? {
+            bgOpacity: 100,
+            bgColor: "#9443b1b8",
+            duration: "20",
+            isTitle: true,
+            messageColor: "#2512AD",
+            messageStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+            nameColor: "#2512AD",
+            nameStyle: { value: "'Fira Sans', sans-serif", label: "Fira Sans" },
+            titleColor: "#2512AD",
+            titleStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+          }
+        : tempType == "temp5"
+        ? {
+            bgOpacity: 100,
+            bgColor: "#ce5e1fc2",
+            duration: "20",
+            isTitle: true,
+            messageColor: "#fff",
+            messageStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+            nameColor: "#fff",
+            nameStyle: { value: "'Fira Sans', sans-serif", label: "Fira Sans" },
+            titleColor: "#fff",
+            titleStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+          }
+        : tempType == "temp6"
+        ? {
+            bgOpacity: 100,
+            bgColor: "#bd2dbac2",
+            duration: "20",
+            isTitle: true,
+            messageColor: "#AA144C",
+            messageStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+            nameColor: "#AA144C",
+            nameStyle: { value: "'Fira Sans', sans-serif", label: "Fira Sans" },
+            titleColor: "#AA144C",
+            titleStyle: {
+              value: "'Fira Sans', sans-serif",
+              label: "Fira Sans",
+            },
+          }
+        : ""
+      : {
+          bgOpacity: 100,
+          bgStyle: { value: "bree-sarif", label: "Bree Sarif" },
+          duration: "20",
+          isTitle: true,
+          messageColor: "#000000",
+          messageStyle: { value: "bree-sarif", label: "Bree Sarif" },
+          nameColor: "#000000",
+          nameStyle: { value: "bree-sarif", label: "Bree Sarif" },
+          titleColor: "#f20d0d",
+          titleStyle: { value: "permanent", label: "Permanent Maker" },
+        }
   );
   const callMediaDetailApi = async (id) => {
     const list = await getAllMediaDetail(id);

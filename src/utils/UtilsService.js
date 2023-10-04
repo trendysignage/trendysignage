@@ -197,11 +197,10 @@ export const sliceIntoChunks = (arr, chunkSize) => {
 export const handleBulletinApps = (data) => {
   const prp = JSON.parse(data);
   console.log(prp);
-  var newArray
-  if(prp.bulletinFormat && prp.bulletinFormat == 'multi')
+  var newArray;
+  if (prp.bulletinFormat && prp.bulletinFormat == "multi")
     newArray = sliceIntoChunks(prp.bulletin, 3);
-  else
-    newArray = prp.bulletin
+  else newArray = prp.bulletin;
   return (
     <div
       className={`basic-list-group image-preview-container media-content ${prp.colorScheme.value} text-black`}
@@ -209,11 +208,9 @@ export const handleBulletinApps = (data) => {
     >
       {prp.bulletin && prp.bulletin.length > 0 ? (
         <>
-          {
-            prp.bulletinFormat && prp.bulletinFormat == 'multi' 
-            ?
-             <>
-             {newArray.length > 0 && (
+          {prp.bulletinFormat && prp.bulletinFormat == "multi" ? (
+            <>
+              {newArray.length > 0 && (
                 <>
                   <div className=" h-100" style={{ margin: "2%" }}>
                     <Carousel
@@ -236,15 +233,25 @@ export const handleBulletinApps = (data) => {
                                         borderRadius: "18px",
                                         margin: "20px",
                                         flexDirection: "column",
-                                        width: "30%",
+                                        width: "25%",
                                       }}
                                     >
-                                        {
-                                          item1.image && <div>
-                                          <img src={BASE_URL+item1.image} alt="image" />
+                                      {item1.image && (
+                                        <div>
+                                          <img
+                                            src={BASE_URL + item1.image}
+                                            alt="image"
+                                            style={{
+                                              height: "233px",
+                                              width: "100%",
+                                            }}
+                                          />
                                         </div>
-                                        }
-                                      <div className="mt-2" key={i + "dd" + index1}>
+                                      )}
+                                      <div
+                                        className="mt-2"
+                                        key={i + "dd" + index1}
+                                      >
                                         <strong>{item1.title}</strong>
                                         <p>{item1.content}</p>
                                       </div>
@@ -260,10 +267,10 @@ export const handleBulletinApps = (data) => {
                   </div>
                 </>
               )}
-             </>
-            :
+            </>
+          ) : (
             <>
-             {newArray.length > 0 && (
+              {newArray.length > 0 && (
                 <>
                   <div className=" h-100" style={{ margin: "2%" }}>
                     <Carousel
@@ -286,11 +293,14 @@ export const handleBulletinApps = (data) => {
                                   width: "30%",
                                 }}
                               >
-                                {
-                                  item.image && <div>
-                                  <img src={BASE_URL+item.image} alt="image" />
-                                </div>
-                                }
+                                {item.image && (
+                                  <div>
+                                    <img
+                                      src={BASE_URL + item.image}
+                                      alt="image"
+                                    />
+                                  </div>
+                                )}
                                 <div className="mt-2">
                                   <strong>{item.title}</strong>
                                   <p>{item.content}</p>
@@ -304,9 +314,8 @@ export const handleBulletinApps = (data) => {
                   </div>
                 </>
               )}
-             </>
-          }
-          
+            </>
+          )}
         </>
       ) : (
         <div className="single-bulletin-app d-flex">
@@ -1667,7 +1676,7 @@ export const handleStockApps = (data, stock) => {
 };
 
 export const handleAqiApps = (data, weatherInfo) => {
-  const prp = JSON.parse(data);
+  const prp = JSON.parse(data, "aqi");
   return (
     <div className="basic-list-group image-preview-container media-content text-black bg-color-air-app">
       <div className="air-quality-app-container d-flex  justify-content-center align-items-center h-100 bg-white">
@@ -1812,20 +1821,27 @@ export const handleQuoteApps = (data, quoteData) => {
 
 export const handleNewsApps = (data, newsData) => {
   const prp = JSON.parse(data);
-  console.log(prp)
-  if(prp.orientationMode && prp.orientationMode == 'footer'){
+  console.log(prp, "lllll");
+  if (prp.orientationMode && prp.orientationMode == "footer") {
     return (
       <div className="bg-white h-100">
         <div className=" h-100" style={{ position: "relative" }}>
           <div
-            className="bg-black p-3 w-100"
+            className={`${
+              prp.theame.value == "white" ? "news-app-bg" : "bg-black"
+            } p-3 w-100`}
             style={{ position: "absolute", bottom: "0" }}
           >
             <div
               className="basic-list-group image-preview-container media-content "
-              style={{ color: "white", textAlign: "center" }}
+              style={{ textAlign: "center" }}
             >
-              <h2 className="text-white mb-0" style={{ fontSize: "20px" }}>
+              <h2
+                className={`${
+                  prp.theame.value == "white" ? "text-black" : "text-white"
+                } mb-0`}
+                style={{ fontSize: "20px" }}
+              >
                 News About {prp.topic.value}
               </h2>
               <Carousel
@@ -1847,7 +1863,8 @@ export const handleNewsApps = (data, newsData) => {
                               maxWidth: "100%",
                               minWidth: "70%",
                               height: "5px",
-                              background: "#fff",
+                              background:
+                                prp.theame.value == "white" ? "#000" : "#fff",
                               margin: "10px 0",
                               display: "inline-block",
                             }}
@@ -1857,7 +1874,7 @@ export const handleNewsApps = (data, newsData) => {
                           <div className="text-center  ">
                             <h1
                               className={`${
-                                prp.theame.value == "White Background"
+                                prp.theame.value == "white"
                                   ? "text-black"
                                   : "text-white"
                               } `}
@@ -1867,7 +1884,7 @@ export const handleNewsApps = (data, newsData) => {
                             </h1>
                             <p
                               className={`${
-                                prp.theame.value == "White Background"
+                                prp.theame.value == "white"
                                   ? "text-black"
                                   : "text-white"
                               } `}
@@ -1885,17 +1902,27 @@ export const handleNewsApps = (data, newsData) => {
           </div>
         </div>
       </div>
-    )
-  }else if(prp.orientationMode && prp.orientationMode == 'potrait'){
-    return(
+    );
+  } else if (prp.orientationMode && prp.orientationMode == "potrait") {
+    return (
       <div className="bg-white h-100">
         <div className="d-flex justify-content-center h-100">
-          <div className="bg-black p-3 h-100">
+          <div
+            className={`${
+              prp.theame.value == "white" ? "news-app-bg" : "bg-black"
+            } p-3 h-100`}
+          >
             <div
               className="basic-list-group image-preview-container media-content "
               style={{ color: "white", textAlign: "center" }}
             >
-              <h2 className="text-white mb-0">News About {prp.topic.value}</h2>
+              <h2
+                className={`${
+                  prp.theame.value == "white" ? "text-black" : "text-white"
+                } mb-0`}
+              >
+                News About {prp.topic.value}
+              </h2>
               <Carousel
                 interval={10000}
                 indicators={false}
@@ -1915,7 +1942,8 @@ export const handleNewsApps = (data, newsData) => {
                               maxWidth: "100%",
                               minWidth: "70%",
                               height: "5px",
-                              background: "#fff",
+                              background:
+                                prp.theame.value == "white" ? "#000" : "#fff",
                               margin: "2rem 0",
                               display: "inline-block",
                             }}
@@ -1925,7 +1953,7 @@ export const handleNewsApps = (data, newsData) => {
                           <div className="text-center  ">
                             <h1
                               className={`${
-                                prp.theame.value == "White Background"
+                                prp.theame.value == "white"
                                   ? "text-black"
                                   : "text-white"
                               } `}
@@ -1934,7 +1962,7 @@ export const handleNewsApps = (data, newsData) => {
                             </h1>
                             <p
                               className={`${
-                                prp.theame.value == "White Background"
+                                prp.theame.value == "White"
                                   ? "text-black"
                                   : "text-white"
                               } `}
@@ -1951,8 +1979,8 @@ export const handleNewsApps = (data, newsData) => {
           </div>
         </div>
       </div>
-    )
-  }else if(prp.orientationMode && prp.orientationMode == 'landscape'){
+    );
+  } else if (prp.orientationMode && prp.orientationMode == "landscape") {
     return (
       <div className="bg-white h-100">
         <div
@@ -1966,7 +1994,7 @@ export const handleNewsApps = (data, newsData) => {
           >
             <h2
               className={`${
-                prp.theame.value == "white" ? "" : "text-white"
+                prp.theame.value == "white" ? "text-black" : "text-white"
               } mb-0`}
             >
               News About {prp.topic.value}
@@ -1990,7 +2018,9 @@ export const handleNewsApps = (data, newsData) => {
                             maxWidth: "100%",
                             minWidth: "70%",
                             height: "5px",
-                            background: "#fff",
+                            background:
+                              prp.theame.value == "white" ? "#000" : "#fff",
+
                             margin: "2rem 0",
                             display: "inline-block",
                           }}
@@ -2025,10 +2055,9 @@ export const handleNewsApps = (data, newsData) => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 };
-
 export const handleGoogleApps = (data) => {
   const prp = JSON.parse(data);
   console.log("text app ", prp);
@@ -2062,11 +2091,26 @@ export const handlePeopleSpace = (data) => {
           <div
             className=" h-100"
             style={{
-              background:
-                "linear-gradient(120deg, #FF5F9E -11.45%, #FAACC5 35.49%, #FFE6DD 104.09%)",
+              background: prp.settingData.bgColor
+                ? prp.settingData.bgColor
+                : "linear-gradient(120deg, #FF5F9E -11.45%, #FAACC5 35.49%, #FFE6DD 104.09%)",
             }}
           >
-            {prp?.settingData?.isTitle ? <h2 className="text-center pt-3" style={{ color: prp.settingData.titleColor ? prp.settingData.titleColor : "#2512AD", fontFamily:prp.settingData.titleStyle }}>{prp.appTitle}</h2> : ""}
+            {prp?.settingData?.isTitle ? (
+              <h2
+                className="text-center pt-3"
+                style={{
+                  color: prp.settingData.titleColor
+                    ? prp.settingData.titleColor
+                    : "#2512AD",
+                  fontFamily: prp.settingData.titleStyle.value,
+                }}
+              >
+                {prp.appTitle}
+              </h2>
+            ) : (
+              ""
+            )}
             <Carousel
               interval={10000}
               duration={500}
@@ -2085,21 +2129,42 @@ export const handlePeopleSpace = (data) => {
                         {item.map((item1, index1) => {
                           return (
                             <div className="text-center" key={`${i}-${index1}`}>
-                              {
-                                item1.image ? <img
+                              {item1.image ? (
+                                <img
+                                  style={{
+                                    width: "200px",
+                                    height: "200px",
+                                    borderRadius: "50%",
+                                  }}
+                                  src={
+                                    item1.image
+                                      ? BASE_URL + item1.image
+                                      : person
+                                  }
+                                  alt="person"
+                                />
+                              ) : (
+                                ""
+                              )}
+                              <h3
                                 style={{
-                                  width: "200px",
-                                  height: "200px",
-                                  borderRadius: "50%",
+                                  color: prp.settingData.nameColor
+                                    ? prp.settingData.nameColor
+                                    : "#2512AD",
+                                  fontFamily: prp.settingData.nameStyle.value,
                                 }}
-                                src={
-                                  item1.image ? BASE_URL + item1.image : person
-                                }
-                                alt="person"
-                              />:''
-                              }
-                              <h3 style={{ color: prp.settingData.nameColor ? prp.settingData.nameColor : "#2512AD", fontFamily:prp.settingData.nameStyle }}>{item1.name}</h3>
-                              <p style={{ color: prp.settingData.messageColor ? prp.settingData.messageColor : "#2512AD", fontFamily:prp.settingData.messageStyle }}>
+                              >
+                                {item1.name}
+                              </h3>
+                              <p
+                                style={{
+                                  color: prp.settingData.messageColor
+                                    ? prp.settingData.messageColor
+                                    : "#2512AD",
+                                  fontFamily:
+                                    prp.settingData.messageStyle.value,
+                                }}
+                              >
                                 {item1.message}
                               </p>
                             </div>
@@ -2119,7 +2184,21 @@ export const handlePeopleSpace = (data) => {
       return (
         <>
           <div className=" h-100 temp4-bg">
-            {prp?.settingData?.isTitle ? <h2 className="text-center pt-3" style={{ color: prp.settingData.titleColor ? prp.settingData.titleColor : "#2512AD", fontFamily:prp.settingData.titleStyle }}>{prp.appTitle}</h2> : ""}
+            {prp?.settingData?.isTitle ? (
+              <h2
+                className="text-center pt-3"
+                style={{
+                  color: prp.settingData.titleColor
+                    ? prp.settingData.titleColor
+                    : "#2512AD",
+                  fontFamily: prp.settingData.titleStyle.value,
+                }}
+              >
+                {prp.appTitle}
+              </h2>
+            ) : (
+              ""
+            )}
 
             <Carousel
               interval={10000}
@@ -2139,28 +2218,46 @@ export const handlePeopleSpace = (data) => {
                               className="d-flex align-items-center"
                               key={`${i}-${index1}`}
                             >
-                              {
-                                item1.image ? <div>
-                                <img
-                                  style={{
-                                    width: "100px",
-                                    height: "100px",
-                                    borderRadius: "50%",
-                                  }}
-                                  src={
-                                    item1.image
-                                      ? BASE_URL + item1.image
-                                      : person
-                                  }
-                                  alt="person"
-                                />
-                              </div> : ''
-                              }
+                              {item1.image ? (
+                                <div>
+                                  <img
+                                    style={{
+                                      width: "100px",
+                                      height: "100px",
+                                      borderRadius: "50%",
+                                    }}
+                                    src={
+                                      item1.image
+                                        ? BASE_URL + item1.image
+                                        : person
+                                    }
+                                    alt="person"
+                                  />
+                                </div>
+                              ) : (
+                                ""
+                              )}
                               <div>
-                                <h3 style={{ color: prp.settingData.nameColor ? prp.settingData.nameColor : "#2512AD", fontFamily:prp.settingData.nameStyle }}>
+                                <h3
+                                  style={{
+                                    color: prp.settingData.nameColor
+                                      ? prp.settingData.nameColor
+                                      : "#2512AD",
+                                    fontFamily: prp.settingData.nameStyle.value,
+                                  }}
+                                >
                                   {item1.name}
                                 </h3>
-                                <p style={{ color: prp.settingData.messageColor ? prp.settingData.messageColor : "#2512AD", fontFamily:prp.settingData.messageStyle, margin:0 }}>
+                                <p
+                                  style={{
+                                    color: prp.settingData.messageColor
+                                      ? prp.settingData.messageColor
+                                      : "#2512AD",
+                                    fontFamily:
+                                      prp.settingData.messageStyl.value,
+                                    margin: 0,
+                                  }}
+                                >
                                   {item1.message}
                                 </p>
                               </div>
@@ -2180,7 +2277,21 @@ export const handlePeopleSpace = (data) => {
       return (
         <>
           <div className=" h-100 temp2-bg" style={{ margin: "2%" }}>
-            {prp?.settingData?.isTitle ? <h2 className="text-center pt-3" style={{ color: prp.settingData.titleColor ? prp.settingData.titleColor : "#2512AD", fontFamily:prp.settingData.titleStyle }}>{prp.appTitle}</h2> : ""}
+            {prp?.settingData?.isTitle ? (
+              <h2
+                className="text-center pt-3"
+                style={{
+                  color: prp.settingData.titleColor
+                    ? prp.settingData.titleColor
+                    : "#2512AD",
+                  fontFamily: prp.settingData.titleStyle.value,
+                }}
+              >
+                {prp.appTitle}
+              </h2>
+            ) : (
+              ""
+            )}
             <Carousel
               interval={10000}
               duration={500}
@@ -2193,22 +2304,42 @@ export const handlePeopleSpace = (data) => {
                   <div className="row w-100 h-100" key={i}>
                     <div className="w-100">
                       <div className="d-flex w-100 align-items-center">
-                        {
-                          item.image ? <div className="">
-                          <img
-                            style={{
-                              width: "300px",
-                              height: "400px",
-                              borderRadius: "10px",
-                            }}
-                            src={item.image ? BASE_URL + item.image : person}
-                            alt="person"
-                          />
-                        </div> : ''
-                        }
+                        {item.image ? (
+                          <div className="">
+                            <img
+                              style={{
+                                width: "300px",
+                                height: "400px",
+                                borderRadius: "10px",
+                              }}
+                              src={item.image ? BASE_URL + item.image : person}
+                              alt="person"
+                            />
+                          </div>
+                        ) : (
+                          ""
+                        )}
                         <div>
-                          <h3 style={{ color: prp.settingData.nameColor ? prp.settingData.nameColor : "#2512AD", fontFamily:prp.settingData.nameStyle }}>{item.name}</h3>
-                          <p style={{ color: prp.settingData.messageColor ? prp.settingData.messageColor : "#2512AD", fontFamily:prp.settingData.messageStyle }}>{item.message}</p>
+                          <h3
+                            style={{
+                              color: prp.settingData.nameColor
+                                ? prp.settingData.nameColor
+                                : "#2512AD",
+                              fontFamily: prp.settingData.nameStyle.value,
+                            }}
+                          >
+                            {item.name}
+                          </h3>
+                          <p
+                            style={{
+                              color: prp.settingData.messageColor
+                                ? prp.settingData.messageColor
+                                : "#2512AD",
+                              fontFamily: prp.settingData.messageStyle.value,
+                            }}
+                          >
+                            {item.message}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -2223,7 +2354,21 @@ export const handlePeopleSpace = (data) => {
       return (
         <>
           <div className=" h-100 temp3-bg" style={{ margin: "2%" }}>
-            {prp?.settingData?.isTitle ? <h2 className="text-center pt-3" style={{ color: prp.settingData.titleColor ? prp.settingData.titleColor : "#2512AD", fontFamily:prp.settingData.titleStyle }}>{prp.appTitle}</h2> : ""}
+            {prp?.settingData?.isTitle ? (
+              <h2
+                className="text-center pt-3"
+                style={{
+                  color: prp.settingData.titleColor
+                    ? prp.settingData.titleColor
+                    : "#2512AD",
+                  fontFamily: prp.settingData.titleStyle.value,
+                }}
+              >
+                {prp.appTitle}
+              </h2>
+            ) : (
+              ""
+            )}
             <Carousel
               interval={10000}
               duration={500}
@@ -2236,22 +2381,42 @@ export const handlePeopleSpace = (data) => {
                   <div className="row w-100 h-100" key={i}>
                     <div className="w-100">
                       <div className="d-flex w-100 align-items-center">
-                        {
-                          item.image ? <div className="">
-                          <img
-                            style={{
-                              width: "300px",
-                              height: "300px",
-                              borderRadius: "50%",
-                            }}
-                            src={item.image ? BASE_URL + item.image : person}
-                            alt="person"
-                          />
-                        </div> : ''
-                        }
+                        {item.image ? (
+                          <div className="">
+                            <img
+                              style={{
+                                width: "300px",
+                                height: "300px",
+                                borderRadius: "50%",
+                              }}
+                              src={item.image ? BASE_URL + item.image : person}
+                              alt="person"
+                            />
+                          </div>
+                        ) : (
+                          ""
+                        )}
                         <div style={{ color: "#2512AD" }}>
-                          <h3 style={{ color: prp.settingData.nameColor ? prp.settingData.nameColor : "#2512AD", fontFamily:prp.settingData.nameStyle }}>{item.name}</h3>
-                          <p style={{ color: prp.settingData.messageColor ? prp.settingData.messageColor : "#2512AD", fontFamily:prp.settingData.messageStyle }}>{item.message}</p>
+                          <h3
+                            style={{
+                              color: prp.settingData.nameColor
+                                ? prp.settingData.nameColor
+                                : "#2512AD",
+                              fontFamily: prp.settingData.nameStyle.value,
+                            }}
+                          >
+                            {item.name}
+                          </h3>
+                          <p
+                            style={{
+                              color: prp.settingData.messageColor
+                                ? prp.settingData.messageColor
+                                : "#2512AD",
+                              fontFamily: prp.settingData.messageStyle.value,
+                            }}
+                          >
+                            {item.message}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -2266,7 +2431,21 @@ export const handlePeopleSpace = (data) => {
       return (
         <>
           <div className=" h-100 temp5-bg" style={{ margin: "2%" }}>
-          {prp?.settingData?.isTitle ? <h2 className="text-center pt-3" style={{ color: prp.settingData.titleColor ? prp.settingData.titleColor : "#2512AD", fontFamily:prp.settingData.titleStyle }}>{prp.appTitle}</h2> : ""}
+            {prp?.settingData?.isTitle ? (
+              <h2
+                className="text-center pt-3"
+                style={{
+                  color: prp.settingData.titleColor
+                    ? prp.settingData.titleColor
+                    : "#2512AD",
+                  fontFamily: prp.settingData.titleStyle.value,
+                }}
+              >
+                {prp.appTitle}
+              </h2>
+            ) : (
+              ""
+            )}
             <Carousel
               interval={10000}
               duration={500}
@@ -2279,23 +2458,43 @@ export const handlePeopleSpace = (data) => {
                   <div className="row w-100 h-100" key={i}>
                     <div className="w-100">
                       <div className="d-flex w-100 align-items-center">
-                        {
-                          item.image ? <div className="">
-                          <img
-                            style={{
-                              width: "300px",
-                              height: "300px",
-                              borderRadius: "50%",
-                            }}
-                            src={item.image ? BASE_URL + item.image : person}
-                            alt="person"
-                          />
-                        </div> : ''
-                        }
-                        
+                        {item.image ? (
+                          <div className="">
+                            <img
+                              style={{
+                                width: "300px",
+                                height: "300px",
+                                borderRadius: "50%",
+                              }}
+                              src={item.image ? BASE_URL + item.image : person}
+                              alt="person"
+                            />
+                          </div>
+                        ) : (
+                          ""
+                        )}
+
                         <div>
-                          <h3 style={{ color: prp.settingData.nameColor ? prp.settingData.nameColor : "#2512AD", fontFamily:prp.settingData.nameStyle }}>{item.name}</h3>
-                          <p style={{ color: prp.settingData.messageColor ? prp.settingData.messageColor : "#2512AD", fontFamily:prp.settingData.messageStyle }}>{item.message}</p>
+                          <h3
+                            style={{
+                              color: prp.settingData.nameColor
+                                ? prp.settingData.nameColor
+                                : "#2512AD",
+                              fontFamily: prp.settingData.nameStyle.value,
+                            }}
+                          >
+                            {item.name}
+                          </h3>
+                          <p
+                            style={{
+                              color: prp.settingData.messageColor
+                                ? prp.settingData.messageColor
+                                : "#2512AD",
+                              fontFamily: prp.settingData.messageStyle.value,
+                            }}
+                          >
+                            {item.message}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -2310,7 +2509,21 @@ export const handlePeopleSpace = (data) => {
       return (
         <>
           <div className=" h-100 temp6-bg text-center" style={{ margin: "2%" }}>
-            {prp?.settingData?.isTitle ? <h2 className="text-center pt-3" style={{ color: prp.settingData.titleColor ? prp.settingData.titleColor : "#2512AD", fontFamily:prp.settingData.titleStyle }}>{prp.appTitle}</h2> : ""}
+            {prp?.settingData?.isTitle ? (
+              <h2
+                className="text-center pt-3"
+                style={{
+                  color: prp.settingData.titleColor
+                    ? prp.settingData.titleColor
+                    : "#2512AD",
+                  fontFamily: prp.settingData.titleStyle.value,
+                }}
+              >
+                {prp.appTitle}
+              </h2>
+            ) : (
+              ""
+            )}
             <Carousel
               interval={10000}
               duration={500}
@@ -2323,21 +2536,41 @@ export const handlePeopleSpace = (data) => {
                   <div className="row w-100 h-100" key={i}>
                     <div className="w-100">
                       <div className=" w-100 ">
-                        {
-                          item.image ? <img
-                          style={{
-                            width: "200px",
-                            height: "200px",
-                            borderRadius: "50%",
-                          }}
-                          src={item.image ? BASE_URL + item.image : person}
-                          alt="person"
-                        /> : ""
-                        }
+                        {item.image ? (
+                          <img
+                            style={{
+                              width: "200px",
+                              height: "200px",
+                              borderRadius: "50%",
+                            }}
+                            src={item.image ? BASE_URL + item.image : person}
+                            alt="person"
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         <div>
-                          <h3 style={{ color: prp.settingData.nameColor ? prp.settingData.nameColor : "#2512AD", fontFamily:prp.settingData.nameStyle }}>{item.name}</h3>
-                          <p style={{ color: prp.settingData.messageColor ? prp.settingData.messageColor : "#2512AD", fontFamily:prp.settingData.messageStyle }}>{item.message}</p>
+                          <h3
+                            style={{
+                              color: prp.settingData.nameColor
+                                ? prp.settingData.nameColor
+                                : "#2512AD",
+                              fontFamily: prp.settingData.nameStyle.value,
+                            }}
+                          >
+                            {item.name}
+                          </h3>
+                          <p
+                            style={{
+                              color: prp.settingData.messageColor
+                                ? prp.settingData.messageColor
+                                : "#2512AD",
+                              fontFamily: prp.settingData.messageStyle.value,
+                            }}
+                          >
+                            {item.message}
+                          </p>
                         </div>
                       </div>
                     </div>
