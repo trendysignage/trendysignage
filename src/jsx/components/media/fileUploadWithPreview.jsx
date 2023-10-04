@@ -26,9 +26,9 @@ function FileUploadWithPreview({
     }
     setShowError(null);
     setFileList((fileList) => [...fileList, selectedFile]);
-    //setFile((file) => [...file, selectedFile]);
-    setSelectedCroppedFile(URL.createObjectURL(selectedFile))
-    setCheckCrop(true);
+    setFile((file) => [...file, selectedFile]);
+    // setSelectedCroppedFile(URL.createObjectURL(selectedFile))
+    // setCheckCrop(true);
 
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile);
