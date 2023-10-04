@@ -13,7 +13,7 @@ const ZoneInfoTable = ({
   layout,
   handleLayout,
 }) => {
-  console.log("Content", content)
+  console.log("Content", content);
   const [editSelected, setEditSelected] = useState(null);
   const [selectedZone, setSelectedZone] = useState("Zone1");
   const [activeClass, setActiveClass] = useState(false);
@@ -101,7 +101,7 @@ const ZoneInfoTable = ({
     setReferenceUrl((prev) => {
       const updateMedia = prev.map((val, key) => {
         if (key === editSelected) {
-          return ImgUrl+"**"+selectedZone;
+          return ImgUrl + "**" + selectedZone;
         } else {
           return val;
         }
@@ -125,91 +125,106 @@ const ZoneInfoTable = ({
           <tr>
             <th colSpan={4}>
               <span className="d-flex flex-wrap">
-                {layout && (layout.title === 'Single Zone Potrait' || layout.title === 'Two Zone Potrait') ?
-                    <span
-                      className={`yellow-box-portrait ${layout.title}`}
-                      style={{
-                        backgroundColor:
-                          layout &&
-                          (layout.zones.length == 2
-                            ? "#fff"
-                            : "#ffc12b"),
-                      }}
-                    >
-                      {layout && layout.zones.length == 2 ? (
-                        <>
-                          <div
-                            className="zone-layout2"
-                            style={{
-                              backgroundColor: zoneColor["Zone1"] ? "#ffc12b" : "",
-                            }}
-                          ></div>
-                          <div
-                            className="zone-layout22"
-                            style={{
-                              backgroundColor: zoneColor["Zone2"] ? "#ffc12b" : "",
-                            }}
-                          ></div>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </span> : 
-                    <span
-                      className={`yellow-box ${layout.title}`}
-                      style={{
-                        backgroundColor:
-                          layout &&
-                          (layout.zones.length == 2 || layout.zones.length == 3
-                            ? "#fff"
-                            : "#ffc12b"),
-                      }}
-                    >
-                      {layout && layout.zones.length == 2 ? (
-                        <>
-                          <div
-                            className="zone-layout2"
-                            style={{
-                              backgroundColor: zoneColor["Zone1"] ? "#ffc12b" : "",
-                            }}
-                          ></div>
-                          <div
-                            className="zone-layout22"
-                            style={{
-                              backgroundColor: zoneColor["Zone2"] ? "#ffc12b" : "",
-                            }}
-                          ></div>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                      {layout && layout.zones.length == 3 ? (
-                        <>
-                          <div
-                            className="zone-layout31"
-                            style={{
-                              backgroundColor: zoneColor["Zone1"] ? "#ffc12b" : "",
-                            }}
-                          ></div>
-                          <div
-                            className="zone-layout32"
-                            style={{
-                              backgroundColor: zoneColor["Zone2"] ? "#ffc12b" : "",
-                            }}
-                          ></div>
-                          <div
-                            className="zone-layout33"
-                            style={{
-                              backgroundColor: zoneColor["Zone3"] ? "#ffc12b" : "",
-                            }}
-                          ></div>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </span>
-                    }
-                
+                {layout &&
+                (layout.title === "Single Zone Potrait" ||
+                  layout.title === "Two Zone Potrait") ? (
+                  <span
+                    className={`yellow-box-portrait ${layout.title}`}
+                    style={{
+                      backgroundColor:
+                        layout &&
+                        (layout.zones.length == 2 ? "#fff" : "#ffc12b"),
+                    }}
+                  >
+                    {layout && layout.zones.length == 2 ? (
+                      <>
+                        <div
+                          className="zone-layout2"
+                          style={{
+                            backgroundColor: zoneColor["Zone1"]
+                              ? "#ffc12b"
+                              : "",
+                          }}
+                        ></div>
+                        <div
+                          className="zone-layout22"
+                          style={{
+                            backgroundColor: zoneColor["Zone2"]
+                              ? "#ffc12b"
+                              : "",
+                          }}
+                        ></div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </span>
+                ) : (
+                  <span
+                    className={`yellow-box ${layout.title}`}
+                    style={{
+                      backgroundColor:
+                        layout &&
+                        (layout.zones.length == 2 || layout.zones.length == 3
+                          ? "#fff"
+                          : "#ffc12b"),
+                    }}
+                  >
+                    {layout && layout.zones.length == 2 ? (
+                      <>
+                        <div
+                          className="zone-layout2"
+                          style={{
+                            backgroundColor: zoneColor["Zone1"]
+                              ? "#ffc12b"
+                              : "",
+                          }}
+                        ></div>
+                        <div
+                          className="zone-layout22"
+                          style={{
+                            backgroundColor: zoneColor["Zone2"]
+                              ? "#ffc12b"
+                              : "",
+                          }}
+                        ></div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    {layout && layout.zones.length == 3 ? (
+                      <>
+                        <div
+                          className="zone-layout31"
+                          style={{
+                            backgroundColor: zoneColor["Zone1"]
+                              ? "#ffc12b"
+                              : "",
+                          }}
+                        ></div>
+                        <div
+                          className="zone-layout32"
+                          style={{
+                            backgroundColor: zoneColor["Zone2"]
+                              ? "#ffc12b"
+                              : "",
+                          }}
+                        ></div>
+                        <div
+                          className="zone-layout33"
+                          style={{
+                            backgroundColor: zoneColor["Zone3"]
+                              ? "#ffc12b"
+                              : "",
+                          }}
+                        ></div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </span>
+                )}
+
                 {layout &&
                   layout.zones.map((item, i) => {
                     return (
@@ -263,11 +278,18 @@ const ZoneInfoTable = ({
                     </span>
                     <span className="name-content d-flex flex-column flex-grow-1">
                       <strong>
-                        {
-                          composition.url.split("/")[
-                            composition.url.split("/").length - 1
-                          ]
-                        }
+                        {composition.url.split("/")[
+                          composition.url.split("/").length - 1
+                        ].length > 22
+                          ? composition.url
+                              .split("/")
+                              [composition.url.split("/").length - 1].slice(
+                                0,
+                                7
+                              ) + "..."
+                          : composition.url.split("/")[
+                              composition.url.split("/").length - 1
+                            ]}
                       </strong>
                       <span>{composition.createdBy}</span>
                     </span>

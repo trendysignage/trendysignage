@@ -373,7 +373,7 @@ export const handleScrollerApps = (data) => {
         <marquee
           direction={allignment}
           scrollAmount={speed}
-          style={{ color: prp.textColor, fontSize: "150px" }}
+          style={{ color: prp.textColor, fontSize: "140px" }}
         >
           {prp.text}
         </marquee>
@@ -385,7 +385,7 @@ export const handleScrollerApps = (data) => {
         <marquee
           direction={allignment}
           scrollAmount={speed}
-          style={{ color: prp.textColor, fontSize: "150px" }}
+          style={{ color: prp.textColor, fontSize: "140px" }}
         >
           {prp.text}
         </marquee>
@@ -396,7 +396,7 @@ export const handleScrollerApps = (data) => {
       <marquee
         direction={allignment}
         scrollAmount={speed}
-        style={{ color: prp.textColor, fontSize: "150px" }}
+        style={{ color: prp.textColor, fontSize: "140px" }}
       >
         {prp.text}
       </marquee>
