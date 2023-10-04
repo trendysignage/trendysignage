@@ -8,7 +8,9 @@ import {
   DropdownButton,
   Badge,
 } from "react-bootstrap";
-
+import { BASE_URL } from "../../../utils/api";
+import moment from "moment";
+import AddNewTagModal from "../../modals/AddNewTagModal";
 import { useParams, useHistory } from "react-router-dom";
 import editIcon from "../../../img/edit-icon.png";
 import powerIcon from "../../../img/power-icon.png";
@@ -40,6 +42,7 @@ const ScreenDetails = () => {
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
   const [isEdit, setIsEdit] = useState(false)
+  const [showNewTagModal, setNewTagModal] = useState(false);
 
   // use effect
   useEffect(() => {
@@ -153,6 +156,120 @@ const ScreenDetails = () => {
   //     setSelectedGroups(newData);
   //   }
   // }
+  const findEndTime = (value) => {
+    if (!value || value === undefined) {
+      return "time not find";
+    }
+    if (value !== undefined) {
+      return value?.timings[value.timings.length - 1]?.endTime;
+    }
+}
+
+const convertTimestampTo12HourFormat = (timestamp) => {
+if (!timestamp) {
+    return "Invalid timestamp";
+}
+if (timestamp === "time not find") {
+    return "Invalid timestamp";
+}
+
+const timeParts = timestamp.split("T")[1].split(".")[0].split(":");
+let hours = 0;
+const minutes = timeParts[1];
+
+  if (timeParts.length >= 1) {
+      hours = parseInt(timeParts[0]);
+
+      let amPm;
+      if (hours >= 12) {
+      amPm = "PM";
+      if (hours > 12) {
+          hours -= 12;
+      }
+      } else {
+      amPm = "AM";
+      if (hours === 0) {
+          hours = 12;
+      }
+      }
+
+      const convertedTime = `${hours}:${minutes} ${amPm}`;
+      return convertedTime;
+    } else {
+        return "Invalid timestamp format";
+    }
+  }
+  const renderStartDate = (value) => {
+    const maxDates = value.sequence.reduce((max, obj) => {
+      const parseDts = obj.dates.map((dt) => new Date(dt));
+      const objMax =
+        obj.dates.length > 0 ? Math.max(...parseDts) : null;
+      return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
+    }, null);
+    const formatedDt = moment(new Date(maxDates)).format(
+      "YYYY-MM-DD"
+    );
+
+    const minDates = value.sequence.reduce((min, obj) => {
+      const parseDt = obj.dates.map((dt) => new Date(dt));
+      const objMin =
+        parseDt.length > 0 ? Math.min(...parseDt) : null;
+      return objMin ? (min ? Math.min(min, objMin) : objMin) : min;
+    }, null);
+
+    const formatedDtMin = moment(new Date(minDates)).format(
+      "YYYY-MM-DD"
+    );
+
+    const maxTime = value.sequence.reduce((max, obj) => {
+      const parseDts = obj.dates.map((dt) => new Date(dt));
+      const objMax =
+        obj.dates.length > 0 ? Math.max(...parseDts) : null;
+      return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
+    }, null);
+    const endTime = findEndTime(
+      value?.sequence[value?.sequence.length - 1]
+    );
+    return (
+      <div>
+          <span className="td-content">
+              <strong> {formatedDtMin}</strong>
+              {" "}
+              <span>
+              {convertTimestampTo12HourFormat(
+                  value?.sequence[0]?.timings[0]?.startTime
+              )}
+              </span>
+          </span>
+      </div>
+    )
+  }
+
+  const renderEndDate = (value) => {
+      const maxDates = value.sequence.reduce((max, obj) => {
+        const parseDts = obj.dates.map((dt) => new Date(dt));
+        const objMax =
+          obj.dates.length > 0 ? Math.max(...parseDts) : null;
+        return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
+      }, null);
+      const formatedDt = moment(new Date(maxDates)).format(
+        "YYYY-MM-DD"
+      );
+      const endTime = findEndTime(
+        value?.sequence[value?.sequence.length - 1]
+      );
+      return (
+        <div>
+            <span className="td-content">
+                <strong> {formatedDt}</strong>
+                {" "}
+                <span>
+                {convertTimestampTo12HourFormat(endTime)}
+                </span>
+            </span>
+        </div>
+      )
+  }
   const defaultAccordion = [
     {
       title: "Content",
@@ -163,13 +280,13 @@ const ScreenDetails = () => {
               <div className="accordion-custom-img">
                 <img
                   className="accordion-img"
-                  src={accordionImg}
+                  src={screen.contentPlaying && screen.contentPlaying[0] && screen.contentPlaying[0].media && screen.contentPlaying[0].media.referenceUrl ? BASE_URL+screen.contentPlaying[0].media.referenceUrl[0].split("**")[0] : accordionImg}
                   alt="menu-icon"
                 />
               </div>
               <div className="accordion-custom-content flex-1">
                 <h6>Currently Playing</h6>
-                <p>Default Composition</p>
+                <p>{screen.contentPlaying && screen.contentPlaying[0] && screen.contentPlaying[0].media ? screen.contentPlaying[0].media.name : "--" }</p>
               </div>
             </div>
           </div>
@@ -178,7 +295,7 @@ const ScreenDetails = () => {
               <div className="accordion-custom-img">
                 <img
                   className="accordion-img"
-                  src={accordionImg}
+                  src={screen.defaultComposition && screen.defaultComposition.media && screen.defaultComposition.media.referenceUrl ? BASE_URL+screen.defaultComposition.media.referenceUrl[0].split("**")[0] : accordionImg}
                   alt="menu-icon"
                 />
               </div>
@@ -194,7 +311,7 @@ const ScreenDetails = () => {
                     />
                   </span>
                 </h6>
-                <p>Default Composition 1</p>
+                <p>{screen.defaultComposition && screen.defaultComposition.media ? screen.defaultComposition.media.name : "--"}</p>
               </div>
             </div>
           </div>
@@ -208,7 +325,7 @@ const ScreenDetails = () => {
                 <h6>Active Schedule</h6>
                 <h5>Schedule 1</h5>
                 <p className="date-schedule">
-                  From 02 Apr, 23 ,04:00PM - To 05 Apr,23, 05:00Pm
+                  From {screen.schedule ? renderStartDate(screen.schedule) : '--'} - To {screen.schedule ? renderEndDate(screen.schedule) : '--'}
                 </p>
               </div>
             </div>
@@ -345,25 +462,18 @@ const ScreenDetails = () => {
       text: (
         <div className="tag-accordion-content">
           <div className="tag-content-row d-flex flex-wrap align-items-center">
-            <Badge
-              className="badge-common-light badge-tag mr-2"
-              variant="outline-light"
-            >
-              Test Devices
-            </Badge>
-            <Badge
-              className="badge-common-light badge-tag mr-2"
-              variant="outline-light"
-            >
-              Test Devices
-            </Badge>
-            <Badge
-              className="badge-common-light badge-tag mr-2"
-              variant="outline-light"
-            >
-              Test Devices
-            </Badge>
-            <span className="tag-added">
+            {
+              screen && screen.tags && screen.tags.map((item, i) => {
+                return (
+                  <Badge
+                    className="badge-common-light badge-tag mr-2"
+                    variant="outline-light"
+                    id={i}
+                  >{item}</Badge>
+                )
+              })
+            }
+            <span className="tag-added" style={{cursor:'pointer'}} onClick={(e) => {setNewTagModal(true);}}>
               {" "}
               <img className="tag-add-icon" src={tagAddIcon} alt="menu-icon" />
             </span>
@@ -443,6 +553,13 @@ const ScreenDetails = () => {
   if (!screen) return <></>;
   return (
     <>
+      {showNewTagModal && (
+        <AddNewTagModal
+          setNewTagModal={setNewTagModal}
+          selected={screen}
+          setIsRefresh={setIsRefresh}
+        />
+      )}
       <div className="custom-content-heading d-flex flex-wrap align-items-center">
         <h1 className="mr-auto">Screen Details</h1>
         <Button

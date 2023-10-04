@@ -191,10 +191,10 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
   const renderSchedule = (params) => {
     const { value } = params;
     let sch = '--';
-    if(value[0]){
+    if(value && value[0]){
       sch = value[0].name
     }
-    if(value.name){
+    if(value && value.name){
       sch = value.name;
     }
     return (
@@ -216,7 +216,6 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
       </span>
     )
   }
-
 
   const tagsRender = (params) => {
     const { value } = params;

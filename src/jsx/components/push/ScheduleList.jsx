@@ -371,7 +371,7 @@ const ScheduleList = ({history,permission, setIsRefresh, data,setShowPublishPopU
               </span>
           </div>
         )
-      }
+    }
   
     const columns = [
       { field: "name", headerName: "Name", flex: 1 },
