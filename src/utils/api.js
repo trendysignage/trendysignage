@@ -1,9 +1,7 @@
 import fetchClient from "./fetchClient";
 import axios from "axios";
 export const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-let Parser = require('rss-parser');
-
-
+let Parser = require("rss-parser");
 
 export function login(email, password) {
   const role = "vendor";
@@ -20,13 +18,13 @@ export function socialLoginApi(email, name, token) {
   const postData = {
     email,
     name,
-    socialId:token,
+    socialId: token,
   };
 
   return fetchClient.post(`${BASE_URL}/vendor/auth/socialLogin`, postData);
 }
 
-export function register(name,email, password) {
+export function register(name, email, password) {
   const role = "vendor";
   const postData = {
     name,
@@ -40,67 +38,81 @@ export function register(name,email, password) {
 }
 
 export async function otpVerification(otp) {
-  const response = await fetchClient.post(BASE_URL + `/vendor/auth/verifyOtp`,otp);
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/auth/verifyOtp`,
+    otp
+  );
   return response.data.data;
 }
 
 export async function mfaEnablePost(mfa) {
-  const response = await fetchClient.post(BASE_URL + `/vendor/profile/mfa`,mfa);
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/profile/mfa`,
+    mfa
+  );
   return response.data.data;
 }
 
 export async function verification2fa(otp) {
-  const response = await fetchClient.post(BASE_URL + `/vendor/auth/verifyOtp`,otp);
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/auth/verifyOtp`,
+    otp
+  );
   return response.data.data;
 }
-
 
 export async function sentOtpAgain() {
   const response = await fetchClient.post(BASE_URL + `/vendor/auth/resendOtp`);
   return response.data.data;
 }
 
-
 export async function getResetPassword(email) {
-  const response = await fetchClient.post(BASE_URL + `/vendor/auth/forgotPassword`,email);
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/auth/forgotPassword`,
+    email
+  );
   return response.data.data;
 }
 
-export async function getAllScreens(str=null) {
+export async function getAllScreens(str = null) {
   let response = "";
-  if(str){
-    response = await fetchClient.get(BASE_URL + `/vendor/display/screen?${str}`);
-  }else{
+  if (str) {
+    response = await fetchClient.get(
+      BASE_URL + `/vendor/display/screen?${str}`
+    );
+  } else {
     response = await fetchClient.get(BASE_URL + `/vendor/display/screen`);
   }
   return response.data.data;
 }
 
 export async function getAllMedia(data) {
-  console.log("data", data)
+  console.log("data", data);
   let response;
-  if(data && data != ''){
-    response = await fetchClient.get(BASE_URL + `/vendor/display/media?${data}`);
-  }else{
+  if (data && data != "") {
+    response = await fetchClient.get(
+      BASE_URL + `/vendor/display/media?${data}`
+    );
+  } else {
     response = await fetchClient.get(BASE_URL + `/vendor/display/media`);
   }
-  
+
   return response.data.data.media;
 }
 
 export async function getAllMediaSWR() {
   const response = await fetchClient.get(BASE_URL + `/vendor/display/media`);
-  
+
   return response.data.data.media;
 }
 
 export async function getAllComposition(str = null) {
   let response;
-  if(str){
+  if (str) {
     response = await fetchClient.get(
       BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000&${str}`
     );
-  }else{
+  } else {
     response = await fetchClient.get(
       BASE_URL + `/vendor/layouts/compositions?page=0&limit=1000`
     );
@@ -118,14 +130,14 @@ export async function getAllCompositionSWR(str = null) {
 }
 
 export const permission = {
-  SCREEN:{ view:false, add:false, edit:false,delete:false},
-  ASSETS:{ view:false, add:false, edit:false,delete:false},
-  COMPOSITION:{ view:false, add:false, edit:false,delete:false},
-  APPS:{ view:false, add:false, edit:false,delete:false},
-  REPORTS:{ view:false, add:false, edit:false,delete:false},
-  QUICKPLAY:{ view:false, add:false, edit:false,delete:false},
-  SCHEDULE:{ view:false, add:false, edit:false,delete:false},
-}
+  SCREEN: { view: false, add: false, edit: false, delete: false },
+  ASSETS: { view: false, add: false, edit: false, delete: false },
+  COMPOSITION: { view: false, add: false, edit: false, delete: false },
+  APPS: { view: false, add: false, edit: false, delete: false },
+  REPORTS: { view: false, add: false, edit: false, delete: false },
+  QUICKPLAY: { view: false, add: false, edit: false, delete: false },
+  SCHEDULE: { view: false, add: false, edit: false, delete: false },
+};
 
 export function addScreen(data) {
   return fetchClient.post(`${BASE_URL}/vendor/display/screen`, data);
@@ -151,7 +163,7 @@ export async function validateScreenCode(code) {
     );
     return response.data.statusCode === 200;
   } catch (error) {
-    console.log("err", error?.response?.data)
+    console.log("err", error?.response?.data);
     return error?.response?.data;
   }
 }
@@ -326,11 +338,13 @@ export async function getAllDaySequence(scheduleId) {
   return response.data.data;
 }
 
-export async function getAllSchedule(str=null) {
+export async function getAllSchedule(str = null) {
   let response;
-  if(str && str != ''){
-    response = await fetchClient.get(BASE_URL + `/vendor/push/schedules?${str}`);
-  }else{
+  if (str && str != "") {
+    response = await fetchClient.get(
+      BASE_URL + `/vendor/push/schedules?${str}`
+    );
+  } else {
     response = await fetchClient.get(BASE_URL + `/vendor/push/schedules`);
   }
   return response;
@@ -567,63 +581,59 @@ export async function assignScreenProfile(postdata) {
 }
 
 export async function getWeather(lat, long) {
-
   const rapidHeader = {
     headers: {
-      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
-      'X-RapidAPI-Host': 'open-weather13.p.rapidapi.com'
-    }
-  }
+      "X-RapidAPI-Key": "b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0",
+      "X-RapidAPI-Host": "open-weather13.p.rapidapi.com",
+    },
+  };
   const response = await fetchClient.get(
-    `https://open-weather13.p.rapidapi.com/city/fivedaysforcast/${lat}/${long}`,rapidHeader
+    `https://open-weather13.p.rapidapi.com/city/fivedaysforcast/${lat}/${long}`,
+    rapidHeader
   );
   return response.data;
-
 }
 
 export async function getStock(type) {
-
   const rapidHeader = {
     headers: {
-      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
-      'X-RapidAPI-Host': 'stock-surge.p.rapidapi.com'
-    }
-  }
+      "X-RapidAPI-Key": "b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0",
+      "X-RapidAPI-Host": "stock-surge.p.rapidapi.com",
+    },
+  };
   const response = await fetchClient.get(
-    `https://stock-surge.p.rapidapi.com/api/v1/performance/${type}`,rapidHeader
+    `https://stock-surge.p.rapidapi.com/api/v1/performance/${type}`,
+    rapidHeader
   );
   return response.data;
-
 }
 
 export async function getQuotes(formData) {
-
   const rapidHeader = {
     headers: {
-      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
-      'X-RapidAPI-Host': 'andruxnet-random-famous-quotes.p.rapidapi.com'
-    }
-  }
+      "X-RapidAPI-Key": "b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0",
+      "X-RapidAPI-Host": "andruxnet-random-famous-quotes.p.rapidapi.com",
+    },
+  };
   const response = await fetchClient.get(
-    `https://andruxnet-random-famous-quotes.p.rapidapi.com?cat=${formData.cat}&count=${formData.count}`, rapidHeader
+    `https://andruxnet-random-famous-quotes.p.rapidapi.com?cat=${formData.cat}&count=${formData.count}`,
+    rapidHeader
   );
   return response.data;
-
 }
 
 export async function getNews(keyword) {
-
   const rapidHeader = {
     headers: {
-      'X-RapidAPI-Key': 'b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0',
-      'X-RapidAPI-Host': 'google-news13.p.rapidapi.com'
-    }
-  }
+      "X-RapidAPI-Key": "b5a487d7c7msh1ee9860be40a063p14b519jsna3a79db4aac0",
+      "X-RapidAPI-Host": "google-news13.p.rapidapi.com",
+    },
+  };
   const response = await fetchClient.get(
-    `https://google-news13.p.rapidapi.com/search?keyword=${keyword}&lr:`, rapidHeader
+    `https://google-news13.p.rapidapi.com/search?keyword=${keyword}&lr:`,
+    rapidHeader
   );
   return response.data;
-
 }
 
 export async function getAllMediaFilter() {
@@ -640,25 +650,27 @@ export async function getAllMediaDetail(id) {
   return response.data.data.media;
 }
 
-
 export function getPermission() {
   return fetchClient.get(BASE_URL + `/vendor/profile/vendorRole`);
 }
 
 export async function rssParser() {
-  
   let parser = new Parser();
-  let feed = await parser.parseURL('https://www.reddit.com/.rss');
-  console.log("feed",feed);
+  let feed = await parser.parseURL("https://www.reddit.com/.rss");
+  console.log("feed", feed);
 }
 
-
 export async function addTags(postdata) {
-  const response = await fetchClient.post(BASE_URL + `/vendor/profile/tags`, postdata);
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/profile/tags`,
+    postdata
+  );
   return response;
 }
 
 export async function getAllTags(str) {
-  const response = await fetchClient.get(BASE_URL + `/vendor/profile/tags?type=${str}`);
+  const response = await fetchClient.get(
+    BASE_URL + `/vendor/profile/tags?type=${str}`
+  );
   return response.data.data;
 }
