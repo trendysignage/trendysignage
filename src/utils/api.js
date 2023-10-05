@@ -662,3 +662,12 @@ export async function getAllTags(str) {
   const response = await fetchClient.get(BASE_URL + `/vendor/profile/tags?type=${str}`);
   return response.data.data;
 }
+export async function getTimeZone(lat, long) {
+  const rapidHeader = {
+    headers: {
+      'Access-Control-Allow-Headers': '*'
+    }
+  }
+  const response = await axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${lat}%2C${long}&timestamp=1331766000&key=${process.env.REACT_APP_GOOGLE_API_KEY}`);
+  return response.data;
+}

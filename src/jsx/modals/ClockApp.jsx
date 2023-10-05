@@ -5,10 +5,12 @@ import icon from "../../img/link-alt 1.svg";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-import { updateApps, addApps } from "../../utils/api";
+import { updateApps, addApps, getTimeZone } from "../../utils/api";
 import { handleClockApps } from "../../utils/UtilsService";
 import Switch from "react-switch";
 import { Preview } from "react-dropzone-uploader";
+import Autocomplete from "react-google-autocomplete";
+
 const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [orientationMode, setOrientation] = useState("landscape");
   const options = [
@@ -21,7 +23,6 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     { value: "Japanese", label: "Japanese" },
     { value: "Spanish", label: "Spanish" },
   ];
-
   const timeZoneOptions = [
     { value: "UTC", label: "UTC" },
     { value: "Asia/Kolkata", label: "Asia/Kolkata" },
@@ -57,10 +58,28 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     label: "Light Yellow",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [location, setLocation] = useState({
+    address: "",
+    latitude: "",
+    longitude: "",
+    timeZone:""
+  });
+  const getMapTimeZone = async(lat, long) =>{
+    return await getTimeZone(lat, long);
+  }
 
-  const handleChange = (e) => {
-    console.log(e.target);
-    //setDeviceTime(e.target)
+  const handleLocation = async (place) => {
+    let location = JSON.parse(JSON.stringify(place?.geometry?.location));
+    const locationTime = await getMapTimeZone(location.lat, location.lng);
+    console.log("LT",locationTime.timeZoneId)
+    const adres = {
+      address: place.formatted_address,
+      latitude: location.lat,
+      longitude: location.lng,
+      timeZone:locationTime
+    };
+    setLocation(adres);
+    //setAdd(adres);
   };
 
   useEffect(() => {
@@ -95,7 +114,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setIsLoading(false);
       return;
     }
-    if (timeZone == "") {
+    if (location.address == "") {
       setErr(true);
       setErrorMessage("TimeZone is required");
       setIsLoading(false);
@@ -105,7 +124,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     console.log("Hello", err);
     const dataString = {
       url: name.trim(),
-      timeZone,
+      timeZone:location,
       hideDate,
       hiddenLocation,
       deviceTime,
@@ -155,7 +174,13 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     setHiddenLocation(false);
     setHideDate(false);
     setRoundeCorner(false);
-    setTimeZone({ value: "UTC", label: "UTC" });
+    //setTimeZone({ value: "UTC", label: "UTC" });
+    setLocation({
+      address:"",
+      latitude:"",
+      longitude:"",
+      timeZone:""
+    })
     setLanguage(null);
     setPreview(false);
     setIsRefresh(false);
@@ -290,12 +315,25 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 value={timeZone}
                 onChange={(e) => setTimeZone(e.target.value)}
               /> */}
-              <Select
+              {/* <Select
                 value={timeZone}
                 onChange={setTimeZone}
                 placeholder="Select Time Zone"
                 options={timeZoneOptions}
                 className="app-option"
+              /> */}
+              <Autocomplete
+                className="form-control"
+                apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+                onPlaceSelected={(place) => {
+                  console.log(place);
+                  handleLocation(place);
+                }}
+                options={{
+                  types: ["(regions)"],
+                  //componentRestrictions: { country: "sau" },
+                }}
+                defaultValue={location?.address}
               />
 
               {/* <label className="mt-3">Language</label>
@@ -401,7 +439,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                         hideDate,
                         roundCorner,
                         timeFormat: timeFormat.value,
-                        timeZone,
+                        timeZone:location,
                         url: "Clock App",
                       })
                     )

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Table } from "react-bootstrap";
 import AddNewTagModal from "../../../modals/AddNewTagModal";
-import downArrow from "../../../../img/down-arrow.png";
+import downArrow from "../../../../img/down-arrow.svg";
 import listIcon from "../../../../img/list-icon.png";
 import { Button } from "react-bootstrap";
 import { deleteCompositionById, BASE_URL } from "../../../../utils/api";
@@ -140,13 +140,26 @@ const ListComposition = ({
     return (
       <div>
         <span className="tag-container">
-          {value.tags.map((tag) => {
-            return (
+          {value.tags.length > 2 ? (
+            <>
               <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
+                {value.tags[0]}
+              </span>
+              <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
+                {value.tags[1]}
+              </span>
+              <span>...</span>
+            </>
+          ) : (
+            value.tags.map((tag, index) => (
+              <span
+                key={index}
+                className="my-phone-tag text-truncate ml-1 mr-1 mb-1"
+              >
                 {tag}
               </span>
-            );
-          })}
+            ))
+          )}
         </span>
         <span
           className="down-arrow"
@@ -188,7 +201,7 @@ const ListComposition = ({
     },
     {
       field: "createdAt",
-      headerName: "Dated At",
+      headerName: "Date added",
       flex: 1,
       renderCell: renderDate,
       disableExport: true,
@@ -217,6 +230,9 @@ const ListComposition = ({
       flex: 1,
       renderCell: renderAction,
       disableExport: true,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
     },
   ];
 

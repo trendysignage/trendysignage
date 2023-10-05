@@ -472,7 +472,7 @@ export const handleClockApps = (data) => {
   let tF = "";
   Moment.globalLocale = "fr";
   const cdate = new Date();
-  let timeZ = prp.timeZone ? prp.timeZone.value : "India Standard Time";
+  let timeZ = prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneId : "Asia/Riyadh";
   let chicago_datetime_str = new Date().toLocaleString("en-US", {
     timeZone: timeZ,
   });
@@ -538,7 +538,8 @@ export const handleClockApps = (data) => {
         {!prp.hideDate ? (
           <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
             monthName[cdate.getDay()]
-          } ${dayName[cdate.getDay()]} ${timeZ}`}</p>
+          } ${dayName[cdate.getDay()]} ${prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneName : "Arabian Standard Time"
+        }`}</p>
         ) : (
           ""
         )}
@@ -1676,7 +1677,7 @@ export const handleStockApps = (data, stock) => {
 };
 
 export const handleAqiApps = (data, weatherInfo) => {
-  const prp = JSON.parse(data);
+  const prp = JSON.parse(data, "aqi");
   return (
     <div className="basic-list-group image-preview-container media-content text-black bg-color-air-app">
       <div className="air-quality-app-container d-flex  justify-content-center align-items-center h-100 bg-white">

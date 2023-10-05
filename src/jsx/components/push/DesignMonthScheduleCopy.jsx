@@ -4,14 +4,14 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from "react-bootstrap";
 import moment from "moment";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import {
   deleteSequence,
   getAllDaySequence,
   pushAddDates,
 } from "../../../utils/api";
 import { useParams, useHistory } from "react-router-dom";
-import edit from "../../../img/edit-composition.png";
+import edit from "../../../img/edit-composition.svg";
 import deleteIcon from "../../../img/delete-icon.png";
 import da from "date-fns/locale/da/index.js";
 import { toast } from "react-toastify";
@@ -353,7 +353,11 @@ export default function DesignMonthSchedule() {
         <div className="event-list">
           <div className="d-flex align-items-center justify-content-between pb-4">
             <h3 className="p-0">Day Sequence</h3>
-            <Link to={`/testday/${id}/hasd`} className="mr-2" variant="info add-screen-btn">
+            <Link
+              to={`/testday/${id}/hasd`}
+              className="mr-2"
+              variant="info add-screen-btn"
+            >
               Create New
             </Link>
           </div>

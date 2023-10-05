@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import weather from "../../../img/weather.svg";
-import menuIcon from "../../../img/menu-icon.png";
+import menuIcon from "../../../img/menu-icon.svg";
 import UrlAppModal from "../../modals/UrlAppModal";
 import { useState } from "react";
 import RssFeedAppModal from "../../modals/RssFeedAppModal";
@@ -51,19 +51,19 @@ const Integrations = ({ permission, auth }) => {
   const appList = [
     { title: "URL APP", slug: "url-app", icon: weather },
     { title: "YOUTUBE", slug: "youtube", icon: weather },
-    { title: "RSS FEED", slug: "rss-feed", icon: weather },
+    // { title: "RSS FEED", slug: "rss-feed", icon: weather },
     { title: "SCROLLER", slug: "scroller", icon: weather },
     { title: "WEATHER", slug: "weather", icon: weather },
     { title: "TEXT", slug: "text", icon: weather },
     { title: "CLOCK APP", slug: "clock-app", icon: weather },
-    { title: "STOCKS", slug: "stocks", icon: weather },
-    { title: "QR CODE", slug: "qr-code", icon: weather },
-    { title: " BULLETIN APP", slug: "bulletin-app", icon: weather },
-    { title: "AIR QUALITY APP", slug: "air-quality-app", icon: weather },
-    { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
-    { title: "GOOGLE SLIDES", slug: "google-slides", icon: weather },
-    { title: "QUOTES", slug: "quotes", icon: weather },
-    { title: "All NEWS APP", slug: "all-news-app", icon: weather },
+    // { title: "STOCKS", slug: "stocks", icon: weather },
+    // { title: "QR CODE", slug: "qr-code", icon: weather },
+    // { title: " BULLETIN APP", slug: "bulletin-app", icon: weather },
+    // { title: "AIR QUALITY APP", slug: "air-quality-app", icon: weather },
+    // { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
+    // { title: "GOOGLE SLIDES", slug: "google-slides", icon: weather },
+    // { title: "QUOTES", slug: "quotes", icon: weather },
+    // { title: "All NEWS APP", slug: "all-news-app", icon: weather },
   ];
 
   const handleChange = (e, type) => {

@@ -11,7 +11,7 @@ import {
   pushAddDates,
 } from "../../../utils/api";
 import { useParams, useHistory } from "react-router-dom";
-import edit from "../../../img/edit-composition.png";
+import edit from "../../../img/edit-composition.svg";
 import deleteIcon from "../../../img/delete-icon.png";
 import da from "date-fns/locale/da/index.js";
 import { toast } from "react-toastify";
