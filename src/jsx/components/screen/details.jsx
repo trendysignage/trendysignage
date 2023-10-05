@@ -11,6 +11,8 @@ import {
 import { BASE_URL } from "../../../utils/api";
 import moment from "moment";
 import AddNewTagModal from "../../modals/AddNewTagModal";
+import downArrow from "../../../img/down-arrow.svg";
+
 import { useParams, useHistory } from "react-router-dom";
 import editIcon from "../../../img/edit-icon.png";
 import powerIcon from "../../../img/power-icon.png";
@@ -32,6 +34,7 @@ import QuickPlayModal from "../../modals/QuickPlayModal";
 import WindowsModal from "../../modals/WindowsModal";
 import UpdateModal from "../../modals/UpdateModal";
 import { toast } from "react-toastify";
+import AddNewTagModal from "../../modals/AddNewTagModal";
 
 const ScreenDetails = () => {
   const history = useHistory();
@@ -46,7 +49,8 @@ const ScreenDetails = () => {
   const [allGroups, setAllGroups] = useState([]);
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
-  const [isEdit, setIsEdit] = useState(false)
+  const [isEdit, setIsEdit] = useState(false);
+  const [selectedScreen, setSelectedScreen] = useState("");
   const [showNewTagModal, setNewTagModal] = useState(false);
 
   // use effect
@@ -274,6 +278,39 @@ const minutes = timeParts[1];
         </div>
       )
   }
+  const tagsRender = (params) => {
+    return (
+      <div>
+        <span className="tag-container">
+          {params?.tag?.map((tag, index) => (
+            <span
+              key={index}
+              className="my-phone-tag text-truncate ml-1 mr-1 mb-1"
+            >
+              {tag}
+            </span>
+          ))}
+        </span>
+        <span
+          className="down-arrow"
+          onClick={(e) => {
+            handleTags(e, params);
+          }}
+        >
+          <img
+            className="down-arrow-img img-fluid"
+            src={downArrow}
+            alt="arrow"
+          />
+        </span>
+      </div>
+    );
+  };
+  const handleTags = (e, item) => {
+    e.preventDefault();
+    setSelectedScreen(item);
+    setNewTagModal(!showNewTagModal);
+  };
   const defaultAccordion = [
     {
       title: "Content",
@@ -739,6 +776,14 @@ const minutes = timeParts[1];
           handleUpdate={handleUpdate}
         />
       </div>
+      {showNewTagModal && (
+        <AddNewTagModal
+          setNewTagModal={setNewTagModal}
+          allScreens={screen}
+          selected={selectedScreen}
+          setIsRefresh={setIsRefresh}
+        />
+      )}
     </>
   );
 };
