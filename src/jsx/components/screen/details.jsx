@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 import { BASE_URL } from "../../../utils/api";
 import moment from "moment";
-import AddNewTagModal from "../../modals/AddNewTagModal";
 import downArrow from "../../../img/down-arrow.svg";
 
 import { useParams, useHistory } from "react-router-dom";
@@ -171,7 +170,7 @@ const ScreenDetails = () => {
     if (value !== undefined) {
       return value?.timings[value.timings.length - 1]?.endTime;
     }
-}
+  }
 
 const convertTimestampTo12HourFormat = (timestamp) => {
 if (!timestamp) {
@@ -776,14 +775,6 @@ const minutes = timeParts[1];
           handleUpdate={handleUpdate}
         />
       </div>
-      {showNewTagModal && (
-        <AddNewTagModal
-          setNewTagModal={setNewTagModal}
-          allScreens={screen}
-          selected={selectedScreen}
-          setIsRefresh={setIsRefresh}
-        />
-      )}
     </>
   );
 };
