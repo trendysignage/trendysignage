@@ -373,7 +373,7 @@ export const handleScrollerApps = (data) => {
         <marquee
           direction={allignment}
           scrollAmount={speed}
-          style={{ color: prp.textColor, fontSize: "150px" }}
+          style={{ color: prp.textColor, fontSize: "100px" }}
         >
           {prp.text}
         </marquee>
@@ -385,7 +385,7 @@ export const handleScrollerApps = (data) => {
         <marquee
           direction={allignment}
           scrollAmount={speed}
-          style={{ color: prp.textColor, fontSize: "150px" }}
+          style={{ color: prp.textColor, fontSize: "100px" }}
         >
           {prp.text}
         </marquee>
@@ -396,7 +396,7 @@ export const handleScrollerApps = (data) => {
       <marquee
         direction={allignment}
         scrollAmount={speed}
-        style={{ color: prp.textColor, fontSize: "150px" }}
+        style={{ color: prp.textColor, fontSize: "100px" }}
       >
         {prp.text}
       </marquee>
@@ -1677,29 +1677,59 @@ export const handleStockApps = (data, stock) => {
 };
 
 export const handleAqiApps = (data, weatherInfo) => {
+  console.log(data, "hh");
   const prp = JSON.parse(data, "aqi");
   return (
     <div className="basic-list-group image-preview-container media-content text-black bg-color-air-app">
-      <div className="air-quality-app-container d-flex  justify-content-center align-items-center h-100 bg-white">
+      <div
+        // className="air-quality-app-container d-flex  justify-content-center align-items-center h-100 bg-white"
+        className={`${
+          prp.theame.value == "Dark Mode" ? "bg-black" : "bg-white"
+        } air-quality-app-container d-flex  justify-content-center align-items-center h-100`}
+      >
         <div className="d-flex text-black justify-content-evenly  w-100">
           <div className="air-quality text-center ">
             <div>
-              <p className="mb-0">AQI Value</p>
-              <h1 className="text-black">
+              <p
+                className={`${
+                  prp.theame.value == "Dark Mode" ? "text-white" : "text-black"
+                } mb-0`}
+              >
+                AQI Value
+              </p>
+              <h1
+                className={`${
+                  prp.theame.value == "Dark Mode" ? "text-white" : "text-black"
+                } `}
+              >
                 {weatherInfo &&
                   weatherInfo.list &&
                   weatherInfo.list[1] &&
                   weatherInfo.list[1].main.humidity}
               </h1>
-              <p className="mb-0 moderate">MODERATE</p>
+              <p
+                className={`${
+                  prp.theame.value == "Dark Mode" ? "text-white" : "text-black"
+                } mb-0 moderate`}
+              >
+                MODERATE
+              </p>
             </div>
           </div>
           <div className="d-flex ">
             <div>
-              <h2>
+              <h2
+                className={`${
+                  prp.theame.value == "Dark Mode" ? "text-white" : "text-black"
+                } `}
+              >
                 {weatherInfo && weatherInfo.city && weatherInfo.city.name}
               </h2>
-              <p>
+              <p
+                className={`${
+                  prp.theame.value == "Dark Mode" ? "text-white" : "text-black"
+                } `}
+              >
                 <Moment
                   format={"D MMM YYYY"}
                   date={new Date()}
@@ -1720,8 +1750,24 @@ export const handleAqiApps = (data, weatherInfo) => {
                             src={`https://openweathermap.org/img/wn/${item.weather[0].icon}.png`}
                             alt=""
                           />
-                          <p className="mb-0">Weather</p>
-                          <h4>{item.main.humidity}</h4>
+                          <p
+                            className={`${
+                              prp.theame.value == "Dark Mode"
+                                ? "text-white"
+                                : "text-black"
+                            } mb-0 `}
+                          >
+                            Weather
+                          </p>
+                          <h4
+                            className={`${
+                              prp.theame.value == "Dark Mode"
+                                ? "text-white"
+                                : "text-black"
+                            } `}
+                          >
+                            {item.main.humidity}
+                          </h4>
                         </div>
                       )
                     );
