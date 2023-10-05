@@ -26,7 +26,6 @@ import {
   import menuIcon from "../../../img/menu-icon.png";
   import deleteIcon from "../../../img/delete-icon.png";
   import edit from "../../../img/edit-composition.png";
-  import { useHistory } from "react-router-dom";
   import TableLoader from "../../components/TableLoader";
   import LockScreen from "../../pages/LockScreen";
   import SelectScreenModal from '../../modals/SelectScreenModal';

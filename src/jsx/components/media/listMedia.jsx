@@ -55,7 +55,13 @@ function CustomPagination() {
   );
 }
 
-const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) => {
+const ListMedia = ({
+  allMedia,
+  auth,
+  permission,
+  setIsRefresh,
+  setFilterData,
+}) => {
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState("");
@@ -71,7 +77,7 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
   const handleDelete = async () => {
     setDeleteModal(false);
     await deleteMedia(selectedMedia._id);
-    setIsRefresh(true)
+    setIsRefresh(true);
   };
 
   const handlePublishcOpen = (media) => {
@@ -129,15 +135,15 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
         name: item,
         type: item.type,
         uploaded_date: item.createdAt,
-        tags:item,
-        property:item,
+        tags: item,
+        property: item,
         action: item,
       });
     });
   }
 
   const renderAction = (params) => {
-    const {value} = params;
+    const { value } = params;
     return (
       <Dropdown className="dropdown-toggle-menu">
         <Dropdown.Toggle variant="" className="p-0  mb-2">
@@ -150,12 +156,8 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
           </span>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {(value && value.type == "image") ||
-          value.type == "video" ? (
-            <Dropdown.Item
-              href="#"
-              className="dropdown-list-item"
-            >
+          {(value && value.type == "image") || value.type == "video" ? (
+            <Dropdown.Item href="#" className="dropdown-list-item">
               <div
                 className="d-flex"
                 onClick={() => {
@@ -170,9 +172,7 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
                   />
                 </div>
                 <div className="dropdown-menu-list">
-                  <span className="menu-heading">
-                    Publish on Screen
-                  </span>
+                  <span className="menu-heading">Publish on Screen</span>
                   <span className="menu-description">
                     Get to know more about screen info
                   </span>
@@ -210,9 +210,9 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-    )
-  }
- 
+    );
+  };
+
   const renderName = (params) => {
     const { value } = params;
     return (
@@ -249,13 +249,18 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
         </span>
         <span className="name-content d-flex flex-column flex-grow-1">
           <strong>
-            {
-              value.title.split("/")[
-                value.title.split("/").length - 1
-              ]
-            }
+            {value.title.split("/")[value.title.split("/").length - 1].length >
+            7
+              ? value.title
+                  .split("/")
+                  [value.title.split("/").length - 1].slice(0, 7) + "..."
+              : value.title.split("/")[value.title.split("/").length - 1]}
           </strong>
-          <span>{value.createdBy.name}</span>
+          <span>
+            {value?.createdBy?.name.length > 11
+              ? value?.createdBy?.name.slice(0, 11) + "..."
+              : value?.createdBy?.name}
+          </span>
         </span>
       </span>
     );
@@ -264,25 +269,27 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
     const { value } = params;
     return (
       <div>
-            <span className="tag-container">
-              {value.tags.map((tag) => {
-                return (
-                  <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
-                    {tag}
-                  </span>
-                );
-              })}
-            </span>
-            <span
-              className="down-arrow"
-              onClick={(e) => {handleTags(e, value)}}
-            >
-              <img
-                className="down-arrow-img img-fluid"
-                src={downArrow}
-                alt="arrow"
-              />
-            </span>
+        <span className="tag-container">
+          {value.tags.map((tag) => {
+            return (
+              <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
+                {tag}
+              </span>
+            );
+          })}
+        </span>
+        <span
+          className="down-arrow"
+          onClick={(e) => {
+            handleTags(e, value);
+          }}
+        >
+          <img
+            className="down-arrow-img img-fluid"
+            src={downArrow}
+            alt="arrow"
+          />
+        </span>
       </div>
     );
   };
@@ -291,33 +298,33 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
     const { value } = params;
     return (
       <span className="td-content">
-        <strong>
-          {humanReadableFormattedDateString(value)}
-        </strong>
+        <strong>{humanReadableFormattedDateString(value)}</strong>
         <span>{getDatetimeIn12Hours(value)}</span>
       </span>
-    )
-  }
-  
-  const renderProperties = (params) => {
-    const {value} = params;
-    const prp = value.properties ? JSON.parse(value.properties) : null;
-    if(prp && (prp.height || prp.width || prp.length || prp.size)){
-      return <span className="td-content">
-          <strong>{prp.height ? "Height : "+prp.height : ""}</strong>
-          <br />
-          <strong>{prp.width ? "Width : "+prp.width : ""}</strong>
-          <br />
-          <strong>{prp.size ? "Size : "+prp.size+" MB" : ""}</strong>
-      </span>
-    }else{
-      return <span className="td-content">
-        <strong>{value.type.split("-")[0].toUpperCase()} </strong>
-    </span>
-    }
-    
+    );
+  };
 
-  }
+  const renderProperties = (params) => {
+    const { value } = params;
+    const prp = value.properties ? JSON.parse(value.properties) : null;
+    if (prp && (prp.height || prp.width || prp.length || prp.size)) {
+      return (
+        <span className="td-content">
+          <strong>{prp.height ? "Height : " + prp.height : ""}</strong>
+          <br />
+          <strong>{prp.width ? "Width : " + prp.width : ""}</strong>
+          <br />
+          <strong>{prp.size ? "Size : " + prp.size + " MB" : ""}</strong>
+        </span>
+      );
+    } else {
+      return (
+        <span className="td-content">
+          <strong>{value.type.split("-")[0].toUpperCase()} </strong>
+        </span>
+      );
+    }
+  };
 
   const columns = [
     { field: "name", headerName: "Name", flex: 1, renderCell: renderName },
@@ -330,19 +337,19 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
     {
       field: "uploaded_date",
       headerName: "Uploaded Date",
-      renderCell:renderDate,
+      renderCell: renderDate,
       flex: 1,
     },
     {
       field: "tags",
       headerName: "Tags",
-      renderCell:tagsRender,
+      renderCell: tagsRender,
       flex: 1,
     },
     {
       field: "property",
       headerName: "Properties",
-      renderCell:renderProperties,
+      renderCell: renderProperties,
       flex: 1,
     },
     {
@@ -354,32 +361,35 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
     },
   ];
 
-  const handleTags = ( e, item ) => {
+  const handleTags = (e, item) => {
     e.preventDefault();
     setSelectedScreen(item);
     setNewTagModal(!showNewTagModal);
-  }
-
+  };
 
   return (
     <>
-        <FilterModal
-          showFilterModal={showFilterModal}
-          setFilterModal={setFilterModal}
-          setFilterData={setFilterData}
-          setIsRefresh={setIsRefresh}
-          type={["tags"]}
-          selectedType={'media'}
-        />
+      <FilterModal
+        showFilterModal={showFilterModal}
+        setFilterModal={setFilterModal}
+        setFilterData={setFilterData}
+        setIsRefresh={setIsRefresh}
+        type={["tags"]}
+        selectedType={"media"}
+      />
+      <div className="d-flex justify-content-end">
         <Button
           className="ml-2 icon-btn"
           variant="primary"
           onClick={() => {
             setFilterModal(true);
           }}
+          style={{ position: "absolute", top: "10px" }}
         >
           <img className="icon-icon" src={listIcon} alt="list-icon" />
         </Button>
+      </div>
+
       <Modal
         className="fade bd-example-modal-lg mt-4 custom-modal quick-modal custom-modal-medium"
         show={preview}
@@ -419,7 +429,7 @@ const ListMedia = ({ allMedia, auth, permission, setIsRefresh, setFilterData}) =
       </Modal>
 
       <DataGrid
-        getRowHeight={() => 'auto'}
+        getRowHeight={() => "auto"}
         components={{
           NoRowsOverlay: CustomNoRowsOverlay,
           Toolbar: CustomToolbar,

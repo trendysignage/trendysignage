@@ -1849,6 +1849,9 @@ input[type="radio"]:before {
     justify-content: center;
     align-items: center;
   }
+  .MuiDataGrid-root ,.MuiDataGrid-root--densityStandard{
+    border: 0 !important;
+  }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

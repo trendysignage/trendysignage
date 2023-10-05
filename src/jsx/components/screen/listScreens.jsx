@@ -57,12 +57,16 @@ function CustomPagination() {
   );
 }
 
-const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData }) => {
+const ListScreen = ({
+  allScreens,
+  userPermission,
+  setIsRefresh,
+  setFilterData,
+}) => {
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [selectedScreen, setSelectedScreen] = useState("");
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
   const [showFilterModal, setFilterModal] = useState(false);
-
 
   const renderAction = (params) => {
     const { value } = params;
@@ -82,7 +86,7 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
               />
             </span>
           </Dropdown.Toggle>
-          <Dropdown.Menu >
+          <Dropdown.Menu>
             <Dropdown.Item
               href="#"
               className="dropdown-list-item"
@@ -190,77 +194,78 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
 
   const renderSchedule = (params) => {
     const { value } = params;
-    let sch = '--';
-    if(value[0]){
-      sch = value[0].name
+    let sch = "--";
+    if (value && value[0]) {
+      sch = value[0]?.name;
     }
-    if(value.name){
+    if (value && value.name) {
       sch = value.name;
     }
     return (
       <span className="td-content">
         <strong>{sch}</strong>
       </span>
-    )
-  }
+    );
+  };
 
   const renderDefault = (params) => {
     const { value } = params;
-    let def = '--';
-    if(value.defaultComposition){
+    let def = "--";
+    if (value.defaultComposition) {
       def = value.defaultComposition.media.name;
     }
     return (
       <span className="td-content">
         <strong>{def}</strong>
       </span>
-    )
-  }
-
+    );
+  };
 
   const tagsRender = (params) => {
     const { value } = params;
     return (
       <div>
-            <span className="tag-container">
-              {value.tags.map((tag) => {
-                return (
-                  <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
-                    {tag}
-                  </span>
-                );
-              })}
-            </span>
-            <span
-              className="down-arrow"
-              onClick={(e) => {handleTags(e, value)}}
-            >
-              <img
-                className="down-arrow-img img-fluid"
-                src={downArrow}
-                alt="arrow"
-              />
-            </span>
+        <span className="tag-container">
+          {value.tags.map((tag) => {
+            return (
+              <span className="my-phone-tag text-truncate ml-1 mr-1 mb-1">
+                {tag}
+              </span>
+            );
+          })}
+        </span>
+        <span
+          className="down-arrow"
+          onClick={(e) => {
+            handleTags(e, value);
+          }}
+        >
+          <img
+            className="down-arrow-img img-fluid"
+            src={downArrow}
+            alt="arrow"
+          />
+        </span>
       </div>
     );
   };
 
   const groupRender = (params) => {
     const { value } = params;
-    return Array.prototype.map.call(value, s => s.name).toString();;
+    return Array.prototype.map.call(value, (s) => s.name).toString();
   };
 
   const lastSeenRender = (params) => {
-    const {value} = params;
+    const { value } = params;
     return (
       <span className="d-flex align-items-center">
         <span className="status status-green"></span>
         <span className="td-content">
-          <span>{value.isConnected ? 'ONLINE' : 'OFFLINE'}</span>
+          <span>{value.isConnected ? "ONLINE" : "OFFLINE"}</span>
         </span>
       </span>
-    )
-  }
+    );
+  };
   const rows1 = [];
   if (allScreens && allScreens.length > 0) {
     allScreens.forEach((item) => {
@@ -271,10 +276,10 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
           location: item.screenLocation,
         },
         last_seen: item,
-        schedule:item.schedule,
+        schedule: item.schedule,
         tags: item,
         groups: item.groups,
-        defaultComposition:item,
+        defaultComposition: item,
         default_composition: item.defaultComposition
           ? item.defaultComposition.media.name
           : " -- ",
@@ -287,9 +292,17 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
     const { value } = params;
     return (
       <span className="td-content">
-        <strong>{value.name}</strong>
+        <strong>
+          {value.name.length > 11
+            ? value.name.slice(0, 11) + "..."
+            : value.name}
+        </strong>
         <br />
-        <span>{value.location}</span>
+        <span className="oooo">
+          {value.location.length > 11
+            ? value.location.slice(0, 11) + "..."
+            : value.location}
+        </span>
       </span>
     );
   };
@@ -300,7 +313,7 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
       field: "last_seen",
       headerName: "Last Seen",
       flex: 1,
-      renderCell:lastSeenRender,
+      renderCell: lastSeenRender,
       disableExport: true,
     },
     {
@@ -311,14 +324,14 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
     {
       field: "schedule",
       headerName: "Schedule",
-      flex:1,
-      renderCell:renderSchedule
+      flex: 1,
+      renderCell: renderSchedule,
     },
     {
       field: "defaultComposition",
       headerName: "Default Comp..",
-      flex:1,
-      renderCell:renderDefault
+      flex: 1,
+      renderCell: renderDefault,
     },
     { field: "tags", headerName: "Tags", flex: 1, renderCell: tagsRender },
     { field: "groups", headerName: "Groups", flex: 1, renderCell: groupRender },
@@ -331,31 +344,35 @@ const ListScreen = ({ allScreens, userPermission, setIsRefresh, setFilterData })
     },
   ];
 
-  const handleTags = ( e, item ) => {
+  const handleTags = (e, item) => {
     e.preventDefault();
     setSelectedScreen(item);
     setNewTagModal(!showNewTagModal);
-  }
+  };
 
   return (
     <>
-        <FilterModal
-          showFilterModal={showFilterModal}
-          setFilterModal={setFilterModal}
-          setFilterData={setFilterData}
-          setIsRefresh={setIsRefresh}
-        />
+      <FilterModal
+        showFilterModal={showFilterModal}
+        setFilterModal={setFilterModal}
+        setFilterData={setFilterData}
+        setIsRefresh={setIsRefresh}
+      />
+      <div className="d-flex justify-content-end">
         <Button
           className="ml-2 icon-btn"
           variant="primary"
           onClick={() => {
             setFilterModal(true);
           }}
+          style={{ position: "absolute", top: "10px" }}
         >
           <img className="icon-icon" src={listIcon} alt="list-icon" />
         </Button>
+      </div>
+
       <DataGrid
-        getRowHeight={() => 'auto'}
+        getRowHeight={() => "auto"}
         components={{
           NoRowsOverlay: CustomNoRowsOverlay,
           Toolbar: CustomToolbar,

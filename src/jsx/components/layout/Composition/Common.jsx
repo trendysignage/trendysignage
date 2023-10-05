@@ -8,6 +8,7 @@ import ZoneInfoTable from "./ZoneInfoTable";
 
 import {
   getAllMedia,
+  getAllMediaSWR,
   postComposition,
   putComposition,
   uploadBlob,
@@ -86,7 +87,7 @@ const CommonComposition = ({ type, composition, layout }) => {
 
   const { data: allMedia, mutate } = useSWR(
     "/vendor/display/media",
-    getAllMedia
+    getAllMediaSWR
   );
 
   const history = useHistory();
