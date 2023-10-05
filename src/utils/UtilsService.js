@@ -472,7 +472,7 @@ export const handleClockApps = (data) => {
   let tF = "";
   Moment.globalLocale = "fr";
   const cdate = new Date();
-  let timeZ = prp.timeZone ? prp.timeZone.value : "India Standard Time";
+  let timeZ = prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneId : "Asia/Riyadh";
   let chicago_datetime_str = new Date().toLocaleString("en-US", {
     timeZone: timeZ,
   });
@@ -538,7 +538,8 @@ export const handleClockApps = (data) => {
         {!prp.hideDate ? (
           <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
             monthName[cdate.getDay()]
-          } ${dayName[cdate.getDay()]} ${timeZ}`}</p>
+          } ${dayName[cdate.getDay()]} ${prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneName : "Arabian Standard Time"
+        }`}</p>
         ) : (
           ""
         )}

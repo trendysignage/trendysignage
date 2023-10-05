@@ -1,14 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-
-import WebVideoPlayer from "./WebVideoPlayer";
-import { BASE_URL } from "../../../utils/api";
-import ReactPlayer from "react-player";
-import Iframe from "react-iframe";
-import { fontSize } from "@material-ui/system";
 import Zone1 from "./Zone1";
 import Zone2 from "./Zone2";
 import Zone3 from "./Zone3";
-import { getWeather } from "../../../utils/api";
 const CompositionPlayer = ({ contents, content, referenceUrl }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [current1Index, setCurrent1Index] = useState(0);
@@ -16,7 +9,7 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
   const timeout1Ref = useRef("");
   const timeout2Ref = useRef("");
   const timeoutRef = useRef("");
-
+console.log("testing",contents.layout.screenType)
   useEffect(() => {
     if (contents && contents.zones.length == 1) {
       if (contents.zones[0].content[currentIndex]) {

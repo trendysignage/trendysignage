@@ -284,7 +284,7 @@ const minutes = timeParts[1];
               <div className="accordion-custom-img">
                 <img
                   className="accordion-img"
-                  src={screen.contentPlaying && screen.contentPlaying[0] && screen.contentPlaying[0].media && screen.contentPlaying[0].media.referenceUrl ? BASE_URL+screen.contentPlaying[0].media.referenceUrl[0].split("**")[0] : accordionImg}
+                  src={screen.contentPlaying && screen.contentPlaying[0] && screen.contentPlaying[0].media && screen.contentPlaying[0].media.zones[0].content[0].type == 'image' ? BASE_URL+screen.contentPlaying[0].media.referenceUrl[0].split("**")[0] : accordionImg}
                   alt="menu-icon"
                 />
               </div>
@@ -356,7 +356,7 @@ const minutes = timeParts[1];
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>10.10.1.10</p>
+                    <p>{screen.drivers ? screen.drivers.privateIp : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -370,7 +370,7 @@ const minutes = timeParts[1];
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>Windows</p>
+                    <p>{screen.drivers ? screen.drivers.deviceOS : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -384,7 +384,7 @@ const minutes = timeParts[1];
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>17.12.13.10</p>
+                    <p>{screen.drivers ? screen.drivers.publicIp : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -412,7 +412,7 @@ const minutes = timeParts[1];
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>NA</p>
+                    <p>{screen.drivers ? screen.drivers.mac : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -440,7 +440,7 @@ const minutes = timeParts[1];
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>509373783ASDH766</p>
+                    <p>{screen.device ? screen.device._id : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -454,7 +454,7 @@ const minutes = timeParts[1];
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>5.3.0.0</p>
+                    <p>{screen.drivers ? screen.drivers.javascriptVersion : "--"}</p>
                   </div>
                 </div>
               </div>

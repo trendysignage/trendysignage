@@ -14,20 +14,22 @@ function FileUploadWithPreview({
   const [preview, setPreview] = useState(null);
   const [fileList, setFileList] = useState([]);
   const [selectedCroppedFile, setSelectedCroppedFile] = useState(null);
+  const [selectedCroppedUrl, setSelectedCroppedUrl] = useState(null);
   const [checkCrop, setCheckCrop] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     console.log(event);
     if (!selectedFile) {
-        selectedFile(null);
+        //selectedFile(null);
       //setPreview(null);
       return;
     }
     setShowError(null);
     setFileList((fileList) => [...fileList, selectedFile]);
     setFile((file) => [...file, selectedFile]);
-    // setSelectedCroppedFile(URL.createObjectURL(selectedFile))
+    // setSelectedCroppedUrl(URL.createObjectURL(selectedFile))
+    // setSelectedCroppedFile(selectedFile);
     // setCheckCrop(true);
 
     const reader = new FileReader();
@@ -66,15 +68,18 @@ function FileUploadWithPreview({
 
   return (
     <>
-      {
+      {/* {
         checkCrop && <ImageRotation 
-        imgSrc={selectedCroppedFile}
+        imgSrc={selectedCroppedUrl}
         checkCrop={checkCrop}
+        selectedCroppedFile={selectedCroppedFile}
+        selectedCroppedUrl={selectedCroppedUrl}
         setSelectedCroppedFile={setSelectedCroppedFile}
+        setSelectedCroppedUrl={setSelectedCroppedUrl}
         setCheckCrop={setCheckCrop}
         setFile={setFile}
       />
-      }
+      } */}
       
       <div className=" d-flex flex-column">
         {previewList &&

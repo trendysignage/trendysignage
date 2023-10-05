@@ -228,14 +228,14 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
               <label className="mt-3">Location</label>
               <Autocomplete
                 className="form-control"
-                apiKey={process.env.REACT_APP_WEATHER_API_KEY}
+                apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                 onPlaceSelected={(place) => {
                   console.log(place);
                   handleLocation(place);
                 }}
                 options={{
                   types: ["(regions)"],
-                  componentRestrictions: { country: "in" },
+                  componentRestrictions: { country: "sau" },
                 }}
                 defaultValue={location?.address}
               />

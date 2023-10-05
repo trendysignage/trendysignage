@@ -87,8 +87,8 @@ console.log("rotation",rotation,canvas,ctx)
   // As a blob
   return new Promise((resolve, reject) => {
     canvas.toBlob((file) => {
-      // resolve(URL.createObjectURL(file))
-      resolve({ file: file, url: URL.createObjectURL(file) })
+      resolve(URL.createObjectURL(file))
+      //resolve({ file: file, url: URL.createObjectURL(file) })
     }, 'image/jpeg')
   })
 }

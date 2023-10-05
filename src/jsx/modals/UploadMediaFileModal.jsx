@@ -8,6 +8,7 @@ const UploadMediaModal = ({
   showUploadMediaModal,
   setUploadMediaModal,
   callAllMediaApi,
+  setIsRefresh
 }) => {
   const [file, setFile] = useState([]);
   const [fileMeta, setFileMeta] = useState([]);
@@ -23,7 +24,8 @@ const UploadMediaModal = ({
       c++;
     }
     setIsLoading(false);
-    callAllMediaApi()
+    // callAllMediaApi();
+    setIsRefresh(true)
     setUploadMediaModal(false);
     setPreviewList([]);
     setFile([]);
@@ -41,11 +43,11 @@ const UploadMediaModal = ({
       return false;
     }
 
-    // if (!item.type.includes("image") && !item.type.includes("video")) {
-    //   setIsLoading(false);
-    //   setShowError("Please upload an image or video file.");
-    //   return;
-    // }
+    if (!item.type.includes("image") && !item.type.includes("video")) {
+      setIsLoading(false);
+      setShowError("Please upload an image or video file.");
+      return;
+    }
     const formData = new FormData();
 
     const sendFileMeta = JSON.stringify({
@@ -55,14 +57,13 @@ const UploadMediaModal = ({
     console.log(sendFileMeta);
     formData.append("file", item);
     formData.append("properties", sendFileMeta);
-    formData.append("type", "image");
-    // if (item.type.includes("image")) {
-    //   formData.append("type", "image");
-    // } else if (item.type.includes("video")) {
-    //   formData.append("type", "video");
-    // } else {
-    //   return false;
-    // }
+    if (item.type.includes("image")) {
+      formData.append("type", "image");
+    } else if (item.type.includes("video")) {
+      formData.append("type", "video");
+    } else {
+      return false;
+    }
     await addMedia(formData);
     // const fileMetaUpdated = previewList;
     // fileMetaUpdated[c].isLoading = false;
