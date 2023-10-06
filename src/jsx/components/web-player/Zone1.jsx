@@ -123,33 +123,33 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
         <>
           {contents?.zones[0]?.content[currentIndex] ? (
             <div className="h-100">
-              {contents.zones[0].content[currentIndex].type === "image" ? (
-                <div
-                  style={{
-                    height:
-                      contents.layout.screenType === rotateMode
-                        ? "auto"
-                        : "100%",
-                  }}
-                >
+              <div
+                style={{
+                  transform:
+                    contents.layout.screenType === rotateMode
+                      ? "rotate(270deg)"
+                      : "rotate(0deg)",
+
+                  height:
+                    contents.layout.screenType === rotateMode
+                      ? "100vw"
+                      : "100%",
+                }}
+              >
+                {contents.zones[0].content[currentIndex].type === "image" ? (
                   <div
                     className="basic-list-group image-preview-container media-content "
-                    // className={`${
-                    //   contents.layout.screenType === rotateMode
-                    //     ? "image-preview-container-rotate"
-                    //     : "image-preview-container"
-                    // } basic-list-group  media-content `}
-                    style={{
-                      transform:
-                        contents.layout.screenType === rotateMode
-                          ? "rotate(270deg)"
-                          : "rotate(0deg)",
-                      // width: "100vw",
-                      height:
-                        contents.layout.screenType === rotateMode
-                          ? "100vw"
-                          : "100%",
-                    }}
+                    // style={{
+                    //   transform:
+                    //     contents.layout.screenType === rotateMode
+                    //       ? "rotate(270deg)"
+                    //       : "rotate(0deg)",
+
+                    //   height:
+                    //     contents.layout.screenType === rotateMode
+                    //       ? "100vw"
+                    //       : "100%",
+                    // }}
                   >
                     <img
                       className="webplayer-preview-img"
@@ -162,134 +162,138 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       alt="media-img"
                     />
                   </div>
-                </div>
-              ) : contents.zones[0].content[currentIndex].type === "video" ? (
-                <div
-                  className={`basic-list-group video-container media-content ${viewImage} ${
-                    viewImage === "fitScreen" ? "fitImage" : "containImage"
-                  }`}
-                >
-                  <WebVideoPlayer
-                    src={`${BASE_URL}/${contents.zones[0].content[currentIndex].url}`}
-                  ></WebVideoPlayer>
-                </div>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "youtube-apps" ? (
-                <div
-                  className={`basic-list-group video-container media-content ${viewImage} ${
-                    viewImage === "fitScreen" ? "fitImage" : "containImage"
-                  }`}
-                >
-                  <ReactPlayer
-                    url={`${contents.zones[0].content[currentIndex].url}`}
-                    width="100%"
-                    height="100%"
-                    light={false}
-                    loop={true}
-                    playing={true}
-                    controls={true}
-                    muted={true}
-                  />
-                </div>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "url-apps" ? (
-                <div className="basic-list-group image-preview-container media-content">
-                  <Iframe
-                    url={`${contents.zones[0].content[currentIndex].url}`}
-                    width="100%"
-                    height="100%"
-                    // id=""
-                    // className=""
-                    display="block"
-                    position="relative"
-                  />
-                </div>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "scroller" ? (
-                <>
-                  {handleScrollerApps(
-                    contents.zones[0].content[currentIndex].data
-                  )}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "text-apps" ? (
-                <>
-                  {handleTextApps(contents.zones[0].content[currentIndex].data)}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "clock-apps" ? (
-                <>
-                  {handleClockApps(
-                    contents.zones[0].content[currentIndex].data
-                  )}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "bulletin-apps" ? (
-                <>
-                  {handleBulletinApps(
-                    contents.zones[0].content[currentIndex].data
-                  )}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "qrcode-apps" ? (
-                <>
-                  {handleQrApps(contents.zones[0].content[currentIndex].data)}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "weather-apps" ? (
-                <>
-                  {/* {handleWeatherApps(
+                ) : contents.zones[0].content[currentIndex].type === "video" ? (
+                  <div
+                    className={`basic-list-group video-container media-content ${viewImage} ${
+                      viewImage === "fitScreen" ? "fitImage" : "containImage"
+                    }`}
+                  >
+                    <WebVideoPlayer
+                      src={`${BASE_URL}/${contents.zones[0].content[currentIndex].url}`}
+                    ></WebVideoPlayer>
+                  </div>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "youtube-apps" ? (
+                  <div
+                    className={`basic-list-group video-container media-content ${viewImage} ${
+                      viewImage === "fitScreen" ? "fitImage" : "containImage"
+                    }`}
+                  >
+                    <ReactPlayer
+                      url={`${contents.zones[0].content[currentIndex].url}`}
+                      width="100%"
+                      height="100%"
+                      light={false}
+                      loop={true}
+                      playing={true}
+                      controls={true}
+                      muted={true}
+                    />
+                  </div>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "url-apps" ? (
+                  <div className="basic-list-group image-preview-container media-content">
+                    <Iframe
+                      url={`${contents.zones[0].content[currentIndex].url}`}
+                      width="100%"
+                      height="100%"
+                      // id=""
+                      // className=""
+                      display="block"
+                      position="relative"
+                    />
+                  </div>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "scroller" ? (
+                  <>
+                    {handleScrollerApps(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "text-apps" ? (
+                  <>
+                    {handleTextApps(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "clock-apps" ? (
+                  <>
+                    {handleClockApps(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "bulletin-apps" ? (
+                  <>
+                    {handleBulletinApps(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "qrcode-apps" ? (
+                  <>
+                    {handleQrApps(contents.zones[0].content[currentIndex].data)}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "weather-apps" ? (
+                  <>
+                    {/* {handleWeatherApps(
                     contents.zones[0].content[currentIndex].data
                   )} */}
 
-                  {getWeatherDataZone1(
-                    contents.zones[0].content[currentIndex].data
-                  )}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "rss-apps" ? (
-                <>
-                  {handleRssApps(contents.zones[0].content[currentIndex].data)}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "quote-apps" ? (
-                <>
-                  {getQuoteDataZone1(
-                    contents.zones[0].content[currentIndex].data
-                  )}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "aqi-apps" ? (
-                <>
-                  {getAqiDataZone1(
-                    contents.zones[0].content[currentIndex].data
-                  )}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "news-apps" ? (
-                <>
-                  {getNewsDataZone1(
-                    contents.zones[0].content[currentIndex].data
-                  )}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "google-apps" ? (
-                <>
-                  {handleGoogleApps(
-                    contents.zones[0].content[currentIndex].data
-                  )}
-                </>
-              ) : contents.zones[0].content[currentIndex].type ===
-                "stocks-apps" ? (
-                <>
-                  {getStockDataZone1(
-                    contents.zones[0].content[currentIndex].data
-                  )}
-                  handleGoogleApps
-                </>
-              ) : (
-                <></>
-              )}
+                    {getWeatherDataZone1(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "rss-apps" ? (
+                  <>
+                    {handleRssApps(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "quote-apps" ? (
+                  <>
+                    {getQuoteDataZone1(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "aqi-apps" ? (
+                  <>
+                    {getAqiDataZone1(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "news-apps" ? (
+                  <>
+                    {getNewsDataZone1(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "google-apps" ? (
+                  <>
+                    {handleGoogleApps(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "stocks-apps" ? (
+                  <>
+                    {getStockDataZone1(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                    handleGoogleApps
+                  </>
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
           ) : (
             <></>
