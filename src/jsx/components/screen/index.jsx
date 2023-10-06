@@ -28,6 +28,7 @@ const Screen = ({ userPermission, auth }) => {
     callAllScreenApi();
   }, [isRefresh]);
   const callAllScreenApi = async () => {
+    console.log(filterData);
     let str = "";
     if (filterData.groups && filterData.groups.length > 0) {
       filterData.groups.map((grp, i) => {
@@ -41,7 +42,8 @@ const Screen = ({ userPermission, auth }) => {
     }
     if (filterData.shows && filterData.shows.length > 0) {
       filterData.shows.map((tg, i) => {
-        return (str += `status[${i}]=${tg}&`);
+        //return (str += `status[${i}]=${tg}&`);
+        return (str += `status=${tg}&`);
       });
     }
     const list = await getAllScreens(str);

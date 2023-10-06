@@ -7,15 +7,15 @@ import { addTags } from "../../utils/api";
 const AddNewTagModal = ({ setNewTagModal, selected, setIsRefresh, type }) => {
   const [tag, setTag] = useState(null);
   const [tagArr, setTagArr] = useState(selected.tags);
+  const [isDisable, setIsDisable] = useState(false);
 
   const handleTagsSubmit = async (e) => {
     e.preventDefault();
+    setIsDisable(true)
     const newArr = tagArr;
-    console.log(newArr);
     if (tag && tag != "") {
       newArr.push(tag.trim());
     }
-    console.log(newArr);
     if (type && type == "media") {
       await addTags({ type: "media", id: selected._id, tags: newArr });
     } else if (type && type == "schedule") {
@@ -28,7 +28,7 @@ const AddNewTagModal = ({ setNewTagModal, selected, setIsRefresh, type }) => {
 
     setTagArr(newArr);
     setTag("");
-    console.log("OK");
+    setIsDisable(false)
   };
 
   const handleTagsDelete = async (e, index, item) => {
@@ -124,6 +124,7 @@ const AddNewTagModal = ({ setNewTagModal, selected, setIsRefresh, type }) => {
               type="button"
               className="btn btn-primary btn-block primary-btn"
               onClick={(e) => handleTagsSubmit(e)}
+              disabled={isDisable}
             >
               Save
             </Button>

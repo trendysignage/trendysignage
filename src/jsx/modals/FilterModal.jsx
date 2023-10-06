@@ -52,7 +52,7 @@ const FilterModal = ({
       return selectedTag[i] && selectedTag[i] == true;
     });
 
-    const selectedshows = tags;
+    const selectedshows = screenShow;
     const showsData = Object.keys(selectedshows).filter((i) => {
       if (selectedshows[i] == false) {
         delete selectedshows[i];
