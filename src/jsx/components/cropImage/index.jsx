@@ -8,6 +8,8 @@ import { BASE_URL } from "../../../utils/api";
 const ImageCroper = ({
   imgSrc,
   zoom,
+  rotation,
+  setRotation,
   setZoom,
   setCroppedAreaPixels,
   croppedAreaPixels,
@@ -23,6 +25,7 @@ const ImageCroper = ({
       image={`${BASE_URL}${imgSrc}`}
       crop={crop}
       zoom={zoom}
+      rotation={rotation}
       aspect={16 / 9}
       onCropChange={setCrop}
       onCropComplete={onCropComplete}

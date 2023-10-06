@@ -278,8 +278,7 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     onChange={(e) => {
                       setOrientation(e.target.value);
                     }}
-                    disabled
-                    style={{ cursor: "not-allowed" }}
+                    
                     placeholder="Preview Not Available"
                   />
                   <label
@@ -301,8 +300,7 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     onChange={(e) => {
                       setOrientation(e.target.value);
                     }}
-                    disabled
-                    style={{ cursor: "not-allowed" }}
+                    
                   />
                   <label
                     className="form-check-label mt-0"

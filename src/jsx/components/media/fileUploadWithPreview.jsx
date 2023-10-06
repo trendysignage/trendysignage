@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import uploadImg from "../../../img/cloud-computing-icon.png";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import deleteIcon from "../../../img/delete-icon.png";
+import ImageRotation from '../cropImage/ImageRotation'
 function FileUploadWithPreview({
   setShowError,
   setFile,
@@ -12,18 +13,24 @@ function FileUploadWithPreview({
 }) {
   const [preview, setPreview] = useState(null);
   const [fileList, setFileList] = useState([]);
+  const [selectedCroppedFile, setSelectedCroppedFile] = useState(null);
+  const [selectedCroppedUrl, setSelectedCroppedUrl] = useState(null);
+  const [checkCrop, setCheckCrop] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     console.log(event);
     if (!selectedFile) {
-      //setFile(null);
+        //selectedFile(null);
       //setPreview(null);
       return;
     }
     setShowError(null);
     setFileList((fileList) => [...fileList, selectedFile]);
     setFile((file) => [...file, selectedFile]);
+    // setSelectedCroppedUrl(URL.createObjectURL(selectedFile))
+    // setSelectedCroppedFile(selectedFile);
+    // setCheckCrop(true);
 
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile);
@@ -36,8 +43,8 @@ function FileUploadWithPreview({
       setPreviewList((previewList) => [...previewList, newP]);
     };
 
-    console.log("selectedFile", previewList);
   };
+
   function handleLoadedMetadata(event) {
     console.log("event", event);
     const fMeta = {
@@ -61,6 +68,19 @@ function FileUploadWithPreview({
 
   return (
     <>
+      {/* {
+        checkCrop && <ImageRotation 
+        imgSrc={selectedCroppedUrl}
+        checkCrop={checkCrop}
+        selectedCroppedFile={selectedCroppedFile}
+        selectedCroppedUrl={selectedCroppedUrl}
+        setSelectedCroppedFile={setSelectedCroppedFile}
+        setSelectedCroppedUrl={setSelectedCroppedUrl}
+        setCheckCrop={setCheckCrop}
+        setFile={setFile}
+      />
+      } */}
+      
       <div className=" d-flex flex-column">
         {previewList &&
           previewList.length > 0 &&
@@ -123,20 +143,6 @@ function FileUploadWithPreview({
           onChange={handleFileChange}
         />
       </div>
-      {/* )} */}
-      {/* 
-      {previewList.length > 0 && (
-        <div>
-          <button>+ Add More</button>
-
-          <input
-            type="file"
-            accept="image/*,video/*"
-            className="upload-file-textfield"
-            onChange={handleFileChange}
-          />
-        </div>
-      )} */}
     </>
   );
 }

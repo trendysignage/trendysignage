@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
 import { updateApps, addApps, BASE_URL } from "../../utils/api";
+import { handleBulletinApps } from '../../utils/UtilsService'
 import Switch from "react-switch";
 import SelectMedia from "./SelecteMedia";
 import deleteicon from "../../img/delete-btn.png";
@@ -32,36 +33,42 @@ const BulletinBoardAppModal = ({
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageModalShow, setImageModalShow] = useState(false);
   const [colorScheme, setColorScheme] = useState({
-    value: "Light Yellow",
+    value: "lightYellow",
     label: "Light Yellow",
   });
   const options = [
-    { value: "Light Yellow", label: "Light Yellow" },
-    { value: "Orange", label: "Orange" },
-    { value: "Sky  Blue", label: "Sky  Blue" },
+    { value: "lightYellow", label: "Light Yellow" },
+    { value: "orange", label: "Orange" },
+    { value: "skyBlue", label: "Sky  Blue" },
   ];
   const [checked, setChecked] = useState(false);
   const [bulletin, setBulletin] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [preview, setPreview] = useState(false);
+  const [previewData, setPreviewData] = useState(null);
+  const [orientationMode, setOrientation] = useState("landscape");
 
   const handleChange = (nextChecked) => {
     setChecked(nextChecked);
   };
 
   const handleBulletin = (e) => {
+    console.log('dd')
     e.preventDefault();
     const data = bulletin;
-    if (bulletinType) {
+    console.log("nu", bulletinType);
+    if (bulletinType !== null) {
+      console.log('edit')
       data[bulletinType].image = selectedImage;
       data[bulletinType].title = selectedTitle.trim();
       data[bulletinType].content = selectedContent.trim();
     } else {
-      const newData = {
+      console.log("create")
+      data.push({
         title: selectedTitle.trim(),
         image: selectedImage,
-        content: selectedContent.trim(),
-      };
-      data.push(newData);
+        content: selectedContent ? selectedContent.trim() : '',
+      });
     }
     setBulletin(data);
     setIsBulletin(false);
@@ -83,6 +90,7 @@ const BulletinBoardAppModal = ({
     setBulletinType(null);
   };
   const handleEdit = (e, data, key) => {
+    console.log('fdf');
     e.preventDefault();
     setIsBulletin(true);
     setSelectedContent(data.content);
@@ -108,6 +116,9 @@ const BulletinBoardAppModal = ({
       setBulletinFormat(jsonString.bulletinFormat);
       setBulletin(jsonString.bulletin);
       setMediaId(mediaData._id);
+      setOrientation(
+        jsonString.orientationMode ? jsonString.orientationMode : "landscape"
+      );
     }
   }, [mediaData]);
   console.log("media", mediaData);
@@ -129,6 +140,7 @@ const BulletinBoardAppModal = ({
       bulletin,
       duration,
       colorScheme,
+      orientationMode
     };
 
     if (actionType && actionType == "edit") {
@@ -171,6 +183,25 @@ const BulletinBoardAppModal = ({
     setBulletin([]);
     setShowUrlApp(val)
   }
+  const handlePreview = () => {
+    if (name) {
+      setPreviewData(
+        handleBulletinApps(
+          JSON.stringify({
+            url: name.trim(),
+            bulletinFormat,
+            bulletin,
+            duration,
+            colorScheme,
+            orientationMode
+          })
+        )
+      );
+      setPreview(true);
+    } else {
+      setPreview(false);
+    }
+  };
   return (
     <>
       <SelectMedia
@@ -457,19 +488,26 @@ const BulletinBoardAppModal = ({
                   </div>
                 </div>
               )}
+              {
+                !isBulletin && <Button onClick={handlePreview} className="mt-3">
+                Preview
+              </Button>
+              }
             </div>
             <div className="col-6 ">
-              <div className="d-flex">
+              <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="landscape"
+                    id="landscape"
+                    checked={orientationMode === "landscape"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -482,11 +520,16 @@ const BulletinBoardAppModal = ({
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="potrait"
+                    id="potrait"
+                    checked={orientationMode === "potrait"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
+                    disabled
+                    style={{ cursor: "not-allowed" }}
+                    placeholder="Preview Not Available"
                   />
                   <label
                     className="form-check-label mt-0"
@@ -497,13 +540,18 @@ const BulletinBoardAppModal = ({
                 </div>
                 <div className="form-check">
                   <input
+                    placeholder="Preview Not Available"
                     className="form-check-input"
                     type="radio"
-                    name="viewImage"
-                    value="aspectRation"
-                    id="aspectRation"
-                    // onChange={handleOptionChange}
-                    // defaultChecked={viewImage === "aspectRation"}
+                    name="orientation"
+                    value="footer"
+                    id="footer"
+                    checked={orientationMode === "footer"}
+                    onChange={(e) => {
+                      setOrientation(e.target.value);
+                    }}
+                    disabled
+                    style={{ cursor: "not-allowed" }}
                   />
                   <label
                     className="form-check-label mt-0"
@@ -514,9 +562,7 @@ const BulletinBoardAppModal = ({
                 </div>
               </div>
               <div className="d-flex justify-content-center align-items-center h-100 Bulletin-board-app-form-icon">
-                <div className="text-center">
-                  <img src={icon} width="60px" height="60px" className="mb-3" />
-                </div>
+                {preview && previewData ? previewData : "..."}
               </div>
             </div>
           </form>

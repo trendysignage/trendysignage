@@ -64,12 +64,11 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setIsLoading(false);
       return
     }
-
-      console.log("Hello", err);
       const dataString = {
         url: name.trim(),
         fontStyle: selectedFontOption,
         color,
+        duration,
         orientationMode,
       };
 
@@ -122,6 +121,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
             fontStyle: selectedFontOption,
             color,
             orientationMode,
+            duration
           })
         )
       );

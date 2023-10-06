@@ -272,7 +272,7 @@ const AddDeviceProfile = ({
                         }}
                         className={`${viewPort == "portrait" ? " active" : ""}`}
                       >
-                        Potrait
+                        Portrait
                       </div>
                       <div
                         onClick={(e) => {
@@ -361,7 +361,11 @@ const AddDeviceProfile = ({
                             className="w-100"
                           >
                             <img
-                              style={{ width:`${width}px`, height:`${height}px`, maxWidth: "100%" }}
+                              style={{
+                                width: `${width}px`,
+                                height: `${height}px`,
+                                maxWidth: "100%",
+                              }}
                               src={`${BASE_URL}${selectedMedia?.title}`}
                               className={`App-logo  ${width}`}
                               alt="logo"

@@ -114,6 +114,8 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
     return handleNewsApps(data, newsData);
   };
 
+  const rotateMode = "potrait";
+
   return (
     <>
       {" "}
@@ -122,17 +124,44 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
           {contents?.zones[0]?.content[currentIndex] ? (
             <div className="h-100">
               {contents.zones[0].content[currentIndex].type === "image" ? (
-                <div className="basic-list-group image-preview-container media-content nnnn">
-                  <img
-                    className="webplayer-preview-img"
+                <div
+                  style={{
+                    height:
+                      contents.layout.screenType === rotateMode
+                        ? "auto"
+                        : "100%",
+                  }}
+                >
+                  <div
+                    className="basic-list-group image-preview-container media-content "
+                    // className={`${
+                    //   contents.layout.screenType === rotateMode
+                    //     ? "image-preview-container-rotate"
+                    //     : "image-preview-container"
+                    // } basic-list-group  media-content `}
                     style={{
-                      objectFit: `${
-                        viewImage === "fitScreen" ? "fill" : "contain"
-                      }`,
+                      transform:
+                        contents.layout.screenType === rotateMode
+                          ? "rotate(270deg)"
+                          : "rotate(0deg)",
+                      // width: "100vw",
+                      height:
+                        contents.layout.screenType === rotateMode
+                          ? "100vw"
+                          : "100%",
                     }}
-                    src={`${BASE_URL}/${contents.zones[0].content[currentIndex].url}`}
-                    alt="media-img"
-                  />
+                  >
+                    <img
+                      className="webplayer-preview-img"
+                      style={{
+                        objectFit: `${
+                          viewImage === "fitScreen" ? "fill" : "contain"
+                        }`,
+                      }}
+                      src={`${BASE_URL}/${contents.zones[0].content[currentIndex].url}`}
+                      alt="media-img"
+                    />
+                  </div>
                 </div>
               ) : contents.zones[0].content[currentIndex].type === "video" ? (
                 <div

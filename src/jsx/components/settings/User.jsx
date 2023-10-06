@@ -2,48 +2,55 @@ import React, { useState, useEffect } from "react";
 import { Table, Dropdown } from "react-bootstrap";
 import AddNewTagModal from "../../modals/AddNewTagModal";
 import downArrow from "../../../img/down-arrow.png";
-import menuIcon from "../../../img/menu-icon.png";
+import menuIcon from "../../../img/menu-icon.svg";
 import veiwDetailIcon from "../../../img/view-detail-icon.png";
 import defaultComparisonIcon from "../../../img/default-comparison-icon.png";
 import assignIcon from "../../../img/assign-icon.png";
 import takeScreenshotIcon from "../../../img/tack-screenshot-icon.png";
 import { deleteUsers, updateUsers } from "../../../utils/api";
 import { toast } from "react-toastify";
-import AddUserModal from '../../modals/AddUserModal';
+import AddUserModal from "../../modals/AddUserModal";
 
 const User = ({ users, setIsRefresh, isRefresh }) => {
-//   const [showNewTagModal, setNewTagModal] = useState(false);
-//   const [selectedScreen, setSelectedScreen] = useState("");
-//   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
-const [showAddUserModel, setShowAddUserModel] = useState(false);
-const [user, setUser] = useState(null);
+  //   const [showNewTagModal, setNewTagModal] = useState(false);
+  //   const [selectedScreen, setSelectedScreen] = useState("");
+  //   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
+  const [showAddUserModel, setShowAddUserModel] = useState(false);
+  const [user, setUser] = useState(null);
 
-const deleteuserRecord = async (e, id) => {
-  e.preventDefault();
-  await deleteUsers(id);
-  toast.success("User has been deleted successfully !!!", {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  });
-  setIsRefresh(!isRefresh);
-}
+  const deleteuserRecord = async (e, id) => {
+    e.preventDefault();
+    await deleteUsers(id);
+    toast.success("User has been deleted successfully !!!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    setIsRefresh(!isRefresh);
+  };
 
-const handleEditiUser = (e, item) => {
-  e.preventDefault();
-  setShowAddUserModel(true);
-  setUser(item)
-  console.log("Add User")
-}
+  const handleEditiUser = (e, item) => {
+    e.preventDefault();
+    setShowAddUserModel(true);
+    setUser(item);
+    console.log("Add User");
+  };
 
   return (
     <>
-    <AddUserModal open={showAddUserModel} setShowAddUserModel={setShowAddUserModel} setIsRefresh={setIsRefresh} user={user} setUser={setUser} type={'edit'}/>
+      <AddUserModal
+        open={showAddUserModel}
+        setShowAddUserModel={setShowAddUserModel}
+        setIsRefresh={setIsRefresh}
+        user={user}
+        setUser={setUser}
+        type={"edit"}
+      />
       <Table responsive className="custom-table screen-table">
         <thead>
           <tr>
@@ -75,7 +82,7 @@ const handleEditiUser = (e, item) => {
                   </td>
                   <td>{item.createdAt}</td>
                   <td>{item.role}</td>
-                  <td>{item.isVerified == true ? 'Active' : "Deactive"}</td>
+                  <td>{item.isVerified == true ? "Active" : "Deactive"}</td>
                   <td>
                     <Dropdown className="dropdown-toggle-menu">
                       <Dropdown.Toggle variant="" className="p-0  mb-2">
@@ -108,9 +115,12 @@ const handleEditiUser = (e, item) => {
                             </div>
                           </div>
                         </Dropdown.Item> */}
-                        <Dropdown.Item 
-                          onClick={(e) => {handleEditiUser(e, item)}}
-                           className="dropdown-list-item">
+                        <Dropdown.Item
+                          onClick={(e) => {
+                            handleEditiUser(e, item);
+                          }}
+                          className="dropdown-list-item"
+                        >
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
                               <img
@@ -138,9 +148,12 @@ const handleEditiUser = (e, item) => {
                             </div>
                           </div>
                         </Dropdown.Item> */}
-                        <Dropdown.Item 
-                           onClick={(e)=>{deleteuserRecord(e, item._id)}}
-                           className="dropdown-list-item">
+                        <Dropdown.Item
+                          onClick={(e) => {
+                            deleteuserRecord(e, item._id);
+                          }}
+                          className="dropdown-list-item"
+                        >
                           <div className="d-flex">
                             <div className="dropdown-list-icon">
                               <img

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import ListMedia from "./listMedia";
 import FilterModal from "../../modals/FilterModal";
@@ -8,42 +8,70 @@ import listIcon from "../../../img/list-icon.png";
 import uploadIcon from "../../../img/upload-icon.png";
 import canvaIcon from "../../../img/canva-icon.png";
 import { getAllMedia } from "../../../utils/api";
-import { connect, useDispatch, useSelector } from 'react-redux';
-import LockScreen from "../../pages/LockScreen"
+import { connect, useDispatch, useSelector } from "react-redux";
+import LockScreen from "../../pages/LockScreen";
 import useSWR from "swr";
-const Media = ({auth, permission}) => {
-  const [showFilterModal, setFilterModal] = useState(false);
+const Media = ({ auth, permission }) => {
   const [showUploadMediaModal, setUploadMediaModal] = useState(false);
-  const { data: allMedia, mutate } = useSWR(
-    "/vendor/display/media",
-    getAllMedia
-  );
-  console.log(permission, "kkkkkkkk media page");
+  const [isRefresh, setIsRefresh] = useState(false);
+  const [filterData, setFilterData] = useState({
+    groups: [],
+    tags: [],
+    shows: [],
+  });
+  const [allMedia, setAllMedia] = useState([]);
 
-  
+  // const { data: allMedia, mutate } = useSWR(
+  //   "/vendor/display/media",
+  //   getAllMedia
+  // );
+  const callAllMedialApi = async () => {
+    let str = "";
+    // if(filterData.groups && filterData.groups.length > 0){
+    //   filterData.groups.map((grp, i) => {
+    //     return str += `groups[${i}]=${grp}&`
+    //   })
+    // }
+    if (filterData.tags && filterData.tags.length > 0) {
+      filterData.tags.map((tg, i) => {
+        return (str += `tags[${i}]=${tg}&`);
+      });
+    }
+    // if(filterData.shows && filterData.shows.length > 0){
+    //   filterData.shows.map((tg, i) => {
+    //     return str += `status[${i}]=${tg}&`
+    //   })
+    // }
+    const list = await getAllMedia(str);
+    console.log("list", list);
+    setAllMedia(list);
+  };
+
+  useEffect(() => {
+    setIsRefresh(false);
+    callAllMedialApi();
+  }, [isRefresh]);
+
+  console.log(permission, "kkkkkkkk media page");
 
   return (
     <>
       <div className="custom-content-heading d-flex flex-wrap">
         <h1>Assets</h1>
       </div>
-      {
-        permission && !permission.permission.ASSETS.add && <div className="form-head d-flex mb-3 align-items-start">
-          <Button
-            className="mr-2"
-            variant="info add-screen-btn"
-            disabled
-          >
-            Add Media
-            <span className="btn-icon-right">
-              <div class="glyph-icon flaticon-381-lock-1"></div>
-            </span>
-          </Button>
-        </div>
-      }
+      <div style={{ position: "relative" }}>
+        {permission && !permission.permission.ASSETS.add && (
+          <div className="form-head d-flex mb-3 align-items-start">
+            <Button className="mr-2" variant="info add-screen-btn" disabled>
+              Add Media
+              <span className="btn-icon-right">
+                <div class="glyph-icon flaticon-381-lock-1"></div>
+              </span>
+            </Button>
+          </div>
+        )}
 
-      {
-        permission && permission.permission.ASSETS.add &&
+        {permission && permission.permission.ASSETS.add && (
           <div className="form-head d-flex mb-3 align-items-start">
             <Dropdown className="dropdown-toggle-menu">
               <Dropdown.Toggle
@@ -118,29 +146,40 @@ const Media = ({auth, permission}) => {
                 <img className="icon-icon" src={listIcon} alt="list-icon" />
               </Button>
             </div> */}
-            {/* <FilterModal
-              showFilterModal={showFilterModal}
-              setFilterModal={setFilterModal}
-            /> */}
             <UploadMediaModal
               showUploadMediaModal={showUploadMediaModal}
               setUploadMediaModal={setUploadMediaModal}
-              callAllMediaApi={mutate}
+              //callAllMediaApi={mutate}
+              setIsRefresh={setIsRefresh}
             />
           </div>
-      }
-      
-      {permission && permission.permission.ASSETS.view ? <ListMedia allMedia={allMedia} auth={auth} callAllMediaApi={mutate} permission={permission} /> : <LockScreen message={"You don't have permission to access this !!!"} />}
+        )}
+
+        {permission && permission.permission.ASSETS.view ? (
+          <ListMedia
+            allMedia={allMedia}
+            auth={auth}
+            //callAllMediaApi={mutate}
+            permission={permission}
+            setIsRefresh={setIsRefresh}
+            setFilterData={setFilterData}
+          />
+        ) : (
+          <LockScreen
+            message={"You don't have permission to access this !!!"}
+          />
+        )}
+      </div>
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-      // errorMessage: state.auth.errorMessage,
-      // successMessage: state.auth.successMessage,
-      auth: state.auth.auth,
-      permission:state.auth.permission
+    // errorMessage: state.auth.errorMessage,
+    // successMessage: state.auth.successMessage,
+    auth: state.auth.auth,
+    permission: state.auth.permission,
   };
 };
 export default connect(mapStateToProps)(Media);

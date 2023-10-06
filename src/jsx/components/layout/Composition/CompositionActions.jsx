@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
-import menuIcon from "../../../../img/menu-icon.png";
+import menuIcon from "../../../../img/menu-icon.svg";
 import veiwDetailIcon from "../../../../img/view-detail-icon.png";
 import defaultComparisonIcon from "../../../../img/default-comparison-icon.png";
 import assignIcon from "../../../../img/assign-icon.png";
 import takeScreenshotIcon from "../../../../img/tack-screenshot-icon.png";
-import edit from "../../../../img/edit-composition.png";
+import edit from "../../../../img/edit-composition.svg";
 import deleteIcon from "../../../../img/delete-icon.png";
 
 import { Link } from "react-router-dom";
@@ -16,10 +16,11 @@ import PublishMediaModal from "../../../modals/PublishMediaModal";
 
 const CompositionActions = ({
   composition,
-  mutate,
+  //mutate,
   setDeleteModal,
   setSelected,
-  permission
+  permission,
+  setIsRefresh,
 }) => {
   const [duplicateModal, setDuplicateModal] = useState(false);
   const [viewDetailsModal, setViewDetailsModal] = useState(false);
@@ -60,8 +61,9 @@ const CompositionActions = ({
     };
     //  console.log(data)
     await postComposition(data);
-    mutate();
+    //mutate();
     setDuplicateModal(false);
+    setIsRefresh(true);
   };
   return (
     <>
@@ -73,6 +75,7 @@ const CompositionActions = ({
               className="menu-img img-fluid"
               src={menuIcon}
               alt="menu-icon"
+              style={{ height: "50px" }}
             />
           </span>
         </Dropdown.Toggle>
@@ -128,9 +131,11 @@ const CompositionActions = ({
             </div>
           </Dropdown.Item>
           {/* Edit */}
-          <Dropdown.Item href="#"
-          disabled={permission && !permission.permission.ASSETS.edit}
-          className="dropdown-list-item">
+          <Dropdown.Item
+            href="#"
+            disabled={permission && !permission.permission.ASSETS.edit}
+            className="dropdown-list-item"
+          >
             <Link to={`/composition/edit?id=${composition._id}`}>
               <div className="d-flex">
                 <div className="dropdown-list-icon">
@@ -150,7 +155,11 @@ const CompositionActions = ({
             </Link>
           </Dropdown.Item>
           {/* Duplicate */}
-          <Dropdown.Item href="#" className="dropdown-list-item" disabled={permission && !permission.permission.ASSETS.add}>
+          <Dropdown.Item
+            href="#"
+            className="dropdown-list-item"
+            disabled={permission && !permission.permission.ASSETS.add}
+          >
             <div
               className="d-flex"
               onClick={() => {

@@ -14,10 +14,9 @@ export default function ViewSchedule() {
   const [timings, setTimings] = useState([]);
   const [selectedTime, setSelectedTime] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  //var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  console.log(selectedTime, "selectedTime");
   const callAllDaySequence = async (id) => {
     const list = await getAllDaySequence(id);
+    console.log("Tim", list)
     setDaySequence(list.sequence);
     const seqArray = [];
     if (list && list.sequence && list.sequence[0] && list.sequence.length > 0) {
@@ -30,6 +29,7 @@ export default function ViewSchedule() {
         });
       }
       setTimings(datesTiming);
+      console.log("timings",timings)
       //console.log("seqArray",seqArray,flat);
       setDatesArray(flat);
     }
@@ -53,6 +53,7 @@ export default function ViewSchedule() {
   };
 
   const handleDayTime = (e, dateInfo) => {
+    console.log("test",timings)
     e.preventDefault();
     const str = dateInfo + "T00:00:00.000Z";
     setSelectedTime(timings[str]);
@@ -60,7 +61,7 @@ export default function ViewSchedule() {
   };
 
   const renderDateCell = (dateInfo) => {
-    console.log(dateInfo, "dateInfo");
+    //console.log(dateInfo, "dateInfo");
     const checkboxKey = dateInfo.date.toISOString();
     const lastDate = moment(checkboxKey, "YYYY-MM-DD")
       .add("days", 1)
@@ -130,6 +131,7 @@ export default function ViewSchedule() {
         <div className="d-flex justify-content-end">
           <Button
             className="mr-2"
+            href={`/design-month-schedule/${id}`}
             // onClick={(e) => {
             //   handlePublish(e);
             // }}

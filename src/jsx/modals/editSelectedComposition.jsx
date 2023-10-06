@@ -18,6 +18,7 @@ const EditSelectedComposition = ({
     : "aspectRation";
   const [viewImage, setViewImage] = useState(getDefault);
   const [isLoading, setIsLoading] = useState(false);
+  const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(
     composition.crop ? composition.crop.zoom : 1
   );
@@ -123,13 +124,18 @@ const EditSelectedComposition = ({
               }}
             >
               {viewImage === "crop" && (
+                <>
                 <ImageCroper
                   imgSrc={`${composition.url}`}
                   zoom={zoom}
                   setZoom={setZoom}
+                  rotation={rotation}
+                  setRotation={setRotation}
                   croppedAreaPixels={croppedAreaPixels}
                   setCroppedAreaPixels={setCroppedAreaPixels}
                 />
+                {/* <button onClick={(e) => {setRotation}}>Rotate</button> */}
+                </>
               )}
               {viewImage !== "crop" && (
                 <img

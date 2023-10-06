@@ -8,6 +8,9 @@ import {
   DropdownButton,
   Badge,
 } from "react-bootstrap";
+import { BASE_URL } from "../../../utils/api";
+import moment from "moment";
+import downArrow from "../../../img/down-arrow.svg";
 
 import { useParams, useHistory } from "react-router-dom";
 import editIcon from "../../../img/edit-icon.png";
@@ -15,30 +18,55 @@ import powerIcon from "../../../img/power-icon.png";
 import screenShotIcon from "../../../img/screenshot-icon.png";
 import locationIcon from "../../../img/location-icon.png";
 import accordionImg from "../../../img/screen-accordion-img.png";
-import editComposition from "../../../img/edit-composition.png";
+import editComposition from "../../../img/edit-composition.svg";
 import clockIcon from "../../../img/clock-icon.png";
 import tagAddIcon from "../../../img/icon-tag-add.png";
 
-import { deleteScreen, getAllScreens } from "../../../utils/api";
+import {
+  deleteScreen,
+  getAllScreens,
+  getGroups,
+  assignScreenGroups,
+} from "../../../utils/api";
 import DeleteConfirmation from "../../modals/DeleteConfirmation";
 import QuickPlayModal from "../../modals/QuickPlayModal";
 import WindowsModal from "../../modals/WindowsModal";
 import UpdateModal from "../../modals/UpdateModal";
+import { toast } from "react-toastify";
+import AddNewTagModal from "../../modals/AddNewTagModal";
 
 const ScreenDetails = () => {
   const history = useHistory();
   const { id } = useParams();
   const [screen, setScreen] = useState("");
-
+  console.log(screen, "ooo");
   const [activeDefault, setActiveDefault] = useState("");
   const [deleteModal, setDeleteModal] = useState(false);
   const [showQuickPlayModal, setQuickPlayModal] = useState(false);
   const [showWindowsModal, setWindowsModal] = useState(false);
   const [showUpdateModal, setUpdateModal] = useState(false);
+  const [allGroups, setAllGroups] = useState([]);
+  const [selectedGroups, setSelectedGroups] = useState([]);
+  const [isRefresh, setIsRefresh] = useState(false);
+  const [isEdit, setIsEdit] = useState(false)
+  const [selectedScreen, setSelectedScreen] = useState("");
+  const [showNewTagModal, setNewTagModal] = useState(false);
+
   // use effect
   useEffect(() => {
+    setIsRefresh(false);
     callAllScreenApi();
-  }, []);
+    callAllGroupsApi();
+  }, [isRefresh]);
+  useEffect(() => {
+    if (screen) {
+      screen.groups.map((i) => {
+        setSelectedGroups({ ...selectedGroups, [i._id]: true });
+      });
+
+      console.log("selectedGroups", selectedGroups, screen);
+    }
+  }, [screen]);
   const callAllScreenApi = async () => {
     const list = await getAllScreens();
     setScreen(
@@ -47,7 +75,11 @@ const ScreenDetails = () => {
       })
     );
   };
-  console.log(screen, "details screen ");
+  const callAllGroupsApi = async () => {
+    const list = await getGroups();
+    console.log("Groups", list);
+    setAllGroups(list.groups);
+  };
   const handleDelete = async () => {
     setDeleteModal(false);
     await deleteScreen(id);
@@ -65,6 +97,219 @@ const ScreenDetails = () => {
   const handleUpdate = async () => {
     setWindowsModal(false);
   };
+
+  const submitChangeGroups = async (e) => {
+    e.preventDefault();
+    //console.log("selectedGroups",selectedGroups, Object.keys(selectedGroups));
+    const selectedGrp = selectedGroups;
+    const groupsData = Object.keys(selectedGrp).filter((i) => {
+      if (selectedGrp[i] == false) {
+        delete selectedGrp[i];
+      }
+      return selectedGrp[i] && selectedGrp[i] == true;
+    });
+    console.log(selectedGrp);
+    setSelectedGroups(selectedGrp);
+    if (groupsData.length <= 0) {
+      return toast.error("Please add some content...", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    if (!id) {
+      return toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    console.log("gp", groupsData, selectedGroups);
+    await assignScreenGroups({
+      screenId: id,
+      groupIds: groupsData,
+    });
+    setIsRefresh(true);
+    setIsEdit(false);
+    return toast.success("Groups has been assigned...", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+  // const handleChangeGroups = async(e) => {
+  //   e.preventDefault();
+  //   console.log()
+  //   if(e.target.checked){
+  //     setSelectedGroups({...selectedGroups, [e.target.name] : true})
+  //   }else{
+  //     const newData = selectedGroups;
+  //     delete newData[e.target.name];
+  //     setSelectedGroups(newData);
+  //   }
+  // }
+  const findEndTime = (value) => {
+    if (!value || value === undefined) {
+      return "time not find";
+    }
+    if (value !== undefined) {
+      return value?.timings[value.timings.length - 1]?.endTime;
+    }
+}
+
+const convertTimestampTo12HourFormat = (timestamp) => {
+if (!timestamp) {
+    return "Invalid timestamp";
+}
+if (timestamp === "time not find") {
+    return "Invalid timestamp";
+}
+
+const timeParts = timestamp.split("T")[1].split(".")[0].split(":");
+let hours = 0;
+const minutes = timeParts[1];
+
+  if (timeParts.length >= 1) {
+      hours = parseInt(timeParts[0]);
+
+      let amPm;
+      if (hours >= 12) {
+      amPm = "PM";
+      if (hours > 12) {
+          hours -= 12;
+      }
+      } else {
+      amPm = "AM";
+      if (hours === 0) {
+          hours = 12;
+      }
+      }
+
+      const convertedTime = `${hours}:${minutes} ${amPm}`;
+      return convertedTime;
+    } else {
+        return "Invalid timestamp format";
+    }
+  }
+  const renderStartDate = (value) => {
+    const maxDates = value.sequence.reduce((max, obj) => {
+      const parseDts = obj.dates.map((dt) => new Date(dt));
+      const objMax =
+        obj.dates.length > 0 ? Math.max(...parseDts) : null;
+      return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
+    }, null);
+    const formatedDt = moment(new Date(maxDates)).format(
+      "YYYY-MM-DD"
+    );
+
+    const minDates = value.sequence.reduce((min, obj) => {
+      const parseDt = obj.dates.map((dt) => new Date(dt));
+      const objMin =
+        parseDt.length > 0 ? Math.min(...parseDt) : null;
+      return objMin ? (min ? Math.min(min, objMin) : objMin) : min;
+    }, null);
+
+    const formatedDtMin = moment(new Date(minDates)).format(
+      "YYYY-MM-DD"
+    );
+
+    const maxTime = value.sequence.reduce((max, obj) => {
+      const parseDts = obj.dates.map((dt) => new Date(dt));
+      const objMax =
+        obj.dates.length > 0 ? Math.max(...parseDts) : null;
+      return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
+    }, null);
+    const endTime = findEndTime(
+      value?.sequence[value?.sequence.length - 1]
+    );
+    return (
+      <div>
+          <span className="td-content">
+              <strong> {formatedDtMin}</strong>
+              {" "}
+              <span>
+              {convertTimestampTo12HourFormat(
+                  value?.sequence[0]?.timings[0]?.startTime
+              )}
+              </span>
+          </span>
+      </div>
+    )
+  }
+
+  const renderEndDate = (value) => {
+      const maxDates = value.sequence.reduce((max, obj) => {
+        const parseDts = obj.dates.map((dt) => new Date(dt));
+        const objMax =
+          obj.dates.length > 0 ? Math.max(...parseDts) : null;
+        return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
+      }, null);
+      const formatedDt = moment(new Date(maxDates)).format(
+        "YYYY-MM-DD"
+      );
+      const endTime = findEndTime(
+        value?.sequence[value?.sequence.length - 1]
+      );
+      return (
+        <div>
+            <span className="td-content">
+                <strong> {formatedDt}</strong>
+                {" "}
+                <span>
+                {convertTimestampTo12HourFormat(endTime)}
+                </span>
+            </span>
+        </div>
+      )
+  }
+  const tagsRender = (params) => {
+    return (
+      <div>
+        <span className="tag-container">
+          {params?.tag?.map((tag, index) => (
+            <span
+              key={index}
+              className="my-phone-tag text-truncate ml-1 mr-1 mb-1"
+            >
+              {tag}
+            </span>
+          ))}
+        </span>
+        <span
+          className="down-arrow"
+          onClick={(e) => {
+            handleTags(e, params);
+          }}
+        >
+          <img
+            className="down-arrow-img img-fluid"
+            src={downArrow}
+            alt="arrow"
+          />
+        </span>
+      </div>
+    );
+  };
+  const handleTags = (e, item) => {
+    e.preventDefault();
+    setSelectedScreen(item);
+    setNewTagModal(!showNewTagModal);
+  };
   const defaultAccordion = [
     {
       title: "Content",
@@ -75,13 +320,17 @@ const ScreenDetails = () => {
               <div className="accordion-custom-img">
                 <img
                   className="accordion-img"
-                  src={accordionImg}
+                  src={screen.contentPlaying && screen.contentPlaying[0] && screen.contentPlaying[0].media && screen.contentPlaying[0].media.zones[0].content[0].type == 'image' ? BASE_URL+screen.contentPlaying[0].media.referenceUrl[0].split("**")[0] : accordionImg}
                   alt="menu-icon"
                 />
               </div>
               <div className="accordion-custom-content flex-1">
                 <h6>Currently Playing</h6>
-                <p>Default Composition</p>
+                {screen?.contentPlaying ? (
+                  <p>{screen?.contentPlaying[0]?.media?.name}</p>
+                ) : (
+                  <p>{screen?.defaultComposition?.media?.name}</p>
+                )}
               </div>
             </div>
           </div>
@@ -90,7 +339,7 @@ const ScreenDetails = () => {
               <div className="accordion-custom-img">
                 <img
                   className="accordion-img"
-                  src={accordionImg}
+                  src={screen.defaultComposition && screen.defaultComposition.media && screen.defaultComposition.media.referenceUrl ? BASE_URL+screen.defaultComposition.media.referenceUrl[0].split("**")[0] : accordionImg}
                   alt="menu-icon"
                 />
               </div>
@@ -106,7 +355,7 @@ const ScreenDetails = () => {
                     />
                   </span>
                 </h6>
-                <p>Default Composition 1</p>
+                <p>{screen.defaultComposition && screen.defaultComposition.media ? screen.defaultComposition.media.name : "--"}</p>
               </div>
             </div>
           </div>
@@ -118,9 +367,9 @@ const ScreenDetails = () => {
               </div>
               <div className="accordion-custom-content active-schedule flex-1">
                 <h6>Active Schedule</h6>
-                <h5>Schedule 1</h5>
+                <h5>{screen?.schedule?.name}</h5>
                 <p className="date-schedule">
-                  From 02 Apr, 23 ,04:00PM - To 05 Apr,23, 05:00Pm
+                  From {screen.schedule ? renderStartDate(screen.schedule) : '--'} - To {screen.schedule ? renderEndDate(screen.schedule) : '--'}
                 </p>
               </div>
             </div>
@@ -143,7 +392,7 @@ const ScreenDetails = () => {
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>10.10.1.10</p>
+                    <p>{screen.drivers ? screen.drivers.privateIp : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -157,7 +406,7 @@ const ScreenDetails = () => {
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>Windows</p>
+                    <p>{screen.drivers ? screen.drivers.deviceOS : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -171,7 +420,7 @@ const ScreenDetails = () => {
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>17.12.13.10</p>
+                    <p>{screen.drivers ? screen.drivers.publicIp : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -199,7 +448,7 @@ const ScreenDetails = () => {
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>NA</p>
+                    <p>{screen.drivers ? screen.drivers.mac : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -227,7 +476,7 @@ const ScreenDetails = () => {
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>509373783ASDH766</p>
+                    <p>{screen.device ? screen.device._id : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -241,7 +490,7 @@ const ScreenDetails = () => {
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>5.3.0.0</p>
+                    <p>{screen.drivers ? screen.drivers.javascriptVersion : "--"}</p>
                   </div>
                 </div>
               </div>
@@ -257,25 +506,18 @@ const ScreenDetails = () => {
       text: (
         <div className="tag-accordion-content">
           <div className="tag-content-row d-flex flex-wrap align-items-center">
-            <Badge
-              className="badge-common-light badge-tag mr-2"
-              variant="outline-light"
-            >
-              Test Devices
-            </Badge>
-            <Badge
-              className="badge-common-light badge-tag mr-2"
-              variant="outline-light"
-            >
-              Test Devices
-            </Badge>
-            <Badge
-              className="badge-common-light badge-tag mr-2"
-              variant="outline-light"
-            >
-              Test Devices
-            </Badge>
-            <span className="tag-added">
+            {
+              screen && screen.tags && screen.tags.map((item, i) => {
+                return (
+                  <Badge
+                    className="badge-common-light badge-tag mr-2"
+                    variant="outline-light"
+                    id={i}
+                  >{item}</Badge>
+                )
+              })
+            }
+            <span className="tag-added" style={{cursor:'pointer'}} onClick={(e) => {setNewTagModal(true);}}>
               {" "}
               <img className="tag-add-icon" src={tagAddIcon} alt="menu-icon" />
             </span>
@@ -285,10 +527,96 @@ const ScreenDetails = () => {
 
       bg: "success",
     },
+    {
+      title: "Groups",
+      text: (
+        <div className="tag-accordion-content">
+          {!isEdit && (
+            <div className="tag-content-row d-flex flex-wrap align-items-center">
+              {screen &&
+                screen.groups.map((item) => {
+                  return (
+                    <Badge
+                      className="badge-common-light badge-tag mr-2"
+                      variant="outline-light"
+                    >
+                      {item.name}
+                    </Badge>
+                  );
+                })}
+              <span
+                className="tag-added"
+                style={{ cursor: "pointer" }}
+                onClick={(e) => setIsEdit(true)}
+              >
+                {" "}
+                <img
+                  className="tag-add-icon"
+                  src={tagAddIcon}
+                  alt="menu-icon"
+                />
+              </span>
+            </div>
+          )}
+          {isEdit && (
+            <div className="tag-content-row d-flex flex-wrap align-items-center">
+              {allGroups && allGroups.length > 0 ? (
+                <>
+                  {allGroups.map((item) => {
+                    return (
+                      <div className="col-3">
+                        <input
+                          id={"check-" + item._id}
+                          type="checkbox"
+                          className="   "
+                          required
+                          name={item._id}
+                          checked={selectedGroups && selectedGroups[item._id]}
+                          onChange={(e) =>
+                            setSelectedGroups({
+                              ...selectedGroups,
+                              [item._id]: e.target.checked,
+                            })
+                          }
+                        />
+                        <label className="mt-3 mr-3">{item.name}</label>
+                      </div>
+                    );
+                  })}
+                </>
+              ) : (
+                "NO Groups Found"
+              )}
+              <span
+                className="tag-added"
+                onClick={(e) => submitChangeGroups(e)}
+              >
+                <Button className="btn btn-sm btn-primary">Save</Button>
+              </span>
+              <span
+                className="tag-added mr-2 ml-2"
+                onClick={(e) => setIsEdit(false)}
+              >
+                <Button className="btn btn-sm btn-danger">Cancel</Button>
+              </span>
+            </div>
+          )}
+        </div>
+      ),
+
+      bg: "success",
+    },
   ];
   if (!screen) return <></>;
   return (
     <>
+      {showNewTagModal && (
+        <AddNewTagModal
+          setNewTagModal={setNewTagModal}
+          selected={screen}
+          setIsRefresh={setIsRefresh}
+        />
+      )}
       <div className="custom-content-heading d-flex flex-wrap align-items-center">
         <h1 className="mr-auto">Screen Details</h1>
         <Button
@@ -380,7 +708,12 @@ const ScreenDetails = () => {
                 {screen.googleLocation}
               </h4>
               <p className="active-row d-flex align-items-center">
-                <span className="active-status"></span> Active Now
+                <span
+                  className={` ${
+                    screen.isConnected ? "active-status" : "deactive-status"
+                  }`}
+                ></span>{" "}
+                {screen.isConnected ? " Active Now" : "Offline"}
               </p>
             </div>
           </div>

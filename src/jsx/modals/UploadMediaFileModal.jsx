@@ -8,6 +8,7 @@ const UploadMediaModal = ({
   showUploadMediaModal,
   setUploadMediaModal,
   callAllMediaApi,
+  setIsRefresh
 }) => {
   const [file, setFile] = useState([]);
   const [fileMeta, setFileMeta] = useState([]);
@@ -23,12 +24,14 @@ const UploadMediaModal = ({
       c++;
     }
     setIsLoading(false);
-    callAllMediaApi();
+    // callAllMediaApi();
+    setIsRefresh(true)
     setUploadMediaModal(false);
     setPreviewList([]);
     setFile([]);
   };
   const handleSingleUpload = async (item, c) => {
+    console.log(item, "item");
     setIsLoading(true);
     setKeyImg(c);
     // const filePre = previewList;
