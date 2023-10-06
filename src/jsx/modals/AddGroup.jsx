@@ -7,10 +7,10 @@ import {addGroups, updateGroups} from "../../utils/api";
 import { toast } from "react-toastify";
 
 const AddGroup = ({ open, setShowGroupModel , setIsRefresh, group, type}) => {
-    console.log("group",group)
     const [name, setName] = useState(group ? group.name : "");
     const [description, setDescription] = useState(group ? group.description : "");
     const [error, setError] = useState('');
+    const [isDisable, setIsDisable] = useState(false)
     useEffect(() => {
         if(group){   
             setName(group.name);
@@ -23,8 +23,9 @@ const AddGroup = ({ open, setShowGroupModel , setIsRefresh, group, type}) => {
       ];
     const handleSubmit = async(e, type) => {
         e.preventDefault();
+        setIsDisable(true)
         let err = '';
-        if(name == ''){
+        if(name.trim() == ''){
             err = 'Name is required';
         }
         else if(description == ''){
@@ -32,9 +33,9 @@ const AddGroup = ({ open, setShowGroupModel , setIsRefresh, group, type}) => {
         }
         if(err){
             setError(err);
-            return false;
+            setIsDisable(false)
+            return;
         }
-        console.log("error",err)
         
         if(err == ''){
             if(!type){
@@ -44,7 +45,9 @@ const AddGroup = ({ open, setShowGroupModel , setIsRefresh, group, type}) => {
                 await addGroups(postData)
                   .then(response => {
                     setError(null);
-                    setShowGroupModel(false);
+                    //setShowGroupModel(false);
+                    handleCloseForm();
+                    setIsDisable(false)
                     toast.success("Group has been added successfully !!!", {
                         position: "top-right",
                         autoClose: 5000,
@@ -68,7 +71,8 @@ const AddGroup = ({ open, setShowGroupModel , setIsRefresh, group, type}) => {
                   .then(response => {
                     console.log(response);
                     setError(null);
-                    setShowGroupModel(false);
+                    handleCloseForm();
+                    setIsDisable(false)
                     toast.success("User has been updated successfully !!!", {
                         position: "top-right",
                         autoClose: 5000,
@@ -84,11 +88,17 @@ const AddGroup = ({ open, setShowGroupModel , setIsRefresh, group, type}) => {
                     setError(error.response.data.message)
                   });
             }
-            console.log("Submit",name, description);
-            
-            
+
+            setIsDisable(false);
         }
         
+    }
+
+    const handleCloseForm = () => {
+        setName("");
+        setDescription("");
+        setError('');
+        setShowGroupModel(false)
     }
     return (
         <Modal
@@ -101,7 +111,7 @@ const AddGroup = ({ open, setShowGroupModel , setIsRefresh, group, type}) => {
             <Button
                 variant=""
                 className="close"
-                onClick={() => setShowGroupModel(false)}
+                onClick={() => handleCloseForm()}
             >
             <img className="cancel-icon" src={cancelIcon} alt="cancel-icon" />
             </Button>
@@ -143,7 +153,7 @@ const AddGroup = ({ open, setShowGroupModel , setIsRefresh, group, type}) => {
                     <Button 
                         className="cancel-btn w-100"
                         variant="outline-light"
-                        onClick={() => setShowGroupModel(false)}
+                        onClick={() => handleCloseForm()}
                     >
                     Cancel
                     </Button>
@@ -153,6 +163,7 @@ const AddGroup = ({ open, setShowGroupModel , setIsRefresh, group, type}) => {
                     variant=""
                     type="button"
                     className="btn btn-primary btn-block primary-btn"
+                    disabled={isDisable}
                     onClick={(e) => handleSubmit(e, type)}
                     >
                     Add Group

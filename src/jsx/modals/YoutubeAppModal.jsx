@@ -83,6 +83,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const handlePreview = () => {
     if (name && urlLink) {
+      console.log(muteOptions)
       setPreviewData(
         handleYoutubeApps(
           JSON.stringify({

@@ -2634,7 +2634,7 @@ export const handlePeopleSpace = (data) => {
 
 export const handleYoutubeApps = (data) => {
   const prp = JSON.parse(data);
-
+console.log(prp)
   if (prp.url) {
     return (
       <div className={`basic-list-group video-container media-content`}>
@@ -2646,7 +2646,7 @@ export const handleYoutubeApps = (data) => {
           loop={true}
           playing={true}
           controls={true}
-          muted={true}
+          muted={prp.mute}
         />
       </div>
     );
