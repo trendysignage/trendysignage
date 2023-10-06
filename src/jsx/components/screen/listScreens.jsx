@@ -71,6 +71,7 @@ const ListScreen = ({
   const [selectedScreen, setSelectedScreen] = useState("");
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
   const [showFilterModal, setFilterModal] = useState(false);
+  const type = ['shows','tags', 'groups'];
 
   const renderAction = (params) => {
     const { value } = params;
@@ -275,7 +276,6 @@ const ListScreen = ({
 
   const lastSeenRender = (params) => {
     const { value } = params;
-    console.log(value, "kkk");
     return (
       <span className="d-flex align-items-center">
         <span
@@ -380,6 +380,7 @@ const ListScreen = ({
         setFilterModal={setFilterModal}
         setFilterData={setFilterData}
         setIsRefresh={setIsRefresh}
+        type={type}
       />
       <div className="d-flex justify-content-end">
         <Button
