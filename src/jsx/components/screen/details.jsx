@@ -48,7 +48,7 @@ const ScreenDetails = () => {
   const [allGroups, setAllGroups] = useState([]);
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false)
   const [selectedScreen, setSelectedScreen] = useState("");
   const [showNewTagModal, setNewTagModal] = useState(false);
 
