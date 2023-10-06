@@ -13,6 +13,7 @@ const AddUser = ({ open, setShowAddUserModel , setIsRefresh, user, type}) => {
     const [password, setPassword] = useState(user ? user.password : "");
     const [role, setRole] = useState(user ? {value:user.role.toUpperCase(),label:user.role} : "");
     const [error, setError] = useState('');
+    const [isDisable, setIsDisable] = useState(false)
     useEffect(() => {
         if(user){   
             setName(user.name);
@@ -28,6 +29,7 @@ const AddUser = ({ open, setShowAddUserModel , setIsRefresh, user, type}) => {
       ];
     const handleSubmit = async(e, type) => {
         e.preventDefault();
+        setIsDisable(true);
         let err = '';
         if(name == ''){
             err = 'Name is required';
@@ -43,7 +45,7 @@ const AddUser = ({ open, setShowAddUserModel , setIsRefresh, user, type}) => {
         } 
         if(err){
             setError(err);
-            return false;
+            return;
         }
         console.log("error",err)
         
@@ -56,7 +58,8 @@ const AddUser = ({ open, setShowAddUserModel , setIsRefresh, user, type}) => {
                   .then(response => {
                     console.log(response);
                     setError(null);
-                    setShowAddUserModel(false);
+                    //setShowAddUserModel(false);
+                    handleCloseForm()
                     toast.success("User has been added successfully !!!", {
                         position: "top-right",
                         autoClose: 5000,
@@ -80,7 +83,8 @@ const AddUser = ({ open, setShowAddUserModel , setIsRefresh, user, type}) => {
                   .then(response => {
                     console.log(response);
                     setError(null);
-                    setShowAddUserModel(false);
+                    //setShowAddUserModel(false);
+                    handleCloseForm()
                     toast.success("User has been updated successfully !!!", {
                         position: "top-right",
                         autoClose: 5000,
@@ -100,7 +104,17 @@ const AddUser = ({ open, setShowAddUserModel , setIsRefresh, user, type}) => {
             
             
         }
+        setIsDisable(false);
         
+    }
+
+    const handleCloseForm = () => {
+      setName("");
+      setEmail("");
+      setPassword("");
+      setRole("");
+      setError('');
+      setShowAddUserModel(false);
     }
   return (
     <Modal
@@ -113,7 +127,7 @@ const AddUser = ({ open, setShowAddUserModel , setIsRefresh, user, type}) => {
         <Button
           variant=""
           className="close"
-          onClick={() => setShowAddUserModel(false)}
+          onClick={() => handleCloseForm()}
         >
           <img className="cancel-icon" src={cancelIcon} alt="cancel-icon" />
         </Button>
@@ -182,7 +196,7 @@ const AddUser = ({ open, setShowAddUserModel , setIsRefresh, user, type}) => {
             <Button 
                 className="cancel-btn w-100"
                 variant="outline-light"
-                onClick={() => setShowAddUserModel(false)}
+                onClick={() => handleCloseForm()}
             >
               Cancel
             </Button>
@@ -192,6 +206,7 @@ const AddUser = ({ open, setShowAddUserModel , setIsRefresh, user, type}) => {
               variant=""
               type="button"
               className="btn btn-primary btn-block primary-btn"
+              disabled={isDisable}
               onClick={(e) => handleSubmit(e, type)}
             >
               {type && type === 'edit' ? 'Update User' : 'Add User'}

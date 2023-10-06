@@ -29,6 +29,7 @@ const AddDeviceProfile = ({
   const [width, setWidth] = useState(0);
   const [healthIndicator, setHealthIndicator] = useState(false);
   const [viewPort, setViewPort] = useState("portrait");
+  const [isDisable, setIsDisable] = useState(false);
   useEffect(() => {
     if (profileData) {
       setSelectedMedia({
@@ -64,13 +65,15 @@ const AddDeviceProfile = ({
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsDisable(true);
     let err = "";
     if (name === "") {
       err = "Name is Required";
     }
     if (err !== "") {
       setError(err);
-      return false;
+      setIsDisable(false);
+      return;
     } else {
       setError("");
     }
@@ -102,7 +105,8 @@ const AddDeviceProfile = ({
             theme: "light",
           });
           setIsRefresh(true);
-          setShowProfileModel(false);
+          handleCloseForm()
+          //setShowProfileModel(false);
         })
         .catch(function (error) {
           setError(error.response.data.message);
@@ -139,6 +143,7 @@ const AddDeviceProfile = ({
           setError(error.response.data.message);
         });
     }
+    setIsDisable(false);
   };
   const videoMetaDuration = (media) => {
     const properties = JSON.parse(media?.properties);
@@ -147,6 +152,19 @@ const AddDeviceProfile = ({
     }
     return null;
   };
+
+  const handleCloseForm  = () => {
+    setName("");
+    setError("");
+    setOpenMedia(false);
+    setSelectedImage(null);
+    setSelectedMedia(null);
+    setHeight(0);
+    setWidth(0);
+    setHealthIndicator(false);
+    setViewPort("portrait");
+    setShowProfileModel(false);
+  }
 
   return (
     <>
@@ -167,7 +185,7 @@ const AddDeviceProfile = ({
           <Button
             variant=""
             className="close"
-            onClick={() => setShowProfileModel(false)}
+            onClick={() => handleCloseForm()}
           >
             <img
               className="cancel-icon"
@@ -386,7 +404,7 @@ const AddDeviceProfile = ({
               <Button
                 className="cancel-btn w-100"
                 variant="outline-light"
-                onClick={() => setShowProfileModel(false)}
+                onClick={() => handleCloseForm()}
               >
                 Cancel
               </Button>
@@ -396,6 +414,7 @@ const AddDeviceProfile = ({
                 variant=""
                 type="button"
                 className="btn btn-primary btn-block primary-btn"
+                disabled={isDisable}
                 onClick={(e) => handleSubmit(e)}
               >
                 Save

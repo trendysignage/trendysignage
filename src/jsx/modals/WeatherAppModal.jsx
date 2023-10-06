@@ -33,7 +33,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     label: "Classic",
   });
   const [selectedTemp, setSelectedTemp] = useState({
-    value: "Celsius",
+    value: "celsius",
     label: "Celsius",
   });
   const [isForcast, setIsForcast] = useState(false);
@@ -166,7 +166,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       label: "Classic",
     });
     setSelectedTemp({
-      value: "Celsius",
+      value: "celsius",
       label: "Celsius",
     });
     setIsForcast(false);
