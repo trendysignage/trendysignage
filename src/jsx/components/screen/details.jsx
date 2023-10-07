@@ -340,7 +340,7 @@ const minutes = timeParts[1];
               <div className="accordion-custom-img">
                 <img
                   className="accordion-img"
-                  src={screen.defaultComposition && screen.defaultComposition.media && screen.defaultComposition.media.referenceUrl ? BASE_URL+screen.defaultComposition.media.referenceUrl[0].split("**")[0] : accordionImg}
+                  src={screen.defaultComposition && screen.defaultComposition.media && screen.defaultComposition.media.referenceUrl && screen.defaultComposition.media.referenceUrl[0] ? BASE_URL+screen.defaultComposition.media.referenceUrl[0].split("**")[0] : accordionImg}
                   alt="menu-icon"
                 />
               </div>
