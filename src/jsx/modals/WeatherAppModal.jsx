@@ -5,7 +5,7 @@ import { usePlacesWidget } from "react-google-autocomplete";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-import { updateApps, addApps, getWeather } from "../../utils/api";
+import { updateApps, addApps, getWeather, getTimeZone } from "../../utils/api";
 import { handleWeatherApps } from "../../utils/UtilsService";
 import Form from "react-bootstrap/Form";
 import Autocomplete from "react-google-autocomplete";
@@ -27,6 +27,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     address: "",
     latitude: "",
     longitude: "",
+    timeZone:""
   });
   const [selectedTheme, setSelectedTheme] = useState({
     value: "Classic",
@@ -50,7 +51,6 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   useEffect(() => {
     if (mediaData) {
       const jsonString = JSON.parse(mediaData.appData);
-      console.log(jsonString);
       setName(mediaData.title);
       setSelectedTheme({ value: jsonString.theme, label: jsonString.theme });
       setSelectedTemp({ value: jsonString.temp, label: jsonString.temp });
@@ -64,15 +64,20 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     setIsRefresh(false)
   }, [mediaData, isRefresh, orientationMode]);
 
-  const handleLocation = (place) => {
+  const getMapTimeZone = async(lat, long) =>{
+    return await getTimeZone(lat, long);
+  }
+
+  const handleLocation = async (place) => {
     let location = JSON.parse(JSON.stringify(place?.geometry?.location));
-    console.log("location", place);
-    const adres = {
+    const locationTime = await getMapTimeZone(location.lat, location.lng);
+    console.log("LT",locationTime.timeZoneId)
+    setLocation({
       address: place.formatted_address,
       latitude: location.lat,
       longitude: location.lng,
-    };
-    setLocation(adres);
+      timeZone:locationTime
+    });
     //setAdd(adres);
   };
 
@@ -96,7 +101,6 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setIsLoading(false)
       return;
     }
-    console.log("Hello", err);
     const dataString = {
       theme: selectedTheme.value,
       temp: selectedTemp.value,
@@ -134,10 +138,8 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   };
 
   const getWeatherDataZone1 = (prp) => {
-    console.log("location",prp.location.address)
 
     if(!weatherInfo){
-      console.log("Hello Weather Calling")
       getWeatherDetail(prp.location.latitude, prp.location.longitude);
     }
     return handleWeatherApps(JSON.stringify(prp), weatherInfo);
@@ -145,7 +147,6 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   }
 
   const handlePreview = () => {
-    console.log(preview, location)
     if(location && location.address){
       setIsRefresh(true)
       setPreview(true)
@@ -230,7 +231,6 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 className="form-control"
                 apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                 onPlaceSelected={(place) => {
-                  console.log(place);
                   handleLocation(place);
                 }}
                 options={{
@@ -357,11 +357,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     temp:selectedTemp.value,
                     theme:selectedTheme.value,
                     url:"Weather in Noida",
-                    location:{
-                      address: location.address,
-                      latitude: location.latitude,
-                      longitude: location.longitude
-                    }
+                    location
                   }) : <h4>Loading</h4>
                 }
               </div>

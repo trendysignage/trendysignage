@@ -499,7 +499,7 @@ export const handleClockApps = (data) => {
       >
         <div>
           <div style={{ position: "relative", paddingTop: "20px" }}>
-            <Clock />
+            <Clock updatedTime={date_chicago} />
           </div>
           {!prp.hideDate ? (
             <p
@@ -550,7 +550,14 @@ export const handleClockApps = (data) => {
 
 export const handleWeatherApps = (data, weatherInfo) => {
   const prp = JSON.parse(data);
-  console.log("data", prp);
+  console.log("data", prp, weatherInfo);
+
+  const cdate = new Date();
+  let timeZ = prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneId : "Asia/Riyadh";
+  let chicago_datetime_str = new Date().toLocaleString("en-US", {
+    timeZone: timeZ,
+  });
+  let date_chicago = new Date(chicago_datetime_str);
 
   return (
     <div
@@ -578,7 +585,7 @@ export const handleWeatherApps = (data, weatherInfo) => {
           </div>
           <div className="time">
             <p className="mb-0">
-              <Moment format={"HH:MM A"} date={new Date()} interval={10000} />
+              <Moment format={"HH:MM A"} date={date_chicago} interval={10000} />
             </p>
           </div>
         </div>

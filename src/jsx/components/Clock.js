@@ -4,14 +4,16 @@ export default class Clock extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: new Date(),
+      //time: new Date(),
+      time:this.props.updatedTime
     };
   }
 
   componentDidMount() {
     this.timerId = setInterval(() => {
       this.setState({
-        time: new Date(),
+        //time: new Date(),
+        time:this.props.updatedTime
       });
     }, 1000);
   }
