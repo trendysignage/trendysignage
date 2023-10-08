@@ -21,7 +21,7 @@ import accordionImg from "../../../img/screen-accordion-img.png";
 import editComposition from "../../../img/edit-composition.svg";
 import clockIcon from "../../../img/clock-icon.png";
 import tagAddIcon from "../../../img/icon-tag-add.png";
-
+import CompositionListModel from "../../modals/CompolistionListModel";
 import {
   deleteScreen,
   getAllScreens,
@@ -51,6 +51,7 @@ const ScreenDetails = () => {
   const [isEdit, setIsEdit] = useState(false)
   const [selectedScreen, setSelectedScreen] = useState("");
   const [showNewTagModal, setNewTagModal] = useState(false);
+  const [showPublishPopUp, setShowPublishPopUp] = useState(false);
 
   // use effect
   useEffect(() => {
@@ -339,7 +340,7 @@ const minutes = timeParts[1];
               <div className="accordion-custom-img">
                 <img
                   className="accordion-img"
-                  src={screen.defaultComposition && screen.defaultComposition.media && screen.defaultComposition.media.referenceUrl ? BASE_URL+screen.defaultComposition.media.referenceUrl[0].split("**")[0] : accordionImg}
+                  src={screen.defaultComposition && screen.defaultComposition.media && screen.defaultComposition.media.referenceUrl && screen.defaultComposition.media.referenceUrl[0] ? BASE_URL+screen.defaultComposition.media.referenceUrl[0].split("**")[0] : accordionImg}
                   alt="menu-icon"
                 />
               </div>
@@ -352,6 +353,10 @@ const minutes = timeParts[1];
                       className="accordion-img"
                       src={editComposition}
                       alt="menu-icon"
+                      onClick={() => {
+                        setShowPublishPopUp(true);
+                        setSelectedScreen(screen._id);
+                      }}
                     />
                   </span>
                 </h6>
@@ -774,6 +779,13 @@ const minutes = timeParts[1];
           setUpdateModal={setUpdateModal}
           handleUpdate={handleUpdate}
         />
+        {showPublishPopUp && (
+        <CompositionListModel
+          selected={screen._id}
+          setShowPublishPopUp={setShowPublishPopUp}
+          type="composition"
+        />
+      )}
       </div>
     </>
   );
