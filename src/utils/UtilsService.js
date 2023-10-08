@@ -502,14 +502,13 @@ export const handleClockApps = (data) => {
             <Clock updatedTime={date_chicago} />
           </div>
           {!prp.hideDate ? (
-            <p
-              style={{ fontSize: "20px", marginTop: "20px" }}
-            >{`${cdate.getDate()} ${monthName[cdate.getDay()]} ${
-              dayName[cdate.getDay()]
-            } Indian Standard Time`}</p>
-          ) : (
-            ""
-          )}
+          <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
+            monthName[cdate.getMonth()]
+          } ${dayName[cdate.getDay()]} ${prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneName : "Arabian Standard Time"
+        }`}</p>
+        ) : (
+          ""
+        )}
         </div>
       </div>
     );
@@ -534,10 +533,9 @@ export const handleClockApps = (data) => {
       >
         {console.log("tf", tF, date_chicago)}
         <Moment format={tF} date={date_chicago} locale={"fr"} />
-        {/* <Moment>{date_chicago}</Moment> */}
         {!prp.hideDate ? (
           <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
-            monthName[cdate.getDay()]
+            monthName[cdate.getMonth()]
           } ${dayName[cdate.getDay()]} ${prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneName : "Arabian Standard Time"
         }`}</p>
         ) : (

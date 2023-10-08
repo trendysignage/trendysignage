@@ -173,39 +173,39 @@ const ScreenDetails = () => {
     }
 }
 
-const convertTimestampTo12HourFormat = (timestamp) => {
-if (!timestamp) {
-    return "Invalid timestamp";
-}
-if (timestamp === "time not find") {
-    return "Invalid timestamp";
-}
-
-const timeParts = timestamp.split("T")[1].split(".")[0].split(":");
-let hours = 0;
-const minutes = timeParts[1];
-
-  if (timeParts.length >= 1) {
-      hours = parseInt(timeParts[0]);
-
-      let amPm;
-      if (hours >= 12) {
-      amPm = "PM";
-      if (hours > 12) {
-          hours -= 12;
-      }
-      } else {
-      amPm = "AM";
-      if (hours === 0) {
-          hours = 12;
-      }
-      }
-
-      const convertedTime = `${hours}:${minutes} ${amPm}`;
-      return convertedTime;
-    } else {
-        return "Invalid timestamp format";
+  const convertTimestampTo12HourFormat = (timestamp) => {
+    if (!timestamp) {
+        return "Invalid timestamp";
     }
+    if (timestamp === "time not find") {
+        return "Invalid timestamp";
+    }
+
+    const timeParts = timestamp.split("T")[1].split(".")[0].split(":");
+    let hours = 0;
+    const minutes = timeParts[1];
+
+    if (timeParts.length >= 1) {
+        hours = parseInt(timeParts[0]);
+
+        let amPm;
+        if (hours >= 12) {
+        amPm = "PM";
+        if (hours > 12) {
+            hours -= 12;
+        }
+        } else {
+        amPm = "AM";
+        if (hours === 0) {
+            hours = 12;
+        }
+        }
+
+        const convertedTime = `${hours}:${minutes} ${amPm}`;
+        return convertedTime;
+      } else {
+          return "Invalid timestamp format";
+      }
   }
   const renderStartDate = (value) => {
     const maxDates = value.sequence.reduce((max, obj) => {
@@ -765,7 +765,10 @@ const minutes = timeParts[1];
         <QuickPlayModal
           showQuickPlayModal={showQuickPlayModal}
           setQuickPlayModal={setQuickPlayModal}
-          handleQuickPlay={handleQuickPlay}
+          //handleQuickPlay={handleQuickPlay}
+          selected={screen}
+          type={"composition"}
+
         />
 
         <WindowsModal
