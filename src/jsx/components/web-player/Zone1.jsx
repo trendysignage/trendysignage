@@ -137,7 +137,14 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                 }}
               >
                 {contents.zones[0].content[currentIndex].type === "image" ? (
-                  <div className="basic-list-group image-preview-container media-content ">
+                  <div
+                    // className="basic-list-group image-preview-container media-content "
+                    className={`basic-list-group image-preview-container ${
+                      contents.layout.screenType === rotateMode
+                        ? "media-content-rotate"
+                        : "media-content"
+                    }`}
+                  >
                     <img
                       className="webplayer-preview-img"
                       style={{
@@ -151,7 +158,11 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                   </div>
                 ) : contents.zones[0].content[currentIndex].type === "video" ? (
                   <div
-                    className={`basic-list-group video-container media-content ${viewImage} ${
+                    className={`basic-list-group video-container  ${
+                      contents.layout.screenType === rotateMode
+                        ? "media-content-rotate"
+                        : "media-content"
+                    } ${viewImage} ${
                       viewImage === "fitScreen" ? "fitImage" : "containImage"
                     }`}
                   >

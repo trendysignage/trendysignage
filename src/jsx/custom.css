@@ -2462,9 +2462,18 @@ button#Fullscreen {
   height: 100vh !important;
   max-height: 100vh  !important;
 }
+:fullscreen .media-content-rotate {
+  object-fit: contain;
+  height: 100vw !important;
+  max-height: 100vw  !important;
+}
 :fullscreen .media-content video {
   /* object-fit: contain; */
   height: 100vh;
+}
+:fullscreen .media-content-rotate video {
+  /* object-fit: contain; */
+  height: 100vw;
 }
 :fullscreen .media-content iframe {
   object-fit: contain;
