@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import CompositionListModel from "../../modals/CompolistionListModel";
 import { Button } from "react-bootstrap";
 import FilterModal from "../../modals/FilterModal";
+import QuickPlayModal from "../../modals/QuickPlayModal";
 
 import {
   DataGrid,
@@ -71,6 +72,7 @@ const ListScreen = ({
   const [selectedScreen, setSelectedScreen] = useState("");
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
   const [showFilterModal, setFilterModal] = useState(false);
+  const [showQuickPlayModal, setQuickPlayModal] = useState(false);
   const type = ['shows','tags', 'groups'];
 
   const renderAction = (params) => {
@@ -150,8 +152,11 @@ const ListScreen = ({
                 </div>
               </div>
             </Dropdown.Item>
-            {/* <Dropdown.Item
-              href="#"
+            <Dropdown.Item
+              onClick={() => {
+                setQuickPlayModal(true);
+                setSelectedScreen(value._id);
+              }}
               className="dropdown-list-item"
               disabled={
                 userPermission && !userPermission.permission.SCREEN.edit
@@ -172,8 +177,8 @@ const ListScreen = ({
                   </span>
                 </div>
               </div>
-            </Dropdown.Item> */}
-            {/* <Dropdown.Item href="#" className="dropdown-list-item">
+            </Dropdown.Item>
+            <Dropdown.Item href="#" className="dropdown-list-item">
             <div className="d-flex">
               <div className="dropdown-list-icon">
                 <img
@@ -191,7 +196,7 @@ const ListScreen = ({
                 </span>
               </div>
             </div>
-          </Dropdown.Item> */}
+          </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>
@@ -381,6 +386,14 @@ const ListScreen = ({
         setFilterData={setFilterData}
         setIsRefresh={setIsRefresh}
         type={type}
+      />
+      <QuickPlayModal
+        showQuickPlayModal={showQuickPlayModal}
+        setQuickPlayModal={setQuickPlayModal}
+        //handleQuickPlay={handleQuickPlay}
+        selected={selectedScreen}
+        type={"composition"}
+
       />
       <div className="d-flex justify-content-end">
         <Button

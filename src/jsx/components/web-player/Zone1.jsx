@@ -138,18 +138,12 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
               >
                 {contents.zones[0].content[currentIndex].type === "image" ? (
                   <div
-                    className="basic-list-group image-preview-container media-content "
-                    // style={{
-                    //   transform:
-                    //     contents.layout.screenType === rotateMode
-                    //       ? "rotate(270deg)"
-                    //       : "rotate(0deg)",
-
-                    //   height:
-                    //     contents.layout.screenType === rotateMode
-                    //       ? "100vw"
-                    //       : "100%",
-                    // }}
+                    // className="basic-list-group image-preview-container media-content "
+                    className={`basic-list-group image-preview-container ${
+                      contents.layout.screenType === rotateMode
+                        ? "media-content-rotate"
+                        : "media-content"
+                    }`}
                   >
                     <img
                       className="webplayer-preview-img"
@@ -164,12 +158,17 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                   </div>
                 ) : contents.zones[0].content[currentIndex].type === "video" ? (
                   <div
-                    className={`basic-list-group video-container media-content ${viewImage} ${
+                    className={`basic-list-group video-container  ${
+                      contents.layout.screenType === rotateMode
+                        ? "media-content-rotate"
+                        : "media-content"
+                    } ${viewImage} ${
                       viewImage === "fitScreen" ? "fitImage" : "containImage"
                     }`}
                   >
                     <WebVideoPlayer
                       src={`${BASE_URL}/${contents.zones[0].content[currentIndex].url}`}
+                      layout={contents.layout.screenType}
                     ></WebVideoPlayer>
                   </div>
                 ) : contents.zones[0].content[currentIndex].type ===

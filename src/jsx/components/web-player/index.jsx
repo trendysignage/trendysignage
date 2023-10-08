@@ -43,19 +43,35 @@ const Webplayer = () => {
         className.mozRequestFullScreen();
       }
     }
-    // if (divRef.current) {
-    //   // divRef.current.requestFullscreen();
-    //   if (divRef.current.requestFullscreen) {
-    //     divRef.current.requestFullscreen();
-    //   } else if (divRef.current.webkitRequestFullscreen) {
-    //     divRef.current.webkitRequestFullscreen();
-    //   } else if (divRef.current.msRequestFullscreen) {
-    //     divRef.current.msRequestFullscreen();
-    //   } else if (divRef.current.mozRequestFullScreen) {
-    //     divRef.current.mozRequestFullScreen();
-    //   }
-    // }
   };
+
+  // new function onFullScreen
+
+  // const videoRef = useRef(null);
+  // const onFullScreen = () => {
+  //   console.log("iii", videoRef);
+  //   const videoElement = videoRef.current;
+  //   if (!videoElement) return; // Make sure the videoRef is defined
+
+  //   const aspectRatio = videoElement.videoWidth / videoElement.videoHeight;
+  //   const isPortrait = aspectRatio < 1; // Check if the video is in portrait mode
+
+  //   if (isPortrait) {
+  //     videoElement.classList.add("rotate-class");
+  //   } else {
+  //     videoElement.classList.remove("rotate-class");
+  //   }
+
+  //   if (videoElement.requestFullscreen) {
+  //     videoElement.requestFullscreen();
+  //   } else if (videoElement.webkitRequestFullscreen) {
+  //     videoElement.webkitRequestFullscreen();
+  //   } else if (videoElement.msRequestFullscreen) {
+  //     videoElement.msRequestFullscreen();
+  //   } else if (videoElement.mozRequestFullScreen) {
+  //     videoElement.mozRequestFullScreen();
+  //   }
+  // };
 
   return (
     <div id={`main-wrapper`} className={`show`}>
