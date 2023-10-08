@@ -11,6 +11,9 @@ import { getAllMedia } from "../../../utils/api";
 import { connect, useDispatch, useSelector } from "react-redux";
 import LockScreen from "../../pages/LockScreen";
 import useSWR from "swr";
+import PhotoEditorSDK  from "../PhotoEditorSDK";
+import PhotoEditorModal from '../../modals/PhotoEditorModal';
+
 const Media = ({ auth, permission }) => {
   const [showUploadMediaModal, setUploadMediaModal] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
@@ -20,6 +23,7 @@ const Media = ({ auth, permission }) => {
     shows: [],
   });
   const [allMedia, setAllMedia] = useState([]);
+  const [openEditor, setOpenEditor] = useState(false);
 
   // const { data: allMedia, mutate } = useSWR(
   //   "/vendor/display/media",
@@ -52,10 +56,12 @@ const Media = ({ auth, permission }) => {
     callAllMedialApi();
   }, [isRefresh]);
 
-  console.log(permission, "kkkkkkkk media page");
-
   return (
     <>
+      <PhotoEditorModal 
+        openEditor={openEditor}
+        setOpenEditor={setOpenEditor}
+      />
       <div className="custom-content-heading d-flex flex-wrap">
         <h1>Assets</h1>
       </div>
@@ -107,7 +113,9 @@ const Media = ({ auth, permission }) => {
                     </div>
                   </div>
                 </Dropdown.Item>
-                {/* <Dropdown.Item href="#" className="dropdown-list-item">
+                {/* <Dropdown.Item 
+                  onClick={(e) => {setOpenEditor(true)}} 
+                  className="dropdown-list-item">
                   <div className="d-flex">
                     <div className="dropdown-list-icon">
                       <img
