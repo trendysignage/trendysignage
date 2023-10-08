@@ -168,6 +168,7 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                   >
                     <WebVideoPlayer
                       src={`${BASE_URL}/${contents.zones[0].content[currentIndex].url}`}
+                      layout={contents.layout.screenType}
                     ></WebVideoPlayer>
                   </div>
                 ) : contents.zones[0].content[currentIndex].type ===
