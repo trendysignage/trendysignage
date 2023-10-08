@@ -137,20 +137,7 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                 }}
               >
                 {contents.zones[0].content[currentIndex].type === "image" ? (
-                  <div
-                    className="basic-list-group image-preview-container media-content "
-                    // style={{
-                    //   transform:
-                    //     contents.layout.screenType === rotateMode
-                    //       ? "rotate(270deg)"
-                    //       : "rotate(0deg)",
-
-                    //   height:
-                    //     contents.layout.screenType === rotateMode
-                    //       ? "100vw"
-                    //       : "100%",
-                    // }}
-                  >
+                  <div className="basic-list-group image-preview-container media-content ">
                     <img
                       className="webplayer-preview-img"
                       style={{

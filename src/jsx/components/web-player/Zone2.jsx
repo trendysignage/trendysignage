@@ -198,18 +198,18 @@ const Zone2 = ({
       {" "}
       {contents && contents.zones.length == 2 ? (
         <div style={{ height: "100%" }}>
-          <div
-            style={{
-              transform:
-                contents.layout.screenType === rotateMode
-                  ? "rotate(270deg)"
-                  : "rotate(0deg)",
+          <div className="top-div">
+            <div
+              style={{
+                transform:
+                  contents.layout.screenType === rotateMode
+                    ? "rotate(270deg)"
+                    : "rotate(0deg)",
 
-              height:
-                contents.layout.screenType === rotateMode ? "100vw" : "100%",
-            }}
-          >
-            <div className="top-div">
+                height:
+                  contents.layout.screenType === rotateMode ? "100vw" : "100%",
+              }}
+            >
               {contents?.zones[0]?.content[currentIndex] ? (
                 <>
                   {contents.zones[0].content[currentIndex].type === "image" ? (
@@ -360,7 +360,19 @@ const Zone2 = ({
                 <></>
               )}
             </div>
-            <div className="bottom-div">
+          </div>
+          <div className="bottom-div">
+            <div
+              style={{
+                transform:
+                  contents.layout.screenType === rotateMode
+                    ? "rotate(270deg)"
+                    : "rotate(0deg)",
+
+                height:
+                  contents.layout.screenType === rotateMode ? "100vw" : "100%",
+              }}
+            >
               {contents?.zones[1]?.content[current1Index] ? (
                 <>
                   {contents.zones[1].content[current1Index].type === "image" ? (
