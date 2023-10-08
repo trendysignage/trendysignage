@@ -2408,6 +2408,22 @@ button#Fullscreen {
   width: 100vw;
   height: 100vh;
 }
+.web-player-body:-webkit-full-screen .webplayer-preview-img, 
+.web-player-body:-webkit-full-screen .video-js-rotate{
+  width: 100vw;
+  height: 100vw;
+}
+
+.web-player-body:-webkit-full-screen .webplayer-preview-img, 
+.web-player-body:-webkit-full-screen .rotate-class{
+  width: 100vw;
+  height: 100vw;
+}
+.rotate-class{
+  width: 100vw;
+  height: 100vw;
+}
+
 
 .basic-list-group{
   height: 100% ;

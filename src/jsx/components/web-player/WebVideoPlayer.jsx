@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import videojs from 'video.js';
+import React, { useEffect, useRef } from "react";
+import videojs from "video.js";
 
-import 'video.js/dist/video-js.css';
+import "video.js/dist/video-js.css";
 const WebVideoPlayer = (props) => {
-  console.log(props, "WebVideoPlayer.jsx props")
+  console.log(props, "WebVideoPlayer.jsx props");
+  const rotateMode = "potrait";
   const videoRef = useRef(null);
   const playerRef = useRef(null);
 
@@ -39,9 +40,6 @@ const WebVideoPlayer = (props) => {
   //   }
   // }, [props.src]);
 
-
-
-
   // const videoRef = useRef(null);
   // const playerRef = useRef(null);
 
@@ -54,7 +52,7 @@ const WebVideoPlayer = (props) => {
   //     muted: true,
   //     sources: [{
   //       src: props.src,
-        
+
   //     }],
   //   });
 
@@ -83,10 +81,21 @@ const WebVideoPlayer = (props) => {
   //   };
   // }, []);
   return (
-  //<> <video ref={videoRef} className="video-js" /></>
-  // <> <video ref={videoRef}   className="video-js" </video></>
+    //<> <video ref={videoRef} className="video-js" /></>
+    // <> <video ref={videoRef}   className="video-js" </video></>
 
-    <video ref={videoRef} className="video-js" autoPlay muted loop>
+    <video
+      ref={videoRef}
+      className="video-js"
+      // className={`${
+      //   props.layout && props.layout === rotateMode
+      //     ? "video-js-rotate"
+      //     : "video-js"
+      // }`}
+      autoPlay
+      muted
+      loop
+    >
       <source src={props.src} type="video/mp4" />
     </video>
   );
