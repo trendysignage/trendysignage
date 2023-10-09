@@ -93,7 +93,7 @@ const UploadMediaModal = ({ showUploadMediaModal, setUploadMediaModal, callAllMe
      <FileUploadWithPreview file={file}  setFile={setFile} setShowError={setShowError} setFileMeta={setFileMeta} keyImg={keyImg} fileMeta={fileMeta}/>
     
         {error && <div className="error text-center font-weight-500">{error}</div>}
-        <div class="add-screen-paragraph text-center font-weight-500">
+        <div className="add-screen-paragraph text-center font-weight-500">
           <p>We support JPEG, PNG, MP4.</p>
         </div>
       </Modal.Body>

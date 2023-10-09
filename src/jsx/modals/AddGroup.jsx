@@ -118,7 +118,7 @@ const AddGroup = ({ open, setShowGroupModel , setIsRefresh, group, type}) => {
         </Modal.Header>
         <Modal.Body>
             <Row>
-                {error && <h5 class="alert alert-danger text-center">{error}</h5>}
+                {error && <h5 className="alert alert-danger text-center">{error}</h5>}
                 <Col lg={12} md={12} sm={12} xs={12}>
                     <label className="mt-3">Enter Name</label>
                     <div className="form-group">

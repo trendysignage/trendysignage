@@ -9,7 +9,6 @@ const CompositionPlayer = ({ contents, content, referenceUrl }) => {
   const timeout1Ref = useRef("");
   const timeout2Ref = useRef("");
   const timeoutRef = useRef("");
-console.log("testing",contents.layout.screenType)
   useEffect(() => {
     if (contents && contents.zones.length == 1) {
       if (contents.zones[0].content[currentIndex]) {
