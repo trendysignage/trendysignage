@@ -87,11 +87,12 @@ const WebVideoPlayer = (props) => {
     <video
       ref={videoRef}
       className="video-js"
-      // className={`${
-      //   props.layout && props.layout === rotateMode
-      //     ? "video-js-rotate"
-      //     : "video-js"
-      // }`}
+      id={`${
+        props.layout && props.layout === rotateMode
+          ? "video-player-portrait"
+          : ""
+      }`}
+      // id="video-player-portrait"
       autoPlay
       muted
       loop

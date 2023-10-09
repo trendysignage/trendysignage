@@ -33,7 +33,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
           getContent?.content[getContent.content.length - 1].media;
         const mediaType =
           getContent?.content[getContent.content.length - 1].type;
-// console.log(mediaType)
+        // console.log(mediaType)
         if (mediaType === "composition") {
           setMedia(getMedia);
           setContentType("composition");
@@ -90,7 +90,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
       }
     }
     function onDisconnectDevice(value) {
-      console.log("DisConnect")
+      console.log("DisConnect");
       setContentType(null);
       getScreenCode();
     }
@@ -167,10 +167,10 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
                 </div>
               </div>
               <div class="console-reg" id="consoleReg" style={{ zIndex: 10 }}>
-              <p>
-                Copy paste above Screen Registration Code in console{" "}
-                <em class="ti-arrow-circle-up"></em>
-              </p>
+                <p>
+                  Copy paste above Screen Registration Code in console{" "}
+                  <em class="ti-arrow-circle-up"></em>
+                </p>
               </div>
             </>
           )}
