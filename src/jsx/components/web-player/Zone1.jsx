@@ -191,7 +191,14 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                   </div>
                 ) : contents.zones[0].content[currentIndex].type ===
                   "url-apps" ? (
-                  <div className="basic-list-group image-preview-container media-content">
+                  <div
+                    // className="basic-list-group image-preview-container media-content"
+                    className={`basic-list-group image-preview-container ${
+                      contents.layout.screenType === rotateMode
+                        ? "media-content-rotate"
+                        : "media-content"
+                    }`}
+                  >
                     <Iframe
                       url={`${contents.zones[0].content[currentIndex].url}`}
                       width="100%"

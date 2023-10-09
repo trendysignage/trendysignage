@@ -87,14 +87,14 @@ const Screen = ({ userPermission, auth }) => {
             >
               Add New Screen
               <span className="btn-icon-right">
-                <div class="glyph-icon flaticon-381-add-1"></div>
+                <div className="glyph-icon flaticon-381-add-1"></div>
               </span>
             </Button>
           ) : (
             <Button className="mr-2" variant="info add-screen-btn" disabled>
               Add New Screen
               <span className="btn-icon-right">
-                <div class="glyph-icon flaticon-381-lock-1"></div>
+                <div className="glyph-icon flaticon-381-lock-1"></div>
               </span>
             </Button>
           )}

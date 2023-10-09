@@ -167,7 +167,7 @@ const DaySchedule = () => {
                         </Table>
                     ) : (
                         <div className="empty-media text-center">
-                            <div class="empty-media-img mx-auto">
+                            <div className="empty-media-img mx-auto">
                                 <img
                                     className="media-img img-fluid"
                                     src={emptyMediaImg}

@@ -231,7 +231,7 @@ const CommonComposition = ({ type, composition, layout }) => {
         >
           Add Media
           <span className="btn-icon-right">
-            <div class="glyph-icon flaticon-381-add-1"></div>
+            <div className="glyph-icon flaticon-381-add-1"></div>
           </span>
         </Button>
         {/* <div className="search-textfield ml-auto d-flex flex-wrap align-items-center">

@@ -220,7 +220,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
           >
             
             <div className="form-group col-6 mb-0  url-app-form">
-            {errMessage && <h6 class="alert alert-danger">{errMessage}</h6>}
+            {errMessage && <h6 className="alert alert-danger">{errMessage}</h6>}
               <label>Name</label>
               <input
                 type="text"

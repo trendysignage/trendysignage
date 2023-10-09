@@ -153,7 +153,7 @@ const PreviewComposition = ({
         <Modal.Title className="mr-auto">Preview</Modal.Title>
 
         <Button variant="" className="close " onClick={() => onFullScreen()}>
-          <i class="fa fa-expand fullscreenbtn"></i>
+          <i className="fa fa-expand fullscreenbtn"></i>
         </Button>
         <Button
           variant=""

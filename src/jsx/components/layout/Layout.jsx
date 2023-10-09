@@ -55,7 +55,7 @@ const Layout = ({ permission }) => {
             <Button className="mb-2 d-flex align-items-center justify-content-center add-media-btn">
               Add Composition{" "}
               <span className="btn-icon-right">
-                <div class="glyph-icon flaticon-381-lock-1"></div>
+                <div className="glyph-icon flaticon-381-lock-1"></div>
               </span>
             </Button>
           ) : (
@@ -67,7 +67,7 @@ const Layout = ({ permission }) => {
             >
               Add Composition{" "}
               <span className="btn-icon-right">
-                <div class="glyph-icon flaticon-381-add-1"></div>
+                <div className="glyph-icon flaticon-381-add-1"></div>
               </span>
             </Link>
           )}
@@ -90,7 +90,7 @@ const Layout = ({ permission }) => {
           <>
             {!allComposition && (
               <div className="empty-media text-center">
-                <div class="empty-media-img layout-empty-img mx-auto">
+                <div className="empty-media-img layout-empty-img mx-auto">
                   <img
                     className="media-img img-fluid"
                     src={emptyMediaImg}
