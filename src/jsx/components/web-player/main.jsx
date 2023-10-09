@@ -87,7 +87,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
       }
     }
     function onDisconnectDevice(value) {
-      console.log("DisConnect")
+      console.log("DisConnect");
       setContentType(null);
       getScreenCode();
     }
