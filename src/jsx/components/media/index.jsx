@@ -84,10 +84,12 @@ const Media = ({ auth, permission }) => {
 
   return (
     <>
-      <PhotoEditorModal 
+      {
+        openEditor && <PhotoEditorModal 
         openEditor={openEditor}
         setOpenEditor={setOpenEditor}
       />
+      }
       <div className="custom-content-heading d-flex flex-wrap">
         <h1>Assets</h1>
       </div>
