@@ -83,7 +83,7 @@ const Media = ({ auth, permission }) => {
 
   return (
     <>
-      <PhotoEditorModal openEditor={openEditor} setOpenEditor={setOpenEditor} />
+      {/* <PhotoEditorModal openEditor={openEditor} setOpenEditor={setOpenEditor} />
       <div className="custom-content-heading d-flex flex-wrap">
         <h1>Assets</h1>
       </div>
@@ -160,29 +160,9 @@ const Media = ({ auth, permission }) => {
               </Dropdown.Menu>
             </Dropdown>
 
-            {/* <div className="search-textfield ml-auto d-flex flex-wrap align-items-center">
-              <div className="form-group mb-0">
-                <input
-                  type="text"
-                  className="form-control input-default "
-                  placeholder="Search..."
-                />
-                <img className="search-icon" src={searchIcon} alt="search" />
-              </div>
-              <Button
-                className="ml-2 icon-btn"
-                variant="primary"
-                onClick={() => {
-                  setFilterModal(true);
-                }}
-              >
-                <img className="icon-icon" src={listIcon} alt="list-icon" />
-              </Button>
-            </div> */}
             <UploadMediaModal
               showUploadMediaModal={showUploadMediaModal}
               setUploadMediaModal={setUploadMediaModal}
-              //callAllMediaApi={mutate}
               setIsRefresh={setIsRefresh}
             />
           </div>
@@ -202,7 +182,7 @@ const Media = ({ auth, permission }) => {
             message={"You don't have permission to access this !!!"}
           />
         )}
-      </div>
+      </div> */}
     </>
   );
 };
