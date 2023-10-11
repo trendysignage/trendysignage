@@ -83,7 +83,7 @@ const Media = ({ auth, permission }) => {
 
   return (
     <>
-      {/* <PhotoEditorModal openEditor={openEditor} setOpenEditor={setOpenEditor} />
+      <PhotoEditorModal openEditor={openEditor} setOpenEditor={setOpenEditor} />
       <div className="custom-content-heading d-flex flex-wrap">
         <h1>Assets</h1>
       </div>
@@ -163,6 +163,7 @@ const Media = ({ auth, permission }) => {
             <UploadMediaModal
               showUploadMediaModal={showUploadMediaModal}
               setUploadMediaModal={setUploadMediaModal}
+              //callAllMediaApi={mutate}
               setIsRefresh={setIsRefresh}
             />
           </div>
@@ -182,7 +183,7 @@ const Media = ({ auth, permission }) => {
             message={"You don't have permission to access this !!!"}
           />
         )}
-      </div> */}
+      </div>
     </>
   );
 };
