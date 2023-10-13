@@ -80,6 +80,45 @@ const Webplayer = () => {
   //   }
   // };
 
+  // const onFullScreen = () => {
+  //   const divElement = divRef.current;
+
+  //   if (divElement) {
+  //     const videoPlayerPortraitElement = divElement.querySelector(
+  //       "#video-player-portrait"
+  //     );
+
+  //     if (videoPlayerPortraitElement) {
+  //       // Perform actions on the found element here
+  //       // For example, you can add a class to it or manipulate it in some way
+  //       videoPlayerPortraitElement.classList.add("video-js-rotate");
+
+  //       // Enter fullscreen mode if needed
+  //       if (divElement.requestFullscreen) {
+  //         divElement.requestFullscreen();
+  //       } else if (divElement.webkitRequestFullscreen) {
+  //         divElement.webkitRequestFullscreen();
+  //       } else if (divElement.msRequestFullscreen) {
+  //         divElement.msRequestFullscreen();
+  //       } else if (divElement.mozRequestFullScreen) {
+  //         divElement.mozRequestFullScreen();
+  //       }
+  //     }
+  //   }
+  //   const className = divRef.current;
+  //   if (className.getElementsByClassName("webplayer-composition-full-screen")) {
+  //     // divRef.current.requestFullscreen();
+  //     if (className.requestFullscreen) {
+  //       className.requestFullscreen();
+  //     } else if (className.webkitRequestFullscreen) {
+  //       className.webkitRequestFullscreen();
+  //     } else if (className.msRequestFullscreen) {
+  //       className.msRequestFullscreen();
+  //     } else if (className.mozRequestFullScreen) {
+  //       className.mozRequestFullScreen();
+  //     }
+  //   }
+  // };
   const onFullScreen = () => {
     const divElement = divRef.current;
 
@@ -93,15 +132,21 @@ const Webplayer = () => {
         // For example, you can add a class to it or manipulate it in some way
         videoPlayerPortraitElement.classList.add("video-js-rotate");
 
-        // Enter fullscreen mode if needed
-        if (divElement.requestFullscreen) {
-          divElement.requestFullscreen();
-        } else if (divElement.webkitRequestFullscreen) {
-          divElement.webkitRequestFullscreen();
-        } else if (divElement.msRequestFullscreen) {
-          divElement.msRequestFullscreen();
-        } else if (divElement.mozRequestFullScreen) {
-          divElement.mozRequestFullScreen();
+        // Request fullscreen
+        try {
+          if (divElement.requestFullscreen) {
+            divElement.requestFullscreen();
+          } else if (divElement.webkitRequestFullscreen) {
+            divElement.webkitRequestFullscreen();
+          } else if (divElement.msRequestFullscreen) {
+            divElement.msRequestFullscreen();
+          } else if (divElement.mozRequestFullScreen) {
+            divElement.mozRequestFullScreen();
+          } else {
+            console.error("Fullscreen not supported in this browser.");
+          }
+        } catch (error) {
+          console.error("Fullscreen request failed:", error);
         }
       }
     }

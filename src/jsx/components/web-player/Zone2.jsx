@@ -198,7 +198,12 @@ const Zone2 = ({
       {" "}
       {contents && contents.zones.length == 2 ? (
         <div style={{ height: "100%" }}>
-          <div className="top-div">
+          <div
+            // className="top-div"
+            className={`top-div ${
+              contents.layout.screenType === rotateMode ? "top-div-rotate" : ""
+            }`}
+          >
             <div
               style={{
                 transform:
@@ -208,6 +213,8 @@ const Zone2 = ({
 
                 height:
                   contents.layout.screenType === rotateMode ? "100vw" : "100%",
+                width:
+                  contents.layout.screenType === rotateMode ? "100vh" : "100%",
               }}
             >
               {contents?.zones[0]?.content[currentIndex] ? (

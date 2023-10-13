@@ -122,7 +122,14 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
       {contents && contents.zones.length == 1 ? (
         <>
           {contents?.zones[0]?.content[currentIndex] ? (
-            <div className="h-100">
+            <div
+              // className="h-100"
+              className={`${
+                contents.layout.screenType === rotateMode
+                  ? "rotate-main-div"
+                  : "h-100"
+              }`}
+            >
               <div
                 style={{
                   transform:
@@ -130,11 +137,25 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       ? "rotate(270deg)"
                       : "rotate(0deg)",
 
-                  height: "100%",
+                  height:
+                    contents.layout.screenType === rotateMode
+                      ? "100vw"
+                      : "100%",
+                  width:
+                    contents.layout.screenType === rotateMode
+                      ? "100vh"
+                      : "100%",
                 }}
               >
                 {contents.zones[0].content[currentIndex].type === "image" ? (
-                  <div className="basic-list-group image-preview-container media-content ">
+                  <div
+                    // className="basic-list-group image-preview-container media-content "
+                    className={`basic-list-group image-preview-container ${
+                      contents.layout.screenType === rotateMode
+                        ? "rotate-media-content"
+                        : "media-content"
+                    }`}
+                  >
                     <img
                       className="webplayer-preview-img"
                       style={{
@@ -150,7 +171,7 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                   <div
                     className={`basic-list-group video-container  ${
                       contents.layout.screenType === rotateMode
-                        ? "media-content-rotate"
+                        ? "media-content-rotate fitImage-rotate"
                         : "media-content"
                     } ${viewImage} ${
                       viewImage === "fitScreen" ? "fitImage" : "containImage"
