@@ -178,6 +178,7 @@ export async function addMedia(formData) {
       },
     }
   );
+  return response;
 }
 export async function deleteMedia(id) {
   await fetchClient.delete(`${BASE_URL}/vendor/display/media?mediaId=${id}`);

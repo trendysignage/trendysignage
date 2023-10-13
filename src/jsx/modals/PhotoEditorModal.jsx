@@ -5,7 +5,7 @@ import PhotoEditorSDK from "../components/PhotoEditorSDK";
 
 import { useState } from "react";
 const PhotoEditorModal = ({
-    openEditor, setOpenEditor
+    openEditor, setOpenEditor, setIsRefresh
 }) => {
 
   return (
@@ -39,7 +39,7 @@ const PhotoEditorModal = ({
           </Button>
         </Modal.Header>
         <Modal.Body>
-            <PhotoEditorSDK />
+            <PhotoEditorSDK  setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh}/>
         </Modal.Body>
       </Modal>
     </>
