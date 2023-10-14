@@ -286,7 +286,7 @@ export default function Createtemplate({ history, actionType, mediaId }) {
           data: JSON.stringify(dataString),
         }).then((res) => {
           console.log("response", res);
-          if (res && res.data.message === "Success");
+          if (res && res.data.message === "Success")
           {
             toast.success("App has been updated successfully !!!", {
               position: "top-right",
@@ -309,7 +309,7 @@ export default function Createtemplate({ history, actionType, mediaId }) {
           data: JSON.stringify(dataString),
         }).then((res) => {
           console.log("response", res);
-          if (res && res.data.message === "Success");
+          if (res && res.data.message === "Success")
           {
             toast.success("App has been created successfully !!!", {
               position: "top-right",
