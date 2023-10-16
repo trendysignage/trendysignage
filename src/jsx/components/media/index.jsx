@@ -56,10 +56,13 @@ const Media = ({ auth, permission }) => {
     callAllMedialApi();
   }, [isRefresh]);
 
-
   return (
     <>
-      <PhotoEditorModal openEditor={openEditor} setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh} />
+      <PhotoEditorModal
+        openEditor={openEditor}
+        setOpenEditor={setOpenEditor}
+        setIsRefresh={setIsRefresh}
+      />
       <div className="custom-content-heading d-flex flex-wrap">
         <h1>Assets</h1>
       </div>
@@ -126,7 +129,7 @@ const Media = ({ auth, permission }) => {
                       />
                     </div>
                     <div className="dropdown-menu-list">
-                      <span className="menu-heading">Canva</span>
+                      <span className="menu-heading">Custom Design</span>
                       <span className="menu-description">
                         Get to know more about screen info
                       </span>

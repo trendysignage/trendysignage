@@ -25,7 +25,7 @@ const CommonComposition = ({ type, composition, layout }) => {
   const [name, setName] = useState(composition ? composition.name : "");
   const [namePopUp, setOpenNamePopUp] = useState(false);
   const [zone, setZone] = useState("Zone1");
-
+  const [isRefresh, setIsRefresh] = useState(false);
   // const [content, setContent] = useState(
   //   composition ? composition.zones[0].content : []
   // );
@@ -118,7 +118,8 @@ const CommonComposition = ({ type, composition, layout }) => {
         duration: meta.length ? meta.length : 10,
         createdBy: media.createdBy.name,
         zone,
-        data:media.type !='video' && media.type != 'image' ? media.appData : "",
+        data:
+          media.type != "video" && media.type != "image" ? media.appData : "",
       };
       const newdata = [...prev, { ...createContent }];
       return newdata;
@@ -160,7 +161,7 @@ const CommonComposition = ({ type, composition, layout }) => {
     };
     if (type === "create") {
       data.layoutId = layout._id;
-      console.log(data)
+      console.log(data);
       await postComposition(data);
     } else {
       data.compositionId = composition._id;
@@ -270,6 +271,7 @@ const CommonComposition = ({ type, composition, layout }) => {
           showUploadMediaModal={showUploadMediaModal}
           setUploadMediaModal={setUploadMediaModal}
           callAllMediaApi={mutate}
+          setIsRefresh={setIsRefresh}
         />
         {showPreview && (
           <PreviewComposition

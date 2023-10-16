@@ -370,15 +370,7 @@ const Zone2 = ({
           </div>
           <div className="bottom-div">
             <div
-              style={{
-                transform:
-                  contents.layout.screenType === rotateMode
-                    ? "rotate(270deg)"
-                    : "rotate(0deg)",
-
-                height:
-                  contents.layout.screenType === rotateMode ? "100vw" : "100%",
-              }}
+           
             >
               {contents?.zones[1]?.content[current1Index] ? (
                 <>
