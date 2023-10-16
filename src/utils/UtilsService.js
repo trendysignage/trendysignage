@@ -203,7 +203,7 @@ export const handleBulletinApps = (data) => {
   else newArray = prp.bulletin;
   return (
     <div
-      className={`basic-list-group image-preview-container media-content ${prp.colorScheme.value} text-black`}
+      className={`h-100 w-100 ${prp.colorScheme.value} text-black`}
       style={{ color: "white", textAlign: "center" }}
     >
       {prp.bulletin && prp.bulletin.length > 0 ? (
@@ -404,7 +404,7 @@ export const handleScrollerApps = (data) => {
   }
   return (
     <div
-      className="basic-list-group image-preview-container media-content"
+      className="h-100 w-100"
       style={{ backgroundColor: prp.backGroundColor }}
     >
       {txt}
@@ -419,7 +419,7 @@ export const handleTextApps = (data) => {
   if (prp.style == "Italic") {
     return (
       <div
-        className="basic-list-group image-preview-container media-content"
+        className="h-100 w-100"
         style={{
           backgroundColor: prp.backGroundColor,
           color: prp.textColor,
@@ -435,7 +435,7 @@ export const handleTextApps = (data) => {
   } else if (prp.style == "Bold") {
     return (
       <div
-        className="basic-list-group image-preview-container media-content"
+        className="h-100 w-100"
         style={{
           backgroundColor: prp.backGroundColor,
           color: prp.textColor,
@@ -451,7 +451,7 @@ export const handleTextApps = (data) => {
   } else {
     return (
       <div
-        className="basic-list-group image-preview-container media-content"
+        className="h-100 w-100"
         style={{
           backgroundColor: prp.backGroundColor,
           color: prp.textColor,
@@ -472,7 +472,10 @@ export const handleClockApps = (data) => {
   let tF = "";
   Moment.globalLocale = "fr";
   const cdate = new Date();
-  let timeZ = prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneId : "Asia/Riyadh";
+  let timeZ =
+    prp.timeZone && prp.timeZone.timeZone
+      ? prp.timeZone.timeZone.timeZoneId
+      : "Asia/Riyadh";
   let chicago_datetime_str = new Date().toLocaleString("en-US", {
     timeZone: timeZ,
   });
@@ -486,7 +489,7 @@ export const handleClockApps = (data) => {
   ) {
     return (
       <div
-        className={`basic-list-group image-preview-container media-content d-flex justify-content-center align-items-center ${
+        className={`h-100 w-100 d-flex justify-content-center align-items-center ${
           prp.color
         } ${prp.roundCorner ? "border-bg" : ""}`}
         style={{
@@ -502,13 +505,16 @@ export const handleClockApps = (data) => {
             <Clock updatedTime={date_chicago} />
           </div>
           {!prp.hideDate ? (
-          <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
-            monthName[cdate.getMonth()]
-          } ${dayName[cdate.getDay()]} ${prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneName : "Arabian Standard Time"
-        }`}</p>
-        ) : (
-          ""
-        )}
+            <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
+              monthName[cdate.getMonth()]
+            } ${dayName[cdate.getDay()]} ${
+              prp.timeZone && prp.timeZone.timeZone
+                ? prp.timeZone.timeZone.timeZoneName
+                : "Arabian Standard Time"
+            }`}</p>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     );
@@ -536,8 +542,11 @@ export const handleClockApps = (data) => {
         {!prp.hideDate ? (
           <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
             monthName[cdate.getMonth()]
-          } ${dayName[cdate.getDay()]} ${prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneName : "Arabian Standard Time"
-        }`}</p>
+          } ${dayName[cdate.getDay()]} ${
+            prp.timeZone && prp.timeZone.timeZone
+              ? prp.timeZone.timeZone.timeZoneName
+              : "Arabian Standard Time"
+          }`}</p>
         ) : (
           ""
         )}
@@ -551,17 +560,17 @@ export const handleWeatherApps = (data, weatherInfo) => {
   console.log("data", prp, weatherInfo);
 
   const cdate = new Date();
-  let timeZ = prp.timeZone && prp.timeZone.timeZone ? prp.timeZone.timeZone.timeZoneId : "Asia/Riyadh";
+  let timeZ =
+    prp.timeZone && prp.timeZone.timeZone
+      ? prp.timeZone.timeZone.timeZoneId
+      : "Asia/Riyadh";
   let chicago_datetime_str = new Date().toLocaleString("en-US", {
     timeZone: timeZ,
   });
   let date_chicago = new Date(chicago_datetime_str);
 
   return (
-    <div
-      className="basic-list-group image-preview-container media-content "
-      style={{ color: "white" }}
-    >
+    <div className="h-100 w-100 " style={{ color: "white" }}>
       <div
         className={`${prp.theme == "classic" ? "classic-bg" : ""} ${
           prp.theme == "color" ? "classic-bg" : ""
@@ -1884,10 +1893,7 @@ export const handleNewsApps = (data, newsData) => {
             } p-3 w-100`}
             style={{ position: "absolute", bottom: "0" }}
           >
-            <div
-              className="basic-list-group image-preview-container media-content "
-              style={{ textAlign: "center" }}
-            >
+            <div className="h-100 w-100 " style={{ textAlign: "center" }}>
               <h2
                 className={`${
                   prp.theame.value == "white" ? "text-black" : "text-white"
@@ -2639,7 +2645,7 @@ export const handlePeopleSpace = (data) => {
 
 export const handleYoutubeApps = (data) => {
   const prp = JSON.parse(data);
-console.log(prp)
+  console.log(prp);
   if (prp.url) {
     return (
       <div className={`basic-list-group video-container media-content`}>

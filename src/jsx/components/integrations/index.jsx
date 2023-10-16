@@ -58,7 +58,7 @@ const Integrations = ({ permission, auth }) => {
     { title: "CLOCK APP", slug: "clock-app", icon: weather },
     // { title: "QUOTES", slug: "quotes", icon: weather },
     { title: " BULLETIN APP", slug: "bulletin-app", icon: weather },
-    // { title: "GOOGLE SLIDES", slug: "google-slides", icon: weather },
+    { title: "GOOGLE SLIDES", slug: "google-slides", icon: weather },
     { title: "All NEWS APP", slug: "all-news-app", icon: weather },
 
     // { title: "STOCKS", slug: "stocks", icon: weather },

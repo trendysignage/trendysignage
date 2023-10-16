@@ -79,7 +79,7 @@ const ChooseLayout = ({ permission }) => {
                 );
               })}
 
-            {/* {layouts &&
+            {layouts &&
               potrait.map((layout) => {
                 console.log(layout, "ooo");
                 return (
@@ -108,9 +108,9 @@ const ChooseLayout = ({ permission }) => {
                     </Link>
                   </Col>
                 );
-              })} */}
+              })}
 
-            {layouts &&
+            {/* {layouts &&
               potrait
                 .filter((layout) => layout.title === "Single Zone Potrait")
                 .map((layout) => {
@@ -127,7 +127,7 @@ const ChooseLayout = ({ permission }) => {
                                 alt="menu-icon"
                               />
                             )}
-                            {/* ... Other code ... */}
+                          
                           </div>
                           <h6>{layout.title}</h6>
                           <p>{layout.zones.length} Zones</p>
@@ -135,7 +135,7 @@ const ChooseLayout = ({ permission }) => {
                       </Link>
                     </Col>
                   );
-                })}
+                })} */}
           </Row>
         ) : (
           <LockScreen
