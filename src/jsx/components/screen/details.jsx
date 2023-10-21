@@ -27,6 +27,7 @@ import {
   getAllScreens,
   getGroups,
   assignScreenGroups,
+  handleWebData
 } from "../../../utils/api";
 import DeleteConfirmation from "../../modals/DeleteConfirmation";
 import QuickPlayModal from "../../modals/QuickPlayModal";
@@ -172,7 +173,6 @@ const ScreenDetails = () => {
       return value?.timings[value.timings.length - 1]?.endTime;
     }
   }
-
   const convertTimestampTo12HourFormat = (timestamp) => {
     if (!timestamp) {
         return "Invalid timestamp";
@@ -252,7 +252,6 @@ const ScreenDetails = () => {
       </div>
     )
   }
-
   const renderEndDate = (value) => {
       const maxDates = value.sequence.reduce((max, obj) => {
         const parseDts = obj.dates.map((dt) => new Date(dt));
@@ -612,6 +611,39 @@ const ScreenDetails = () => {
       bg: "success",
     },
   ];
+
+  const handleWeb = async (e, type) => {
+    e.preventDefault();
+    await handleWebData({screenId:screen._id,type}).then((res) => {
+      if(res){
+        return toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }).then((error) => {
+      // if(cache && cache !== "undefined"){
+      //   return toast.error(cache.data.message, {
+      //     position: "top-right",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "light",
+      //   });
+      // }
+    })
+    //console.log(type)
+  }
+
   if (!screen) return <></>;
   return (
     <>
@@ -684,10 +716,10 @@ const ScreenDetails = () => {
               id="bg-nested-dropdown"
               className="ml-2  more-icon-dropdown"
             >
-              <Dropdown.Item eventKey="1">Reload Screen</Dropdown.Item>
-              <Dropdown.Item eventKey="2">Clear Cache</Dropdown.Item>
-              <Dropdown.Item eventKey="3">Clear Data</Dropdown.Item>
-              <Dropdown.Item eventKey="4">Reboot display</Dropdown.Item>
+              <Dropdown.Item eventKey="1" onClick={(e) => {handleWeb(e, 'reload_display')}}>Reload Screen</Dropdown.Item>
+              <Dropdown.Item eventKey="2" onClick={(e) => {handleWeb(e, 'clear_data')}}>Clear Cache</Dropdown.Item>
+              <Dropdown.Item eventKey="3" onClick={(e) => {handleWeb(e, 'clear_cache')}}>Clear Data</Dropdown.Item>
+              <Dropdown.Item eventKey="4" onClick={(e) => {handleWeb(e, 'reboot_display')}}>Reboot display</Dropdown.Item>
 
               <Dropdown.Item
                 eventKey="5"
