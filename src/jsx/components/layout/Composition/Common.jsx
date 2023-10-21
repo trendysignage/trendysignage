@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 import { Button, Row, Col } from "react-bootstrap";
-import searchIcon from "../../../../img/search.png";
-import listIcon from "../../../../img/list-icon.png";
 import CompositionTable from "./CompositionTable";
 import ZoneInfoTable from "./ZoneInfoTable";
 

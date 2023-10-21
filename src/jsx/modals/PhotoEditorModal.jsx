@@ -1,9 +1,11 @@
 import { Button, Modal } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 import PhotoEditorSDK from "../components/PhotoEditorSDK";
+import CreativeEditor from "../components/CreativeEditor";
 
 
 import { useState } from "react";
+import CreativeEditorLayoutSDK from "../components/CreativeEditorLayout";
 const PhotoEditorModal = ({
     openEditor, setOpenEditor, setIsRefresh
 }) => {
@@ -39,7 +41,9 @@ const PhotoEditorModal = ({
           </Button>
         </Modal.Header>
         <Modal.Body>
-            <PhotoEditorSDK  setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh}/>
+            {/* <PhotoEditorSDK  setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh}/> */}
+            <CreativeEditor  setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh}/>
+            {/* <CreativeEditorLayoutSDK  setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh}/> */}
         </Modal.Body>
       </Modal>
     </>
