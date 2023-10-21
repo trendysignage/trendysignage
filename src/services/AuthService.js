@@ -101,7 +101,7 @@ export function checkAutoPermission(dispatch, history) {
       });
     })
     .catch((error) => {
-      console.log("error", error.response.data);
+      // console.log("error", error.response.data);
       // const errorMessage = error.response.data.message;
       // console.log("errorMessage",errorMessage)
       // dispatch(loginFailedAction(errorMessage));

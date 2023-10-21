@@ -81,6 +81,7 @@ const ChooseLayout = ({ permission }) => {
 
             {layouts &&
               potrait.map((layout) => {
+                console.log(layout, "ooo");
                 return (
                   <Col lg="4" md="4" sm="6" xs="12" key={layout._id}>
                     <Link to={`/createcomposition?id=${layout._id}`}>
@@ -108,6 +109,33 @@ const ChooseLayout = ({ permission }) => {
                   </Col>
                 );
               })}
+
+            {/* {layouts &&
+              potrait
+                .filter((layout) => layout.title === "Single Zone Potrait")
+                .map((layout) => {
+                  console.log(layout, "ooo");
+                  return (
+                    <Col lg="4" md="4" sm="6" xs="12" key={layout._id}>
+                      <Link to={`/createcomposition?id=${layout._id}`}>
+                        <div className="layout-selected-column">
+                          <div className="layout-selected-img text-center">
+                            {layout.title === "Single Zone Potrait" && (
+                              <img
+                                className={`layout-select-img single-time-zone`}
+                                src={singleZone1}
+                                alt="menu-icon"
+                              />
+                            )}
+                          
+                          </div>
+                          <h6>{layout.title}</h6>
+                          <p>{layout.zones.length} Zones</p>
+                        </div>
+                      </Link>
+                    </Col>
+                  );
+                })} */}
           </Row>
         ) : (
           <LockScreen

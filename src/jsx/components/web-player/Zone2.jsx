@@ -197,30 +197,36 @@ const Zone2 = ({
     <>
       {" "}
       {contents && contents.zones.length == 2 ? (
-        <div style={{ height: "100%" }}>
+        <div
+          style={{
+            transform:
+              contents.layout.screenType === rotateMode
+                ? "rotate(270deg)"
+                : "rotate(0deg)",
+
+            height:
+              contents.layout.screenType === rotateMode ? "100vw" : "100%",
+            width: contents.layout.screenType === rotateMode ? "100vw" : "100%",
+          }}
+        >
           <div
             // className="top-div"
-            className={`top-div ${
-              contents.layout.screenType === rotateMode ? "top-div-rotate" : ""
-            }`}
+            className={`top-div 
+           
+            `}
           >
-            <div
-              style={{
-                transform:
-                  contents.layout.screenType === rotateMode
-                    ? "rotate(270deg)"
-                    : "rotate(0deg)",
-
-                height:
-                  contents.layout.screenType === rotateMode ? "100vw" : "100%",
-                width:
-                  contents.layout.screenType === rotateMode ? "100vh" : "100%",
-              }}
-            >
+            <div className="h-100">
               {contents?.zones[0]?.content[currentIndex] ? (
                 <>
                   {contents.zones[0].content[currentIndex].type === "image" ? (
-                    <div className="basic-list-group image-preview-container media-content">
+                    <div
+                      // className="basic-list-group image-preview-container media-content"
+                      className={`basic-list-group image-preview-container ${
+                        contents.layout.screenType === rotateMode
+                          ? "media-content-rotate"
+                          : "media-content"
+                      }`}
+                    >
                       <img
                         className="webplayer-preview-img"
                         style={{
@@ -369,17 +375,7 @@ const Zone2 = ({
             </div>
           </div>
           <div className="bottom-div">
-            <div
-              style={{
-                transform:
-                  contents.layout.screenType === rotateMode
-                    ? "rotate(270deg)"
-                    : "rotate(0deg)",
-
-                height:
-                  contents.layout.screenType === rotateMode ? "100vw" : "100%",
-              }}
-            >
+            <div className="h-100">
               {contents?.zones[1]?.content[current1Index] ? (
                 <>
                   {contents.zones[1].content[current1Index].type === "image" ? (
