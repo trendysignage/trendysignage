@@ -684,3 +684,11 @@ export async function getTimeZone(lat, long) {
   const response = await axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${lat}%2C${long}&timestamp=1331766000&key=${process.env.REACT_APP_GOOGLE_API_KEY}`);
   return response.data;
 }
+
+export async function handleWebData(postdata) {
+  const response = await fetchClient.post(
+    BASE_URL + `/vendor/display/screenSettings`,
+    postdata
+  );
+  return response;
+}
