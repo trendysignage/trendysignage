@@ -6,7 +6,7 @@ import CreativeEditor from "../components/CreativeEditor";
 import { useState } from "react";
 import CreativeEditorLayoutSDK from "../components/CreativeEditorLayout";
 const PhotoEditorModal = ({
-    openEditor, setOpenEditor, setIsRefresh
+    openEditor, setOpenEditor, setIsRefresh, type
 }) => {
 
   return (
@@ -45,8 +45,13 @@ const PhotoEditorModal = ({
         </Modal.Header>
         <Modal.Body>
             {/* <PhotoEditorSDK  setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh}/> */}
-            <CreativeEditor  setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh}/>
-            {/* <CreativeEditorLayoutSDK  setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh}/> */}
+            {
+              type && type == 'default' ? <CreativeEditor  setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh}/> : <></>
+            }
+            {
+              type && type == 'custom' ? <CreativeEditorLayoutSDK  setOpenEditor={setOpenEditor} setIsRefresh={setIsRefresh}/> : <></>
+            }
+            
         </Modal.Body>
       </Modal>
     </>

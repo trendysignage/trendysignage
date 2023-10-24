@@ -24,6 +24,7 @@ const Media = ({ auth, permission }) => {
   });
   const [allMedia, setAllMedia] = useState([]);
   const [openEditor, setOpenEditor] = useState(false);
+  const [editorType, setEditorType] = useState(null)
 
   // const { data: allMedia, mutate } = useSWR(
   //   "/vendor/display/media",
@@ -56,12 +57,19 @@ const Media = ({ auth, permission }) => {
     callAllMedialApi();
   }, [isRefresh]);
 
+  const handleEditor = (e, type) => {
+    e.preventDefault();
+    setEditorType(type);
+    setOpenEditor(true);
+  }
+
   return (
     <>
       <PhotoEditorModal
         openEditor={openEditor}
         setOpenEditor={setOpenEditor}
         setIsRefresh={setIsRefresh}
+        type={editorType}
       />
       <div className="custom-content-heading d-flex flex-wrap">
         <h1>Assets</h1>
@@ -116,7 +124,29 @@ const Media = ({ auth, permission }) => {
                 </Dropdown.Item>
                 <Dropdown.Item
                   onClick={(e) => {
-                    setOpenEditor(true);
+                    handleEditor(e, 'default');
+                  }}
+                  className="dropdown-list-item"
+                >
+                  <div className="d-flex">
+                    <div className="dropdown-list-icon">
+                      <img
+                        className="dropdown-list-img img-fluid"
+                        src={canvaIcon}
+                        alt="menu-icon"
+                      />
+                    </div>
+                    <div className="dropdown-menu-list">
+                      <span className="menu-heading">Default Design</span>
+                      <span className="menu-description">
+                        Get to know more about screen info
+                      </span>
+                    </div>
+                  </div>
+                </Dropdown.Item>
+                <Dropdown.Item
+                   onClick={(e) => {
+                    handleEditor(e, 'custom');
                   }}
                   className="dropdown-list-item"
                 >
