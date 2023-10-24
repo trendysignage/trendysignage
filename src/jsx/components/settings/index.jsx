@@ -18,7 +18,7 @@ import Profile from "./profile";
 import AddDeviceProfile from "../../modals/AddDeviceProfile";
 import ChangePassword from "../../modals/ChangePassword";
 
-const Settings = ({ permission }) => {
+const Settings = ({ permission, auth }) => {
   console.log("permission", permission);
   const [dropValue, setDropValue] = useState("Default Content");
   const [allUsers, setAllUsers] = useState([]);
@@ -187,6 +187,7 @@ const Settings = ({ permission }) => {
       </div>
 
       <h4>{dropValue}</h4>
+      <h6>Loggedin By {auth.vendor.email}</h6>
       {dropValue && dropValue === "Default Content" && <ListMedia />}
       {dropValue && dropValue === "Users" && (
         <>
