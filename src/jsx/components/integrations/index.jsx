@@ -65,8 +65,8 @@ const Integrations = ({ permission, auth }) => {
     { title: "QR CODE", slug: "qr-code", icon: weather },
 
     { title: "AIR QUALITY APP", slug: "air-quality-app", icon: weather },
-    { title: "RSS FEED", slug: "rss-feed", icon: weather },
-    { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
+    // { title: "RSS FEED", slug: "rss-feed", icon: weather },
+    // { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
   ];
 
   const handleChange = (e, type) => {
