@@ -331,11 +331,22 @@ const Zone2 = ({
                       </>
                     ) : contents.zones[0].content[currentIndex].type ===
                       "qrcode-apps" ? (
-                      <>
+                      <div
+                        style={{
+                          height:
+                            contents.layout.screenType === rotateMode
+                              ? "100vw"
+                              : "100%",
+                          width:
+                            contents.layout.screenType === rotateMode
+                              ? "100vh"
+                              : "100%",
+                        }}
+                      >
                         {handleQrApps(
                           contents.zones[0].content[currentIndex].data
                         )}
-                      </>
+                      </div>
                     ) : contents.zones[0].content[currentIndex].type ===
                       "weather-apps" ? (
                       <>
@@ -374,18 +385,30 @@ const Zone2 = ({
                       </>
                     ) : contents.zones[1].content[current1Index].type ===
                       "stocks-apps" ? (
-                      <>
+                      <div
+                        className={`basic-list-group image-preview-container ${
+                          contents.layout.screenType === rotateMode
+                            ? "media-content-rotate"
+                            : "media-content"
+                        }`}
+                      >
                         {getStockDataZone1(
                           contents.zones[0].content[current1Index].data
                         )}
-                      </>
+                      </div>
                     ) : contents.zones[0].content[currentIndex].type ===
                       "quote-apps" ? (
-                      <>
+                      <div
+                        className={`basic-list-group image-preview-container ${
+                          contents.layout.screenType === rotateMode
+                            ? "media-content-rotate"
+                            : "media-content"
+                        }`}
+                      >
                         {getQuoteDataZone1(
                           contents.zones[0].content[currentIndex].data
                         )}
-                      </>
+                      </div>
                     ) : (
                       <></>
                     )}

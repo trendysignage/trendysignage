@@ -51,21 +51,22 @@ const Integrations = ({ permission, auth }) => {
   const appList = [
     { title: "URL APP", slug: "url-app", icon: weather },
     { title: "YOUTUBE", slug: "youtube", icon: weather },
-    // { title: "RSS FEED", slug: "rss-feed", icon: weather },
+
     { title: "SCROLLER", slug: "scroller", icon: weather },
     { title: "WEATHER", slug: "weather", icon: weather },
     { title: "TEXT", slug: "text", icon: weather },
     { title: "CLOCK APP", slug: "clock-app", icon: weather },
-    // { title: "QUOTES", slug: "quotes", icon: weather },
+
     { title: " BULLETIN APP", slug: "bulletin-app", icon: weather },
     { title: "GOOGLE SLIDES", slug: "google-slides", icon: weather },
     { title: "All NEWS APP", slug: "all-news-app", icon: weather },
+    { title: "QUOTES", slug: "quotes", icon: weather },
+    { title: "STOCKS", slug: "stocks", icon: weather },
+    { title: "QR CODE", slug: "qr-code", icon: weather },
 
-    // { title: "STOCKS", slug: "stocks", icon: weather },
-    // { title: "QR CODE", slug: "qr-code", icon: weather },
-
-    // { title: "AIR QUALITY APP", slug: "air-quality-app", icon: weather },
-    // { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
+    { title: "AIR QUALITY APP", slug: "air-quality-app", icon: weather },
+    { title: "RSS FEED", slug: "rss-feed", icon: weather },
+    { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
   ];
 
   const handleChange = (e, type) => {

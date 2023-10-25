@@ -1618,7 +1618,7 @@ export const handleStockApps = (data, stock) => {
   console.log(prp, "kkkk");
   return (
     <div
-      className="basic-list-group image-preview-container media-content"
+      className="h-100 w-100"
       style={{ color: "white", textAlign: "center" }}
     >
       <div className="bg-black text-white h-100">
@@ -1805,7 +1805,7 @@ export const handleQuoteApps = (data, quoteData) => {
   console.log(duration);
   return (
     <div
-      className={`basic-list-group image-preview-container media-content  bulletin-bg text-black ${prp.color.value}`}
+      className={`h-100 w-100  bulletin-bg text-black ${prp.color.value}`}
       style={{ color: "white", textAlign: "center" }}
     >
       <Carousel
@@ -1825,7 +1825,7 @@ export const handleQuoteApps = (data, quoteData) => {
                   style={{
                     borderRadius: "18px",
                     margin: "20px",
-                    marginTop: "25%",
+                    marginTop: "12%",
                     flexDirection: "column",
                   }}
                 >
