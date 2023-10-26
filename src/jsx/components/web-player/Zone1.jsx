@@ -23,6 +23,7 @@ import {
   handleQuoteApps,
   handleNewsApps,
   handleGoogleApps,
+  handlePeopleSpace
 } from "../../../utils/UtilsService";
 import { dividerClasses } from "@mui/material";
 
@@ -345,9 +346,15 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                     {getStockDataZone1(
                       contents.zones[0].content[currentIndex].data
                     )}
-                    handleGoogleApps
                   </>
-                ) : (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "people-apps" ? (
+                  <>
+                    {handlePeopleSpace(
+                      contents.zones[0].content[currentIndex].data
+                    )}
+                  </>
+                ): (
                   <></>
                 )}
               </div>
