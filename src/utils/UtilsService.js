@@ -1377,7 +1377,80 @@ export const handleRssApps = (data) => {
           </div>
         </div>
       );
-    } else if (data.theame.value == "white-center") {
+    } else if (data.theame.value == "white-background") {
+      htmlData = (
+        <div className="h-100 bg-white">
+          <div>
+            <Carousel
+              interval={data.slideDuration * 1000}
+              indicators={false}
+              animation={"slide"}
+              className="h-100"
+            >
+              {list.map((item, i) => {
+                return (
+                  <>
+                    <div style={{ width: "100%", height: "200px" }}>
+                      <img
+                        src={newsimg}
+                        alt="new-img"
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
+                    <Slide direction="right" in={true} timeout={1000}>
+                      <div
+                        style={{
+                          maxWidth: "100%",
+                          minWidth: "60%",
+                          height: "8px",
+                          background: "#000",
+                          margin: "20px 0 10px 0",
+                          display: "inline-block",
+                        }}
+                      ></div>
+                    </Slide>
+                    <div className="h-100">
+                      <div className=" h-100">
+                        <div className="text-left  ">
+                          <div className="mt-2 " key={i}>
+                            <h1
+                              style={{ fontSize: "22px" }}
+                              className="text-black mb-4"
+                            >
+                              {item.title}
+                            </h1>
+                            <p className="text-black">{item.content}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+            </Carousel>
+            <div style={{ textAlign: "end" }}>
+              {data.selectedImage && (
+                <Slide
+                  direction="up"
+                  in={true}
+                  mountOnEnter
+                  unmountOnExit
+                  timeout={1000}
+                >
+                  <img
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                    }}
+                    src={BASE_URL + data.selectedImage}
+                  />
+                </Slide>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }else if (data.theame.value == "white-center") {
       htmlData = (
         <div className="h-100 bg-white" style={{ padding: "20px" }}>
           <div>
