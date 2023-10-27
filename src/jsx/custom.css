@@ -1785,6 +1785,7 @@ input[type="radio"]:before {
   .temp4-bg{
     background: url(../img/temp4.svg);
     background-position: center;
+    background-size: cover;
   }
   .temp2-bg{
     background: url(../img/tem2.svg);
@@ -1851,6 +1852,9 @@ input[type="radio"]:before {
   }
   .MuiDataGrid-root ,.MuiDataGrid-root--densityStandard{
     border: 0 !important;
+  }
+  .zone-not-supported-people-space{
+    background: linear-gradient(113deg, #f5beb7 10%, #ef86c9 24.5%, #b861d9 80%, #743aec 90%);
   }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
