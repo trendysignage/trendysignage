@@ -175,8 +175,11 @@ export default function DesignMonthSchedule() {
   };
 
   const handleWeek = async (e, day, dayInfo, iswk = true) => {
+    console.log("handlewk");
     const dayList = getSundays(days[day], day);
+    
     const newArray = selectedCheckboxes;
+    console.log(dayList, newArray);
     if (e.target.checked) {
       dayList.forEach((item) => {
         const checkboxKey =
@@ -208,20 +211,22 @@ export default function DesignMonthSchedule() {
     const result = [];
     var startDate = new Date();
     const cMonth = currentMonth;
+    
     const cYear = startDate.getFullYear();
-    var endDate = new Date(cYear, cMonth, 31);
+    var endDate = new Date(cYear, cMonth-1, 31);
     var day = dayId;
     for (var i = 0; i <= 7; i++) {
       if (startDate.toString().indexOf(dayName) !== -1) {
         break;
       }
-      startDate = new Date(cYear, cMonth, i);
+      startDate = new Date(cYear, cMonth-1, i);
+      console.log(startDate, "sdtaa")
     }
     startDate = moment(startDate);
     endDate = moment(endDate);
     result.push(startDate);
     var current = startDate.clone();
-    while (current.day(7 + day).isBefore(endDate)) {
+    while (current.day(7 + day).isSameOrBefore(endDate)) {
       result.push(current.clone());
     }
     return result;
@@ -349,6 +354,8 @@ export default function DesignMonthSchedule() {
       scheduleId: id,
       scheduleArray: publishData,
     };
+
+    console.log(payload)
     await pushAddDates(payload).then((res) => {
       if (res.data.statusCode === 200) {
         history.push(`/push`);
