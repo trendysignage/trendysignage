@@ -23,7 +23,7 @@ import {
   handleQuoteApps,
   handleNewsApps,
   handleGoogleApps,
-  handlePeopleSpace
+  handlePeopleSpace,
 } from "../../../utils/UtilsService";
 import { dividerClasses } from "@mui/material";
 
@@ -301,11 +301,17 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                   </div>
                 ) : contents.zones[0].content[currentIndex].type ===
                   "rss-apps" ? (
-                  <>
+                  <div
+                    className={`basic-list-group image-preview-container ${
+                      contents.layout.screenType === rotateMode
+                        ? "media-content-rotate"
+                        : "media-content"
+                    }`}
+                  >
                     {handleRssApps(
                       contents.zones[0].content[currentIndex].data
                     )}
-                  </>
+                  </div>
                 ) : contents.zones[0].content[currentIndex].type ===
                   "quote-apps" ? (
                   <>
@@ -354,7 +360,7 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       contents.zones[0].content[currentIndex].data
                     )}
                   </>
-                ): (
+                ) : (
                   <></>
                 )}
               </div>

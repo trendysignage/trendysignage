@@ -720,10 +720,7 @@ export const handleRssApps = (data) => {
   const list = data.urlLink.items;
   if (data.orientationMode == "footer") {
     return (
-      <div
-        className="basic-list-group image-preview-container media-content"
-        style={{ color: "white" }}
-      >
+      <div className="h-100 w-100 text-white" style={{ color: "white" }}>
         <div className="h-100  bg-white">
           <div style={{ position: "relative", height: "100%" }}>
             <div className=" w-100" style={{ position: "absolute", bottom: 0 }}>
@@ -1156,7 +1153,7 @@ export const handleRssApps = (data) => {
     }
     return (
       <div
-        className="basic-list-group image-preview-container media-content"
+        className="w-100 h-100"
         style={{ color: "white", marginRight: "10%", marginLeft: "10%" }}
       >
         {htmlData}
@@ -1450,7 +1447,7 @@ export const handleRssApps = (data) => {
           </div>
         </div>
       );
-    }else if (data.theame.value == "white-center") {
+    } else if (data.theame.value == "white-center") {
       htmlData = (
         <div className="h-100 bg-white" style={{ padding: "20px" }}>
           <div>
@@ -1597,10 +1594,7 @@ export const handleRssApps = (data) => {
       htmlData = <h4>Pending</h4>;
     }
     return (
-      <div
-        className="basic-list-group image-preview-container media-content"
-        style={{ color: "white" }}
-      >
+      <div className="h-100 w-100" style={{ color: "white" }}>
         {/* <h6>{data.theame.value}</h6> */}
         {htmlData}
       </div>
@@ -2385,7 +2379,7 @@ export const handlePeopleSpace = (data) => {
                                       ? prp.settingData.messageColor
                                       : "#2512AD",
                                     fontFamily:
-                                      prp.settingData.messageStyl.value,
+                                      prp.settingData.messageStyle.value,
                                     margin: 0,
                                   }}
                                 >
@@ -2407,7 +2401,7 @@ export const handlePeopleSpace = (data) => {
     } else if (prp.tempType && prp.tempType == "temp2") {
       return (
         <>
-          <div className=" h-100 temp2-bg" style={{ margin: "2%" }}>
+          <div className=" h-100 temp2-bg" style={{ padding: "2%" }}>
             {prp?.settingData?.isTitle ? (
               <h2
                 className="text-center pt-3"
@@ -2434,7 +2428,7 @@ export const handlePeopleSpace = (data) => {
                 return (
                   <div className="row w-100 h-100" key={i}>
                     <div className="w-100">
-                      <div className="d-flex w-100 align-items-center">
+                      <div className="d-flex w-100 align-items-center ">
                         {item.image ? (
                           <div className="">
                             <img
@@ -2458,6 +2452,7 @@ export const handlePeopleSpace = (data) => {
                                 : "#2512AD",
                               fontFamily: prp.settingData.nameStyle.value,
                             }}
+                            className="ml-3"
                           >
                             {item.name}
                           </h3>
@@ -2468,6 +2463,7 @@ export const handlePeopleSpace = (data) => {
                                 : "#2512AD",
                               fontFamily: prp.settingData.messageStyle.value,
                             }}
+                            className="ml-3"
                           >
                             {item.message}
                           </p>
@@ -2484,7 +2480,7 @@ export const handlePeopleSpace = (data) => {
     } else if (prp.tempType && prp.tempType == "temp3") {
       return (
         <>
-          <div className=" h-100 temp3-bg" style={{ margin: "2%" }}>
+          <div className=" h-100 temp3-bg" style={{ padding: "2%" }}>
             {prp?.settingData?.isTitle ? (
               <h2
                 className="text-center pt-3"
@@ -2535,6 +2531,7 @@ export const handlePeopleSpace = (data) => {
                                 : "#2512AD",
                               fontFamily: prp.settingData.nameStyle.value,
                             }}
+                            className="ml-3"
                           >
                             {item.name}
                           </h3>
@@ -2545,6 +2542,7 @@ export const handlePeopleSpace = (data) => {
                                 : "#2512AD",
                               fontFamily: prp.settingData.messageStyle.value,
                             }}
+                            className="ml-3"
                           >
                             {item.message}
                           </p>
@@ -2561,7 +2559,7 @@ export const handlePeopleSpace = (data) => {
     } else if (prp.tempType && prp.tempType == "temp5") {
       return (
         <>
-          <div className=" h-100 temp5-bg" style={{ margin: "2%" }}>
+          <div className=" h-100 temp5-bg" style={{ padding: "2%" }}>
             {prp?.settingData?.isTitle ? (
               <h2
                 className="text-center pt-3"
@@ -2613,6 +2611,7 @@ export const handlePeopleSpace = (data) => {
                                 : "#2512AD",
                               fontFamily: prp.settingData.nameStyle.value,
                             }}
+                            className="ml-3"
                           >
                             {item.name}
                           </h3>
@@ -2623,6 +2622,7 @@ export const handlePeopleSpace = (data) => {
                                 : "#2512AD",
                               fontFamily: prp.settingData.messageStyle.value,
                             }}
+                            className="ml-3"
                           >
                             {item.message}
                           </p>
@@ -2639,7 +2639,10 @@ export const handlePeopleSpace = (data) => {
     } else if (prp.tempType && prp.tempType == "temp6") {
       return (
         <>
-          <div className=" h-100 temp6-bg text-center" style={{ margin: "2%" }}>
+          <div
+            className=" h-100 temp6-bg text-center"
+            style={{ padding: "2%" }}
+          >
             {prp?.settingData?.isTitle ? (
               <h2
                 className="text-center pt-3"
@@ -2689,6 +2692,7 @@ export const handlePeopleSpace = (data) => {
                                 : "#2512AD",
                               fontFamily: prp.settingData.nameStyle.value,
                             }}
+                            className="ml-3"
                           >
                             {item.name}
                           </h3>
@@ -2699,6 +2703,7 @@ export const handlePeopleSpace = (data) => {
                                 : "#2512AD",
                               fontFamily: prp.settingData.messageStyle.value,
                             }}
+                            className="ml-3"
                           >
                             {item.message}
                           </p>

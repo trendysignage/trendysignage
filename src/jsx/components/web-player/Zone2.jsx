@@ -23,6 +23,7 @@ import {
   handleQuoteApps,
   handleNewsApps,
   handleGoogleApps,
+  handlePeopleSpace,
 } from "../../../utils/UtilsService";
 
 const Zone2 = ({
@@ -409,6 +410,13 @@ const Zone2 = ({
                           contents.zones[0].content[currentIndex].data
                         )}
                       </div>
+                    ) : contents.zones[0].content[currentIndex].type ===
+                      "people-apps" ? (
+                      <>
+                        {handlePeopleSpace(
+                          contents.zones[0].content[currentIndex].data
+                        )}
+                      </>
                     ) : (
                       <></>
                     )}
@@ -565,6 +573,15 @@ const Zone2 = ({
                         {getQuoteDataZone2(
                           contents.zones[1].content[current1Index].data
                         )}
+                      </>
+                    ) : contents.zones[0].content[currentIndex].type ===
+                      "people-apps" ? (
+                      <>
+                        <div className="h-100 w-100 zone-not-supported-people-space d-flex justify-content-center align-items-center">
+                          <h1 className="text-center text-white">
+                            This app is not supported in this zone.
+                          </h1>
+                        </div>
                       </>
                     ) : (
                       <></>
