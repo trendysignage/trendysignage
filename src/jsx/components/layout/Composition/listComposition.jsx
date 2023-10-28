@@ -100,7 +100,6 @@ const ListComposition = ({
   const renderName = (params) => {
     const { value } = params;
     const content = value.zones[0].content[0];
-    //return  value.createdBy;
     return (
       <span className="">
         <span
