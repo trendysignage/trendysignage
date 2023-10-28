@@ -324,13 +324,15 @@ const ListScreen = ({
       <span className="td-content">
         <strong>
           {value.name.length > 11
-            ? value.name.slice(0, 11) + "..."
+            //? value.name.slice(0, 11) + "..."
+            ? value.name
             : value.name}
         </strong>
         <br />
         <span className="oooo">
           {value.location.length > 11
-            ? value.location.slice(0, 11) + "..."
+            //? value.location.slice(0, 11) + "..."
+            ? value.location
             : value.location}
         </span>
       </span>
@@ -338,7 +340,7 @@ const ListScreen = ({
   };
 
   const columns1 = [
-    { field: "screen", headerName: "Screen", flex: 1, renderCell: renderName },
+    { field: "screen", headerName: "Screen", width: 200, renderCell: renderName },
     {
       field: "last_seen",
       headerName: "Last Seen",

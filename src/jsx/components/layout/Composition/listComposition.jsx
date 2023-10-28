@@ -101,7 +101,7 @@ const ListComposition = ({
     const { value } = params;
     const content = value.zones[0].content[0];
     return (
-      <span className="td-content d-flex name-td-content">
+      <span className="">
         <span
           className={`name-img mr-2  ${
             content.type === "video" && "videotableName"
@@ -119,12 +119,14 @@ const ListComposition = ({
         <span className="name-content d-flex flex-column flex-grow-1">
           <strong>
             {value.name.length > 7
-              ? value.name.slice(0, 7) + "..."
+              //? value.name.slice(0, 7) + "..."
+              ? value.name
               : value.name}
           </strong>
           <span>
             {value.createdBy.length > 11
-              ? value.createdBy.slice(0, 11) + "..."
+              //? value.createdBy.slice(0, 11) + "..."
+              ? value.createdBy
               : value.createdBy}
           </span>
         </span>
@@ -196,7 +198,7 @@ const ListComposition = ({
     {
       field: "composition",
       headerName: "Composition",
-      flex: 1,
+      width: 200,
       renderCell: renderName,
     },
     {

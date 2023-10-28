@@ -367,8 +367,28 @@ const ScheduleList = ({
     );
   };
 
+  const renderName = (params) => {
+    const { value } = params;
+    return (
+      <span className="">
+        <span className="name-content d-flex flex-column flex-grow-1">
+          <strong>
+            {value.split("/")[value.split("/").length - 1].length >
+            7
+              //? value.split("/")[value.split("/").length - 1].slice(0, 7) + "..."
+              ? value
+                  .split("/")
+                  [value.split("/").length - 1]
+              : value.split("/")[value.split("/").length - 1]}
+          </strong>
+        </span>
+      </span>
+    );
+  };
+
   const columns = [
-    { field: "name", headerName: "Name", flex: 1 },
+    //{ field: "name", headerName: "Name", flex: 1 },
+    { field: "name", headerName: "Name", width: 200, renderCell: renderName },
     {
       field: "createdAt",
       headerName: "Created at",
