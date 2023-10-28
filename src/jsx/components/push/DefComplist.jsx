@@ -247,7 +247,7 @@ const DefComplist = ({
   };
 
   const columns = [
-    { field: "name", headerName: "Name", flex: 1 },
+    { field: "name", headerName: "Name", width: 200 },
     {
       field: "createdAt",
       headerName: "Created at",
