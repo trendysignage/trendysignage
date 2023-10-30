@@ -3745,3 +3745,9 @@ thead {
 .MuiDataGrid-root MuiDataGrid-root--densityStandard css-iclwpf{
   border:0; 
 }
+.marginLR{
+  margin: 0 10px;
+}
+.btnnew {
+  padding: 5px 10px !important;
+}

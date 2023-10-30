@@ -31,6 +31,16 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
     { value: "rightToLeft", label: "Right to Left" },
     { value: "leftToRight", label: "Left to Right" },
   ];
+  const [fontSize , setFontSize] = useState(12);
+
+  const handleFontSize = (e, size) => {
+    e.preventDefault();
+    console.log("size",size)
+    if(size < 12 || size > 100){
+      return;
+    }
+    setFontSize(size);
+  }
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -46,6 +56,7 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
         setTextColor(jsonString.textColor)
         setBackColor(jsonString.backGroundColor)
         setMediaId(mediaData._id);
+        setFontSize(jsonString.fontSize)
     }
   },[mediaData])
   
@@ -76,7 +87,8 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
         backGroundColor:backColor,
         style:selectedStyle,
         url:name.trim(),
-        text:text.trim()
+        text:text.trim(),
+        fontSize
       }
   
       if(actionType && actionType == 'edit'){
@@ -110,6 +122,7 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
     setBackColor("#000000");
     setTextColor("#000000")
     setShowScrollerTextApp(val)
+    setFontSize(12);
   }
   return (
     <>
@@ -202,6 +215,18 @@ const ScrollerTextAppModal = ({ setShowScrollerTextApp, show, mediaData , action
                     onChange={(e) => {setBackColor(e.target.value)}}
                     required
                   />
+                </div>
+              </div>
+
+              <div className="row">
+
+                <div className="col-12">
+                  <label className="mt-3">Font Size</label>
+                  <div>
+                      <Button onClick={(e) =>{handleFontSize(e, fontSize-1)}} className="btnnew">-</Button>
+                      <span className="marginLR">{fontSize}</span>
+                      <Button onClick={(e) =>{handleFontSize(e, fontSize+1)}} className="btnnew">+</Button>
+                  </div>
                 </div>
               </div>
 

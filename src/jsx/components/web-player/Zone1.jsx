@@ -135,7 +135,7 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                 style={{
                   transform:
                     contents.layout.screenType === rotateMode
-                      ? "rotate(270deg)"
+                      ? "rotate(90deg)"
                       : "rotate(0deg)",
 
                   height:
