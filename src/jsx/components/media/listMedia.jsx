@@ -251,11 +251,11 @@ const ListMedia = ({
         <span className="name-content d-flex flex-column flex-grow-1">
           <strong>
             {value.title.split("/")[value.title.split("/").length - 1].length >
-            7
-              // ? value.title
-              //     .split("/")
-              //     [value.title.split("/").length - 1].slice(0, 7) + "..."
+            15
               ? value.title
+                  .split("/")
+                  [value.title.split("/").length - 1].slice(0, 15) + "..."
+             // ? value.title
               : value.title.split("/")[value.title.split("/").length - 1]}
           </strong>
           <span>

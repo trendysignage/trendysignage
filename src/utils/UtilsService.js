@@ -367,13 +367,14 @@ export const handleScrollerApps = (data) => {
   }
   let txt = "";
   console.log("Speed", speed, allignment);
+  let fontS = prp.fontSize ? prp.fontSize+"px" : "12px";
   if (prp.style.value == "italic") {
     txt = (
       <i>
         <marquee
           direction={allignment}
           scrollAmount={speed}
-          style={{ color: prp.textColor, fontSize: "100px" }}
+          style={{ color: prp.textColor, fontSize: fontS }}
         >
           {prp.text}
         </marquee>
@@ -385,7 +386,7 @@ export const handleScrollerApps = (data) => {
         <marquee
           direction={allignment}
           scrollAmount={speed}
-          style={{ color: prp.textColor, fontSize: "100px" }}
+          style={{ color: prp.textColor, fontSize: fontS}}
         >
           {prp.text}
         </marquee>
@@ -396,7 +397,7 @@ export const handleScrollerApps = (data) => {
       <marquee
         direction={allignment}
         scrollAmount={speed}
-        style={{ color: prp.textColor, fontSize: "100px" }}
+        style={{ color: prp.textColor, fontSize: fontS }}
       >
         {prp.text}
       </marquee>
@@ -416,6 +417,7 @@ export const handleTextApps = (data) => {
   const prp = JSON.parse(data);
   console.log("text app ", data);
   let txt = "";
+  let fontS = prp.fontSize ? prp.fontSize+"px" : "20px";
   if (prp.style == "Italic") {
     return (
       <div
@@ -425,7 +427,7 @@ export const handleTextApps = (data) => {
           color: prp.textColor,
           fontWeight: prp.weight,
           textAlign: prp.allign,
-          fontSize: "22px",
+          fontSize:fontS,
           padding: "15px",
         }}
       >
@@ -441,7 +443,7 @@ export const handleTextApps = (data) => {
           color: prp.textColor,
           fontWeight: prp.weight,
           textAlign: prp.allign,
-          fontSize: "22px",
+          fontSize: fontS,
           padding: "15px",
         }}
       >
@@ -457,7 +459,7 @@ export const handleTextApps = (data) => {
           color: prp.textColor,
           fontWeight: prp.weight,
           textAlign: prp.allign,
-          fontSize: "22px",
+          fontSize: fontS,
           padding: "15px",
         }}
       >

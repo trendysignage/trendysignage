@@ -209,7 +209,7 @@ const Zone2 = ({
             style={{
               transform:
                 contents.layout.screenType === rotateMode
-                  ? "rotate(270deg)"
+                  ? "rotate(90deg)"
                   : "rotate(0deg)",
 
               height:

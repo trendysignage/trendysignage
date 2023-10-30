@@ -34,6 +34,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     { value: "Manrope", label: "Manrope" },
     { value: "Sans Serif", label: "Sans Serif" },
   ];
+  const [fontSize , setFontSize] = useState(12);
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
   const [orientationMode, setOrientation] = useState("landscape");
@@ -52,6 +53,14 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [backColor, setBackColor] = useState("#000000");
   const [mediaId, setMediaId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const handleFontSize = (e, size) => {
+    e.preventDefault();
+    console.log("size",size)
+    if(size < 12 || size > 100){
+      return;
+    }
+    setFontSize(size);
+  }
 
   useEffect(() => {
     if (mediaData) {
@@ -69,6 +78,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         value: jsonString.familyStyle,
         label: jsonString.familyStyle,
       });
+      setFontSize(jsonString.fontSize)
       setContent(jsonString.content);
       setIsTransparent(jsonString.isTransparent);
       setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "")
@@ -104,6 +114,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         isTransparent,
         orientationMode,
         content:content.trim(),
+        fontSize
       };
 
       if (actionType && actionType == "edit") {
@@ -137,7 +148,8 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     setIsTransparent(false);
     setTextColor("#000000");
     setBackColor("#000000");
-    setShowUrlApp(val)
+    setShowUrlApp(val);
+    setFontSize(12)
   }
   return (
     <>
@@ -198,6 +210,16 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 }}
                 rows={4}
               />
+               <div className="row">
+                  <div className="col-12">
+                    <label className="mt-3">Font Size</label>
+                    <div>
+                      <Button onClick={(e) =>{handleFontSize(e, fontSize-1)}} className="btnnew">-</Button>
+                      <span className="marginLR">{fontSize}</span>
+                      <Button onClick={(e) =>{handleFontSize(e, fontSize+1)}} className="btnnew">+</Button>
+                    </div>
+                  </div>
+                </div>
               <div className="row">
                 <div className="col-3">
                   <label className="mt-3">Color </label>

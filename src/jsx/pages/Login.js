@@ -16,6 +16,8 @@ import { LoginSocialGoogle, IResolveParams } from "reactjs-social-login";
 import logo from "../../img/logo.png";
 import eyeOff from "../../img/eye-off.svg";
 import googleIcon from "../../img/google-icon.png";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function Login(props) {
   const REDIRECT_URI = "http://localhost:3000/login";
@@ -76,6 +78,7 @@ function Login(props) {
 
   const [provider, setProvider] = useState("");
   const [profile, setProfile] = useState("");
+  const [isVisible, setIsVisible] = useState(false)
 
   const onLoginStart = useCallback(() => {
     //alert('login start');
@@ -131,14 +134,17 @@ function Login(props) {
             </div>
             <div className="form-group password-textfield">
               <input
-                type="password"
+                type={isVisible ? 'text' : 'password'}
                 className="form-control"
                 placeholder="Enter Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <span className="eye-off">
-                <img src={eyeOff} alt="" className="eye-off" />{" "}
+              <span className="eye-off" onClick={() =>{setIsVisible(!isVisible)}}>
+                {
+                  isVisible ? <VisibilityIcon className="eye-off" /> : <VisibilityOffIcon className="eye-off" />
+                }
+                {" "}
               </span>
               {errors.password && (
                 <div className="text-danger fs-12">{errors.password}</div>

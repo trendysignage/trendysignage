@@ -137,9 +137,9 @@ const Media = ({ auth, permission }) => {
                       />
                     </div>
                     <div className="dropdown-menu-list">
-                      <span className="menu-heading">Default Design</span>
+                      <span className="menu-heading">Custom Design</span>
                       <span className="menu-description">
-                        Get to know more about screen info
+                        Create your custom design
                       </span>
                     </div>
                   </div>
@@ -159,9 +159,9 @@ const Media = ({ auth, permission }) => {
                       />
                     </div>
                     <div className="dropdown-menu-list">
-                      <span className="menu-heading">Custom Design</span>
+                      <span className="menu-heading">Layouts</span>
                       <span className="menu-description">
-                        Get to know more about screen info
+                        Create your custom layouts
                       </span>
                     </div>
                   </div>
