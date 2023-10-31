@@ -10,16 +10,18 @@ import { io } from "socket.io-client";
 import WebVideoPlayer from "./WebVideoPlayer";
 import CompositionPlayer from "./compositionPlayer";
 import useSWR from "swr";
-const WebMain = ({ id, handleAddClass, onFullScreen }) => {
+const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
   const [media, setMedia] = useState("");
   const [code, seCode] = useState("");
   const [contentType, setContentType] = useState("");
   const [isVerified, setIsVerified] = useState(false);
+  const buttonRef = useRef(null);
   const initiaload = useRef(true);
   // const [timeout, setApiTimeout] = useState("");
   // useEffect(() => {
   //   console.log(contentType, "contentType check inside main.jsx");
   // });
+  
   const getScreenCode = async () => {
     let timeoutTimer;
     const getContent = await addScreenCode(id);
@@ -100,12 +102,15 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
     };
   },[]);
 
+
   return (
     <>
       <div>
         {" "}
-        <button
+        {
+          !isMobile ? <button
           id="Fullscreen"
+          ref={buttonRef}
           onClick={() => onFullScreen()}
           style={{ zIndex: 10 }}
         >
@@ -116,7 +121,9 @@ const WebMain = ({ id, handleAddClass, onFullScreen }) => {
               <p>View Full Screen</p>
             </div>
           </div>
-        </button>
+        </button> : ''
+        }
+        
       </div>
       {
         <>
