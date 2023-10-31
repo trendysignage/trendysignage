@@ -7,6 +7,7 @@ const Webplayer = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get("id");
+  const isMobile = queryParams.get("isMobile");
   const [screenId, setScreenId] = useState(id);
   const [divClass, setDivClass] = useState("landscape");
   const divRef = useRef(null);
@@ -213,6 +214,7 @@ const Webplayer = () => {
               id={screenId}
               handleAddClass={handleAddClass}
               onFullScreen={onFullScreen}
+              isMobile={isMobile}
             />
           )}
         </div>
