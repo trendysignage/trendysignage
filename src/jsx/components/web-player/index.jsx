@@ -122,8 +122,8 @@ const Webplayer = () => {
   // };
   const onFullScreen = () => {
     const divElement = divRef.current;
-
-    if (divElement) {
+    const className = divRef.current;
+    if (className) {
       const videoPlayerPortraitElement = divElement.querySelector(
         "#video-player-portrait"
       );
@@ -134,24 +134,24 @@ const Webplayer = () => {
         videoPlayerPortraitElement.classList.add("video-js-rotate");
 
         // Request fullscreen
-        try {
-          if (divElement.requestFullscreen) {
-            divElement.requestFullscreen();
-          } else if (divElement.webkitRequestFullscreen) {
-            divElement.webkitRequestFullscreen();
-          } else if (divElement.msRequestFullscreen) {
-            divElement.msRequestFullscreen();
-          } else if (divElement.mozRequestFullScreen) {
-            divElement.mozRequestFullScreen();
-          } else {
-            console.error("Fullscreen not supported in this browser.");
-          }
-        } catch (error) {
-          console.error("Fullscreen request failed:", error);
-        }
+        // try {
+        //   if (divElement.requestFullscreen) {
+        //     divElement.requestFullscreen();
+        //   } else if (divElement.webkitRequestFullscreen) {
+        //     divElement.webkitRequestFullscreen();
+        //   } else if (divElement.msRequestFullscreen) {
+        //     divElement.msRequestFullscreen();
+        //   } else if (divElement.mozRequestFullScreen) {
+        //     divElement.mozRequestFullScreen();
+        //   } else {
+        //     console.error("Fullscreen not supported in this browser.");
+        //   }
+        // } catch (error) {
+        //   console.error("Fullscreen request failed:", error);
+        // }
       }
     }
-    const className = divRef.current;
+
     if (className.getElementsByClassName("webplayer-composition-full-screen")) {
       // divRef.current.requestFullscreen();
       if (className.requestFullscreen) {
