@@ -242,6 +242,7 @@ const GetCompositionPlayer = ({ composition, handleAddClass }) => {
   // const { data: composition  } = useSWR(id ? `/vendor/layouts/composition?compositionId=${id}` : null, fetcher);
 
   useEffect(() => {
+    console.log("compo", composition)
     if (composition && composition?.layout?.screenType) {
       handleAddClass(composition.layout.screenType);
     }

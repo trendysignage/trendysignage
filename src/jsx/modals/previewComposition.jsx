@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import WebVideoPlayer from "../components/web-player/WebVideoPlayer";
 import { BASE_URL } from "../../utils/api";
 import { isBlobUrl } from "../../utils/UtilsService";
+import PreviewZone1 from "../components/web-player/previewZone1";
+import PreviewZone2 from "../components/web-player/PreviewZone2";
 const PreviewComposition = ({
   setShowPreview,
   content,
@@ -12,7 +14,7 @@ const PreviewComposition = ({
   referenceUrl,
   referenceUrlArray,
 }) => {
-  console.log(layout, "layout");
+  console.log(content, contentnew);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [current1Index, setCurrent1Index] = useState(0);
   const [current2Index, setCurrent2Index] = useState(0);
@@ -166,108 +168,25 @@ const PreviewComposition = ({
       <Modal.Body ref={divRef} style={{ padding: "15px" }}>
         {layout && layout.zones.length == 1 ? (
           <>
-            {content[currentIndex] &&
-              content[currentIndex].type === "image" && (
-                <div
-                  className="basic-list-group image-preview-container media-content modal-priview-composition"
-                  style={{ height: "560px" }}
-                >
-                  <img
-                    className="webplayer-preview-img"
-                    style={{
-                      objectFit: `${
-                        viewImage === "fitScreen" ? "fill" : "contain"
-                      }`,
-                    }}
-                    src={url}
-                    alt="media-img"
-                  />
-                </div>
-              )}
-            {content[currentIndex] &&
-              content[currentIndex].type === "video" && (
-                <div
-                  className={`basic-list-group video-container media-content ${viewImage} ${
-                    viewImage === "fitScreen" ? "fitImage" : "containImage"
-                  }`}
-                >
-                  <WebVideoPlayer src={url}></WebVideoPlayer>
-                </div>
-              )}
+            <PreviewZone1 
+              layout={layout}
+              content={content}
+              contentnew={contentnew}
+              viewImage={viewImage}
+              currentIndex={currentIndex}
+
+            />
           </>
         ) : layout.zones.length == 2 ? (
-          <div className="modal-priview-composition" style={{ height: "80vh" }}>
-            <div className="top-div">
-              {contentnew.Zone1[currentIndex] &&
-                contentnew.Zone1[currentIndex].type === "image" && (
-                  <div className="basic-list-group image-preview-container media-content">
-                    <img
-                      className="webplayer-preview-img"
-                      style={{
-                        objectFit: `${
-                          viewImage === "fitScreen" ? "fill" : "contain"
-                        }`,
-                      }}
-                      //src={`https://ssapi.trendysignage.com/${contentnew.Zone1[currentIndex].url}`}
-                      src={url}
-                      alt="media-img"
-                    />
-                  </div>
-                )}
-              {contentnew.Zone2 &&
-                contentnew.Zone1[currentIndex] &&
-                contentnew.Zone1[currentIndex].type === "video" && (
-                  <div
-                    className={`basic-list-group video-container media-content ${viewImage} ${
-                      viewImage === "fitScreen" ? "fitImage" : "containImage"
-                    }`}
-                    style={{ height: "100%" }}
-                  >
-                    <WebVideoPlayer
-                      //src={`https://ssapi.trendysignage.com/${contentnew.Zone1[currentIndex].url}`}
-                      src={url}
-                    ></WebVideoPlayer>
-                  </div>
-                )}
-            </div>
-            <div className="bottom-div">
-              {contentnew.Zone2 &&
-                contentnew.Zone2[current1Index] &&
-                contentnew.Zone2[current1Index].type === "image" && (
-                  <div
-                    className="basic-list-group image-preview-container media-content"
-                    style={{ height: "100%" }}
-                  >
-                    <img
-                      className="webplayer-preview-img"
-                      style={{
-                        objectFit: `${
-                          viewImage === "fitScreen" ? "fill" : "contain"
-                        }`,
-                      }}
-                      //src={`https://ssapi.trendysignage.com/${contentnew.Zone2[current1Index].url}`}
-                      src={url1}
-                      alt="media-img"
-                    />
-                  </div>
-                )}
-              {contentnew.Zone2 &&
-                contentnew.Zone2[current1Index] &&
-                contentnew.Zone2[current1Index].type === "video" && (
-                  <div
-                    className={`basic-list-group video-container media-content ${viewImage} ${
-                      viewImage === "fitScreen" ? "fitImage" : "containImage"
-                    }`}
-                    style={{ height: "100%" }}
-                  >
-                    <WebVideoPlayer
-                      //src={`https://ssapi.trendysignage.com/${contentnew.Zone2[current1Index].url}`}
-                      src={url1}
-                    ></WebVideoPlayer>
-                  </div>
-                )}
-            </div>
-          </div>
+            <PreviewZone2 
+              layout={layout}
+              content={content}
+              contentnew={contentnew}
+              viewImage={viewImage}
+              currentIndex={currentIndex}
+              current1Index={current1Index}
+
+            />
         ) : layout.zones.length == 3 ? (
           <div
             className="modal-priview-composition"
