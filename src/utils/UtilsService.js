@@ -559,17 +559,16 @@ export const handleClockApps = (data) => {
 
 export const handleWeatherApps = (data, weatherInfo) => {
   const prp = JSON.parse(data);
-  console.log("data", prp, weatherInfo);
-
-  const cdate = new Date();
+  console.log(weatherInfo)
   let timeZ =
-    prp.timeZone && prp.timeZone.timeZone
-      ? prp.timeZone.timeZone.timeZoneId
+    prp.location.timeZone && prp.location.timeZone
+      ? prp.location.timeZone.timeZoneId
       : "Asia/Riyadh";
   let chicago_datetime_str = new Date().toLocaleString("en-US", {
     timeZone: timeZ,
   });
   let date_chicago = new Date(chicago_datetime_str);
+  console.log(date_chicago)
 
   return (
     <div className="h-100 w-100 " style={{ color: "white" }}>
@@ -594,7 +593,7 @@ export const handleWeatherApps = (data, weatherInfo) => {
           </div>
           <div className="time">
             <p className="mb-0">
-              <Moment format={"HH:MM A"} date={date_chicago} interval={10000} />
+              <Moment format={"h:m A"} date={chicago_datetime_str} />
             </p>
           </div>
         </div>
@@ -733,9 +732,6 @@ export const handleRssApps = (data) => {
                   animation={"slide"}
                 >
                   {list.map((item, i) => {
-                    {
-                      console.log(item.content);
-                    }
                     return (
                       <>
                         <div className="h-100" key={i}>

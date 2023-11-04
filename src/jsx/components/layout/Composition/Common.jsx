@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { Button, Row, Col } from "react-bootstrap";
 import CompositionTable from "./CompositionTable";
 import ZoneInfoTable from "./ZoneInfoTable";
-
+import { toast } from "react-toastify";
 import {
   getAllMedia,
   getAllMediaSWR,
@@ -17,18 +17,16 @@ import { useHistory } from "react-router-dom";
 import SaveCompositionName from "../../../modals/saveCompositionName";
 import UploadMediaModal from "../../../modals/UploadMediaFileModal";
 import { isBlobUrl } from "../../../../utils/UtilsService";
+
 const CommonComposition = ({ type, composition, layout }) => {
   const [showUploadMediaModal, setUploadMediaModal] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [name, setName] = useState(composition ? composition.name : "");
   const [namePopUp, setOpenNamePopUp] = useState(false);
-  // const [isRefresh, setIsRefresh] = useState(false);
   const [allMedia, setAllMedia] = useState([]);
   const [zone, setZone] = useState("Zone1");
   const [isRefresh, setIsRefresh] = useState(false);
-  // const [content, setContent] = useState(
-  //   composition ? composition.zones[0].content : []
-  // );
+  
   const makeArray = (data) => {
     const newArray = [];
     data.forEach((item) => {
@@ -80,7 +78,6 @@ const CommonComposition = ({ type, composition, layout }) => {
   const [referenceUrl, setReferenceUrl] = useState(
     composition ? composition.referenceUrl : []
   );
-  console.log(referenceUrl, "referenceUrl");
   const handleLayout = (data) => {
     setZone(data);
   };
@@ -112,20 +109,21 @@ const CommonComposition = ({ type, composition, layout }) => {
         const jsonData = JSON.parse(media.appData);
         url = jsonData.url;
         meta = {
-          length: 10,
+          length: media.type == "youtube-apps" ? 0 : 10,
           height: 10,
           duration: 0,
         };
       }
 
       const dt = prev.find((o) => o.name === zone);
+      console.log("meta",meta, meta.length)
       const createContent = {
         url,
         type: media.type,
         maintainAspectRatio: false,
         fitToScreen: true,
         crop: false,
-        duration: meta.length ? meta.length : 10,
+        duration: media.type === 'youtube-apps' ? 0 :(meta.length ? meta.length : 10),
         createdBy: media.createdBy.name,
         zone,
         data:
@@ -166,7 +164,7 @@ const CommonComposition = ({ type, composition, layout }) => {
     const data = {
       name: name,
       zones: zones,
-      duration: TotalDuration(),
+      duration: Number(TotalDuration()),
       referenceUrl: results,
     };
     if (type === "create") {
@@ -198,6 +196,31 @@ const CommonComposition = ({ type, composition, layout }) => {
     });
   }
 
+  const handleSaveComposition = (e, content) => {
+    e.preventDefault();
+    let tLength = 0;
+    content.forEach((composition) => {
+      if(Number(composition.duration) == 0){
+        tLength = 1;
+        return;
+      }
+    });
+    if (content.length && tLength == 0) {
+      setOpenNamePopUp(true);
+    }else{
+      toast.error("Each video should have duration...", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+
   return (
     <>
       <div className="custom-content-heading d-flex flex-wrap">
@@ -218,12 +241,7 @@ const CommonComposition = ({ type, composition, layout }) => {
             Preview
           </Button>
           <Button
-            onClick={() => {
-              console.log(content, "conteettttnnnnn", zone);
-              if (content.length) {
-                setOpenNamePopUp(true);
-              }
-            }}
+            onClick={(e) => {handleSaveComposition(e, content)}}
             className="save-composition-btn"
             variant="info"
           >
