@@ -25,7 +25,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
   const getScreenCode = async () => {
     let timeoutTimer;
     const getContent = await addScreenCode(id);
-    //console.log("getContent",getContent)
+    console.log("getContent",getContent)
     setIsVerified(getContent?.isVerified);
     if (getContent.isVerified) {
       if (getContent?.content.length) {
@@ -76,6 +76,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
     });
     //console.log("socket",socket)
     getScreenCode();
+    console.log("contentType",contentType)
     // no-op if the socket is already connected
 
     socket.connect();
@@ -101,7 +102,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
       socket.disconnect();
       socket.off("receiveContent", onReceiveContent);
     };
-  },[]);
+  },[contentType]);
 
 
   return (

@@ -384,7 +384,7 @@ const Zone2 = ({
                           contents.zones[0].content[currentIndex].data
                         )}
                       </>
-                    ) : contents.zones[1].content[current1Index].type ===
+                    ) : contents.zones[0].content[current1Index].type ===
                       "stocks-apps" ? (
                       <div
                         className={`basic-list-group image-preview-container ${
