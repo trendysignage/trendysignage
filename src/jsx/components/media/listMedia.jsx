@@ -217,7 +217,7 @@ const ListMedia = ({
   const renderName = (params) => {
     const { value } = params;
     return (
-      <span className="">
+      <span className="td-content d-flex name-td-content">
         <span
           className={`name-img mr-2  ${
             value?.type === "video" && "videotableName"
@@ -248,22 +248,15 @@ const ListMedia = ({
             </button>
           )}
         </span>
-        <span className="name-content d-flex flex-column flex-grow-1">
+        <span className="name-content d-flex flex-column flex-grow-1" style={{wordWrap: "break-word",wordBreak: "break-all"}}>
           <strong>
-            {value.title.split("/")[value.title.split("/").length - 1].length >
-            15
-              ? value.title
-                  .split("/")
-                  [value.title.split("/").length - 1].slice(0, 15) + "..."
-             // ? value.title
-              : value.title.split("/")[value.title.split("/").length - 1]}
+            {
+              value.title.split("/")[
+                value.title.split("/").length - 1
+              ]
+            }
           </strong>
-          <span>
-            {value?.createdBy?.name.length > 11
-              //? value?.createdBy?.name.slice(0, 11) + "..."
-              ? value?.createdBy?.name
-              : value?.createdBy?.name}
-          </span>
+          <span>{value.createdBy.name}</span>
         </span>
       </span>
     );

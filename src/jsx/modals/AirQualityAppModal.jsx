@@ -249,7 +249,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                 }}
                 options={{
                   types: ["(regions)"],
-                  componentRestrictions: { country: "in" },
+                  componentRestrictions: { country: "sau" },
                 }}
                 defaultValue={location?.address}
               />

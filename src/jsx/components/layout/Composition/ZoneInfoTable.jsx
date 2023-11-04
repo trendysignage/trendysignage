@@ -257,6 +257,8 @@ const ZoneInfoTable = ({
         <tbody>
           {content.map((composition, index) => {
             return composition.zone == selectedZone ? (
+              <>
+              {composition.type && composition.type === 'youtube-apps' ? <tr><td colSpan={4} style={{paddingBottom:0}}><span style={{color:'red'}}><strong>Note</strong> : Please enter media duration...</span></td></tr> : ''}
               <tr key={composition.id}>
                 <td>{index + 1}.</td>
                 <td>
@@ -325,6 +327,7 @@ const ZoneInfoTable = ({
                   </span>
                 </td>
               </tr>
+              </>
             ) : (
               <></>
             );

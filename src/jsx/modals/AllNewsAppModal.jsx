@@ -110,8 +110,8 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const getNewsDataZone1 = (data) => {
     const prp = JSON.parse(data);
-
-    if (!newsData) {
+console.log(prp.topic.value, topic.value)
+    if (!newsData && prp.topic.value !== topic.value) {
       getNewsData(topic);
     }
     console.log(data, newsData);
