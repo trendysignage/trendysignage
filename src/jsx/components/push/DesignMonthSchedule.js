@@ -179,7 +179,7 @@ export default function DesignMonthSchedule() {
     const dayList = getSundays(days[day], day);
     
     const newArray = selectedCheckboxes;
-    console.log(dayList, newArray);
+    //console.log(days[day], day, dayList);
     if (e.target.checked) {
       dayList.forEach((item) => {
         const checkboxKey =
@@ -213,13 +213,16 @@ export default function DesignMonthSchedule() {
     const cMonth = currentMonth;
     
     const cYear = startDate.getFullYear();
-    var endDate = new Date(cYear, cMonth-1, 31);
+    
+    var endDate = new Date(cYear, cMonth+1, 0);
+    console.log("check year",endDate);
     var day = dayId;
     for (var i = 0; i <= 7; i++) {
       if (startDate.toString().indexOf(dayName) !== -1) {
         break;
       }
-      startDate = new Date(cYear, cMonth-1, i);
+      startDate = new Date(cYear, cMonth, i);
+
       console.log(startDate, "sdtaa")
     }
     startDate = moment(startDate);
@@ -231,6 +234,32 @@ export default function DesignMonthSchedule() {
     }
     return result;
   };
+
+
+  // const getSundays = (dayName, dayId) => {
+  //   const result = [];
+  //   var startDate = new Date();
+  //   const cMonth = currentMonth;
+    
+  //   const cYear = startDate.getFullYear();
+  //   var endDate = new Date(cYear, cMonth-1, 31);
+  //   var day = dayId;
+  //   for (var i = 0; i <= 7; i++) {
+  //     if (startDate.toString().indexOf(dayName) !== -1) {
+  //       break;
+  //     }
+  //     startDate = new Date(cYear, cMonth-1, i);
+  //     console.log(startDate, "sdtaa")
+  //   }
+  //   startDate = moment(startDate);
+  //   endDate = moment(endDate);
+  //   result.push(startDate);
+  //   var current = startDate.clone();
+  //   while (current.day(7 + day).isSameOrBefore(endDate)) {
+  //     result.push(current.clone());
+  //   }
+  //   return result;
+  // };
 
   const renderDayHeader = (dayInfo) => {
     const { date } = dayInfo;

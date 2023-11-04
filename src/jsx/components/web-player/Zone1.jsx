@@ -172,7 +172,7 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                   <div
                     className={`basic-list-group video-container  ${
                       contents.layout.screenType === rotateMode
-                        ? "media-content-rotate fitImage-rotate"
+                        ? "media-content-rotate "
                         : "media-content"
                     } ${viewImage} ${
                       viewImage === "fitScreen" ? "fitImage" : "containImage"

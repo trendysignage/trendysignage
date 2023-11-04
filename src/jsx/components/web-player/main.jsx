@@ -21,10 +21,11 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
   // useEffect(() => {
   //   console.log(contentType, "contentType check inside main.jsx");
   // });
-  
+
   const getScreenCode = async () => {
     let timeoutTimer;
     const getContent = await addScreenCode(id);
+    console.log("getContent",getContent)
     setIsVerified(getContent?.isVerified);
     if (getContent.isVerified) {
       if (getContent?.content.length) {
@@ -75,6 +76,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
     });
     //console.log("socket",socket)
     getScreenCode();
+    console.log("contentType",contentType)
     // no-op if the socket is already connected
 
     socket.connect();
@@ -100,30 +102,31 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
       socket.disconnect();
       socket.off("receiveContent", onReceiveContent);
     };
-  },[]);
+  },[contentType]);
 
 
   return (
     <>
       <div>
         {" "}
-        {
-          !isMobile ? <button
-          id="Fullscreen"
-          ref={buttonRef}
-          onClick={() => onFullScreen()}
-          style={{ zIndex: 10 }}
-        >
-          <div className="full-text">
-            <div className="sec-block">
-              {" "}
-              <i className="fa fa-expand"></i>
-              <p>View Full Screen</p>
+        {!isMobile ? (
+          <button
+            id="Fullscreen"
+            ref={buttonRef}
+            onClick={() => onFullScreen()}
+            style={{ zIndex: 10 }}
+          >
+            <div className="full-text">
+              <div className="sec-block">
+                {" "}
+                <i className="fa fa-expand"></i>
+                <p>View Full Screen</p>
+              </div>
             </div>
-          </div>
-        </button> : ''
-        }
-        
+          </button>
+        ) : (
+          ""
+        )}
       </div>
       {
         <>
@@ -170,11 +173,15 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
                   </div>
                 </div>
               </div>
-              <div className="console-reg" id="consoleReg" style={{ zIndex: 10 }}>
-              <p>
-                Copy paste above Screen Registration Code in console{" "}
-                <em className="ti-arrow-circle-up"></em>
-              </p>
+              <div
+                className="console-reg"
+                id="consoleReg"
+                style={{ zIndex: 10 }}
+              >
+                <p>
+                  Copy paste above Screen Registration Code in console{" "}
+                  <em className="ti-arrow-circle-up"></em>
+                </p>
               </div>
             </>
           )}
@@ -242,6 +249,7 @@ const GetCompositionPlayer = ({ composition, handleAddClass }) => {
   // const { data: composition  } = useSWR(id ? `/vendor/layouts/composition?compositionId=${id}` : null, fetcher);
 
   useEffect(() => {
+    console.log("compo", composition);
     if (composition && composition?.layout?.screenType) {
       handleAddClass(composition.layout.screenType);
     }

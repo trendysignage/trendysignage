@@ -68,6 +68,7 @@ const AddScreenModal = ({ setShowScreenModal, callAllScreenApi }) => {
         googleLocation: googleLocation,
         ...(tags.length ? { tags: tags } : {})
       };
+      console.log(finalScreenData, tags)
       await addScreen(finalScreenData);
       await callAllScreenApi();
       setShowScreenModal(false);

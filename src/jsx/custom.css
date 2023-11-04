@@ -1856,6 +1856,10 @@ input[type="radio"]:before {
   .zone-not-supported-people-space{
     background: linear-gradient(113deg, #f5beb7 10%, #ef86c9 24.5%, #b861d9 80%, #743aec 90%);
   }
+  .app-icon{
+    height: 58px;
+    width: 58px;
+  }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;
@@ -2409,8 +2413,8 @@ button#Fullscreen {
 }
 .web-player-body:-webkit-full-screen .webplayer-preview-img, 
 .web-player-body:-webkit-full-screen .video-js{
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 .web-player-body:-webkit-full-screen .webplayer-preview-img, 
 .web-player-body:-webkit-full-screen .video-js-rotate{

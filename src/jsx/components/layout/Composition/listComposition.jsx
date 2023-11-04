@@ -119,14 +119,14 @@ const ListComposition = ({
         <span className="name-content d-flex flex-column flex-grow-1">
           <strong>
             {value.name.length > 7
-              //? value.name.slice(0, 7) + "..."
-              ? value.name
+              ? //? value.name.slice(0, 7) + "..."
+                value.name
               : value.name}
           </strong>
           <span>
             {value.createdBy.length > 11
-              //? value.createdBy.slice(0, 11) + "..."
-              ? value.createdBy
+              ? //? value.createdBy.slice(0, 11) + "..."
+                value.createdBy
               : value.createdBy}
           </span>
         </span>
@@ -265,24 +265,25 @@ const ListComposition = ({
           <img className="icon-icon" src={listIcon} alt="list-icon" />
         </Button>
       </div>
-
-      <DataGrid
-        getRowHeight={() => "auto"}
-        components={{
-          NoRowsOverlay: CustomNoRowsOverlay,
-          Toolbar: CustomToolbar,
-          LoadingOverlay: LinearProgress,
-          Pagination: CustomPagination,
-        }}
-        rows={rows}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[5]}
-        disableSelectionOnClick
-        experimentalFeatures={{ newEditingApi: true }}
-        pagination
-        zIndex={-1}
-      />
+      <div style={{ minHeight: "700px" }}>
+        <DataGrid
+          getRowHeight={() => "auto"}
+          components={{
+            NoRowsOverlay: CustomNoRowsOverlay,
+            Toolbar: CustomToolbar,
+            LoadingOverlay: LinearProgress,
+            Pagination: CustomPagination,
+          }}
+          rows={rows}
+          columns={columns}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
+          disableSelectionOnClick
+          experimentalFeatures={{ newEditingApi: true }}
+          pagination
+          zIndex={-1}
+        />
+      </div>
       {showNewTagModal && (
         <AddNewTagModal
           setNewTagModal={setNewTagModal}

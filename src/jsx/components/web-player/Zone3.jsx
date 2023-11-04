@@ -308,6 +308,7 @@ const Zone3 = ({
                         scrolling="no"
                         display="block"
                         position="relative"
+                        styles={{ height: "100%", border: "none" }}
                       />
                     </div>
                   ) : contents.zones[0].content[currentIndex].type ===
@@ -468,6 +469,7 @@ const Zone3 = ({
                         position="relative"
                         scrolling="no"
                         loading="no"
+                        styles={{ height: "100%", border: "0px" }}
                       />
                     </div>
                   ) : contents.zones[1].content[current1Index].type ===
@@ -593,7 +595,7 @@ const Zone3 = ({
             {contents?.zones[2]?.content[current2Index] ? (
               <>
                 {contents.zones[2].content[current2Index].type === "image" ? (
-                  <div className="basic-list-group image-preview-container media-content">
+                  <div className="basic-list-group image-preview-container ">
                     <img
                       className="webplayer-preview-img"
                       style={{
@@ -608,7 +610,7 @@ const Zone3 = ({
                 ) : contents.zones[2].content[current2Index].type ===
                   "video" ? (
                   <div
-                    className={`basic-list-group video-container media-content ${viewImage} ${
+                    className={`basic-list-group video-container  ${viewImage} ${
                       viewImage === "fitScreen" ? "fitImage" : "containImage"
                     }`}
                   >
@@ -628,6 +630,7 @@ const Zone3 = ({
                       display="block"
                       position="relative"
                       scrolling="no"
+                      styles={{ height: "100%", border: "0px" }}
                     />
                   </div>
                 ) : contents.zones[2].content[current2Index].type ===

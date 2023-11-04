@@ -212,7 +212,7 @@ export const handleBulletinApps = (data) => {
             <>
               {newArray.length > 0 && (
                 <>
-                  <div className=" h-100" style={{ margin: "2%" }}>
+                  <div className=" h-100" style={{ padding: "2%" }}>
                     <Carousel
                       interval={5000}
                       indicators={false}
@@ -367,7 +367,7 @@ export const handleScrollerApps = (data) => {
   }
   let txt = "";
   console.log("Speed", speed, allignment);
-  let fontS = prp.fontSize ? prp.fontSize+"px" : "12px";
+  let fontS = prp.fontSize ? prp.fontSize + "px" : "12px";
   if (prp.style.value == "italic") {
     txt = (
       <i>
@@ -386,7 +386,7 @@ export const handleScrollerApps = (data) => {
         <marquee
           direction={allignment}
           scrollAmount={speed}
-          style={{ color: prp.textColor, fontSize: fontS}}
+          style={{ color: prp.textColor, fontSize: fontS }}
         >
           {prp.text}
         </marquee>
@@ -417,7 +417,7 @@ export const handleTextApps = (data) => {
   const prp = JSON.parse(data);
   console.log("text app ", data);
   let txt = "";
-  let fontS = prp.fontSize ? prp.fontSize+"px" : "20px";
+  let fontS = prp.fontSize ? prp.fontSize + "px" : "20px";
   if (prp.style == "Italic") {
     return (
       <div
@@ -427,7 +427,7 @@ export const handleTextApps = (data) => {
           color: prp.textColor,
           fontWeight: prp.weight,
           textAlign: prp.allign,
-          fontSize:fontS,
+          fontSize: fontS,
           padding: "15px",
         }}
       >
@@ -559,17 +559,16 @@ export const handleClockApps = (data) => {
 
 export const handleWeatherApps = (data, weatherInfo) => {
   const prp = JSON.parse(data);
-  console.log("data", prp, weatherInfo);
-
-  const cdate = new Date();
+  console.log(weatherInfo)
   let timeZ =
-    prp.timeZone && prp.timeZone.timeZone
-      ? prp.timeZone.timeZone.timeZoneId
+    prp.location.timeZone && prp.location.timeZone
+      ? prp.location.timeZone.timeZoneId
       : "Asia/Riyadh";
   let chicago_datetime_str = new Date().toLocaleString("en-US", {
     timeZone: timeZ,
   });
   let date_chicago = new Date(chicago_datetime_str);
+  console.log(date_chicago)
 
   return (
     <div className="h-100 w-100 " style={{ color: "white" }}>
@@ -594,7 +593,7 @@ export const handleWeatherApps = (data, weatherInfo) => {
           </div>
           <div className="time">
             <p className="mb-0">
-              <Moment format={"HH:MM A"} date={date_chicago} interval={10000} />
+              <Moment format={"h:m A"} date={chicago_datetime_str} />
             </p>
           </div>
         </div>
@@ -708,7 +707,7 @@ export const handleQrApps = (data) => {
           <p
             className={`mb-0 url ${prp.color ? prp.color.value : "orange"}Url`}
           >
-            {prp.url?.length > 45 ? prp.url.slice(0, 45) + "..." : prp.url}
+            {prp?.url?.length > 45 ? prp?.url?.slice(0, 45) + "..." : prp?.url}
           </p>
         </div>
       </div>
@@ -719,8 +718,8 @@ export const handleQrApps = (data) => {
 export const handleRssApps = (data) => {
   console.log("data rss", data);
   //const prp = JSON.parse(data);
-  const list = data.urlLink.items;
-  if (data.orientationMode == "footer") {
+  const list = data?.urlLink?.items;
+  if (data?.orientationMode == "footer") {
     return (
       <div className="h-100 w-100 text-white" style={{ color: "white" }}>
         <div className="h-100  bg-white">
@@ -733,9 +732,6 @@ export const handleRssApps = (data) => {
                   animation={"slide"}
                 >
                   {list.map((item, i) => {
-                    {
-                      console.log(item.content);
-                    }
                     return (
                       <>
                         <div className="h-100" key={i}>
@@ -1894,7 +1890,7 @@ export const handleQuoteApps = (data, quoteData) => {
                   style={{
                     borderRadius: "18px",
                     margin: "20px",
-                    marginTop: "12%",
+                    marginTop: "2%",
                     flexDirection: "column",
                   }}
                 >
@@ -2199,6 +2195,7 @@ export const handleGoogleApps = (data) => {
           // className=""
           display="block"
           position="relative"
+          styles={{ height: "100%", border: "0px" }}
         />
       ) : (
         <>Loading</>

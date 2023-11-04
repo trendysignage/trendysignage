@@ -631,7 +631,7 @@ export async function getNews(keyword) {
     },
   };
   const response = await fetchClient.get(
-    `https://google-news13.p.rapidapi.com/search?keyword=${keyword}&lr:`,
+    `https://google-news13.p.rapidapi.com/search?keyword=${keyword}&lr:en-US`,
     rapidHeader
   );
   return response.data;
