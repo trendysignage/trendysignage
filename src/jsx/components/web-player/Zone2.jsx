@@ -234,7 +234,7 @@ const Zone2 = ({
                         className={`basic-list-group image-preview-container ${
                           contents.layout.screenType === rotateMode
                             ? "media-content-rotate"
-                            : "media-content"
+                            : ""
                         }`}
                       >
                         <img
@@ -254,7 +254,7 @@ const Zone2 = ({
                         className={`basic-list-group video-container  ${
                           contents.layout.screenType === rotateMode
                             ? "media-content-rotate "
-                            : "media-content"
+                            : ""
                         } ${viewImage} ${
                           viewImage === "fitScreen"
                             ? "fitImage"
@@ -276,12 +276,17 @@ const Zone2 = ({
                           // className=""
                           display="block"
                           position="relative"
+                          styles={{ height: "100px", border: "0px" }}
                         />
                       </div>
                     ) : contents.zones[0].content[currentIndex].type ===
                       "youtube-apps" ? (
                       <div
-                        className={`basic-list-group video-container media-content ${viewImage} ${
+                        className={`basic-list-group video-container ${
+                          contents.layout.screenType === rotateMode
+                            ? "media-content-rotate"
+                            : ""
+                        } ${viewImage} ${
                           viewImage === "fitScreen"
                             ? "fitImage"
                             : "containImage"
@@ -305,7 +310,7 @@ const Zone2 = ({
                           className={`basic-list-group image-preview-container ${
                             contents.layout.screenType === rotateMode
                               ? "media-content-rotate"
-                              : "media-content"
+                              : ""
                           }`}
                         >
                           {handleScrollerApps(
@@ -394,7 +399,7 @@ const Zone2 = ({
                         className={`basic-list-group image-preview-container ${
                           contents.layout.screenType === rotateMode
                             ? "media-content-rotate"
-                            : "media-content"
+                            : ""
                         }`}
                       >
                         {getStockDataZone1(
@@ -407,7 +412,7 @@ const Zone2 = ({
                         className={`basic-list-group image-preview-container ${
                           contents.layout.screenType === rotateMode
                             ? "media-content-rotate"
-                            : "media-content"
+                            : ""
                         }`}
                       >
                         {getQuoteDataZone1(
