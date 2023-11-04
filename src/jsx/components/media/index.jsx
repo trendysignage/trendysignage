@@ -6,7 +6,9 @@ import UploadMediaModal from "../../modals/UploadMediaFileModal";
 import searchIcon from "../../../img/search.png";
 import listIcon from "../../../img/list-icon.png";
 import uploadIcon from "../../../img/upload-icon.png";
-import canvaIcon from "../../../img/canva-icon.png";
+import canvaIcon from "../../../img/brush.svg";
+import layout from "../../../img/layout.svg";
+
 import { getAllMedia } from "../../../utils/api";
 import { connect, useDispatch, useSelector } from "react-redux";
 import LockScreen from "../../pages/LockScreen";
@@ -24,7 +26,7 @@ const Media = ({ auth, permission }) => {
   });
   const [allMedia, setAllMedia] = useState([]);
   const [openEditor, setOpenEditor] = useState(false);
-  const [editorType, setEditorType] = useState(null)
+  const [editorType, setEditorType] = useState(null);
 
   // const { data: allMedia, mutate } = useSWR(
   //   "/vendor/display/media",
@@ -61,7 +63,7 @@ const Media = ({ auth, permission }) => {
     e.preventDefault();
     setEditorType(type);
     setOpenEditor(true);
-  }
+  };
 
   return (
     <>
@@ -124,11 +126,11 @@ const Media = ({ auth, permission }) => {
                 </Dropdown.Item>
                 <Dropdown.Item
                   onClick={(e) => {
-                    handleEditor(e, 'default');
+                    handleEditor(e, "default");
                   }}
                   className="dropdown-list-item"
                 >
-                  <div className="d-flex">
+                  <div className="d-flex align-items-center">
                     <div className="dropdown-list-icon">
                       <img
                         className="dropdown-list-img img-fluid"
@@ -145,16 +147,16 @@ const Media = ({ auth, permission }) => {
                   </div>
                 </Dropdown.Item>
                 <Dropdown.Item
-                   onClick={(e) => {
-                    handleEditor(e, 'custom');
+                  onClick={(e) => {
+                    handleEditor(e, "custom");
                   }}
                   className="dropdown-list-item"
                 >
-                  <div className="d-flex">
+                  <div className="d-flex align-items-center">
                     <div className="dropdown-list-icon">
                       <img
                         className="dropdown-list-img img-fluid"
-                        src={canvaIcon}
+                        src={layout}
                         alt="menu-icon"
                       />
                     </div>

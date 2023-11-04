@@ -172,7 +172,7 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                   <div
                     className={`basic-list-group video-container  ${
                       contents.layout.screenType === rotateMode
-                        ? "media-content-rotate fitImage-rotate"
+                        ? "media-content-rotate "
                         : "media-content"
                     } ${viewImage} ${
                       viewImage === "fitScreen" ? "fitImage" : "containImage"
@@ -183,7 +183,8 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       layout={contents.layout.screenType}
                     ></WebVideoPlayer>
                   </div>
-                ) : contents.zones[0].content[currentIndex].type ==="youtube-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "youtube-apps" ? (
                   <div
                     className={`basic-list-group video-container ${
                       contents.layout.screenType === rotateMode
@@ -204,7 +205,8 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       muted={true}
                     />
                   </div>
-                ) : contents.zones[0].content[currentIndex].type ==="url-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "url-apps" ? (
                   <div
                     // className="basic-list-group image-preview-container media-content"
                     className={`basic-list-group image-preview-container ${
@@ -223,7 +225,8 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       position="relative"
                     />
                   </div>
-                ) : contents.zones[0].content[currentIndex].type ==="scroller" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "scroller" ? (
                   <div
                     className={`basic-list-group image-preview-container ${
                       contents.layout.screenType === rotateMode
@@ -235,7 +238,8 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       contents.zones[0].content[currentIndex].data
                     )}
                   </div>
-                ) : contents.zones[0].content[currentIndex].type ==="text-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "text-apps" ? (
                   <div
                     className={`basic-list-group image-preview-container ${
                       contents.layout.screenType === rotateMode
@@ -247,7 +251,8 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       contents.zones[0].content[currentIndex].data
                     )}
                   </div>
-                ) : contents.zones[0].content[currentIndex].type ==="clock-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "clock-apps" ? (
                   <div
                     className={`basic-list-group image-preview-container ${
                       contents.layout.screenType === rotateMode
@@ -259,7 +264,8 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       contents.zones[0].content[currentIndex].data
                     )}
                   </div>
-                ) : contents.zones[0].content[currentIndex].type ==="bulletin-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "bulletin-apps" ? (
                   <div
                     className={`basic-list-group image-preview-container ${
                       contents.layout.screenType === rotateMode
@@ -271,11 +277,13 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       contents.zones[0].content[currentIndex].data
                     )}
                   </div>
-                ) : contents.zones[0].content[currentIndex].type ==="qrcode-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "qrcode-apps" ? (
                   <>
                     {handleQrApps(contents.zones[0].content[currentIndex].data)}
                   </>
-                ) : contents.zones[0].content[currentIndex].type ==="weather-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "weather-apps" ? (
                   <div
                     className={`basic-list-group image-preview-container ${
                       contents.layout.screenType === rotateMode
@@ -291,7 +299,8 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       contents.zones[0].content[currentIndex].data
                     )}
                   </div>
-                ) : contents.zones[0].content[currentIndex].type ==="rss-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "rss-apps" ? (
                   <div
                     className={`basic-list-group image-preview-container ${
                       contents.layout.screenType === rotateMode
@@ -303,19 +312,22 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       contents.zones[0].content[currentIndex].data
                     )}
                   </div>
-                ) : contents.zones[0].content[currentIndex].type === "quote-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "quote-apps" ? (
                   <>
                     {getQuoteDataZone1(
                       contents.zones[0].content[currentIndex].data
                     )}
                   </>
-                ) : contents.zones[0].content[currentIndex].type === "aqi-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "aqi-apps" ? (
                   <>
                     {getAqiDataZone1(
                       contents.zones[0].content[currentIndex].data
                     )}
                   </>
-                ) : contents.zones[0].content[currentIndex].type === "news-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "news-apps" ? (
                   <div
                     className={`basic-list-group image-preview-container ${
                       contents.layout.screenType === rotateMode
@@ -327,19 +339,22 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       contents.zones[0].content[currentIndex].data
                     )}
                   </div>
-                ) : contents.zones[0].content[currentIndex].type === "google-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "google-apps" ? (
                   <>
                     {handleGoogleApps(
                       contents.zones[0].content[currentIndex].data
                     )}
                   </>
-                ) : contents.zones[0].content[currentIndex].type === "stocks-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "stocks-apps" ? (
                   <>
                     {getStockDataZone1(
                       contents.zones[0].content[currentIndex].data
                     )}
                   </>
-                ) : contents.zones[0].content[currentIndex].type === "people-apps" ? (
+                ) : contents.zones[0].content[currentIndex].type ===
+                  "people-apps" ? (
                   <>
                     {handlePeopleSpace(
                       contents.zones[0].content[currentIndex].data
