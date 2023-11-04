@@ -212,7 +212,7 @@ export const handleBulletinApps = (data) => {
             <>
               {newArray.length > 0 && (
                 <>
-                  <div className=" h-100" style={{ margin: "2%" }}>
+                  <div className=" h-100" style={{ padding: "2%" }}>
                     <Carousel
                       interval={5000}
                       indicators={false}
@@ -1894,7 +1894,7 @@ export const handleQuoteApps = (data, quoteData) => {
                   style={{
                     borderRadius: "18px",
                     margin: "20px",
-                    marginTop: "12%",
+                    marginTop: "2%",
                     flexDirection: "column",
                   }}
                 >
@@ -2199,6 +2199,7 @@ export const handleGoogleApps = (data) => {
           // className=""
           display="block"
           position="relative"
+          styles={{ height: "100%", border: "0px" }}
         />
       ) : (
         <>Loading</>

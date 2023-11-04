@@ -1,8 +1,25 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import weather from "../../../img/weather.svg";
+import urlapp from "../../../img/urlapp.svg";
+
 import menuIcon from "../../../img/menu-icon.svg";
 import UrlAppModal from "../../modals/UrlAppModal";
+import youtube from "../../../img/youtube.svg";
+import scroller from "../../../img/Scroller.svg";
+import text from "../../../img/text.svg";
+import clock from "../../../img/clock.svg";
+import news from "../../../img/news.svg";
+
+import google from "../../../img/Google.svg";
+import Stocks from "../../../img/Stocks.svg";
+import qr from "../../../img/qr.svg";
+import aqi from "../../../img/aqi.svg";
+import rss from "../../../img/rss.svg";
+import people from "../../../img/people.svg";
+
+import quote from "../../../img/quote 1.svg";
+import bulletin from "../../../img/Bulletin.svg";
 import { useState } from "react";
 import RssFeedAppModal from "../../modals/RssFeedAppModal";
 import ScrollerTextAppModal from "../../modals/ScrollerTextAppModal";
@@ -49,24 +66,24 @@ const Integrations = ({ permission, auth }) => {
   const [showNewsApp, setShowNewsApp] = useState(false);
 
   const appList = [
-    { title: "URL APP", slug: "url-app", icon: weather },
-    { title: "YOUTUBE", slug: "youtube", icon: weather },
+    { title: "URL APP", slug: "url-app", icon: urlapp },
+    { title: "YOUTUBE", slug: "youtube", icon: youtube },
 
-    { title: "SCROLLER", slug: "scroller", icon: weather },
+    { title: "SCROLLER", slug: "scroller", icon: scroller },
     { title: "WEATHER", slug: "weather", icon: weather },
-    { title: "TEXT", slug: "text", icon: weather },
-    { title: "CLOCK APP", slug: "clock-app", icon: weather },
+    { title: "TEXT", slug: "text", icon: text },
+    { title: "CLOCK APP", slug: "clock-app", icon: clock },
 
-    { title: " BULLETIN APP", slug: "bulletin-app", icon: weather },
-    { title: "GOOGLE SLIDES", slug: "google-slides", icon: weather },
-    { title: "All NEWS APP", slug: "all-news-app", icon: weather },
-    { title: "QUOTES", slug: "quotes", icon: weather },
-    { title: "STOCKS", slug: "stocks", icon: weather },
-    { title: "QR CODE", slug: "qr-code", icon: weather },
+    { title: " BULLETIN APP", slug: "bulletin-app", icon: bulletin },
+    { title: "GOOGLE SLIDES", slug: "google-slides", icon: google },
+    { title: "All NEWS APP", slug: "all-news-app", icon: news },
+    { title: "QUOTES", slug: "quotes", icon: quote },
+    { title: "STOCKS", slug: "stocks", icon: Stocks },
+    { title: "QR CODE", slug: "qr-code", icon: qr },
 
-    { title: "AIR QUALITY APP", slug: "air-quality-app", icon: weather },
-    { title: "RSS FEED", slug: "rss-feed", icon: weather },
-    { title: "PEOPLE SPACE", slug: "people-space", icon: weather },
+    { title: "AIR QUALITY APP", slug: "air-quality-app", icon: aqi },
+    { title: "RSS FEED", slug: "rss-feed", icon: rss },
+    { title: "PEOPLE SPACE", slug: "people-space", icon: people },
   ];
 
   const handleChange = (e, type) => {
@@ -322,7 +339,7 @@ const Integrations = ({ permission, auth }) => {
                 }}
               >
                 <div className="text-center">
-                  <img className="mb-3" src={weather} />
+                  <img className="mb-3 app-icon" src={item.icon} />
                   <p>{item.title}</p>
                 </div>
               </div>

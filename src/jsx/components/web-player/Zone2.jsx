@@ -251,7 +251,11 @@ const Zone2 = ({
                     ) : contents.zones[0].content[currentIndex].type ===
                       "video" ? (
                       <div
-                        className={`basic-list-group video-container media-content ${viewImage} ${
+                        className={`basic-list-group video-container  ${
+                          contents.layout.screenType === rotateMode
+                            ? "media-content-rotate "
+                            : "media-content"
+                        } ${viewImage} ${
                           viewImage === "fitScreen"
                             ? "fitImage"
                             : "containImage"
@@ -447,7 +451,7 @@ const Zone2 = ({
                     ) : contents.zones[1].content[current1Index].type ===
                       "video" ? (
                       <div
-                        className={`basic-list-group video-container media-content ${viewImage} ${
+                        className={`basic-list-group video-container  ${viewImage} ${
                           viewImage === "fitScreen"
                             ? "fitImage"
                             : "containImage"

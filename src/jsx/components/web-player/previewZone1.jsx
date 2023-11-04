@@ -128,7 +128,7 @@ const PreviewZone1 = ({
       {content[currentIndex] && content[currentIndex].type === "image" ? (
         <div
           className="basic-list-group image-preview-container media-content modal-priview-composition"
-          style={{ height: "560px" }}
+          style={{ height: "700px" }}
         >
           <img
             className="webplayer-preview-img"
@@ -144,6 +144,7 @@ const PreviewZone1 = ({
           className={`basic-list-group video-container media-content ${viewImage} ${
             viewImage === "fitScreen" ? "fitImage" : "containImage"
           }`}
+          style={{ height: "700px", width: "100%" }}
         >
           <WebVideoPlayer
           //src={url}
