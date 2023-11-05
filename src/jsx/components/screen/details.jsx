@@ -320,7 +320,7 @@ const ScreenDetails = () => {
               <div className="accordion-custom-img">
                 <img
                   className="accordion-img"
-                  src={screen.contentPlaying && screen.contentPlaying[0] && screen.contentPlaying[0].media && screen.contentPlaying[0].media.zones[0].content[0].type == 'image' ? BASE_URL+screen.contentPlaying[0].media.referenceUrl[0].split("**")[0] : accordionImg}
+                  src={screen.contentPlaying && screen.contentPlaying[0] && screen.contentPlaying[0].media && screen.contentPlaying[0].media.referenceUrl && screen.contentPlaying[0].media.referenceUrl[0] && screen.contentPlaying[0].media.zones[0].content[0].type == 'image' ? BASE_URL+screen.contentPlaying[0].media.referenceUrl[0].split("**")[0] : accordionImg}
                   alt="menu-icon"
                 />
               </div>
@@ -717,8 +717,8 @@ const ScreenDetails = () => {
               className="ml-2  more-icon-dropdown"
             >
               <Dropdown.Item eventKey="1" onClick={(e) => {handleWeb(e, 'reload_display')}}>Reload Screen</Dropdown.Item>
-              <Dropdown.Item eventKey="2" onClick={(e) => {handleWeb(e, 'clear_data')}}>Clear Cache</Dropdown.Item>
-              <Dropdown.Item eventKey="3" onClick={(e) => {handleWeb(e, 'clear_cache')}}>Clear Data</Dropdown.Item>
+              <Dropdown.Item eventKey="2" onClick={(e) => {handleWeb(e, 'clear_cache')}}>Clear Cache</Dropdown.Item>
+              <Dropdown.Item eventKey="3" onClick={(e) => {handleWeb(e, 'clear_data')}}>Clear Data</Dropdown.Item>
               <Dropdown.Item eventKey="4" onClick={(e) => {handleWeb(e, 'reboot_display')}}>Reboot display</Dropdown.Item>
 
               <Dropdown.Item

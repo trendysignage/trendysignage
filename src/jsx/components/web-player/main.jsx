@@ -24,8 +24,12 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
 
   const getScreenCode = async () => {
     let timeoutTimer;
-    const getContent = await addScreenCode(id);
-    console.log("getContent",getContent)
+    const getContent = await addScreenCode(id); 
+    if(getContent && getContent.isReload){
+      console.log("reload");
+      window.location.reload();
+
+    }
     setIsVerified(getContent?.isVerified);
     if (getContent.isVerified) {
       if (getContent?.content.length) {
@@ -67,7 +71,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
   }, [isVerified]);
   //const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
   useEffect(() => {
-    // console.log("sdasd");
+    console.log("sdasd");
     const socket = io(BASE_URL, {
       query: { deviceToken: id },
       autoConnect: true,
@@ -102,7 +106,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
       socket.disconnect();
       socket.off("receiveContent", onReceiveContent);
     };
-  },[contentType]);
+  },[]);
 
 
   return (
