@@ -6,7 +6,6 @@ import { handleNewsApps } from "../../utils/UtilsService";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-import Switch from "react-switch";
 
 const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [newsData, setNewsData] = useState(null);
@@ -35,6 +34,7 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     label: "Classic View",
   });
   const [topic, setTopic] = useState({ value: "world", label: "World" });
+  const [topicPre, setTopicPre] = useState({ value: "world", label: "World" });
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
   const [duration, setDuration] = useState(10);
@@ -47,6 +47,7 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsRefresh(false)
     if (mediaData) {
       console.log("media", mediaData, actionType);
       const jsonString = JSON.parse(mediaData.appData);
@@ -59,7 +60,7 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
         jsonString.orientationMode ? jsonString.orientationMode : "landscape"
       );
     }
-  }, [mediaData]);
+  }, [mediaData, isRefresh, topic]);
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
@@ -106,32 +107,61 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     const quoteResult = await getNews(data);
     console.log(quoteResult);
     setNewsData(quoteResult);
+    setNewsPreviewData(handleNewsApps(
+      JSON.stringify({
+        url: name,
+        theame: selectedTheame,
+        topic,
+        orientationMode,
+      }),
+      quoteResult
+    ))
   };
 
   const getNewsDataZone1 = (data) => {
     const prp = JSON.parse(data);
-console.log(prp.topic.value, topic.value)
-    if (!newsData && prp.topic.value !== topic.value) {
-      getNewsData(topic);
+    if(topic.value !== topicPre.value){
+      console.log("Not match")
+       getNewsData(topic.value);
+       setTopicPre(topic);
+       setIsRefresh(true);
     }
-    console.log(data, newsData);
-    return handleNewsApps(data, newsData);
+    if (!newsData) {
+       getNewsData(topic.value);
+    }
+    //return handleNewsApps(data, newsData);
   };
 
-  const handlePreview = async () => {
-    console.log(preview);
+  // const getNewsDataZone1 = (data) => {
+  //   const prp = JSON.parse(data);
+  //   if(topic.value !== topicPre.value){
+  //     console.log("Not match")
+  //      getNewsData(topic.value);
+  //      setTopicPre(topic);
+  //      setIsRefresh(true);
+  //   }
+  //   if (!newsData) {
+  //      getNewsData(topic.value);
+  //   }
+  //   return handleNewsApps(data, newsData);
+  // };
+
+  const handleTopic = (e) => {
+    setTopic(e);
+  }
+
+  const handlePreview =(e) => {
+    e.preventDefault();
     if (name) {
-      setNewsPreviewData(
-        getNewsDataZone1(
-          JSON.stringify({
-            url: name,
-            theame: selectedTheame,
-            topic,
-            orientationMode,
-          }),
-          newsData
-        )
-      );
+      if(topic.value !== topicPre.value){
+        console.log("Not match")
+         getNewsData(topic.value);
+         setTopicPre(topic);
+         setIsRefresh(true);
+      }
+      if (!newsData) {
+         getNewsData(topic.value);
+      }
       setIsRefresh(true);
       setPreview(true);
     } else {
@@ -205,7 +235,9 @@ console.log(prp.topic.value, topic.value)
               <label className="mt-3">Topic </label>
               <Select
                 value={topic}
-                onChange={setTopic}
+                onChange={(e) => {
+                  handleTopic(e)
+                }}
                 options={topics}
                 className="app-option"
               />
@@ -241,8 +273,8 @@ console.log(prp.topic.value, topic.value)
                   required={true}
                 />
               </div> */}
-              <Button onClick={handlePreview} className="mt-3">
-                Preview
+              <Button onClick={(e) => {handlePreview(e)}} className="mt-3">
+                Previews
               </Button>
             </div>
             <div className="col-6 ">

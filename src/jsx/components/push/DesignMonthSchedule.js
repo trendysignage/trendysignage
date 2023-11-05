@@ -41,10 +41,10 @@ export default function DesignMonthSchedule() {
   const callAllDaySequence = async (id) => {
     const list = await getAllDaySequence(id);
     setDaySequence(list.sequence);
-    console.log("list.sequence", list.sequence);
+    //console.log("list.sequence", list.sequence);
     list.sequence.forEach((item) => {
       if (item.dates && item.dates.length > 0) {
-        console.log("isLoading:true");
+        //console.log("isLoading:true");
         const datesList = [];
         item.dates.forEach((item2) => {
           datesList.push(item2.split("T")[0] + "*****" + item._id);
@@ -53,7 +53,7 @@ export default function DesignMonthSchedule() {
         handlCustomeWeek(datesList, item, true);
       }
     });
-    console.log("isLoading:false");
+   // console.log("isLoading:false");
   };
   useEffect(() => {
     callAllDaySequence(id);
@@ -67,7 +67,9 @@ export default function DesignMonthSchedule() {
       const dt = new Date(dateInfo);
       const isChecked = selectedCheckboxes[checkboxKey];
       if (isWk) {
+        //console.log("iswk");
         if (!isChecked) {
+          //console.log("iswknotcheckd");
           // Unselecting the checkbox
           setSelectedCheckboxes((prevSelectedCheckboxes) => {
             const updatedCheckboxes = { ...prevSelectedCheckboxes };
@@ -78,6 +80,7 @@ export default function DesignMonthSchedule() {
             current.filter((event) => event.start !== dateInfo)
           );
         } else {
+          console.log("iswkcheckd");
           // Selecting the checkbox
           setSelectedCheckboxes({ ...selectedCheckboxes, [checkboxKey]: true });
           const existingEvent = events.find(
@@ -94,11 +97,14 @@ export default function DesignMonthSchedule() {
           }
         }
       } else {
+        //console.log("isnwk");
         if (isChecked) {
+          //console.log("iswkcheckd");
           setSelectedCheckboxes((prevSelectedCheckboxes) => {
             const updatedCheckboxes = { ...prevSelectedCheckboxes };
             delete updatedCheckboxes[checkboxKey];
             updatedCheckboxes[days[dt.getDay()]] = false;
+            updatedCheckboxes[days[dt.getDay()]+"-"+currentMonth] = false;
             return updatedCheckboxes;
           });
           //setSelectedCheckboxes({...selectedCheckboxes,[days[dt.getDay()]] : false})
@@ -108,24 +114,23 @@ export default function DesignMonthSchedule() {
           );
           setEvents(filteredEvents);
         } else {
+          //console.log("iswknotcheckd");
           const dayList = getSundays(days[dt.getDay()], dt.getDay());
-          let ct = false;
+          //console.log("currentMonth",dayList)
+          let ct = true;
 
           dayList.forEach((item) => {
-            if (
-              selectedCheckboxes[item.format("YYYY-MM-DD")] &&
-              selectedCheckboxes[item.format("YYYY-MM-DD")] !== undefined
-            ) {
-              ct = true;
-            } else {
+            if (!selectedCheckboxes[item.format("YYYY-MM-DD")+"*****"+selectedEvent._id] && item.format("YYYY-MM-DD") !== dateInfo) {
               ct = false;
-            }
+              //console.log("notfound", item.format("YYYY-MM-DD"), dateInfo);
+            } 
           });
+          //console.log("D",dateInfo, ct)
           setSelectedCheckboxes({
             ...selectedCheckboxes,
             [checkboxKey]: true,
-            [days[dt.getDay()]]:
-              ct == true ? true : selectedCheckboxes[dt.getDay()],
+            [days[dt.getDay()]]:ct,
+            [days[dt.getDay()]+"-"+currentMonth]:ct,
           });
           const existingEvent = events.find(
             (event) => event.start === dateInfo
@@ -156,6 +161,7 @@ export default function DesignMonthSchedule() {
         setEvents((prevEvents) => [...prevEvents, event]);
       }
     }
+    //console.log(selectedCheckboxes)
   }
 
   const handlCustomeWeek = async (dayList, ev, iswk = true) => {
@@ -175,7 +181,7 @@ export default function DesignMonthSchedule() {
   };
 
   const handleWeek = async (e, day, dayInfo, iswk = true) => {
-    console.log("handlewk");
+    
     const dayList = getSundays(days[day], day);
     
     const newArray = selectedCheckboxes;
@@ -191,6 +197,7 @@ export default function DesignMonthSchedule() {
           newArray[checkboxKey] = true;
           handleDateCellChange(item.format("YYYY-MM-DD"), iswk);
           newArray[days[day]] = true;
+          newArray[days[day]+"-"+currentMonth] = true;
         }
       });
     } else {
@@ -202,20 +209,20 @@ export default function DesignMonthSchedule() {
         }
         handleDateCellChange(item.format("YYYY-MM-DD"), iswk);
         newArray[days[day]] = false;
+        newArray[days[day]+"-"+currentMonth] = false;
       });
     }
     setSelectedCheckboxes(newArray);
+    console.log("handlewk", selectedCheckboxes);
   };
 
   const getSundays = (dayName, dayId) => {
     const result = [];
     var startDate = new Date();
     const cMonth = currentMonth;
-    
     const cYear = startDate.getFullYear();
-    
     var endDate = new Date(cYear, cMonth+1, 0);
-    console.log("check year",endDate);
+   // console.log("check year",endDate);
     var day = dayId;
     for (var i = 0; i <= 7; i++) {
       if (startDate.toString().indexOf(dayName) !== -1) {
@@ -223,12 +230,13 @@ export default function DesignMonthSchedule() {
       }
       startDate = new Date(cYear, cMonth, i);
 
-      console.log(startDate, "sdtaa")
+      //console.log(startDate, "sdtaa")
     }
     startDate = moment(startDate);
     endDate = moment(endDate);
-    result.push(startDate);
+    //result.push(startDate);
     var current = startDate.clone();
+    //console.log("getSunday",current, result)
     while (current.day(7 + day).isSameOrBefore(endDate)) {
       result.push(current.clone());
     }
@@ -274,7 +282,7 @@ export default function DesignMonthSchedule() {
             name={`checkbox-${checkboxKey}`}
             type="checkbox"
             id={`checkbox-${checkboxKey}`}
-            checked={selectedCheckboxes[days[dayInfo.date.getDay()]]}
+            checked={selectedCheckboxes[days[dayInfo.date.getDay()]+"-"+currentMonth]}
             onChange={(e) => {
               handleWeek(e, dayInfo.date.getDay(), dayInfo);
             }}
@@ -384,7 +392,7 @@ export default function DesignMonthSchedule() {
       scheduleArray: publishData,
     };
 
-    console.log(payload)
+    //console.log(payload)
     await pushAddDates(payload).then((res) => {
       if (res.data.statusCode === 200) {
         history.push(`/push`);

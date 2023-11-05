@@ -1947,7 +1947,7 @@ export const handleQuoteApps = (data, quoteData) => {
 
 export const handleNewsApps = (data, newsData) => {
   const prp = JSON.parse(data);
-  console.log(prp, "lllll");
+  //console.log(prp, "lllll");
   if (prp.orientationMode && prp.orientationMode == "footer") {
     return (
       <div className="bg-white h-100">
@@ -1976,7 +1976,7 @@ export const handleNewsApps = (data, newsData) => {
                 {newsData &&
                   newsData.items.map((item, i) => {
                     {
-                      console.log(item.title);
+                      //console.log(item.title);
                     }
                     return (
                       <>
@@ -2055,7 +2055,7 @@ export const handleNewsApps = (data, newsData) => {
                 {newsData &&
                   newsData.items.map((item, i) => {
                     {
-                      console.log(item.title);
+                      //console.log(item.title);
                     }
                     return (
                       <>
@@ -2131,7 +2131,7 @@ export const handleNewsApps = (data, newsData) => {
               {newsData &&
                 newsData.items.map((item, i) => {
                   {
-                    console.log(item.title);
+                    //console.log(item.title);
                   }
                   return (
                     <>
