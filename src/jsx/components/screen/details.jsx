@@ -320,7 +320,13 @@ const ScreenDetails = () => {
               <div className="accordion-custom-img">
                 <img
                   className="accordion-img"
-                  src={screen.contentPlaying && screen.contentPlaying[0] && screen.contentPlaying[0].media && screen.contentPlaying[0].media.referenceUrl && screen.contentPlaying[0].media.referenceUrl[0] && screen.contentPlaying[0].media.zones[0].content[0].type == 'image' ? BASE_URL+screen.contentPlaying[0].media.referenceUrl[0].split("**")[0] : accordionImg}
+                  src={
+                    screen.contentPlaying && 
+                    screen.contentPlaying[0] && 
+                    screen.contentPlaying[0].media && 
+                    screen.contentPlaying[0].media.referenceUrl && 
+                    screen.contentPlaying[0].media.referenceUrl[0] && 
+                    screen.contentPlaying[0].media.zones[0].content[0].type == 'image' ? BASE_URL+screen.contentPlaying[0].media.referenceUrl[0].split("**")[0] : accordionImg}
                   alt="menu-icon"
                 />
               </div>
