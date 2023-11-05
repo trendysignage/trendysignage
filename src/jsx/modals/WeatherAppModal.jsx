@@ -16,7 +16,6 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     setWeatherInfo(locationData)
   }
   const options = [
-    { value: "classic", label: "Classic" },
     { value: "grey", label: "Minimalist with Grey Background" },
     { value: "color", label: "Minimalist with Color Background" }
 ];
@@ -29,10 +28,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     longitude: "",
     timeZone:""
   });
-  const [selectedTheme, setSelectedTheme] = useState({
-    value: "Classic",
-    label: "Classic",
-  });
+  const [selectedTheme, setSelectedTheme] = useState({ value: "grey", label: "Minimalist with Grey Background" });
   const [selectedTemp, setSelectedTemp] = useState({
     value: "celsius",
     label: "Celsius",
