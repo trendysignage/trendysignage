@@ -27,7 +27,7 @@ import {
   getAllScreens,
   getGroups,
   assignScreenGroups,
-  handleWebData
+  handleWebData,
 } from "../../../utils/api";
 import DeleteConfirmation from "../../modals/DeleteConfirmation";
 import QuickPlayModal from "../../modals/QuickPlayModal";
@@ -49,7 +49,7 @@ const ScreenDetails = () => {
   const [allGroups, setAllGroups] = useState([]);
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
-  const [isEdit, setIsEdit] = useState(false)
+  const [isEdit, setIsEdit] = useState(false);
   const [selectedScreen, setSelectedScreen] = useState("");
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
@@ -172,13 +172,13 @@ const ScreenDetails = () => {
     if (value !== undefined) {
       return value?.timings[value.timings.length - 1]?.endTime;
     }
-  }
+  };
   const convertTimestampTo12HourFormat = (timestamp) => {
     if (!timestamp) {
-        return "Invalid timestamp";
+      return "Invalid timestamp";
     }
     if (timestamp === "time not find") {
-        return "Invalid timestamp";
+      return "Invalid timestamp";
     }
 
     const timeParts = timestamp.split("T")[1].split(".")[0].split(":");
@@ -186,97 +186,79 @@ const ScreenDetails = () => {
     const minutes = timeParts[1];
 
     if (timeParts.length >= 1) {
-        hours = parseInt(timeParts[0]);
+      hours = parseInt(timeParts[0]);
 
-        let amPm;
-        if (hours >= 12) {
+      let amPm;
+      if (hours >= 12) {
         amPm = "PM";
         if (hours > 12) {
-            hours -= 12;
+          hours -= 12;
         }
-        } else {
+      } else {
         amPm = "AM";
         if (hours === 0) {
-            hours = 12;
+          hours = 12;
         }
-        }
-
-        const convertedTime = `${hours}:${minutes} ${amPm}`;
-        return convertedTime;
-      } else {
-          return "Invalid timestamp format";
       }
-  }
+
+      const convertedTime = `${hours}:${minutes} ${amPm}`;
+      return convertedTime;
+    } else {
+      return "Invalid timestamp format";
+    }
+  };
   const renderStartDate = (value) => {
     const maxDates = value.sequence.reduce((max, obj) => {
       const parseDts = obj.dates.map((dt) => new Date(dt));
-      const objMax =
-        obj.dates.length > 0 ? Math.max(...parseDts) : null;
+      const objMax = obj.dates.length > 0 ? Math.max(...parseDts) : null;
       return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
     }, null);
-    const formatedDt = moment(new Date(maxDates)).format(
-      "YYYY-MM-DD"
-    );
+    const formatedDt = moment(new Date(maxDates)).format("YYYY-MM-DD");
 
     const minDates = value.sequence.reduce((min, obj) => {
       const parseDt = obj.dates.map((dt) => new Date(dt));
-      const objMin =
-        parseDt.length > 0 ? Math.min(...parseDt) : null;
+      const objMin = parseDt.length > 0 ? Math.min(...parseDt) : null;
       return objMin ? (min ? Math.min(min, objMin) : objMin) : min;
     }, null);
 
-    const formatedDtMin = moment(new Date(minDates)).format(
-      "YYYY-MM-DD"
-    );
+    const formatedDtMin = moment(new Date(minDates)).format("YYYY-MM-DD");
 
     const maxTime = value.sequence.reduce((max, obj) => {
       const parseDts = obj.dates.map((dt) => new Date(dt));
-      const objMax =
-        obj.dates.length > 0 ? Math.max(...parseDts) : null;
+      const objMax = obj.dates.length > 0 ? Math.max(...parseDts) : null;
       return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
     }, null);
-    const endTime = findEndTime(
-      value?.sequence[value?.sequence.length - 1]
-    );
+    const endTime = findEndTime(value?.sequence[value?.sequence.length - 1]);
     return (
       <div>
-          <span className="td-content">
-              <strong> {formatedDtMin}</strong>
-              {" "}
-              <span>
-              {convertTimestampTo12HourFormat(
-                  value?.sequence[0]?.timings[0]?.startTime
-              )}
-              </span>
+        <span className="td-content">
+          <strong> {formatedDtMin}</strong>{" "}
+          <span>
+            {convertTimestampTo12HourFormat(
+              value?.sequence[0]?.timings[0]?.startTime
+            )}
           </span>
+        </span>
       </div>
-    )
-  }
+    );
+  };
   const renderEndDate = (value) => {
-      const maxDates = value.sequence.reduce((max, obj) => {
-        const parseDts = obj.dates.map((dt) => new Date(dt));
-        const objMax =
-          obj.dates.length > 0 ? Math.max(...parseDts) : null;
-        return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
-      }, null);
-      const formatedDt = moment(new Date(maxDates)).format(
-        "YYYY-MM-DD"
-      );
-      const endTime = findEndTime(
-        value?.sequence[value?.sequence.length - 1]
-      );
-      return (
-        <div>
-            <span className="td-content">
-                <strong> {formatedDt}</strong>
-                {" "}
-                <span>
-                {convertTimestampTo12HourFormat(endTime)}
-                </span>
-            </span>
-        </div>
-      )
-  }
+    const maxDates = value.sequence.reduce((max, obj) => {
+      const parseDts = obj.dates.map((dt) => new Date(dt));
+      const objMax = obj.dates.length > 0 ? Math.max(...parseDts) : null;
+      return objMax ? (max ? Math.max(max, objMax) : objMax) : max;
+    }, null);
+    const formatedDt = moment(new Date(maxDates)).format("YYYY-MM-DD");
+    const endTime = findEndTime(value?.sequence[value?.sequence.length - 1]);
+    return (
+      <div>
+        <span className="td-content">
+          <strong> {formatedDt}</strong>{" "}
+          <span>{convertTimestampTo12HourFormat(endTime)}</span>
+        </span>
+      </div>
+    );
+  };
   const tagsRender = (params) => {
     return (
       <div>
@@ -321,12 +303,17 @@ const ScreenDetails = () => {
                 <img
                   className="accordion-img"
                   src={
-                    screen.contentPlaying && 
-                    screen.contentPlaying[0] && 
-                    screen.contentPlaying[0].media && 
-                    screen.contentPlaying[0].media.referenceUrl && 
-                    screen.contentPlaying[0].media.referenceUrl[0] && 
-                    screen.contentPlaying[0].media.zones[0].content[0].type == 'image' ? BASE_URL+screen.contentPlaying[0].media.referenceUrl[0].split("**")[0] : accordionImg}
+                    screen?.contentPlaying &&
+                    screen?.contentPlaying[0] &&
+                    screen?.contentPlaying[0].media &&
+                    screen?.contentPlaying[0]?.media?.zones[0]?.content[0]
+                      ?.type == "image"
+                      ? BASE_URL +
+                        screen?.contentPlaying[0]?.media?.referenceUrl[0]?.split(
+                          "**"
+                        )[0]
+                      : accordionImg
+                  }
                   alt="menu-icon"
                 />
               </div>
@@ -345,7 +332,17 @@ const ScreenDetails = () => {
               <div className="accordion-custom-img">
                 <img
                   className="accordion-img"
-                  src={screen.defaultComposition && screen.defaultComposition.media && screen.defaultComposition.media.referenceUrl && screen.defaultComposition.media.referenceUrl[0] ? BASE_URL+screen.defaultComposition.media.referenceUrl[0].split("**")[0] : accordionImg}
+                  src={
+                    screen.defaultComposition &&
+                    screen.defaultComposition.media &&
+                    screen.defaultComposition.media.referenceUrl &&
+                    screen.defaultComposition.media.referenceUrl[0]
+                      ? BASE_URL +
+                        screen.defaultComposition.media.referenceUrl[0].split(
+                          "**"
+                        )[0]
+                      : accordionImg
+                  }
                   alt="menu-icon"
                 />
               </div>
@@ -365,7 +362,11 @@ const ScreenDetails = () => {
                     />
                   </span>
                 </h6>
-                <p>{screen.defaultComposition && screen.defaultComposition.media ? screen.defaultComposition.media.name : "--"}</p>
+                <p>
+                  {screen.defaultComposition && screen.defaultComposition.media
+                    ? screen.defaultComposition.media.name
+                    : "--"}
+                </p>
               </div>
             </div>
           </div>
@@ -379,7 +380,9 @@ const ScreenDetails = () => {
                 <h6>Active Schedule</h6>
                 <h5>{screen?.schedule?.name}</h5>
                 <p className="date-schedule">
-                  From {screen.schedule ? renderStartDate(screen.schedule) : '--'} - To {screen.schedule ? renderEndDate(screen.schedule) : '--'}
+                  From{" "}
+                  {screen.schedule ? renderStartDate(screen.schedule) : "--"} -
+                  To {screen.schedule ? renderEndDate(screen.schedule) : "--"}
                 </p>
               </div>
             </div>
@@ -500,7 +503,9 @@ const ScreenDetails = () => {
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <div className="device-content">
-                    <p>{screen.drivers ? screen.drivers.javascriptVersion : "--"}</p>
+                    <p>
+                      {screen.drivers ? screen.drivers.javascriptVersion : "--"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -516,18 +521,26 @@ const ScreenDetails = () => {
       text: (
         <div className="tag-accordion-content">
           <div className="tag-content-row d-flex flex-wrap align-items-center">
-            {
-              screen && screen.tags && screen.tags.map((item, i) => {
+            {screen &&
+              screen.tags &&
+              screen.tags.map((item, i) => {
                 return (
                   <Badge
                     className="badge-common-light badge-tag mr-2"
                     variant="outline-light"
                     id={i}
-                  >{item}</Badge>
-                )
-              })
-            }
-            <span className="tag-added" style={{cursor:'pointer'}} onClick={(e) => {setNewTagModal(true);}}>
+                  >
+                    {item}
+                  </Badge>
+                );
+              })}
+            <span
+              className="tag-added"
+              style={{ cursor: "pointer" }}
+              onClick={(e) => {
+                setNewTagModal(true);
+              }}
+            >
               {" "}
               <img className="tag-add-icon" src={tagAddIcon} alt="menu-icon" />
             </span>
@@ -620,35 +633,37 @@ const ScreenDetails = () => {
 
   const handleWeb = async (e, type) => {
     e.preventDefault();
-    await handleWebData({screenId:screen._id,type}).then((res) => {
-      if(res){
-        return toast.success(res.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-    }).then((error) => {
-      // if(cache && cache !== "undefined"){
-      //   return toast.error(cache.data.message, {
-      //     position: "top-right",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //     theme: "light",
-      //   });
-      // }
-    })
+    await handleWebData({ screenId: screen._id, type })
+      .then((res) => {
+        if (res) {
+          return toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      })
+      .then((error) => {
+        // if(cache && cache !== "undefined"){
+        //   return toast.error(cache.data.message, {
+        //     position: "top-right",
+        //     autoClose: 5000,
+        //     hideProgressBar: false,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        //     theme: "light",
+        //   });
+        // }
+      });
     //console.log(type)
-  }
+  };
 
   if (!screen) return <></>;
   return (
@@ -722,10 +737,38 @@ const ScreenDetails = () => {
               id="bg-nested-dropdown"
               className="ml-2  more-icon-dropdown"
             >
-              <Dropdown.Item eventKey="1" onClick={(e) => {handleWeb(e, 'reload_display')}}>Reload Screen</Dropdown.Item>
-              <Dropdown.Item eventKey="2" onClick={(e) => {handleWeb(e, 'clear_cache')}}>Clear Cache</Dropdown.Item>
-              <Dropdown.Item eventKey="3" onClick={(e) => {handleWeb(e, 'clear_data')}}>Clear Data</Dropdown.Item>
-              <Dropdown.Item eventKey="4" onClick={(e) => {handleWeb(e, 'reboot_display')}}>Reboot display</Dropdown.Item>
+              <Dropdown.Item
+                eventKey="1"
+                onClick={(e) => {
+                  handleWeb(e, "reload_display");
+                }}
+              >
+                Reload Screen
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey="2"
+                onClick={(e) => {
+                  handleWeb(e, "clear_data");
+                }}
+              >
+                Clear Cache
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey="3"
+                onClick={(e) => {
+                  handleWeb(e, "clear_cache");
+                }}
+              >
+                Clear Data
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey="4"
+                onClick={(e) => {
+                  handleWeb(e, "reboot_display");
+                }}
+              >
+                Reboot display
+              </Dropdown.Item>
 
               <Dropdown.Item
                 eventKey="5"
@@ -806,7 +849,6 @@ const ScreenDetails = () => {
           //handleQuickPlay={handleQuickPlay}
           selected={screen}
           type={"composition"}
-
         />
 
         <WindowsModal
@@ -821,12 +863,12 @@ const ScreenDetails = () => {
           handleUpdate={handleUpdate}
         />
         {showPublishPopUp && (
-        <CompositionListModel
-          selected={screen._id}
-          setShowPublishPopUp={setShowPublishPopUp}
-          type="composition"
-        />
-      )}
+          <CompositionListModel
+            selected={screen._id}
+            setShowPublishPopUp={setShowPublishPopUp}
+            type="composition"
+          />
+        )}
       </div>
     </>
   );
