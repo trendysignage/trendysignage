@@ -95,36 +95,38 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const getQuoteData = async (data) => {
     const quoteResult = await getQuotes(data);
     setQuoteData(quoteResult);
+    setQuotePreviewData(handleQuoteApps(JSON.stringify({
+      url: name,
+      fontStyle: selectedFontOption,
+      color,
+      orientationMode,
+      duration
+    }), quoteResult))
   };
 
-  const getQuoteDataZone1 = (data) => {
-    const prp = JSON.parse(data);
+  // const getQuoteDataZone1 = (data) => {
+  //   const prp = JSON.parse(data);
 
-    if (!quoteData) {
+  //   if (!quoteData) {
+  //     const prms = {
+  //       cat: "famous",
+  //       count: "10",
+  //     };
+  //     console.log("Hello Quote Calling");
+  //     getQuoteData(prms);
+  //   }
+  //   return handleQuoteApps(data, quoteData);
+  // };
+
+  const handlePreview = () => {
+    console.log(preview);
+    if (name) {
       const prms = {
         cat: "famous",
         count: "10",
       };
       console.log("Hello Quote Calling");
       getQuoteData(prms);
-    }
-    return handleQuoteApps(data, quoteData);
-  };
-
-  const handlePreview = () => {
-    console.log(preview);
-    if (name) {
-      setQuotePreviewData(
-        getQuoteDataZone1(
-          JSON.stringify({
-            url: name,
-            fontStyle: selectedFontOption,
-            color,
-            orientationMode,
-            duration
-          })
-        )
-      );
       setIsRefresh(true);
       setPreview(true);
     } else {

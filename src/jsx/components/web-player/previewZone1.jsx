@@ -251,7 +251,7 @@ const PreviewZone1 = ({
               : "media-content"
           }`}
         >
-          {handleRssApps(contentnew["Zone1"][currentIndex].data)}
+          {handleRssApps(JSON.parse(contentnew["Zone1"][currentIndex].data))}
         </div>
       ) : content[currentIndex].type === "quote-apps" ? (
         <div style={{ height: "700px", width: "100%" }}>

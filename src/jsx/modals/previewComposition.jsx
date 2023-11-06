@@ -6,6 +6,7 @@ import { BASE_URL } from "../../utils/api";
 import { isBlobUrl } from "../../utils/UtilsService";
 import PreviewZone1 from "../components/web-player/previewZone1";
 import PreviewZone2 from "../components/web-player/PreviewZone2";
+import PreviewZone3 from "../components/web-player/PreviewZone3";
 const PreviewComposition = ({
   setShowPreview,
   content,
@@ -188,107 +189,16 @@ const PreviewComposition = ({
 
             />
         ) : layout.zones.length == 3 ? (
-          <div
-            className="modal-priview-composition"
-            style={{ height: "560px" }}
-          >
-            <div className="third-compoition-container">
-              <div className="third-composition-top-div">
-                {contentnew.Zone1[currentIndex] &&
-                  contentnew.Zone1[currentIndex].type === "image" && (
-                    <div className="basic-list-group image-preview-container media-content">
-                      <img
-                        className="webplayer-preview-img"
-                        style={{
-                          objectFit: `${
-                            viewImage === "fitScreen" ? "fill" : "contain"
-                          }`,
-                        }}
-                        // src={`https://ssapi.trendysignage.com/${contentnew.Zone1[currentIndex].url}`}
-                        src={url}
-                        alt="media-img"
-                      />
-                    </div>
-                  )}
-                {contentnew.Zone1[currentIndex] &&
-                  contentnew.Zone1[currentIndex].type === "video" && (
-                    <div
-                      className={`basic-list-group video-container media-content ${viewImage} ${
-                        viewImage === "fitScreen" ? "fitImage" : "containImage"
-                      }`}
-                    >
-                      <WebVideoPlayer
-                        //src={`https://ssapi.trendysignage.com/${contentnew.Zone1[currentIndex].url}`}
-                        src={url}
-                      ></WebVideoPlayer>
-                    </div>
-                  )}
-              </div>
-              <div className="third-composition-second-div">
-                {contentnew.Zone2[current1Index] &&
-                  contentnew.Zone2[current1Index].type === "image" && (
-                    <div className="basic-list-group image-preview-container media-content">
-                      <img
-                        className="webplayer-preview-img"
-                        style={{
-                          objectFit: `${
-                            viewImage === "fitScreen" ? "fill" : "contain"
-                          }`,
-                        }}
-                        //src={`https://ssapi.trendysignage.com/${contentnew.Zone2[current1Index].url}`}
-                        src={url1}
-                        alt="media-img"
-                      />
-                    </div>
-                  )}
-                {contentnew.Zone2[current1Index] &&
-                  contentnew.Zone2[current1Index].type === "video" && (
-                    <div
-                      className={`basic-list-group video-container media-content ${viewImage} ${
-                        viewImage === "fitScreen" ? "fitImage" : "containImage"
-                      }`}
-                    >
-                      <WebVideoPlayer
-                        //src={`https://ssapi.trendysignage.com/${contentnew.Zone2[current1Index].url}`}
-                        src={url1}
-                      ></WebVideoPlayer>
-                    </div>
-                  )}
-              </div>
-            </div>
+            <PreviewZone3
+              layout={layout}
+              content={content}
+              contentnew={contentnew}
+              viewImage={viewImage}
+              currentIndex={currentIndex}
+              current1Index={current1Index}
+              current2Index={current2Index}
 
-            <div className="third-composition-third-div">
-              {contentnew.Zone3[current2Index] &&
-                contentnew.Zone3[current2Index].type === "image" && (
-                  <div className="basic-list-group image-preview-container media-content">
-                    <img
-                      className="webplayer-preview-img"
-                      style={{
-                        objectFit: `${
-                          viewImage === "fitScreen" ? "fill" : "contain"
-                        }`,
-                      }}
-                      //src={`https://ssapi.trendysignage.com/${contentnew.Zone3[current2Index].url}`}
-                      src={url2}
-                      alt="media-img"
-                    />
-                  </div>
-                )}
-              {contentnew.Zone3[current2Index] &&
-                contentnew.Zone3[current2Index].type === "video" && (
-                  <div
-                    className={`basic-list-group video-container media-content ${viewImage} ${
-                      viewImage === "fitScreen" ? "fitImage" : "containImage"
-                    }`}
-                  >
-                    <WebVideoPlayer
-                      //src={`https://ssapi.trendysignage.com/${contentnew.Zone3[current2Index].url}`}
-                      src={url}
-                    ></WebVideoPlayer>
-                  </div>
-                )}
-            </div>
-          </div>
+            />
         ) : (
           <></>
         )}

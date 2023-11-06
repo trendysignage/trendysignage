@@ -1157,7 +1157,8 @@ export const handleRssApps = (data) => {
         {htmlData}
       </div>
     );
-  } else if (data.orientationMode == "landscape") {
+  } else{
+    
     let htmlData = "";
     if (data.theame.value == "classic") {
       htmlData = (
