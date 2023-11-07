@@ -1860,6 +1860,14 @@ input[type="radio"]:before {
     height: 58px;
     width: 58px;
   }
+  .my-subcription-card{
+    border-radius: 11.325px;
+    border: 1px solid  #060047;
+    box-shadow: 0px 3.77496px 32.0872px 0px rgba(29, 29, 29, 0.06);
+    padding: 30px;
+    width: fit-content;
+
+  }
 @media (min-width: 1500px) {
   .login-form-bx.auth-page .container {
     max-width: 1300px;

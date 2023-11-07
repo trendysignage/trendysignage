@@ -155,9 +155,9 @@ const PreviewComposition = ({
       <Modal.Header style={{ paddingBottom: "0px" }}>
         <Modal.Title className="mr-auto">Preview</Modal.Title>
 
-        <Button variant="" className="close " onClick={() => onFullScreen()}>
+        {/* <Button variant="" className="close " onClick={() => onFullScreen()}>
           <i className="fa fa-expand fullscreenbtn"></i>
-        </Button>
+        </Button> */}
         <Button
           variant=""
           className="close"
@@ -169,36 +169,33 @@ const PreviewComposition = ({
       <Modal.Body ref={divRef} style={{ padding: "15px" }}>
         {layout && layout.zones.length == 1 ? (
           <>
-            <PreviewZone1 
+            <PreviewZone1
               layout={layout}
               content={content}
               contentnew={contentnew}
               viewImage={viewImage}
               currentIndex={currentIndex}
-
             />
           </>
         ) : layout.zones.length == 2 ? (
-            <PreviewZone2 
-              layout={layout}
-              content={content}
-              contentnew={contentnew}
-              viewImage={viewImage}
-              currentIndex={currentIndex}
-              current1Index={current1Index}
-
-            />
+          <PreviewZone2
+            layout={layout}
+            content={content}
+            contentnew={contentnew}
+            viewImage={viewImage}
+            currentIndex={currentIndex}
+            current1Index={current1Index}
+          />
         ) : layout.zones.length == 3 ? (
-            <PreviewZone3
-              layout={layout}
-              content={content}
-              contentnew={contentnew}
-              viewImage={viewImage}
-              currentIndex={currentIndex}
-              current1Index={current1Index}
-              current2Index={current2Index}
-
-            />
+          <PreviewZone3
+            layout={layout}
+            content={content}
+            contentnew={contentnew}
+            viewImage={viewImage}
+            currentIndex={currentIndex}
+            current1Index={current1Index}
+            current2Index={current2Index}
+          />
         ) : (
           <></>
         )}
