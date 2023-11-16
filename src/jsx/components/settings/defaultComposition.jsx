@@ -5,10 +5,10 @@ import VideoThumbnail from "react-video-thumbnail";
 import emptyMediaImg from "../../../images/card/1.png";
 import { BASE_URL, getAllComposition, vendorProfile } from "../../../utils/api";
 import DefaultCompositionModal from "../../modals/DefaultCompositionModal";
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from "react-redux";
 
-const DefaultComposition = ({auth}) => {
-  console.log("auth", auth)
+const DefaultComposition = ({ auth }) => {
+  console.log("auth", auth);
   const defaultMediaUrl = `${BASE_URL}/default/file_1681896290177.png`;
   const [defaultCompositionShow, setDefaultCompositionShow] = useState(false);
   const [compositionList, setCompositionList] = useState();
@@ -22,7 +22,7 @@ const DefaultComposition = ({auth}) => {
   }
   async function getVendorProfile() {
     await vendorProfile().then((res) => {
-      console.log(res, "res push screen, vendorProfile");
+      console.log(res, "vendorProfilepp");
       setShowDefaultComposition(res.data.data.defaultComposition);
     });
   }
@@ -103,7 +103,7 @@ const DefaultComposition = ({auth}) => {
 };
 const mapStateToProps = (state) => {
   return {
-      auth: state.auth.auth,
+    auth: state.auth.auth,
   };
 };
 export default connect(mapStateToProps)(DefaultComposition);

@@ -44,7 +44,8 @@ import ReportsList from "./components/reports/reportsList";
 import PeopleSpace from "./components/integrations/PeopleSpace";
 import Createtemplate from "./components/integrations/Createtemplate";
 import Verification from "./pages/VerificationBkp";
-import LockScreen from "./pages/LockScreen"
+import LockScreen from "./pages/LockScreen";
+import Subscription from "./components/my-subscriptions";
 
 const Markup = () => {
   let path = window.location.pathname;
@@ -84,7 +85,8 @@ const Markup = () => {
     { url: "people-space", component: PeopleSpace },
     { url: "create-template", component: Createtemplate },
     { url: "create-template/:id", component: Createtemplate },
-    { url: "lock-screen" , component : LockScreen }
+    { url: "lock-screen", component: LockScreen },
+    { url: "subscriptions", component: Subscription },
   ];
   console.log(path);
   return (
