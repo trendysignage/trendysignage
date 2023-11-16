@@ -49,9 +49,9 @@ const QuickPlayModal = ({ showQuickPlayModal, setQuickPlayModal,showPublishPopUp
   // };
 
   const handleSubmit = async () => {
-    console.log("sdsdsd");
+    console.log("sdsdsd", selected);
     const screens = [];
-    screens[0] = selected._id;
+    screens[0] = selected;
     await publishMedia({
       id: checkedValues,
       screenIds: screens,
