@@ -381,11 +381,27 @@ const Zone2 = ({
                       </>
                     ) : contents.zones[0].content[currentIndex].type ===
                       "news-apps" ? (
-                      <>
+                      <div
+                        className={`h-100 ${
+                          JSON.parse(
+                            contents.zones[0].content[currentIndex].data
+                          ).theame.value == "white"
+                            ? "news-app-bg"
+                            : "bg-black"
+                        } 
+                    
+                      `}
+                        style={{
+                          paddingTop:
+                            contents.layout.screenType === rotateMode
+                              ? "60%"
+                              : "20%",
+                        }}
+                      >
                         {getNewsDataZone1(
                           contents.zones[0].content[currentIndex].data
                         )}
-                      </>
+                      </div>
                     ) : contents.zones[0].content[currentIndex].type ===
                       "google-apps" ? (
                       <>
@@ -409,11 +425,21 @@ const Zone2 = ({
                     ) : contents.zones[0].content[currentIndex].type ===
                       "quote-apps" ? (
                       <div
-                        className={`basic-list-group image-preview-container ${
+                        className={`basic-list-group image-preview-container  ${
                           contents.layout.screenType === rotateMode
                             ? "media-content-rotate"
                             : ""
+                        }  ${
+                          JSON.parse(
+                            contents.zones[0].content[currentIndex].data
+                          ).color.value
                         }`}
+                        style={{
+                          paddingTop:
+                            contents.layout.screenType === rotateMode
+                              ? "60%"
+                              : "20%",
+                        }}
                       >
                         {getQuoteDataZone1(
                           contents.zones[0].content[currentIndex].data

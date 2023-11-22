@@ -394,18 +394,32 @@ const Zone3 = ({
                     </>
                   ) : contents.zones[0].content[currentIndex].type ===
                     "quote-apps" ? (
-                    <>
+                    <div
+                      className={`d-flex justify-content-center align-items-center h-100 ${
+                        JSON.parse(contents.zones[0].content[currentIndex].data)
+                          .color.value
+                      }`}
+                      style={{ paddingTop: "45%" }}
+                    >
                       {getQuoteDataZone1(
                         contents.zones[0].content[currentIndex].data
                       )}
-                    </>
+                    </div>
                   ) : contents.zones[0].content[currentIndex].type ===
                     "news-apps" ? (
-                    <>
+                    <div
+                      className={`h-100  ${
+                        JSON.parse(contents.zones[0].content[currentIndex].data)
+                          .theame.value == "white"
+                          ? "news-app-bg"
+                          : "bg-black"
+                      } `}
+                      // style={{ paddingTop: "20%" }}
+                    >
                       {getNewsDataZone1(
                         contents.zones[0].content[currentIndex].data
                       )}
-                    </>
+                    </div>
                   ) : contents.zones[0].content[currentIndex].type ===
                     "stocks-apps" ? (
                     <>
@@ -562,18 +576,32 @@ const Zone3 = ({
                     </>
                   ) : contents.zones[0].content[currentIndex].type ===
                     "quote-apps" ? (
-                    <>
+                    <div
+                      className={`d-flex justify-content-center align-items-center h-100 ${
+                        JSON.parse(contents.zones[0].content[currentIndex].data)
+                          .color.value
+                      }`}
+                      style={{ paddingTop: "45%" }}
+                    >
                       {getQuoteDataZone2(
                         contents.zones[1].content[current1Index].data
                       )}
-                    </>
+                    </div>
                   ) : contents.zones[0].content[currentIndex].type ===
                     "news-apps" ? (
-                    <>
+                    <div
+                      className={`h-100  ${
+                        JSON.parse(contents.zones[0].content[currentIndex].data)
+                          .theame.value == "white"
+                          ? "news-app-bg"
+                          : "bg-black"
+                      } `}
+                      // style={{ paddingTop: "35%" }}
+                    >
                       {getNewsDataZone2(
                         contents.zones[1].content[current1Index].data
                       )}
-                    </>
+                    </div>
                   ) : contents.zones[0].content[currentIndex].type ===
                     "people-apps" ? (
                     <>
