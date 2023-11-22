@@ -315,9 +315,22 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                 ) : contents.zones[0].content[currentIndex].type ===
                   "quote-apps" ? (
                   <>
-                    {getQuoteDataZone1(
-                      contents.zones[0].content[currentIndex].data
-                    )}
+                    <div
+                      className={`d-flex justify-content-center align-items-center h-100 ${
+                        JSON.parse(contents.zones[0].content[currentIndex].data)
+                          .color.value
+                      }`}
+                      style={{
+                        paddingTop:
+                          contents.layout.screenType === rotateMode
+                            ? "60%"
+                            : "20%",
+                      }}
+                    >
+                      {getQuoteDataZone1(
+                        contents.zones[0].content[currentIndex].data
+                      )}
+                    </div>
                   </>
                 ) : contents.zones[0].content[currentIndex].type ===
                   "aqi-apps" ? (
@@ -333,10 +346,28 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                       contents.layout.screenType === rotateMode
                         ? "media-content-rotate"
                         : "media-content"
-                    }`}
+                    }
+                    ${
+                      JSON.parse(contents.zones[0].content[currentIndex].data)
+                        .theame.value == "white"
+                        ? "news-app-bg"
+                        : "bg-black"
+                    } 
+                  
+                    `}
+                    style={{
+                      paddingTop:
+                        contents.layout.screenType === rotateMode
+                          ? "60%"
+                          : "20%",
+                    }}
                   >
                     {getNewsDataZone1(
                       contents.zones[0].content[currentIndex].data
+                    )}
+                    {console.log(
+                      contents.zones[0].content[currentIndex].data,
+                      "llll"
                     )}
                   </div>
                 ) : contents.zones[0].content[currentIndex].type ===

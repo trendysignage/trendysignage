@@ -357,13 +357,13 @@ export const dayName = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export const handleScrollerApps = (data) => {
   const prp = JSON.parse(data);
-  console.log("prp", prp, prp.speed.value, "high");
+
   const speed =
     prp.speed.value === "high" ? 20 : prp.speed.value === "medium" ? 10 : 5;
-  let allignment = "left";
+  let allignment = "right";
 
   if (prp.allign.value == "rightToLeft") {
-    allignment = "right";
+    allignment = "left";
   }
   let txt = "";
   console.log("Speed", speed, allignment);
@@ -470,7 +470,7 @@ export const handleTextApps = (data) => {
 };
 
 export const handleClockApps = (data) => {
-  const prp = JSON.parse(data);
+  const prp = JSON.parse(data, "clockk");
   let tF = "";
   Moment.globalLocale = "fr";
   const cdate = new Date();
@@ -492,7 +492,7 @@ export const handleClockApps = (data) => {
     return (
       <div
         className={`h-100 w-100 d-flex justify-content-center align-items-center ${
-          prp.color
+          prp.color.value
         } ${prp.roundCorner ? "border-bg" : ""}`}
         style={{
           fontSize: "50px",
@@ -559,7 +559,7 @@ export const handleClockApps = (data) => {
 
 export const handleWeatherApps = (data, weatherInfo) => {
   const prp = JSON.parse(data);
-  console.log(weatherInfo)
+  console.log(weatherInfo);
   let timeZ =
     prp.location.timeZone && prp.location.timeZone
       ? prp.location.timeZone.timeZoneId
@@ -568,7 +568,7 @@ export const handleWeatherApps = (data, weatherInfo) => {
     timeZone: timeZ,
   });
   let date_chicago = new Date(chicago_datetime_str);
-  console.log(date_chicago)
+  console.log(date_chicago);
 
   return (
     <div className="h-100 w-100 " style={{ color: "white" }}>
@@ -1157,8 +1157,7 @@ export const handleRssApps = (data) => {
         {htmlData}
       </div>
     );
-  } else{
-    
+  } else {
     let htmlData = "";
     if (data.theame.value == "classic") {
       htmlData = (
@@ -1866,7 +1865,7 @@ export const handleAqiApps = (data, weatherInfo) => {
 };
 
 export const handleQuoteApps = (data, quoteData) => {
-  const prp = JSON.parse(data, quoteData);
+  const prp = JSON.parse(data, quoteData, "qqqqqqqq");
   const duration = prp.duration ? prp.duration * 1000 : 10000;
   console.log(duration);
   return (
@@ -1906,7 +1905,7 @@ export const handleQuoteApps = (data, quoteData) => {
                     {prp.fontStyle.value == "italic" ? (
                       <>
                         <strong>
-                          <i>{item1["quote"]}</i>
+                          <i style={{ fontSize: "2rem" }}>{item1["quote"]}</i>
                         </strong>
                         <p>
                           <i>- {item1.author}</i>
