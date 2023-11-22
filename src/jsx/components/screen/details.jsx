@@ -748,7 +748,7 @@ const ScreenDetails = () => {
               <Dropdown.Item
                 eventKey="2"
                 onClick={(e) => {
-                  handleWeb(e, "clear_data");
+                  handleWeb(e, "clear_cache");
                 }}
               >
                 Clear Cache
@@ -756,7 +756,7 @@ const ScreenDetails = () => {
               <Dropdown.Item
                 eventKey="3"
                 onClick={(e) => {
-                  handleWeb(e, "clear_cache");
+                  handleWeb(e, "clear_data");
                 }}
               >
                 Clear Data

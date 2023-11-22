@@ -208,15 +208,8 @@ const CompositionTable = ({ allMedia, addComposition }) => {
                             ]
                           } */}
 
-                          {media.title.split("/")[
-                            media.title.split("/").length - 1
-                          ].length > 11
-                            ? media.title
-                                .split("/")
-                                [media.title.split("/").length - 1].slice(
-                                  0,
-                                  11
-                                ) + "..."
+                          {media.title.split("/")[media.title.split("/").length - 1].length > 11
+                            ? media.title.split("/")[media.title.split("/").length - 1].slice(0,30) + "..."
                             : media.title.split("/")[
                                 media.title.split("/").length - 1
                               ]}

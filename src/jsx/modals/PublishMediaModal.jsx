@@ -187,7 +187,9 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
           {!published && (
             <Row className="w-100 m-0">
               <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-                <Button className="cancel-btn w-100" variant="outline-light">
+                <Button className="cancel-btn w-100" variant="outline-light"
+                  onClick={() => setShowPublishPopUp(false)}
+                >
                   Cancel
                 </Button>
               </Col>
