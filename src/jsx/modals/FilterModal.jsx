@@ -228,11 +228,11 @@ const FilterModal = ({
                   <>
                     {allGroups.map((item) => {
                       return (
-                        <div className="col-3">
+                        <div className="d-flex align-items-center mr-3 mb-3">
                           <input
                             id={"check-" + item._id}
                             type="checkbox"
-                            className="   "
+                            className=" mr-2  "
                             required
                             name={item._id}
                             checked={groups && groups[item._id]}
@@ -243,7 +243,7 @@ const FilterModal = ({
                               })
                             }
                           />
-                          <label className="mt-3 mr-3">{item.name}</label>
+                          <label className="mb-0">{item.name}</label>
                         </div>
                       );
                     })}

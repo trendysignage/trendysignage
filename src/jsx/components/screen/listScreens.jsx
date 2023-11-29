@@ -73,7 +73,7 @@ const ListScreen = ({
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
   const [showFilterModal, setFilterModal] = useState(false);
   const [showQuickPlayModal, setQuickPlayModal] = useState(false);
-  const type = ['shows','tags', 'groups'];
+  const type = ["shows", "tags", "groups"];
 
   const renderAction = (params) => {
     const { value } = params;
@@ -178,7 +178,7 @@ const ListScreen = ({
                 </div>
               </div>
             </Dropdown.Item>
-            <Dropdown.Item href="#" className="dropdown-list-item">
+            {/* <Dropdown.Item href="#" className="dropdown-list-item">
             <div className="d-flex">
               <div className="dropdown-list-icon">
                 <img
@@ -196,7 +196,7 @@ const ListScreen = ({
                 </span>
               </div>
             </div>
-          </Dropdown.Item>
+          </Dropdown.Item> */}
           </Dropdown.Menu>
         </Dropdown>
       </div>
@@ -205,11 +205,11 @@ const ListScreen = ({
 
   const renderSchedule = (params) => {
     const { value } = params;
-    let sch = '--';
-    if(value && value[0]){
-      sch = value[0].name
+    let sch = "--";
+    if (value && value[0]) {
+      sch = value[0].name;
     }
-    if(value && value.name){
+    if (value && value.name) {
       sch = value.name;
     }
     return (
@@ -229,8 +229,8 @@ const ListScreen = ({
       <span className="td-content">
         <strong>{def}</strong>
       </span>
-    )
-  }
+    );
+  };
 
   const tagsRender = (params) => {
     const { value } = params;
@@ -324,15 +324,15 @@ const ListScreen = ({
       <span className="td-content">
         <strong>
           {value.name.length > 11
-            //? value.name.slice(0, 11) + "..."
-            ? value.name
+            ? //? value.name.slice(0, 11) + "..."
+              value.name
             : value.name}
         </strong>
         <br />
         <span className="oooo">
           {value.location.length > 11
-            //? value.location.slice(0, 11) + "..."
-            ? value.location
+            ? //? value.location.slice(0, 11) + "..."
+              value.location
             : value.location}
         </span>
       </span>
@@ -340,7 +340,13 @@ const ListScreen = ({
   };
 
   const columns1 = [
-    { field: "screen", headerName: "Screen", width: 200, renderCell: renderName },
+    {
+      field: "screen",
+      headerName: "Screen",
+      width: 200,
+      renderCell: renderName,
+      sortable: true,
+    },
     {
       field: "last_seen",
       headerName: "Last Seen",
@@ -358,10 +364,32 @@ const ListScreen = ({
       headerName: "Current Schedule",
       flex: 1,
       renderCell: renderSchedule,
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
     },
 
-    { field: "tags", headerName: "Tags", flex: 1, renderCell: tagsRender },
-    { field: "groups", headerName: "Groups", flex: 1, renderCell: groupRender },
+    {
+      field: "tags",
+      headerName: "Tags",
+      flex: 1,
+      renderCell: tagsRender,
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+    },
+    {
+      field: "groups",
+      headerName: "Groups",
+      flex: 1,
+      renderCell: groupRender,
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+    },
     {
       field: "action",
       headerName: "Action",
@@ -395,7 +423,6 @@ const ListScreen = ({
         //handleQuickPlay={handleQuickPlay}
         selected={selectedScreen}
         type={"composition"}
-
       />
       <div className="d-flex justify-content-end">
         <Button

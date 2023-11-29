@@ -1,9 +1,9 @@
 import { Button, Modal, Row, Col, Badge, Table } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
 import { useEffect, useState } from "react";
-import {setDefaultComposition, getAllComposition } from "../../utils/api";
+import { setDefaultComposition, getAllComposition } from "../../utils/api";
 import TableLoader from "../components/TableLoader";
-import '../components/Table.css';
+import "../components/Table.css";
 import {
   getDatetimeIn12Hours,
   humanReadableFormattedDateString,
@@ -12,7 +12,7 @@ import {
 
 const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
   const [compositionList, setAllComposition] = useState("");
-  const [name, setName] = useState("")
+  const [name, setName] = useState("");
   const [checkedItems, setCheckedItems] = useState({});
   const [checkedValues, setCheckedValues] = useState(null);
   const [published, setPublished] = useState(false);
@@ -30,7 +30,7 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
   };
 
   const handleCheckboxChange = (event) => {
-    console.log(event.target)
+    console.log(event.target);
     // const newCheckedItems = {
     //   ...checkedItems,
     //   [event.target.name]: event.target.checked,
@@ -64,15 +64,15 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
     const screens = [];
     screens[0] = selected;
     await setDefaultComposition({
-        screens,
-        compositionId: checkedValues
-      });
+      screens,
+      compositionId: checkedValues,
+    });
 
     setPublished(true);
     setShowPublishPopUp(false);
   };
   return (
-      <>
+    <>
       <Modal
         className={`fade bd-example-modal-lg mt-4 custom-modal ${
           published ? "custom-modal-medium" : "custom-modal-large"
@@ -81,7 +81,13 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
         size="md"
       >
         <Modal.Header>
-          <Modal.Title>{type==="media" ? "Publish Media" :(type == 'composition' ? 'Change Default Composition' : "Assign Quickplay")}</Modal.Title>
+          <Modal.Title>
+            {type === "media"
+              ? "Publish Media"
+              : type == "composition"
+              ? "Change Default Composition"
+              : "Assign Quickplay"}
+          </Modal.Title>
           <Button
             variant=""
             className="close"
@@ -91,7 +97,19 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
           </Button>
         </Modal.Header>
 
-        {published && <Modal.Body><div style={{display:"flex", alignItems:"center", justifyContent:"center"}}><h3>Media Published</h3></div></Modal.Body>}
+        {published && (
+          <Modal.Body>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <h3>Media Published</h3>
+            </div>
+          </Modal.Body>
+        )}
         {!published && (
           <Modal.Body>
             <Table responsive>
@@ -104,7 +122,7 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
                         className="custom-control-input"
                         id="checkbox1_exam_all"
                         disabled
-                      // onChange={handleSelectAllChange}
+                        // onChange={handleSelectAllChange}
                         required=""
                       />
                       <label
@@ -119,55 +137,57 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
                   <th>Associated Schedule</th>
                 </tr>
               </thead>
-              {loading  ? (
-            <TableLoader colSpan={5}/>
-          ) : (
-              <tbody>
-                {compositionList !== "" &&
-                  compositionList.map((composition) => {
-                    return (
-                      <tr>
-                        <td>
-                          <div className="custom-control custom-checkbox checkbox-success check-lg mr-3">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id={composition._id}
-                              name={composition._id}
-                              checked={checkedValues === composition._id}
-                              onChange={handleCheckboxChange}
-                            />
-                            <label
-                              className="custom-control-label"
-                              htmlFor={composition._id}
-                            ></label>
-                          </div>
-                        </td>
-                        <td>
-                          <span className="td-content d-flex name-td-content">
-                            <span className="name-content d-flex flex-column flex-grow-1">
-                              <strong>{composition.name}</strong>
-                              <span>{composition.createdBy}</span>
+              {loading ? (
+                <TableLoader colSpan={5} />
+              ) : (
+                <tbody>
+                  {compositionList !== "" &&
+                    compositionList.map((composition) => {
+                      return (
+                        <tr>
+                          <td>
+                            <div className="custom-control custom-checkbox checkbox-success check-lg mr-3">
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id={composition._id}
+                                name={composition._id}
+                                checked={checkedValues === composition._id}
+                                onChange={handleCheckboxChange}
+                              />
+                              <label
+                                className="custom-control-label"
+                                htmlFor={composition._id}
+                              ></label>
+                            </div>
+                          </td>
+                          <td>
+                            <span className="td-content d-flex name-td-content">
+                              <span className="name-content d-flex flex-column flex-grow-1">
+                                <strong>{composition.name}</strong>
+                                <span>{composition.createdBy}</span>
+                              </span>
                             </span>
-                          </span>
-                        </td>
+                          </td>
 
-                        <td>
-                          <span className="td-content">
-                            <strong>
-                              {humanReadableFormattedDateString(
-                                composition.createdAt
-                              )}
-                            </strong>
-                            <span>{getDatetimeIn12Hours(composition.createdAt)}</span>
-                          </span>
-                        </td>
-                        <td> {composition.duration} Sec</td>
-                        <td>No Schedule</td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
+                          <td>
+                            <span className="td-content">
+                              <strong>
+                                {humanReadableFormattedDateString(
+                                  composition.createdAt
+                                )}
+                              </strong>
+                              <span>
+                                {getDatetimeIn12Hours(composition.createdAt)}
+                              </span>
+                            </span>
+                          </td>
+                          <td> {composition.duration} Sec</td>
+                          <td>No Schedule</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
               )}
             </Table>
           </Modal.Body>
@@ -177,7 +197,11 @@ const PublishMediaModal = ({ setShowPublishPopUp, selected, type }) => {
           {!published && (
             <Row className="w-100 m-0">
               <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-                <Button className="cancel-btn w-100" variant="outline-light">
+                <Button
+                  className="cancel-btn w-100"
+                  variant="outline-light"
+                  onClick={() => setShowPublishPopUp(false)}
+                >
                   Cancel
                 </Button>
               </Col>

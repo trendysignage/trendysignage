@@ -1904,10 +1904,15 @@ export const handleQuoteApps = (data, quoteData) => {
                   <div className="mt-2">
                     {prp.fontStyle.value == "italic" ? (
                       <>
+<<<<<<< HEAD
                         <strong>
                           <i style={{ fontSize: "2rem" }}>{item1["quote"]}</i>
+=======
+                        <strong style={{ fontSize: "2rem" }}>
+                          <i>{item1["quote"]}</i>
+>>>>>>> new-issue-nov
                         </strong>
-                        <p>
+                        <p style={{ fontSize: "1rem" }}>
                           <i>- {item1.author}</i>
                         </p>
                       </>
@@ -1916,8 +1921,10 @@ export const handleQuoteApps = (data, quoteData) => {
                     )}
                     {prp.fontStyle.value == "regular" ? (
                       <>
-                        <strong>{item1["quote"]}</strong>
-                        <p>{item1.author}</p>
+                        <strong style={{ fontSize: "2rem" }}>
+                          {item1["quote"]}
+                        </strong>
+                        <p style={{ fontSize: "1rem" }}>{item1.author}</p>
                       </>
                     ) : (
                       ""
@@ -1925,10 +1932,10 @@ export const handleQuoteApps = (data, quoteData) => {
 
                     {prp.fontStyle.value == "bold" ? (
                       <>
-                        <strong>
+                        <strong style={{ fontSize: "2rem" }}>
                           <b>{item1["quote"]}</b>
                         </strong>
-                        <p>
+                        <p style={{ fontSize: "1rem" }}>
                           <b>{item1.author}</b>
                         </p>
                       </>
@@ -2087,8 +2094,9 @@ export const handleNewsApps = (data, newsData) => {
                               className={`${
                                 prp.theame.value == "White"
                                   ? "text-black"
-                                  : "text-white"
+                                  : "text-white "
                               } `}
+                              style={{ fontSize: "1rem" }}
                             >
                               {item.publisher}
                             </p>
@@ -2166,6 +2174,7 @@ export const handleNewsApps = (data, newsData) => {
                                 ? "text-black"
                                 : "text-white"
                             } `}
+                            style={{ fontSize: "1.5rem" }}
                           >
                             {item.publisher}
                           </p>

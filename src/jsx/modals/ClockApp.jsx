@@ -62,21 +62,21 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     address: "",
     latitude: "",
     longitude: "",
-    timeZone:""
+    timeZone: "",
   });
-  const getMapTimeZone = async(lat, long) =>{
+  const getMapTimeZone = async (lat, long) => {
     return await getTimeZone(lat, long);
-  }
+  };
 
   const handleLocation = async (place) => {
     let location = JSON.parse(JSON.stringify(place?.geometry?.location));
     const locationTime = await getMapTimeZone(location.lat, location.lng);
-    console.log("LT",locationTime.timeZoneId)
+    console.log("LT", locationTime.timeZoneId);
     const adres = {
       address: place.formatted_address,
       latitude: location.lat,
       longitude: location.lng,
-      timeZone:locationTime
+      timeZone: locationTime,
     };
     setLocation(adres);
     //setAdd(adres);
@@ -124,7 +124,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     console.log("Hello", err);
     const dataString = {
       url: name.trim(),
-      timeZone:location,
+      timeZone: location,
       hideDate,
       hiddenLocation,
       deviceTime,
@@ -176,11 +176,11 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
     setRoundeCorner(false);
     //setTimeZone({ value: "UTC", label: "UTC" });
     setLocation({
-      address:"",
-      latitude:"",
-      longitude:"",
-      timeZone:""
-    })
+      address: "",
+      latitude: "",
+      longitude: "",
+      timeZone: "",
+    });
     setLanguage(null);
     setPreview(false);
     setIsRefresh(false);
@@ -439,7 +439,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                         hideDate,
                         roundCorner,
                         timeFormat: timeFormat.value,
-                        timeZone:location,
+                        timeZone: location,
                         url: "Clock App",
                       })
                     )
