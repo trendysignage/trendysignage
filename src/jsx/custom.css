@@ -2491,7 +2491,7 @@ button#Fullscreen {
 
 :fullscreen .media-content {
   object-fit: contain;
-  height: 100vh !important;
+  /* height: 100vh !important; */
   max-height: 100vh  !important;
 }
 :fullscreen .rotate-media-content {

@@ -106,6 +106,7 @@ const ListComposition = ({
           className={`name-img mr-2  ${
             content.type === "video" && "videotableName"
           }`}
+          style={{ width: "40px", height: "40px" }}
         >
           {content.type === "image" && (
             <img
@@ -116,19 +117,22 @@ const ListComposition = ({
           )}
           {content.type === "video" && content.duration.toFixed(0) / 60}
         </span>
-        <span className="name-content d-flex flex-column flex-grow-1">
+        <span
+          className="name-content d-flex flex-column flex-grow-1"
+          style={{ wordWrap: "break-word", wordBreak: "break-all" }}
+        >
           <strong>
             {value.name.length > 7
               ? //? value.name.slice(0, 7) + "..."
                 value.name
               : value.name}
           </strong>
-          <span>
+          {/* <span>
             {value.createdBy.length > 11
               ? //? value.createdBy.slice(0, 11) + "..."
                 value.createdBy
               : value.createdBy}
-          </span>
+          </span> */}
         </span>
       </span>
     );
@@ -199,7 +203,9 @@ const ListComposition = ({
       field: "composition",
       headerName: "Composition",
       width: 200,
+      flex: 1,
       renderCell: renderName,
+      sortable: true,
     },
     {
       field: "createdAt",
