@@ -559,7 +559,7 @@ export const handleClockApps = (data) => {
 
 export const handleWeatherApps = (data, weatherInfo) => {
   const prp = JSON.parse(data);
-  console.log(weatherInfo)
+  console.log(weatherInfo);
   let timeZ =
     prp.location.timeZone && prp.location.timeZone
       ? prp.location.timeZone.timeZoneId
@@ -568,7 +568,7 @@ export const handleWeatherApps = (data, weatherInfo) => {
     timeZone: timeZ,
   });
   let date_chicago = new Date(chicago_datetime_str);
-  console.log(date_chicago)
+  console.log(date_chicago);
 
   return (
     <div className="h-100 w-100 " style={{ color: "white" }}>
@@ -1157,8 +1157,7 @@ export const handleRssApps = (data) => {
         {htmlData}
       </div>
     );
-  } else{
-    
+  } else {
     let htmlData = "";
     if (data.theame.value == "classic") {
       htmlData = (
@@ -1905,10 +1904,10 @@ export const handleQuoteApps = (data, quoteData) => {
                   <div className="mt-2">
                     {prp.fontStyle.value == "italic" ? (
                       <>
-                        <strong>
+                        <strong style={{ fontSize: "2rem" }}>
                           <i>{item1["quote"]}</i>
                         </strong>
-                        <p>
+                        <p style={{ fontSize: "1rem" }}>
                           <i>- {item1.author}</i>
                         </p>
                       </>
@@ -1917,8 +1916,10 @@ export const handleQuoteApps = (data, quoteData) => {
                     )}
                     {prp.fontStyle.value == "regular" ? (
                       <>
-                        <strong>{item1["quote"]}</strong>
-                        <p>{item1.author}</p>
+                        <strong style={{ fontSize: "2rem" }}>
+                          {item1["quote"]}
+                        </strong>
+                        <p style={{ fontSize: "1rem" }}>{item1.author}</p>
                       </>
                     ) : (
                       ""
@@ -1926,10 +1927,10 @@ export const handleQuoteApps = (data, quoteData) => {
 
                     {prp.fontStyle.value == "bold" ? (
                       <>
-                        <strong>
+                        <strong style={{ fontSize: "2rem" }}>
                           <b>{item1["quote"]}</b>
                         </strong>
-                        <p>
+                        <p style={{ fontSize: "1rem" }}>
                           <b>{item1.author}</b>
                         </p>
                       </>
@@ -2088,8 +2089,9 @@ export const handleNewsApps = (data, newsData) => {
                               className={`${
                                 prp.theame.value == "White"
                                   ? "text-black"
-                                  : "text-white"
+                                  : "text-white "
                               } `}
+                              style={{ fontSize: "1rem" }}
                             >
                               {item.publisher}
                             </p>
@@ -2167,6 +2169,7 @@ export const handleNewsApps = (data, newsData) => {
                                 ? "text-black"
                                 : "text-white"
                             } `}
+                            style={{ fontSize: "1.5rem" }}
                           >
                             {item.publisher}
                           </p>

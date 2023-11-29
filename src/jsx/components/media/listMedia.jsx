@@ -193,7 +193,7 @@ const ListMedia = ({
             }}
             disabled={permission && !permission.permission.ASSETS.delete}
           >
-            <div className="d-flex">
+            <div className="d-flex align-items-center">
               <div className="dropdown-list-icon">
                 <img
                   className="dropdown-list-img img-fluid"
@@ -202,10 +202,10 @@ const ListMedia = ({
                 />
               </div>
               <div className="dropdown-menu-list">
-                <span className="menu-heading">Delete</span>
-                <span className="menu-description">
+                <span className="menu-heading mb-0">Delete</span>
+                {/* <span className="menu-description">
                   Get to know more about screen info
-                </span>
+                </span> */}
               </div>
             </div>
           </Dropdown.Item>
@@ -222,6 +222,7 @@ const ListMedia = ({
           className={`name-img mr-2  ${
             value?.type === "video" && "videotableName"
           }`}
+          style={{ width: "40px" }}
         >
           {value?.type === "image" && (
             <div
@@ -229,6 +230,7 @@ const ListMedia = ({
                 showPreview(value.title, value.type);
               }}
               className="media-list-img-zoom"
+              style={{ width: "40px" }}
             >
               <span className="media-list-img-zoom-plus">+</span>
               <img
@@ -243,18 +245,18 @@ const ListMedia = ({
               onClick={() => {
                 showPreview(value.title, value.type);
               }}
+              style={{ width: "40px" }}
             >
               {videoMetaDuration(value)}
             </button>
           )}
         </span>
-        <span className="name-content d-flex flex-column flex-grow-1" style={{wordWrap: "break-word",wordBreak: "break-all"}}>
+        <span
+          className="name-content d-flex flex-column flex-grow-1"
+          style={{ wordWrap: "break-word", wordBreak: "break-all" }}
+        >
           <strong>
-            {
-              value.title.split("/")[
-                value.title.split("/").length - 1
-              ]
-            }
+            {value.title.split("/")[value.title.split("/").length - 1]}
           </strong>
           <span>{value.createdBy.name}</span>
         </span>

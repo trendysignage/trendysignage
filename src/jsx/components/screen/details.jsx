@@ -761,14 +761,6 @@ const ScreenDetails = () => {
               >
                 Clear Data
               </Dropdown.Item>
-              <Dropdown.Item
-                eventKey="4"
-                onClick={(e) => {
-                  handleWeb(e, "reboot_display");
-                }}
-              >
-                Reboot display
-              </Dropdown.Item>
 
               <Dropdown.Item
                 eventKey="5"

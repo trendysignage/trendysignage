@@ -265,8 +265,9 @@ const ListComposition = ({
           <img className="icon-icon" src={listIcon} alt="list-icon" />
         </Button>
       </div>
-      <div style={{ minHeight: "700px" }}>
+      <div className="h-100">
         <DataGrid
+          style={{ height: "550px" }}
           getRowHeight={() => "auto"}
           components={{
             NoRowsOverlay: CustomNoRowsOverlay,
@@ -284,6 +285,7 @@ const ListComposition = ({
           zIndex={-1}
         />
       </div>
+
       {showNewTagModal && (
         <AddNewTagModal
           setNewTagModal={setNewTagModal}
