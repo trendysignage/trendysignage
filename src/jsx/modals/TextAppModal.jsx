@@ -34,12 +34,15 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     { value: "Manrope", label: "Manrope" },
     { value: "Sans Serif", label: "Sans Serif" },
   ];
-  const [fontSize , setFontSize] = useState(12);
+  const [fontSize, setFontSize] = useState(12);
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
   const [orientationMode, setOrientation] = useState("landscape");
   const [content, setContent] = useState("");
-  const [selectedStyle, setSelectedStyle] = useState({value: "Regular",label: "Regular"});
+  const [selectedStyle, setSelectedStyle] = useState({
+    value: "Regular",
+    label: "Regular",
+  });
   const [weight, setWeight] = useState({ value: "100", label: "100" });
   const [allign, setAllign] = useState({ value: "left", label: "Left" });
   const [familyStyle, setFamilyStyle] = useState({
@@ -55,12 +58,12 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleFontSize = (e, size) => {
     e.preventDefault();
-    console.log("size",size)
-    if(size < 12 || size > 100){
+    console.log("size", size);
+    if (size < 12 || size > 100) {
       return;
     }
     setFontSize(size);
-  }
+  };
 
   useEffect(() => {
     if (mediaData) {
@@ -78,16 +81,18 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         value: jsonString.familyStyle,
         label: jsonString.familyStyle,
       });
-      setFontSize(jsonString.fontSize)
+      setFontSize(jsonString.fontSize);
       setContent(jsonString.content);
       setIsTransparent(jsonString.isTransparent);
-      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "")
+      setOrientation(
+        jsonString.orientationMode ? jsonString.orientationMode : ""
+      );
     }
   }, [mediaData]);
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
@@ -102,55 +107,55 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setIsLoading(false);
       return;
     }
-      console.log("Hello", err);
-      const dataString = {
-        allign: allign.value,
-        weight: weight.value,
-        textColor: tColor,
-        familyStyle: familyStyle.value,
-        backGroundColor: backColor,
-        style: selectedStyle.value,
-        url: name.trim(),
-        isTransparent,
-        orientationMode,
-        content:content.trim(),
-        fontSize
-      };
+    console.log("Hello", err);
+    const dataString = {
+      allign: allign.value,
+      weight: weight.value,
+      textColor: tColor,
+      familyStyle: familyStyle.value,
+      backGroundColor: backColor,
+      style: selectedStyle.value,
+      url: name.trim(),
+      isTransparent,
+      orientationMode,
+      content: content.trim(),
+      fontSize,
+    };
 
-      if (actionType && actionType == "edit") {
-        await updateApps({
-          name:name.trim(),
-          appId: mediaId,
-          data: JSON.stringify(dataString),
-        });
-        setIsLoading(false);
-        setShowUrlApp(false);
-      } else {
-        await addApps({
-          name:name.trim(),
-          type: "text-apps",
-          data: JSON.stringify(dataString),
-        });
-        setShowUrlApp(false);
-        setIsLoading(false);
-        setShowUrlRedirectApp(true);
-      }
+    if (actionType && actionType == "edit") {
+      await updateApps({
+        name: name.trim(),
+        appId: mediaId,
+        data: JSON.stringify(dataString),
+      });
+      setIsLoading(false);
+      setShowUrlApp(false);
+    } else {
+      await addApps({
+        name: name.trim(),
+        type: "text-apps",
+        data: JSON.stringify(dataString),
+      });
+      setShowUrlApp(false);
+      setIsLoading(false);
+      setShowUrlRedirectApp(true);
+    }
   };
 
   const handleClose = (val) => {
     setName("");
     setOrientation("landscape");
     setContent("");
-    setSelectedStyle({value: "Regular",label: "Regular"});
+    setSelectedStyle({ value: "Regular", label: "Regular" });
     setWeight({ value: "slow", label: "Slow" });
     setAllign({ value: "left", label: "Left" });
-    setFamilyStyle({value: "Fira Sans",label: "Fira Sans"});
+    setFamilyStyle({ value: "Fira Sans", label: "Fira Sans" });
     setIsTransparent(false);
     setTextColor("#000000");
     setBackColor("#000000");
     setShowUrlApp(val);
-    setFontSize(12)
-  }
+    setFontSize(12);
+  };
   return (
     <>
       <Modal
@@ -166,7 +171,10 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Button
             variant=""
             className="close"
-            onClick={(e) => {e.preventDefault(); handleClose(false)}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose(false);
+            }}
           >
             <img
               className="cancel-icon"
@@ -210,16 +218,30 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 }}
                 rows={4}
               />
-               <div className="row">
-                  <div className="col-12">
-                    <label className="mt-3">Font Size</label>
-                    <div>
-                      <Button onClick={(e) =>{handleFontSize(e, fontSize-1)}} className="btnnew">-</Button>
-                      <span className="marginLR">{fontSize}</span>
-                      <Button onClick={(e) =>{handleFontSize(e, fontSize+1)}} className="btnnew">+</Button>
-                    </div>
+              <div className="row">
+                <div className="col-12">
+                  <label className="mt-3">Font Size</label>
+                  <div>
+                    <Button
+                      onClick={(e) => {
+                        handleFontSize(e, fontSize - 1);
+                      }}
+                      className="btnnew"
+                    >
+                      -
+                    </Button>
+                    <span className="marginLR">{fontSize}</span>
+                    <Button
+                      onClick={(e) => {
+                        handleFontSize(e, fontSize + 1);
+                      }}
+                      className="btnnew"
+                    >
+                      +
+                    </Button>
                   </div>
                 </div>
+              </div>
               <div className="row">
                 <div className="col-3">
                   <label className="mt-3">Color </label>
@@ -305,7 +327,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
               </div>
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -365,7 +387,7 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     Footer
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-center align-items-center h-100 text-app-form-icon">
                 <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />
@@ -377,9 +399,13 @@ const TextAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100"
+              <Button
+                className="cancel-btn w-100"
                 variant="outline-light"
-                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClose(false);
+                }}
               >
                 Cancel
               </Button>

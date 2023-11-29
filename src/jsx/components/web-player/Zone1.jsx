@@ -316,15 +316,15 @@ const Zone1 = ({ contents, currentIndex, viewImage }) => {
                   "quote-apps" ? (
                   <>
                     <div
-                      className={`d-flex justify-content-center align-items-center h-100 ${
-                        JSON.parse(contents.zones[0].content[currentIndex].data)
-                          .color.value
-                      }`}
+                      className={`d-flex justify-content-center align-items-center h-100 `}
                       style={{
                         paddingTop:
                           contents.layout.screenType === rotateMode
                             ? "60%"
                             : "20%",
+                        backgroundColor: JSON.parse(
+                          contents.zones[0].content[currentIndex].data
+                        ).color.value,
                       }}
                     >
                       {getQuoteDataZone1(

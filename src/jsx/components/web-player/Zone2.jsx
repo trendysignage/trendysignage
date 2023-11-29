@@ -429,16 +429,15 @@ const Zone2 = ({
                           contents.layout.screenType === rotateMode
                             ? "media-content-rotate"
                             : ""
-                        }  ${
-                          JSON.parse(
-                            contents.zones[0].content[currentIndex].data
-                          ).color.value
                         }`}
                         style={{
                           paddingTop:
                             contents.layout.screenType === rotateMode
                               ? "60%"
                               : "20%",
+                          backgroundColor: JSON.parse(
+                            contents.zones[0].content[currentIndex].data
+                          ).color.value,
                         }}
                       >
                         {getQuoteDataZone1(

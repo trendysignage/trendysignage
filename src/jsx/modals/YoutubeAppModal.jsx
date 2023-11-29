@@ -83,7 +83,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const handlePreview = () => {
     if (name && urlLink) {
-      console.log(muteOptions)
+      console.log(muteOptions);
       setPreviewData(
         handleYoutubeApps(
           JSON.stringify({
@@ -169,7 +169,7 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
               <Button onClick={handlePreview}>Preview</Button>
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -212,8 +212,8 @@ const YoutubeAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     Portrait
                   </label>
                 </div>
-              </div>
-              <div className="d-flex justify-content-center align-items-center h-100">
+              </div> */}
+              <div className="d-flex justify-content-center align-items-center h-100 url-app-form-icon">
                 {orientationMode && orientationMode == "potrait" ? (
                   <div
                     className="d-flex justify-content-center h-100"

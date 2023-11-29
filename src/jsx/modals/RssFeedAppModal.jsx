@@ -218,9 +218,10 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
             // onSubmit={handleSubmit}
             className="row"
           >
-            
             <div className="form-group col-6 mb-0  url-app-form">
-            {errMessage && <h6 className="alert alert-danger">{errMessage}</h6>}
+              {errMessage && (
+                <h6 className="alert alert-danger">{errMessage}</h6>
+              )}
               <label>Name</label>
               <input
                 type="text"
@@ -315,7 +316,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
               </div> */}
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -378,7 +379,7 @@ const RssFeedAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     Footer
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-center align-items-center h-100 rss-feed-app-form-icon">
                 {previewData && preview ? previewData : ""}
               </div>

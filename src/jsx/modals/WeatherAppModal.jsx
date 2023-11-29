@@ -11,24 +11,30 @@ import Form from "react-bootstrap/Form";
 import Autocomplete from "react-google-autocomplete";
 const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [weatherInfo, setWeatherInfo] = useState(null);
-  const getWeatherDetail = async(lat, long) => {
-    const locationData  = await getWeather(lat, long);
-    setWeatherInfo(locationData)
-  }
+  const getWeatherDetail = async (lat, long) => {
+    const locationData = await getWeather(lat, long);
+    setWeatherInfo(locationData);
+  };
   const options = [
     { value: "grey", label: "Minimalist with Grey Background" },
-    { value: "color", label: "Minimalist with Color Background" }
-];
-  const options1 = [{ value: "celsius", label: "Celsius" },{ value: "fahrenheit", label: "Farhenheit" }];
+    { value: "color", label: "Minimalist with Color Background" },
+  ];
+  const options1 = [
+    { value: "celsius", label: "Celsius" },
+    { value: "fahrenheit", label: "Farhenheit" },
+  ];
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
   const [location, setLocation] = useState({
     address: "",
     latitude: "",
     longitude: "",
-    timeZone:""
+    timeZone: "",
   });
-  const [selectedTheme, setSelectedTheme] = useState({ value: "grey", label: "Minimalist with Grey Background" });
+  const [selectedTheme, setSelectedTheme] = useState({
+    value: "grey",
+    label: "Minimalist with Grey Background",
+  });
   const [selectedTemp, setSelectedTemp] = useState({
     value: "celsius",
     label: "Celsius",
@@ -40,7 +46,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [errMessage, setErrorMessage] = useState("");
   const [mediaId, setMediaId] = useState(null);
   const [preview, setPreview] = useState(false);
-  const [isRefresh, setIsRefresh] = useState(false); 
+  const [isRefresh, setIsRefresh] = useState(false);
   const [orientationMode, setOrientation] = useState("landscape");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -55,46 +61,49 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setIsForcast(jsonString.isForcast);
       setIsAnimated(jsonString.isAnimated);
       setIsCorner(jsonString.isCorner);
-      setOrientation(jsonString.orientationMode ? jsonString.orientationMode : "landscape")
+      setOrientation(
+        jsonString.orientationMode ? jsonString.orientationMode : "landscape"
+      );
     }
-    setIsRefresh(false)
+    setIsRefresh(false);
   }, [mediaData, isRefresh, orientationMode]);
 
-  const getMapTimeZone = async(lat, long) =>{
+  const getMapTimeZone = async (lat, long) => {
     return await getTimeZone(lat, long);
-  }
+  };
 
   const handleLocation = async (place) => {
     let location = JSON.parse(JSON.stringify(place?.geometry?.location));
     const locationTime = await getMapTimeZone(location.lat, location.lng);
-    console.log("LT",locationTime.timeZoneId)
+    console.log("LT", locationTime.timeZoneId);
     setLocation({
       address: place.formatted_address,
       latitude: location.lat,
       longitude: location.lng,
-      timeZone:locationTime
+      timeZone: locationTime,
     });
     //setAdd(adres);
   };
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
-      setIsLoading(false)
+      setIsLoading(false);
       return;
-    } if (
+    }
+    if (
       location.address == "" ||
       location.latitude == "" ||
       location.longitude == ""
     ) {
       setErr(true);
       setErrorMessage("Location is required");
-      setIsLoading(false)
+      setIsLoading(false);
       return;
     }
     const dataString = {
@@ -105,24 +114,24 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
       isAnimated,
       isCorner,
       location,
-      orientationMode
+      orientationMode,
     };
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name:name.trim(),
+        name: name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
     } else {
       await addApps({
-        name:name.trim(),
+        name: name.trim(),
         type: "weather-apps",
         data: JSON.stringify(dataString),
       });
       handleClose(false);
-      setIsLoading(false)
+      setIsLoading(false);
       setShowUrlRedirectApp(true);
     }
   };
@@ -134,22 +143,20 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
   };
 
   const getWeatherDataZone1 = (prp) => {
-
-    if(!weatherInfo){
+    if (!weatherInfo) {
       getWeatherDetail(prp.location.latitude, prp.location.longitude);
     }
     return handleWeatherApps(JSON.stringify(prp), weatherInfo);
-    
-  }
+  };
 
   const handlePreview = () => {
-    if(location && location.address){
-      setIsRefresh(true)
-      setPreview(true)
-    }else{
-      setPreview(false)
+    if (location && location.address) {
+      setIsRefresh(true);
+      setPreview(true);
+    } else {
+      setPreview(false);
     }
-  }
+  };
 
   const handleClose = (val) => {
     setName("");
@@ -169,8 +176,8 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     setIsForcast(false);
     setIsCorner(false);
     setIsAnimated(false);
-    setShowUrlApp(val)
-  }
+    setShowUrlApp(val);
+  };
 
   return (
     <>
@@ -187,7 +194,10 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Button
             variant=""
             className="close"
-            onClick={(e) => {e.preventDefault(); handleClose(false)}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose(false);
+            }}
           >
             <img
               className="cancel-icon"
@@ -283,7 +293,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
               <Button onClick={handlePreview}>Preview</Button>
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -343,19 +353,24 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     Footer
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-center align-items-center h-100 weather-app-form-icon">
                 {/* <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />
                 </div> */}
-                {
-                  preview ? getWeatherDataZone1({isAnimated,isCorner, isForcast,
-                    temp:selectedTemp.value,
-                    theme:selectedTheme.value,
-                    url:"Weather in Noida",
-                    location
-                  }) : <h4>Loading</h4>
-                }
+                {preview ? (
+                  getWeatherDataZone1({
+                    isAnimated,
+                    isCorner,
+                    isForcast,
+                    temp: selectedTemp.value,
+                    theme: selectedTheme.value,
+                    url: "Weather in Noida",
+                    location,
+                  })
+                ) : (
+                  <h4>Loading</h4>
+                )}
               </div>
             </div>
           </form>
@@ -363,8 +378,12 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100"
-                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+              <Button
+                className="cancel-btn w-100"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClose(false);
+                }}
                 variant="outline-light"
               >
                 Cancel

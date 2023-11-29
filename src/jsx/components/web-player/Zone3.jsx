@@ -395,11 +395,13 @@ const Zone3 = ({
                   ) : contents.zones[0].content[currentIndex].type ===
                     "quote-apps" ? (
                     <div
-                      className={`d-flex justify-content-center align-items-center h-100 ${
-                        JSON.parse(contents.zones[0].content[currentIndex].data)
-                          .color.value
-                      }`}
-                      style={{ paddingTop: "45%" }}
+                      className={`d-flex justify-content-center align-items-center h-100 `}
+                      style={{
+                        paddingTop: "45%",
+                        backgroundColor: JSON.parse(
+                          contents.zones[0].content[currentIndex].data
+                        ).color.value,
+                      }}
                     >
                       {getQuoteDataZone1(
                         contents.zones[0].content[currentIndex].data
@@ -577,11 +579,13 @@ const Zone3 = ({
                   ) : contents.zones[0].content[currentIndex].type ===
                     "quote-apps" ? (
                     <div
-                      className={`d-flex justify-content-center align-items-center h-100 ${
-                        JSON.parse(contents.zones[0].content[currentIndex].data)
-                          .color.value
-                      }`}
-                      style={{ paddingTop: "45%" }}
+                      className={`d-flex justify-content-center align-items-center h-100`}
+                      style={{
+                        paddingTop: "45%",
+                        backgroundColor: JSON.parse(
+                          contents.zones[0].content[currentIndex].data
+                        ).color.value,
+                      }}
                     >
                       {getQuoteDataZone2(
                         contents.zones[1].content[current1Index].data

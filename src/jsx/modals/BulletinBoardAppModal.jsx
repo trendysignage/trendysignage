@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useState, useEffect } from "react";
 import { updateApps, addApps, BASE_URL } from "../../utils/api";
-import { handleBulletinApps } from '../../utils/UtilsService'
+import { handleBulletinApps } from "../../utils/UtilsService";
 import Switch from "react-switch";
 import SelectMedia from "./SelecteMedia";
 import deleteicon from "../../img/delete-btn.png";
@@ -53,21 +53,21 @@ const BulletinBoardAppModal = ({
   };
 
   const handleBulletin = (e) => {
-    console.log('dd')
+    console.log("dd");
     e.preventDefault();
     const data = bulletin;
     console.log("nu", bulletinType);
     if (bulletinType !== null) {
-      console.log('edit')
+      console.log("edit");
       data[bulletinType].image = selectedImage;
       data[bulletinType].title = selectedTitle.trim();
       data[bulletinType].content = selectedContent.trim();
     } else {
-      console.log("create")
+      console.log("create");
       data.push({
         title: selectedTitle.trim(),
         image: selectedImage,
-        content: selectedContent ? selectedContent.trim() : '',
+        content: selectedContent ? selectedContent.trim() : "",
       });
     }
     setBulletin(data);
@@ -90,7 +90,7 @@ const BulletinBoardAppModal = ({
     setBulletinType(null);
   };
   const handleEdit = (e, data, key) => {
-    console.log('fdf');
+    console.log("fdf");
     e.preventDefault();
     setIsBulletin(true);
     setSelectedContent(data.content);
@@ -125,14 +125,14 @@ const BulletinBoardAppModal = ({
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if (name == "") {
       setErr(true);
       setErrorMessage("App Name is required");
-      setIsLoading(false)
-      return
+      setIsLoading(false);
+      return;
     }
     const dataString = {
       url: name.trim(),
@@ -140,25 +140,25 @@ const BulletinBoardAppModal = ({
       bulletin,
       duration,
       colorScheme,
-      orientationMode
+      orientationMode,
     };
 
     if (actionType && actionType == "edit") {
       await updateApps({
-        name:name.trim(),
+        name: name.trim(),
         appId: mediaId,
         data: JSON.stringify(dataString),
       });
       setShowUrlApp(false);
-      setIsLoading(false)
+      setIsLoading(false);
     } else {
       await addApps({
-        name:name.trim(),
+        name: name.trim(),
         type: "bulletin-apps",
         data: JSON.stringify(dataString),
       });
       handleClose(false);
-      setIsLoading(false)
+      setIsLoading(false);
       setShowUrlRedirectApp(true);
     }
     //console.log(name, urlLink, selectedOption)
@@ -181,8 +181,8 @@ const BulletinBoardAppModal = ({
     });
     setChecked(false);
     setBulletin([]);
-    setShowUrlApp(val)
-  }
+    setShowUrlApp(val);
+  };
   const handlePreview = () => {
     if (name) {
       setPreviewData(
@@ -193,7 +193,7 @@ const BulletinBoardAppModal = ({
             bulletin,
             duration,
             colorScheme,
-            orientationMode
+            orientationMode,
           })
         )
       );
@@ -223,7 +223,10 @@ const BulletinBoardAppModal = ({
           <Button
             variant=""
             className="close"
-            onClick={(e) => {e.preventDefault(); handleClose(false)}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose(false);
+            }}
           >
             <img
               className="cancel-icon"
@@ -488,14 +491,14 @@ const BulletinBoardAppModal = ({
                   </div>
                 </div>
               )}
-              {
-                !isBulletin && <Button onClick={handlePreview} className="mt-3">
-                Preview
-              </Button>
-              }
+              {!isBulletin && (
+                <Button onClick={handlePreview} className="mt-3">
+                  Preview
+                </Button>
+              )}
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -560,7 +563,7 @@ const BulletinBoardAppModal = ({
                     Footer
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-center align-items-center h-100 Bulletin-board-app-form-icon">
                 {preview && previewData ? previewData : "..."}
               </div>
@@ -570,8 +573,13 @@ const BulletinBoardAppModal = ({
         <Modal.Footer className="border-0 mb-2">
           <Row className="w-100 m-0">
             <Col lg={6} md={6} sm={6} xs={6} className="pl-0 pr-2">
-              <Button className="cancel-btn w-100" variant="outline-light"
-                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+              <Button
+                className="cancel-btn w-100"
+                variant="outline-light"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClose(false);
+                }}
               >
                 Cancel
               </Button>

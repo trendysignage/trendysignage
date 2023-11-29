@@ -47,7 +47,7 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsRefresh(false)
+    setIsRefresh(false);
     if (mediaData) {
       console.log("media", mediaData, actionType);
       const jsonString = JSON.parse(mediaData.appData);
@@ -64,70 +64,72 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
-      setIsLoading(false)
-      return
+      setIsLoading(false);
+      return;
     }
 
-      console.log("Hello", err);
-      const dataString = {
-        url: name.trim(),
-        duration,
-        theame: selectedTheame,
-        topic,
-        orientationMode,
-      };
+    console.log("Hello", err);
+    const dataString = {
+      url: name.trim(),
+      duration,
+      theame: selectedTheame,
+      topic,
+      orientationMode,
+    };
 
-      if (actionType && actionType == "edit") {
-        await updateApps({
-          name:name.trim(),
-          appId: mediaId,
-          data: JSON.stringify(dataString),
-        });
-        setShowUrlApp(false);
-        setIsLoading(false)
-      } else {
-        await addApps({
-          name:name.trim(),
-          type: "news-apps",
-          data: JSON.stringify(dataString),
-        });
-        handleClose(false);
-        setIsLoading(false)
-        setShowUrlRedirectApp(true);
-      }
+    if (actionType && actionType == "edit") {
+      await updateApps({
+        name: name.trim(),
+        appId: mediaId,
+        data: JSON.stringify(dataString),
+      });
+      setShowUrlApp(false);
+      setIsLoading(false);
+    } else {
+      await addApps({
+        name: name.trim(),
+        type: "news-apps",
+        data: JSON.stringify(dataString),
+      });
+      handleClose(false);
+      setIsLoading(false);
+      setShowUrlRedirectApp(true);
+    }
   };
 
   const getNewsData = async (data) => {
     const quoteResult = await getNews(data);
     console.log(quoteResult);
     setNewsData(quoteResult);
-    setNewsPreviewData(handleNewsApps(
-      JSON.stringify({
-        url: name,
-        theame: selectedTheame,
-        topic,
-        orientationMode,
-      }),
-      quoteResult
-    ))
+    setNewsPreviewData(
+      handleNewsApps(
+        JSON.stringify({
+          url: name,
+          theame: selectedTheame,
+          topic,
+          orientationMode,
+        }),
+        quoteResult
+      )
+    );
   };
 
   const getNewsDataZone1 = (data) => {
     const prp = JSON.parse(data);
-    if(topic.value !== topicPre.value){
-      console.log("Not match")
-       getNewsData(topic.value);
-       setTopicPre(topic);
-       setIsRefresh(true);
+    if (topic.value !== topicPre.value) {
+      console.log("Not match");
+      getNewsData(topic.value);
+      setTopicPre(topic);
+      setIsRefresh(true);
     }
     if (!newsData) {
-       getNewsData(topic.value);
+      getNewsData(topic.value);
     }
     //return handleNewsApps(data, newsData);
   };
@@ -148,19 +150,19 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
 
   const handleTopic = (e) => {
     setTopic(e);
-  }
+  };
 
-  const handlePreview =(e) => {
+  const handlePreview = (e) => {
     e.preventDefault();
     if (name) {
-      if(topic.value !== topicPre.value){
-        console.log("Not match")
-         getNewsData(topic.value);
-         setTopicPre(topic);
-         setIsRefresh(true);
+      if (topic.value !== topicPre.value) {
+        console.log("Not match");
+        getNewsData(topic.value);
+        setTopicPre(topic);
+        setIsRefresh(true);
       }
       if (!newsData) {
-         getNewsData(topic.value);
+        getNewsData(topic.value);
       }
       setIsRefresh(true);
       setPreview(true);
@@ -183,8 +185,8 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
     setErr(false);
     setErrorMessage("");
     setOrientation("landscape");
-    setShowUrlApp(val)
-  }
+    setShowUrlApp(val);
+  };
 
   return (
     <>
@@ -201,7 +203,10 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
           <Button
             variant=""
             className="close"
-            onClick={(e) => {e.preventDefault(); handleClose(false)}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose(false);
+            }}
           >
             <img
               className="cancel-icon"
@@ -236,7 +241,7 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
               <Select
                 value={topic}
                 onChange={(e) => {
-                  handleTopic(e)
+                  handleTopic(e);
                 }}
                 options={topics}
                 className="app-option"
@@ -273,12 +278,17 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   required={true}
                 />
               </div> */}
-              <Button onClick={(e) => {handlePreview(e)}} className="mt-3">
+              <Button
+                onClick={(e) => {
+                  handlePreview(e);
+                }}
+                className="mt-3"
+              >
                 Previews
               </Button>
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -341,10 +351,10 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     Footer
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className=" h-100 quote-app-form-icon">
                 <div className="text-center h-100 ">
-                  {newsPreviewData ? newsPreviewData : "News Loading..."}
+                  {newsPreviewData ? newsPreviewData : ""}
                 </div>
               </div>
             </div>
@@ -356,7 +366,10 @@ const AllNewsAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
               <Button
                 className="cancel-btn w-100"
                 variant="outline-light"
-                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClose(false);
+                }}
               >
                 Cancel
               </Button>

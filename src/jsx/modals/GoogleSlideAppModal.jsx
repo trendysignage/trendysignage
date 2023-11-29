@@ -4,16 +4,21 @@ import icon from "../../img/link-alt 1.svg";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { updateApps, addApps } from "../../utils/api";
-import {handleGoogleApps} from '../../utils/UtilsService';
-import useDrivePicker from 'react-google-drive-picker'
+import { handleGoogleApps } from "../../utils/UtilsService";
+import useDrivePicker from "react-google-drive-picker";
 //import GooglePicker from 'react-google-picker';
-import moment from 'moment'
+import moment from "moment";
 
-const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
-  const tokenDetailsString = localStorage.getItem('googleAuth');
-  const [authToken, setAuthToken] = useState(null)
+const GoogleSlideAppModal = ({
+  setShowUrlApp,
+  show,
+  actionType,
+  mediaData,
+}) => {
+  const tokenDetailsString = localStorage.getItem("googleAuth");
+  const [authToken, setAuthToken] = useState(null);
   const [name, setName] = useState("");
-  const [openPicker, data,authResponse] = useDrivePicker(); 
+  const [openPicker, data, authResponse] = useDrivePicker();
   const [fileData, setFileData] = useState(null);
   const [fileURL, setFileURL] = useState(null);
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
@@ -26,52 +31,51 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
   const [isLoading, setIsLoading] = useState(false);
   const handleOpenPicker = () => {
     openPicker({
-      clientId: "374562955931-mhli1rlb1kuhip30lhe58u0nht8bd2lg.apps.googleusercontent.com",
+      clientId:
+        "374562955931-mhli1rlb1kuhip30lhe58u0nht8bd2lg.apps.googleusercontent.com",
       developerKey: "AIzaSyCMJk6QpvPCdibrNzpOQlFrqpDgf4-GHjw",
       //viewId: "SPREADSHEETS",
       viewId: "DOCS",
-      token:authToken,
-      customScopes:['https://www.googleapis.com/auth/drive.readonly'],
+      token: authToken,
+      customScopes: ["https://www.googleapis.com/auth/drive.readonly"],
       showUploadView: true,
       showUploadFolders: true,
       supportDrives: true,
       multiselect: true,
       // customViews: customViewsArray, // custom view
       callbackFunction: (data) => {
-
-        if (data.action === 'cancel') {
-          console.log('User clicked cancel/close button')
+        if (data.action === "cancel") {
+          console.log("User clicked cancel/close button");
         }
-        console.log("data",data)
-        if (data.action === 'picked') {
+        console.log("data", data);
+        if (data.action === "picked") {
           setFileData(data.docs);
           setFileURL(data.docs[0].embedUrl);
         }
       },
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    console.log("tokenDetailsString",tokenDetailsString);
-    if(tokenDetailsString){
+    console.log("tokenDetailsString", tokenDetailsString);
+    if (tokenDetailsString) {
       const tokenDetails = JSON.parse(tokenDetailsString);
       let expireDate = tokenDetails.expirationTime;
       let todaysDate = moment().format();
-      console.log("todays",expireDate,todaysDate);
+      console.log("todays", expireDate, todaysDate);
       if (todaysDate > expireDate) {
         console.log("Hello1");
-          setAuthToken(null)
-      }else{
+        setAuthToken(null);
+      } else {
         console.log("Hello2");
         setAuthToken(tokenDetails.access_token);
       }
-      
     }
-    console.log("data",data);
-    if(data && data.access_token){
+    console.log("data", data);
+    if (data && data.access_token) {
       console.log("Loging in");
-      data.expirationTime = moment().add(3599,'seconds').format();
-      localStorage.setItem('googleAuth', JSON.stringify(data));
+      data.expirationTime = moment().add(3599, "seconds").format();
+      localStorage.setItem("googleAuth", JSON.stringify(data));
     }
     if (mediaData) {
       console.log("media", mediaData, actionType);
@@ -84,7 +88,7 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
         jsonString.orientationMode ? jsonString.orientationMode : "landscape"
       );
     }
-  }, [mediaData,tokenDetailsString]);
+  }, [mediaData, tokenDetailsString]);
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
@@ -95,56 +99,54 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
       setErr(true);
       setErrorMessage("App Name is required");
       setIsLoading(false);
-      return
+      return;
     }
 
-    if(!fileURL){
+    if (!fileURL) {
       setErr(true);
       setErrorMessage("File URL is required");
       setIsLoading(false);
-      return
+      return;
     }
-      console.log("Hello", err);
-      const dataString = {
-        url: name.trim(),
-        fileURL,
-        fileData,
-        orientationMode,
-      };
+    console.log("Hello", err);
+    const dataString = {
+      url: name.trim(),
+      fileURL,
+      fileData,
+      orientationMode,
+    };
 
-      if (actionType && actionType == "edit") {
-        await updateApps({
-          name:name.trim(),
-          appId: mediaId,
-          data: JSON.stringify(dataString),
-        });
-        setShowUrlApp(false);
-        setIsLoading(false);
-      } else {
-        await addApps({
-          name:name.trim(),
-          type: "google-apps",
-          data: JSON.stringify(dataString),
-        });
-        handleClose(false);
-        setIsLoading(false);
-        setShowUrlRedirectApp(true);
-      }
+    if (actionType && actionType == "edit") {
+      await updateApps({
+        name: name.trim(),
+        appId: mediaId,
+        data: JSON.stringify(dataString),
+      });
+      setShowUrlApp(false);
+      setIsLoading(false);
+    } else {
+      await addApps({
+        name: name.trim(),
+        type: "google-apps",
+        data: JSON.stringify(dataString),
+      });
+      handleClose(false);
+      setIsLoading(false);
+      setShowUrlRedirectApp(true);
+    }
   };
 
   const handleClose = (val) => {
-    setAuthToken(null)
+    setAuthToken(null);
     setName("");
     setFileData(null);
     setFileURL(null);
     setErrorMessage("");
     setOrientation("landscape");
-    setShowUrlApp(val)
-  }
+    setShowUrlApp(val);
+  };
 
-  useEffect(() => {
-    
-  },[data, fileURL, tokenDetailsString])
+  useEffect(() => {}, [data, fileURL, tokenDetailsString]);
 
   return (
     <>
@@ -161,7 +163,10 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
           <Button
             variant=""
             className="close"
-            onClick={(e) => {e.preventDefault(); handleClose(false)}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose(false);
+            }}
           >
             <img
               className="cancel-icon"
@@ -173,9 +178,11 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
           </Button>
         </Modal.Header>
         <Modal.Body>
-          {
-            err && errMessage ? <h6 className="alert alert-danger">{errMessage}</h6> : ""
-          }
+          {err && errMessage ? (
+            <h6 className="alert alert-danger">{errMessage}</h6>
+          ) : (
+            ""
+          )}
           <form
             // onSubmit={handleSubmit}
             className="row"
@@ -186,7 +193,9 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
                 type="text"
                 name="name"
                 id="name"
-                onChange={(e) => {setName(e.target.value)}}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 className="  form-control "
                 placeholder="App Name"
                 required
@@ -214,7 +223,9 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
                 type="text"
                 name="fileURL"
                 id="fileURL"
-                onChange={(e) => {setFileURL(e.target.value)}}
+                onChange={(e) => {
+                  setFileURL(e.target.value);
+                }}
                 value={fileURL}
                 className="  form-control "
                 placeholder="Paste embed link here"
@@ -232,7 +243,9 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
                   </li>
                 </ul>
               </div>
-              <Button onClick={() => handleOpenPicker()}>{authToken ?"Open Picker" :"Login With Google"}</Button>
+              <Button onClick={() => handleOpenPicker()}>
+                {authToken ? "Open Picker" : "Login With Google"}
+              </Button>
               {/* <GooglePicker 
                 clientId="374562955931-mhli1rlb1kuhip30lhe58u0nht8bd2lg.apps.googleusercontent.com"
                 developerKey="AIzaSyCMJk6QpvPCdibrNzpOQlFrqpDgf4-GHjw"
@@ -266,7 +279,7 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
               </GooglePicker> */}
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -331,13 +344,15 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
                     Footer
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-center align-items-center h-100 google-slide-icon">
-                {handleGoogleApps(JSON.stringify({
-                  fileURL,
-                  fileData,
-                  name
-                }))}
+                {handleGoogleApps(
+                  JSON.stringify({
+                    fileURL,
+                    fileData,
+                    name,
+                  })
+                )}
               </div>
             </div>
           </form>
@@ -348,7 +363,10 @@ const GoogleSlideAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => 
               <Button
                 className="cancel-btn w-100"
                 variant="outline-light"
-                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClose(false);
+                }}
               >
                 Cancel
               </Button>

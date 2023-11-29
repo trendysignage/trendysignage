@@ -471,6 +471,7 @@ export const handleTextApps = (data) => {
 
 export const handleClockApps = (data) => {
   const prp = JSON.parse(data, "clockk");
+  console.log(prp, "jjjjjj");
   let tF = "";
   Moment.globalLocale = "fr";
   const cdate = new Date();
@@ -492,13 +493,13 @@ export const handleClockApps = (data) => {
     return (
       <div
         className={`h-100 w-100 d-flex justify-content-center align-items-center ${
-          prp.color.value
-        } ${prp.roundCorner ? "border-bg" : ""}`}
+          prp.roundCorner ? "border-bg" : ""
+        } `}
         style={{
           fontSize: "50px",
           color: "#000",
           textAlign: "center",
-          backgroundColor: "#FFEC40",
+          backgroundColor: prp?.color.value,
         }}
         // border-bg
       >
@@ -682,7 +683,8 @@ export const handleQrApps = (data) => {
   console.log(prp, "utilsservice");
   return (
     <div
-      className={`qr-app-container ${prp.color ? prp.color.value : "orange"}`}
+      className={`qr-app-container`}
+      style={{ backgroundColor: prp.color.value }}
     >
       <div className="qr-box">
         <div className=" qr">
@@ -705,7 +707,8 @@ export const handleQrApps = (data) => {
               : prp.appDesc}
           </p>
           <p
-            className={`mb-0 url ${prp.color ? prp.color.value : "orange"}Url`}
+            className={`mb-0 url `}
+            style={{ backgroundColor: prp.color.value }}
           >
             {prp?.url?.length > 45 ? prp?.url?.slice(0, 45) + "..." : prp?.url}
           </p>
@@ -1870,8 +1873,12 @@ export const handleQuoteApps = (data, quoteData) => {
   console.log(duration);
   return (
     <div
-      className={`h-100 w-100  bulletin-bg text-black ${prp.color.value}`}
-      style={{ color: "white", textAlign: "center" }}
+      className={`h-100 w-100  bulletin-bg text-black `}
+      style={{
+        color: "white",
+        textAlign: "center",
+        backgroundColor: prp.color.value,
+      }}
     >
       <Carousel
         interval={duration}
@@ -1904,10 +1911,18 @@ export const handleQuoteApps = (data, quoteData) => {
                   <div className="mt-2">
                     {prp.fontStyle.value == "italic" ? (
                       <>
-                        <strong style={{ fontSize: "2rem" }}>
+                        <strong
+                          style={{
+                            fontSize: "clamp(0.5rem, 1vh + 0.8rem, 4rem)",
+                          }}
+                        >
                           <i>{item1["quote"]}</i>
                         </strong>
-                        <p style={{ fontSize: "1rem" }}>
+                        <p
+                          style={{
+                            fontSize: "clamp(0.5rem, 1vh + 0.3rem, 2rem)",
+                          }}
+                        >
                           <i>- {item1.author}</i>
                         </p>
                       </>
@@ -1916,10 +1931,20 @@ export const handleQuoteApps = (data, quoteData) => {
                     )}
                     {prp.fontStyle.value == "regular" ? (
                       <>
-                        <strong style={{ fontSize: "2rem" }}>
+                        <strong
+                          style={{
+                            fontSize: "clamp(0.5rem, 1vh + 0.8rem, 4rem)",
+                          }}
+                        >
                           {item1["quote"]}
                         </strong>
-                        <p style={{ fontSize: "1rem" }}>{item1.author}</p>
+                        <p
+                          style={{
+                            fontSize: "clamp(0.5rem, 1vh + 0.3rem, 2rem)",
+                          }}
+                        >
+                          {item1.author}
+                        </p>
                       </>
                     ) : (
                       ""
@@ -1927,10 +1952,18 @@ export const handleQuoteApps = (data, quoteData) => {
 
                     {prp.fontStyle.value == "bold" ? (
                       <>
-                        <strong style={{ fontSize: "2rem" }}>
+                        <strong
+                          style={{
+                            fontSize: "clamp(0.5rem, 1vh + 0.8rem, 4rem)",
+                          }}
+                        >
                           <b>{item1["quote"]}</b>
                         </strong>
-                        <p style={{ fontSize: "1rem" }}>
+                        <p
+                          style={{
+                            fontSize: "clamp(0.5rem, 1vh + 0.3rem, 2rem)",
+                          }}
+                        >
                           <b>{item1.author}</b>
                         </p>
                       </>
@@ -2202,7 +2235,8 @@ export const handleGoogleApps = (data) => {
           styles={{ height: "100%", border: "0px" }}
         />
       ) : (
-        <>Loading</>
+        // <>Loading</>
+        <></>
       )}
     </div>
   );

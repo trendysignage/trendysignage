@@ -10,10 +10,29 @@ import { useState, useEffect } from "react";
 const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [quoteData, setQuoteData] = useState(null);
   const [quotePreviewData, setQuotePreviewData] = useState(null);
-  const colorSchemeOptions = [
+  const colorSchemeOptions1 = [
     { value: "lightYellow", label: "Light Yellow" },
     { value: "orange", label: "Orange" },
     { value: "skyBlue", label: "Sky Blue" },
+  ];
+  const colorSchemeOptions = [
+    { value: "#d62128", label: "Red Scarlet" },
+    { value: "#f36523", label: "Orange" },
+    {
+      value: "#f7861e",
+      label: "Pumpkin Orange",
+    },
+    { value: "#fcb410", label: "Goldenrod" },
+    { value: "#fdee21", label: "Yellow" },
+    { value: "#8ec641", label: "Lime Green" },
+
+    { value: "#08b252", label: "Forest Green" },
+    { value: "#30bdb4", label: "Turquoise" },
+    { value: "#2357bc", label: "Cobalt Blue" },
+
+    { value: "#4d489c", label: "Deep Purple" },
+    { value: "#733a99", label: "Eggplant Purple" },
+    { value: "#af3b94", label: "Dark Magenta" },
   ];
   const fontOptions = [
     { value: "regular", label: "Regular" },
@@ -21,7 +40,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
     { value: "bold", label: "Bold" },
   ];
   const [color, setColor] = useState({
-    value: "lightYellow",
+    value: "#fdee21",
     label: "Light Yellow",
   });
   const [selectedFontOption, setSelectedFontOption] = useState({
@@ -55,53 +74,58 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
 
   const handleCreateApp = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
     setErr(false);
     setErrorMessage("");
     if (name.trim() == "") {
       setErr(true);
       setErrorMessage("App Name is required");
       setIsLoading(false);
-      return
+      return;
     }
-      const dataString = {
-        url: name.trim(),
-        fontStyle: selectedFontOption,
-        color,
-        duration,
-        orientationMode,
-      };
+    const dataString = {
+      url: name.trim(),
+      fontStyle: selectedFontOption,
+      color,
+      duration,
+      orientationMode,
+    };
 
-      if (actionType && actionType == "edit") {
-        await updateApps({
-          name:name.trim(),
-          appId: mediaId,
-          data: JSON.stringify(dataString),
-        });
-        setShowUrlApp(false);
-        setIsLoading(false);
-      } else {
-        await addApps({
-          name:name.trim(),
-          type: "quote-apps",
-          data: JSON.stringify(dataString),
-        });
-        handleClose(false);
-        setIsLoading(false);
-        setShowUrlRedirectApp(true);
-      }
+    if (actionType && actionType == "edit") {
+      await updateApps({
+        name: name.trim(),
+        appId: mediaId,
+        data: JSON.stringify(dataString),
+      });
+      setShowUrlApp(false);
+      setIsLoading(false);
+    } else {
+      await addApps({
+        name: name.trim(),
+        type: "quote-apps",
+        data: JSON.stringify(dataString),
+      });
+      handleClose(false);
+      setIsLoading(false);
+      setShowUrlRedirectApp(true);
+    }
   };
 
   const getQuoteData = async (data) => {
     const quoteResult = await getQuotes(data);
     setQuoteData(quoteResult);
-    setQuotePreviewData(handleQuoteApps(JSON.stringify({
-      url: name,
-      fontStyle: selectedFontOption,
-      color,
-      orientationMode,
-      duration
-    }), quoteResult))
+    setQuotePreviewData(
+      handleQuoteApps(
+        JSON.stringify({
+          url: name,
+          fontStyle: selectedFontOption,
+          color,
+          orientationMode,
+          duration,
+        }),
+        quoteResult
+      )
+    );
   };
 
   // const getQuoteDataZone1 = (data) => {
@@ -152,8 +176,8 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
     setErr(false);
     setErrorMessage("");
     setOrientation("landscape");
-    setShowUrlApp(val)
-  }
+    setShowUrlApp(val);
+  };
   return (
     <>
       <Modal
@@ -169,7 +193,10 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
           <Button
             variant=""
             className="close"
-            onClick={(e) => {e.preventDefault(); handleClose(false)}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose(false);
+            }}
           >
             <img
               className="cancel-icon"
@@ -232,7 +259,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
               </Button>
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -297,9 +324,9 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     Footer
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-center align-items-center h-100 quote-app-form-icon">
-                {preview && quotePreviewData ? quotePreviewData : "Quotes"}
+                {preview && quotePreviewData ? quotePreviewData : ""}
               </div>
             </div>
           </form>
@@ -310,7 +337,10 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
               <Button
                 className="cancel-btn w-100"
                 variant="outline-light"
-                onClick={(e) => {e.preventDefault(); handleClose(false)}}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClose(false);
+                }}
               >
                 Cancel
               </Button>

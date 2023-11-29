@@ -173,7 +173,7 @@ const ListScreen = ({
                 <div className="dropdown-menu-list">
                   <span className="menu-heading">Assign Quickplay</span>
                   <span className="menu-description">
-                    Get to know more about screen info
+                    Publish composition in this screen for next 10 minutes
                   </span>
                 </div>
               </div>

@@ -272,7 +272,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
               <Button onClick={handlePreview}>Preview</Button>
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -337,7 +337,7 @@ const AirQualityAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     Footer
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-center align-items-center h-100 air-quality-app-form-icon">
                 {aqiData}
               </div>

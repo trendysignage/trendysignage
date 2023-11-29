@@ -20,8 +20,8 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [err, setErr] = useState(false);
   const [errMessage, setErrorMessage] = useState("");
   const [color, setColor] = useState({
-    value: "lightYellow",
-    label: "Light Yellow",
+    value: "#fdee21",
+    label: "Yellow",
   });
   const [preview, setPreview] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
@@ -31,13 +31,32 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
   const [previewData, setPreviewData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const colorOptions = [
+  const colorOptions1 = [
     { value: "lightYellow", label: "Light Yellow" },
     { value: "orange", label: "Orange" },
     {
       value: "skyBlue",
       label: "Sky Blue",
     },
+  ];
+  const colorOptions = [
+    { value: "#d62128", label: "Red Scarlet" },
+    { value: "#f36523", label: "Orange" },
+    {
+      value: "#f7861e",
+      label: "Pumpkin Orange",
+    },
+    { value: "#fcb410", label: "Goldenrod" },
+    { value: "#fdee21", label: "Yellow" },
+    { value: "#8ec641", label: "Lime Green" },
+
+    { value: "#08b252", label: "Forest Green" },
+    { value: "#30bdb4", label: "Turquoise" },
+    { value: "#2357bc", label: "Cobalt Blue" },
+
+    { value: "#4d489c", label: "Deep Purple" },
+    { value: "#733a99", label: "Eggplant Purple" },
+    { value: "#af3b94", label: "Dark Magenta" },
   ];
   useEffect(() => {
     if (mediaData) {
@@ -288,12 +307,12 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                   )}
                 </div>
               </div>
-              <Button className="mt-3" onClick={handlePreview}>
+              {/* <Button className="mt-3" onClick={handlePreview}>
                 Preview
-              </Button>
+              </Button> */}
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -336,8 +355,8 @@ const QrCodeModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     Portrait
                   </label>
                 </div>
-              </div>
-              <div className="d-flex justify-content-center align-items-center h-100">
+              </div> */}
+              <div className="d-flex justify-content-center align-items-center h-100 url-app-form-icon">
                 {orientationMode && orientationMode == "potrait" ? (
                   <div
                     className="d-flex justify-content-center h-100"

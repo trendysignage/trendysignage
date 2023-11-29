@@ -29,12 +29,32 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
   ];
   const colorOptions = [
     { value: "lightYellow", label: "Light Yellow" },
-    { value: "orange", label: "Orange" },
+    { value: "Orange", label: "Orange" },
     {
-      value: "skyBlue",
+      value: "#f7861e",
       label: "Sky Blue",
     },
   ];
+  const colorOptions1 = [
+    { value: "#d62128", label: "Red Scarlet" },
+    { value: "#f36523", label: "Orange" },
+    {
+      value: "#f7861e",
+      label: "Pumpkin Orange",
+    },
+    { value: "#fcb410", label: "Goldenrod" },
+    { value: "#fdee21", label: "Yellow" },
+    { value: "#8ec641", label: "Lime Green" },
+
+    { value: "#08b252", label: "Forest Green" },
+    { value: "#30bdb4", label: "Turquoise" },
+    { value: "#2357bc", label: "Cobalt Blue" },
+
+    { value: "#4d489c", label: "Deep Purple" },
+    { value: "#733a99", label: "Eggplant Purple" },
+    { value: "#af3b94", label: "Dark Magenta" },
+  ];
+
   const [name, setName] = useState(null);
   const [clockType, setClockType] = useState("regular");
   const [timeFormat, setTimeFormat] = useState({
@@ -54,8 +74,8 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [preview, setPreview] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [color, setColor] = useState({
-    value: "Light Yellow",
-    label: "Light Yellow",
+    value: "#fdee21",
+    label: "Yellow",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [location, setLocation] = useState({
@@ -351,7 +371,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 value={color}
                 onChange={setColor}
                 placeholder="Light Yellow"
-                options={colorOptions}
+                options={colorOptions1}
                 className="app-option"
               />
               <Button className="mt-3" onClick={handlePreview}>
@@ -359,7 +379,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
               </Button>
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
+              {/* <div className="d-flex ">
                 {" "}
                 <div className="form-check mr-4">
                   <input
@@ -424,7 +444,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                     Footer
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-center align-items-center h-100 clock-app-form-icon">
                 {/* <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />

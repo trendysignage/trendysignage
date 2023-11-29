@@ -32,6 +32,24 @@ import QuickSearchToolbar from "../QuickSearchToolbar";
 import { GridToolbarContainer } from "@mui/x-data-grid";
 import FilterModal from "../../modals/FilterModal";
 
+import weather from "../../../img/weather.svg";
+import urlapp from "../../../img/urlapp.svg";
+
+import youtube from "../../../img/youtube.svg";
+import scroller from "../../../img/Scroller.svg";
+import text from "../../../img/text.svg";
+import clock from "../../../img/clock.svg";
+import news from "../../../img/news.svg";
+
+import google from "../../../img/Google.svg";
+import Stocks from "../../../img/Stocks.svg";
+import qr from "../../../img/qr.svg";
+import aqi from "../../../img/aqi.svg";
+import rss from "../../../img/rss.svg";
+import people from "../../../img/people.svg";
+
+import quote from "../../../img/quote 1.svg";
+import bulletin from "../../../img/Bulletin.svg";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -203,9 +221,9 @@ const ListMedia = ({
               </div>
               <div className="dropdown-menu-list">
                 <span className="menu-heading mb-0">Delete</span>
-                {/* <span className="menu-description">
-                  Get to know more about screen info
-                </span> */}
+                <span className="menu-description">
+                  Permanently delete this composition
+                </span>
               </div>
             </div>
           </Dropdown.Item>
@@ -216,6 +234,7 @@ const ListMedia = ({
 
   const renderName = (params) => {
     const { value } = params;
+
     return (
       <span className="td-content d-flex name-td-content">
         <span
@@ -249,6 +268,70 @@ const ListMedia = ({
             >
               {videoMetaDuration(value)}
             </button>
+          )}
+
+          {value.type === "news-apps" && (
+            <img src={news} className="media-img img-fluid" alt="news-app" />
+          )}
+
+          {value.type === "quote-apps" && (
+            <img src={quote} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "qrcode-apps" && (
+            <img src={qr} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "clock-apps" && (
+            <img src={clock} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "youtube-apps" && (
+            <img src={youtube} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "url-apps" && (
+            <img src={urlapp} className="media-img img-fluid" alt="news-app" />
+          )}
+
+          {value.type === "scroller" && (
+            <img
+              src={scroller}
+              className="media-img img-fluid"
+              alt="news-app"
+            />
+          )}
+          {value.type === "text-apps" && (
+            <img src={text} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "weather-apps" && (
+            <img src={weather} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "stocks-apps" && (
+            <img src={Stocks} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "aqi-apps" && (
+            <img src={aqi} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "weather-apps" && (
+            <img src={weather} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "weather-apps" && (
+            <img src={weather} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "rss-apps" && (
+            <img src={rss} className="media-img img-fluid" alt="news-app" />
+          )}
+          {value.type === "people-apps" && (
+            <img src={people} className="media-img img-fluid" alt="news-app" />
+          )}
+
+          {value.type === "bulletin-apps" && (
+            <img
+              src={bulletin}
+              className="media-img img-fluid"
+              alt="news-app"
+            />
+          )}
+
+          {value.type === "google-apps" && (
+            <img src={google} className="media-img img-fluid" alt="news-app" />
           )}
         </span>
         <span

@@ -264,8 +264,8 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
               </Button>
             </div>
             <div className="col-6 ">
-              <div className="d-flex ">
-                {" "}
+              {/* <div className="d-flex ">
+             
                 <div className="form-check mr-4">
                   <input
                     className="form-check-input"
@@ -325,7 +325,7 @@ const StocksAppModal = ({ setShowUrlApp, show, actionType, mediaData }) => {
                     Footer
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-center align-items-center h-100 stocks-app-form-icon">
                 {/* <div className="text-center">
                   <img src={icon} width="60px" height="60px" className="mb-3" />
