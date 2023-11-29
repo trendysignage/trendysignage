@@ -1904,13 +1904,8 @@ export const handleQuoteApps = (data, quoteData) => {
                   <div className="mt-2">
                     {prp.fontStyle.value == "italic" ? (
                       <>
-<<<<<<< HEAD
-                        <strong>
-                          <i style={{ fontSize: "2rem" }}>{item1["quote"]}</i>
-=======
                         <strong style={{ fontSize: "2rem" }}>
                           <i>{item1["quote"]}</i>
->>>>>>> new-issue-nov
                         </strong>
                         <p style={{ fontSize: "1rem" }}>
                           <i>- {item1.author}</i>
