@@ -34,6 +34,7 @@ import QuickPlayList from "./QuickPlayList";
 import DefComplist from "./DefComplist";
 
 const PushScreen = ({ permission }) => {
+  console.log(permission, "oooo");
   const history = useHistory();
   const [scheduleData, setScheduleData] = useState([]);
   const [quickPlayData, setQuickPlayData] = useState([]);
@@ -430,6 +431,7 @@ const PushScreen = ({ permission }) => {
           (permission && permission.permission.QUICKPLAY.view ? (
             <QuickPlayList
               history={history}
+              permission={permission}
               setIsRefresh={setIsRefresh}
               data={quickPlayData}
               handleDeleteQuickPlay={handleDeleteQuickPlay}
@@ -447,6 +449,7 @@ const PushScreen = ({ permission }) => {
             <>
               <DefComplist
                 history={history}
+                permission={permission}
                 setIsRefresh={setIsRefresh}
                 data={defaultData}
                 setFilterData={setFilterData}
@@ -460,6 +463,7 @@ const PushScreen = ({ permission }) => {
             <>
               <ScheduleList
                 history={history}
+                permission={permission}
                 setIsRefresh={setIsRefresh}
                 data={scheduleData}
                 setSelectedSchdule={setSelectedSchdule}

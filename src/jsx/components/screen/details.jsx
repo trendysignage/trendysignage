@@ -35,8 +35,8 @@ import WindowsModal from "../../modals/WindowsModal";
 import UpdateModal from "../../modals/UpdateModal";
 import { toast } from "react-toastify";
 import AddNewTagModal from "../../modals/AddNewTagModal";
-
-const ScreenDetails = () => {
+import { connect } from "react-redux";
+const ScreenDetails = ({ userPermission, auth }) => {
   const history = useHistory();
   const { id } = useParams();
   const [screen, setScreen] = useState("");
@@ -761,15 +761,16 @@ const ScreenDetails = () => {
               >
                 Clear Data
               </Dropdown.Item>
-
-              <Dropdown.Item
-                eventKey="5"
-                onClick={() => {
-                  setDeleteModal(true);
-                }}
-              >
-                Deactivate Screen
-              </Dropdown.Item>
+              {userPermission && userPermission.permission.SCREEN.delete && (
+                <Dropdown.Item
+                  eventKey="5"
+                  onClick={() => {
+                    setDeleteModal(true);
+                  }}
+                >
+                  Deactivate Screen
+                </Dropdown.Item>
+              )}
             </DropdownButton>
           </div>
         </div>
@@ -866,4 +867,10 @@ const ScreenDetails = () => {
   );
 };
 
-export default ScreenDetails;
+const mapStateToProps = (state) => {
+  return {
+    userPermission: state.auth.permission,
+    auth: state.auth.auth,
+  };
+};
+export default connect(mapStateToProps)(ScreenDetails);

@@ -34,6 +34,8 @@ import SelectScreenModal from "../../modals/SelectScreenModal";
 import AddNewTagModal from "../../modals/AddNewTagModal";
 import downArrow from "../../../img/down-arrow.svg";
 import listIcon from "../../../img/list-icon.png";
+import assignIcon from "../../../img/assign-icon.png";
+import veiwDetailIcon from "../../../img/view-detail-icon.png";
 
 import {
   DataGrid,
@@ -82,6 +84,7 @@ const ScheduleList = ({
   setFilterData,
   handleDeleteSchedule,
 }) => {
+  console.log(permission, "ppppp");
   const [showNewTagModal, setNewTagModal] = useState(false);
   const [selectedScreen, setSelectedScreen] = useState("");
   const [showFilterModal, setFilterModal] = useState(false);
@@ -174,7 +177,7 @@ const ScheduleList = ({
                 />
               </div>
               <div className="dropdown-menu-list">
-                <span className="menu-heading">Edit</span>
+                <span className="menu-heading">Edit </span>
                 <span className="menu-description">
                   Get to know more about screen info
                 </span>
@@ -187,14 +190,14 @@ const ScheduleList = ({
               setSelectedSchdule(value);
               //setSelectedScreen(screen._id);
             }}
-            //disabled={permission && !permission.permission.SCHEDULE.edit}
+            disabled={permission && !permission.permission.SCHEDULE.edit}
             className="dropdown-list-item"
           >
             <div className="d-flex">
               <div className="dropdown-list-icon">
                 <img
                   className="dropdown-list-img img-fluid"
-                  src={edit}
+                  src={assignIcon}
                   alt="menu-icon"
                 />
               </div>
@@ -243,7 +246,7 @@ const ScheduleList = ({
               <div className="dropdown-list-icon">
                 <img
                   className="dropdown-list-img img-fluid"
-                  src={deleteIcon}
+                  src={veiwDetailIcon}
                   alt="menu-icon"
                 />
               </div>
@@ -373,12 +376,9 @@ const ScheduleList = ({
       <span className="">
         <span className="name-content d-flex flex-column flex-grow-1">
           <strong>
-            {value.split("/")[value.split("/").length - 1].length >
-            7
-              //? value.split("/")[value.split("/").length - 1].slice(0, 7) + "..."
-              ? value
-                  .split("/")
-                  [value.split("/").length - 1]
+            {value.split("/")[value.split("/").length - 1].length > 7
+              ? //? value.split("/")[value.split("/").length - 1].slice(0, 7) + "..."
+                value.split("/")[value.split("/").length - 1]
               : value.split("/")[value.split("/").length - 1]}
           </strong>
         </span>

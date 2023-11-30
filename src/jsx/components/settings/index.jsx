@@ -19,7 +19,6 @@ import AddDeviceProfile from "../../modals/AddDeviceProfile";
 import ChangePassword from "../../modals/ChangePassword";
 
 const Settings = ({ permission, auth }) => {
-  console.log("permission", permission);
   const [dropValue, setDropValue] = useState("Default Content");
   const [allUsers, setAllUsers] = useState([]);
   const [allGroups, setAllGroups] = useState([]);
@@ -153,20 +152,25 @@ const Settings = ({ permission, auth }) => {
               >
                 Groups
               </Dropdown.Item>
-              <Dropdown.Item
-                onClick={(e) => {
-                  handleDropDown(e, "Users");
-                }}
-              >
-                Users
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={(e) => {
-                  handleDropDown(e, "Roles");
-                }}
-              >
-                Roles
-              </Dropdown.Item>
+              {permission && permission.role === "ADMIN" && (
+                <>
+                  <Dropdown.Item
+                    onClick={(e) => {
+                      handleDropDown(e, "Users");
+                    }}
+                  >
+                    Users
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={(e) => {
+                      handleDropDown(e, "Roles");
+                    }}
+                  >
+                    Roles
+                  </Dropdown.Item>
+                </>
+              )}
+
               <Dropdown.Item
                 onClick={(e) => {
                   handleDropDown(e, "Device Profile");
