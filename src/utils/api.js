@@ -24,6 +24,15 @@ export function socialLoginApi(email, name, token) {
   return fetchClient.post(`${BASE_URL}/vendor/auth/socialLogin`, postData);
 }
 
+export function changePassword(oldPassword, newPassword) {
+  const postData = {
+    oldPassword,
+    newPassword,
+  };
+
+  return fetchClient.put(`${BASE_URL}/vendor/auth/changePassword`, postData);
+}
+
 export function register(name, email, password) {
   const role = "vendor";
   const postData = {
@@ -678,10 +687,12 @@ export async function getAllTags(str) {
 export async function getTimeZone(lat, long) {
   const rapidHeader = {
     headers: {
-      'Access-Control-Allow-Headers': '*'
-    }
-  }
-  const response = await axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${lat}%2C${long}&timestamp=1331766000&key=${process.env.REACT_APP_GOOGLE_API_KEY}`);
+      "Access-Control-Allow-Headers": "*",
+    },
+  };
+  const response = await axios.get(
+    `https://maps.googleapis.com/maps/api/timezone/json?location=${lat}%2C${long}&timestamp=1331766000&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
+  );
   return response.data;
 }
 

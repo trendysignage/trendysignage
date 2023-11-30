@@ -499,7 +499,7 @@ export const handleClockApps = (data) => {
           fontSize: "50px",
           color: "#000",
           textAlign: "center",
-          backgroundColor: prp?.color.value,
+          backgroundColor: prp?.color,
         }}
         // border-bg
       >
