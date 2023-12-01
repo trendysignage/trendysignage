@@ -720,7 +720,7 @@ export const handleQrApps = (data) => {
 
 export const handleRssApps = (data) => {
   console.log("data rss", data);
-  //const prp = JSON.parse(data);
+  const prp = JSON.parse(data);
   const list = data?.urlLink?.items;
   if (data?.orientationMode == "footer") {
     return (
