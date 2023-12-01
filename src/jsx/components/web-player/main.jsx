@@ -24,14 +24,13 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
 
   const getScreenCode = async () => {
     let timeoutTimer;
-    const getContent = await addScreenCode(id); 
-    if(getContent && getContent.isReload){
+    const getContent = await addScreenCode(id);
+    if (getContent && getContent.isReload) {
       console.log("reload");
       window.location.reload();
-
     }
     setIsVerified(getContent?.isVerified);
-    if (getContent.isVerified) {
+    if (getContent?.isVerified) {
       if (getContent?.content.length) {
         const getMedia =
           getContent?.content[getContent.content.length - 1].media;
@@ -80,7 +79,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
     });
     //console.log("socket",socket)
     getScreenCode();
-    console.log("contentType",contentType)
+    console.log("contentType", contentType);
     // no-op if the socket is already connected
 
     socket.connect();
@@ -106,8 +105,7 @@ const WebMain = ({ id, handleAddClass, onFullScreen, isMobile }) => {
       socket.disconnect();
       socket.off("receiveContent", onReceiveContent);
     };
-  },[]);
-
+  }, []);
 
   return (
     <>

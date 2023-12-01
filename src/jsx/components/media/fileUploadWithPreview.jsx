@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import uploadImg from "../../../img/cloud-computing-icon.png";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import deleteIcon from "../../../img/delete-icon.png";
-import ImageRotation from '../cropImage/ImageRotation'
+import ImageRotation from "../cropImage/ImageRotation";
 function FileUploadWithPreview({
   setShowError,
   setFile,
@@ -21,7 +21,7 @@ function FileUploadWithPreview({
     const selectedFile = event.target.files[0];
     console.log(event);
     if (!selectedFile) {
-        //selectedFile(null);
+      //selectedFile(null);
       //setPreview(null);
       return;
     }
@@ -42,14 +42,15 @@ function FileUploadWithPreview({
       };
       setPreviewList((previewList) => [...previewList, newP]);
     };
-
   };
 
   function handleLoadedMetadata(event) {
     console.log("event", event);
+    const { naturalHeight, naturalWidth } = event.target;
+
     const fMeta = {
-      height: event.target.height,
-      width: event.target.width,
+      height: naturalHeight,
+      width: naturalWidth,
       length: event.target.duration,
       fileLoading: false,
     };
@@ -80,7 +81,7 @@ function FileUploadWithPreview({
         setFile={setFile}
       />
       } */}
-      
+
       <div className=" d-flex flex-column">
         {previewList &&
           previewList.length > 0 &&
@@ -91,15 +92,16 @@ function FileUploadWithPreview({
                   <img
                     onLoad={handleLoadedMetadata}
                     src={item.file}
-                    style={{ width: "50px", height: "50px", objectFit: "fill" }}
                     alt="File Preview"
+                    className="upload-file-in-asset"
                   />
                 ) : item?.file?.includes("video") ? (
                   <video
                     onLoadedMetadata={handleLoadedMetadata}
-                    style={{ width: "50px", height: "50px", objectFit: "fill" }}
+                    // style={{ width: "50px", height: "50px", objectFit: "fill" }}
                     src={item.file}
                     controls
+                    className="upload-file-in-asset"
                   />
                 ) : (
                   ""

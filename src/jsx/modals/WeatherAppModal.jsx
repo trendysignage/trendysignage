@@ -241,7 +241,7 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 }}
                 options={{
                   types: ["(regions)"],
-                  componentRestrictions: { country: "sau" },
+                  // componentRestrictions: { country: "sau" },
                 }}
                 defaultValue={location?.address}
               />

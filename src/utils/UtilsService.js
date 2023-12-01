@@ -22,6 +22,7 @@ import quote from "../../src/img/quote.svg";
 import newsimg from "../../src/img/news-image.webp";
 import ReactPlayer from "react-player";
 import fahrenheit from "../../src/img/fahrenheit-degrees-1.svg";
+import { useState } from "react";
 
 export const isValidDate = (d) => {
   return d instanceof Date && !isNaN(d);
@@ -198,6 +199,7 @@ export const handleBulletinApps = (data) => {
   const prp = JSON.parse(data);
   console.log(prp);
   var newArray;
+  let fontS = prp.fontSize ? prp.fontSize + "px" : "20px";
   if (prp.bulletinFormat && prp.bulletinFormat == "multi")
     newArray = sliceIntoChunks(prp.bulletin, 3);
   else newArray = prp.bulletin;
@@ -252,8 +254,12 @@ export const handleBulletinApps = (data) => {
                                         className="mt-2"
                                         key={i + "dd" + index1}
                                       >
-                                        <strong>{item1.title}</strong>
-                                        <p>{item1.content}</p>
+                                        <strong style={{ fontSize: fontS }}>
+                                          {item1.title}
+                                        </strong>
+                                        <p style={{ fontSize: fontS }}>
+                                          {item1.content}
+                                        </p>
                                       </div>
                                     </div>
                                   </>
@@ -302,8 +308,12 @@ export const handleBulletinApps = (data) => {
                                   </div>
                                 )}
                                 <div className="mt-2">
-                                  <strong>{item.title}</strong>
-                                  <p>{item.content}</p>
+                                  <strong style={{ fontSize: fontS }}>
+                                    {item.title}
+                                  </strong>
+                                  <p style={{ fontSize: fontS }}>
+                                    {item.content}
+                                  </p>
                                 </div>
                               </div>
                             </div>
@@ -483,7 +493,7 @@ export const handleClockApps = (data) => {
     timeZone: timeZ,
   });
   let date_chicago = new Date(chicago_datetime_str);
-  //prp.timeFormat = "Analogue - 12 hourt";
+
   console.log("timeFormat", prp);
 
   if (
@@ -525,7 +535,7 @@ export const handleClockApps = (data) => {
     if (prp.timeFormat == "Digital - 12 hour") {
       tF = "hh:mm A";
     } else if (prp.timeFormat == "Digital - 24hour") {
-      tF = "HH:mm A";
+      tF = "HH:mm ";
     }
 
     return (
@@ -541,7 +551,7 @@ export const handleClockApps = (data) => {
         }}
       >
         {console.log("tf", tF, date_chicago)}
-        <Moment format={tF} date={date_chicago} locale={"fr"} />
+        <Moment format={tF} date={date_chicago} xx={"fr"} interval={1000} />
         {!prp.hideDate ? (
           <p style={{ fontSize: "20px" }}>{`${cdate.getDate()} ${
             monthName[cdate.getMonth()]
@@ -560,7 +570,7 @@ export const handleClockApps = (data) => {
 
 export const handleWeatherApps = (data, weatherInfo) => {
   const prp = JSON.parse(data);
-  console.log(weatherInfo);
+  console.log(weatherInfo, "weatherInfo");
   let timeZ =
     prp.location.timeZone && prp.location.timeZone
       ? prp.location.timeZone.timeZoneId
@@ -569,7 +579,7 @@ export const handleWeatherApps = (data, weatherInfo) => {
     timeZone: timeZ,
   });
   let date_chicago = new Date(chicago_datetime_str);
-  console.log(date_chicago);
+  console.log(date_chicago, "lll");
 
   return (
     <div className="h-100 w-100 " style={{ color: "white" }}>
@@ -1871,6 +1881,7 @@ export const handleAqiApps = (data, weatherInfo) => {
 export const handleQuoteApps = (data, quoteData) => {
   const prp = JSON.parse(data, quoteData, "qqqqqqqq");
   const duration = prp.duration ? prp.duration * 1000 : 10000;
+  let fontS = prp.fontSize ? prp.fontSize + "px" : "20px";
   console.log(duration);
   return (
     <div
@@ -1914,7 +1925,7 @@ export const handleQuoteApps = (data, quoteData) => {
                       <>
                         <strong
                           style={{
-                            fontSize: "clamp(0.5rem, 1vh + 0.8rem, 4rem)",
+                            fontSize: fontS,
                           }}
                         >
                           <i>{item1["quote"]}</i>
@@ -1934,7 +1945,7 @@ export const handleQuoteApps = (data, quoteData) => {
                       <>
                         <strong
                           style={{
-                            fontSize: "clamp(0.5rem, 1vh + 0.8rem, 4rem)",
+                            fontSize: fontS,
                           }}
                         >
                           {item1["quote"]}
@@ -1955,7 +1966,7 @@ export const handleQuoteApps = (data, quoteData) => {
                       <>
                         <strong
                           style={{
-                            fontSize: "clamp(0.5rem, 1vh + 0.8rem, 4rem)",
+                            fontSize: fontS,
                           }}
                         >
                           <b>{item1["quote"]}</b>

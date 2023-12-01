@@ -41,6 +41,7 @@ const BulletinBoardAppModal = ({
     { value: "orange", label: "Orange" },
     { value: "skyBlue", label: "Sky  Blue" },
   ];
+  const [fontSize, setFontSize] = useState(20);
   const [checked, setChecked] = useState(false);
   const [bulletin, setBulletin] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +52,14 @@ const BulletinBoardAppModal = ({
   const handleChange = (nextChecked) => {
     setChecked(nextChecked);
   };
-
+  const handleFontSize = (e, size) => {
+    e.preventDefault();
+    console.log("size", size);
+    if (size < 12 || size > 100) {
+      return;
+    }
+    setFontSize(size);
+  };
   const handleBulletin = (e) => {
     console.log("dd");
     e.preventDefault();
@@ -116,6 +124,7 @@ const BulletinBoardAppModal = ({
       setBulletinFormat(jsonString.bulletinFormat);
       setBulletin(jsonString.bulletin);
       setMediaId(mediaData._id);
+      setFontSize(jsonString.fontSize);
       setOrientation(
         jsonString.orientationMode ? jsonString.orientationMode : "landscape"
       );
@@ -141,6 +150,7 @@ const BulletinBoardAppModal = ({
       duration,
       colorScheme,
       orientationMode,
+      fontSize,
     };
 
     if (actionType && actionType == "edit") {
@@ -194,6 +204,7 @@ const BulletinBoardAppModal = ({
             duration,
             colorScheme,
             orientationMode,
+            fontSize,
           })
         )
       );
@@ -281,6 +292,29 @@ const BulletinBoardAppModal = ({
                         value={duration}
                         onChange={(e) => setDuration(e.target.value)}
                       />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="mt-3">Font Size</label>
+                    <div>
+                      <Button
+                        onClick={(e) => {
+                          handleFontSize(e, fontSize - 1);
+                        }}
+                        className="btnnew"
+                      >
+                        -
+                      </Button>
+                      <span className="marginLR">{fontSize}</span>
+                      <Button
+                        onClick={(e) => {
+                          handleFontSize(e, fontSize + 1);
+                        }}
+                        className="btnnew"
+                      >
+                        +
+                      </Button>
                     </div>
                   </div>
 

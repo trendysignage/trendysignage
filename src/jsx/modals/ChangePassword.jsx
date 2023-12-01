@@ -1,8 +1,7 @@
-import { Button, Modal, Row, Col, Badge } from "react-bootstrap";
+import { Button, Modal, Row, Col } from "react-bootstrap";
 import cancelIcon from "../../img/cancel-icon.png";
-import tagCloseIcon from "../../img/tag-close-icon.png";
 import { changePassword } from "../../utils/api";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useState } from "react";
 
 const ChangePassword = ({ setShowModel, show }) => {
@@ -67,8 +66,8 @@ const ChangePassword = ({ setShowModel, show }) => {
 
       setShowModel(false);
     } catch (error) {
-      console.log(error, "error");
-      notifyError(error.response.message);
+      console.log(error.response.data, "error");
+      notifyError(error.response.data.message);
     }
   };
   return (

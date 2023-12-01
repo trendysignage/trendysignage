@@ -40,6 +40,7 @@ const ScreenDetails = ({ userPermission, auth }) => {
   const history = useHistory();
   const { id } = useParams();
   const [screen, setScreen] = useState("");
+
   console.log(screen, "ooo");
   const [activeDefault, setActiveDefault] = useState("");
   const [deleteModal, setDeleteModal] = useState(false);
@@ -849,12 +850,19 @@ const ScreenDetails = ({ userPermission, auth }) => {
           setWindowsModal={setWindowsModal}
           handleWindows={handleWindows}
         />
+        {showUpdateModal && screen?._id && (
+          <UpdateModal
+            showUpdateModal={showUpdateModal}
+            setUpdateModal={setUpdateModal}
+            handleUpdate={handleUpdate}
+            screenName={screen?.name}
+            googleLocation={screen?.googleLocation}
+            screenLocation={screen?.screenLocation}
+            id={screen?._id}
+            setIsRefresh={setIsRefresh}
+          />
+        )}
 
-        <UpdateModal
-          showUpdateModal={showUpdateModal}
-          setUpdateModal={setUpdateModal}
-          handleUpdate={handleUpdate}
-        />
         {showPublishPopUp && (
           <CompositionListModel
             selected={screen._id}

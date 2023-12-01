@@ -17,6 +17,7 @@ import PhotoEditorSDK from "../PhotoEditorSDK";
 import PhotoEditorModal from "../../modals/PhotoEditorModal";
 
 const Media = ({ auth, permission }) => {
+  console.log(permission, "permission");
   const [showUploadMediaModal, setUploadMediaModal] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [filterData, setFilterData] = useState({

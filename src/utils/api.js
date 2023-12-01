@@ -32,6 +32,16 @@ export function changePassword(oldPassword, newPassword) {
 
   return fetchClient.put(`${BASE_URL}/vendor/auth/changePassword`, postData);
 }
+export function editScreen(screenId, name, screenLocation, googleLocation) {
+  const postData = {
+    screenId,
+    name,
+    screenLocation,
+    googleLocation,
+  };
+
+  return fetchClient.put(`${BASE_URL}/vendor/display/screen`, postData);
+}
 
 export function register(name, email, password) {
   const role = "vendor";

@@ -159,7 +159,7 @@ const ListScreen = ({
               }}
               className="dropdown-list-item"
               disabled={
-                userPermission && !userPermission.permission.SCREEN.edit
+                userPermission && !userPermission.permission.QUICKPLAY.add
               }
             >
               <div className="d-flex">

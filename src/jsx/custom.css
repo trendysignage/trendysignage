@@ -2488,6 +2488,11 @@ button#Fullscreen {
   width: 100%;
   object-fit: contain;
 }
+.upload-file-in-asset{
+  height: 50px;
+  width: 50px;
+  object-fit: fill;
+}
 
 :fullscreen .media-content {
   object-fit: contain;

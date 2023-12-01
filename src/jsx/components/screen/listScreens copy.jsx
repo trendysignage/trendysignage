@@ -166,7 +166,7 @@ const ListScreen = ({ allScreens, userPermission }) => {
                           className="dropdown-list-item"
                           disabled={
                             userPermission &&
-                            !userPermission.permission.SCREEN.edit
+                            !userPermission.permission.SCREEN.add
                           }
                         >
                           <div className="d-flex">

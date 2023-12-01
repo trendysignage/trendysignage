@@ -47,6 +47,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
     value: "regular",
     label: "Regular",
   });
+  const [fontSize, setFontSize] = useState(20);
   const [showRedirectApp, setShowUrlRedirectApp] = useState(false);
   const [name, setName] = useState("");
   const [duration, setDuration] = useState(10);
@@ -57,7 +58,14 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
   const [isRefresh, setIsRefresh] = useState(false);
   const [orientationMode, setOrientation] = useState("landscape");
   const [isLoading, setIsLoading] = useState(false);
-
+  const handleFontSize = (e, size) => {
+    e.preventDefault();
+    console.log("size", size);
+    if (size < 12 || size > 100) {
+      return;
+    }
+    setFontSize(size);
+  };
   useEffect(() => {
     if (mediaData) {
       console.log("media", mediaData, actionType);
@@ -66,6 +74,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
       setMediaId(mediaData._id);
       setSelectedFontOption(jsonString.fontStyle);
       setColor(jsonString.color);
+      setFontSize(jsonString.fontSize);
       setOrientation(
         jsonString.orientationMode ? jsonString.orientationMode : "landscape"
       );
@@ -89,6 +98,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
       color,
       duration,
       orientationMode,
+      fontSize,
     };
 
     if (actionType && actionType == "edit") {
@@ -122,6 +132,7 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
           color,
           orientationMode,
           duration,
+          fontSize,
         }),
         quoteResult
       )
@@ -254,6 +265,29 @@ const QuoteModel = ({ setShowUrlApp, show, mediaData, actionType }) => {
                 options={fontOptions}
                 className="app-option"
               />
+
+              <div>
+                <label className="mt-3">Font Size</label>
+                <div>
+                  <Button
+                    onClick={(e) => {
+                      handleFontSize(e, fontSize - 1);
+                    }}
+                    className="btnnew"
+                  >
+                    -
+                  </Button>
+                  <span className="marginLR">{fontSize}</span>
+                  <Button
+                    onClick={(e) => {
+                      handleFontSize(e, fontSize + 1);
+                    }}
+                    className="btnnew"
+                  >
+                    +
+                  </Button>
+                </div>
+              </div>
               <Button onClick={handlePreview} className="mt-3">
                 Preview
               </Button>

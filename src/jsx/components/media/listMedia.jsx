@@ -300,9 +300,7 @@ const ListMedia = ({
           {value.type === "text-apps" && (
             <img src={text} className="media-img img-fluid" alt="news-app" />
           )}
-          {value.type === "weather-apps" && (
-            <img src={weather} className="media-img img-fluid" alt="news-app" />
-          )}
+
           {value.type === "stocks-apps" && (
             <img src={Stocks} className="media-img img-fluid" alt="news-app" />
           )}
@@ -312,9 +310,7 @@ const ListMedia = ({
           {value.type === "weather-apps" && (
             <img src={weather} className="media-img img-fluid" alt="news-app" />
           )}
-          {value.type === "weather-apps" && (
-            <img src={weather} className="media-img img-fluid" alt="news-app" />
-          )}
+
           {value.type === "rss-apps" && (
             <img src={rss} className="media-img img-fluid" alt="news-app" />
           )}

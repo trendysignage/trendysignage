@@ -453,7 +453,7 @@ const ClockApp = ({ setShowUrlApp, show, mediaData, actionType }) => {
                   ? handleClockApps(
                       JSON.stringify({
                         clockType: "regular",
-                        color: color.value,
+                        color: color,
                         deviceTime,
                         hiddenLocation,
                         hideDate,
