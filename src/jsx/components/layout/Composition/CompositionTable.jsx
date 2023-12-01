@@ -16,6 +16,24 @@ import AirQualityAppModal from "../../../modals/AirQualityAppModal";
 import QuoteModel from "../../../modals/QuoteModel";
 import AllNewsAppModal from "../../../modals/AllNewsAppModal";
 import GoogleSlideAppModal from "../../../modals/GoogleSlideAppModal";
+import weather from "../../../../img/weather.svg";
+import urlapp from "../../../../img/urlapp.svg";
+
+import youtube from "../../../../img/youtube.svg";
+import scroller from "../../../../img/Scroller.svg";
+import text from "../../../../img/text.svg";
+import clock from "../../../../img/clock.svg";
+import news from "../../../../img/news.svg";
+
+import google from "../../../../img/Google.svg";
+import Stocks from "../../../../img/Stocks.svg";
+import qr from "../../../../img/qr.svg";
+import aqi from "../../../../img/aqi.svg";
+import rss from "../../../../img/rss.svg";
+import people from "../../../../img/people.svg";
+
+import quote from "../../../../img/quote 1.svg";
+import bulletin from "../../../../img/Bulletin.svg";
 
 const CompositionTable = ({ allMedia, addComposition }) => {
   const [showUrlApp, setShowUrlApp] = useState(false);
@@ -199,6 +217,117 @@ const CompositionTable = ({ allMedia, addComposition }) => {
                           />
                         )}
                         {media.type === "video" && videoMetaDuration(media)}
+                        {media.type === "news-apps" && (
+                          <img
+                            src={news}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+
+                        {media.type === "quote-apps" && (
+                          <img
+                            src={quote}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+                        {media.type === "qrcode-apps" && (
+                          <img
+                            src={qr}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+                        {media.type === "clock-apps" && (
+                          <img
+                            src={clock}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+                        {media.type === "youtube-apps" && (
+                          <img
+                            src={youtube}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+                        {media.type === "url-apps" && (
+                          <img
+                            src={urlapp}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+
+                        {media.type === "scroller" && (
+                          <img
+                            src={scroller}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+                        {media.type === "text-apps" && (
+                          <img
+                            src={text}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+
+                        {media.type === "stocks-apps" && (
+                          <img
+                            src={Stocks}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+                        {media.type === "aqi-apps" && (
+                          <img
+                            src={aqi}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+                        {media.type === "weather-apps" && (
+                          <img
+                            src={weather}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+
+                        {media.type === "rss-apps" && (
+                          <img
+                            src={rss}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+                        {media.type === "people-apps" && (
+                          <img
+                            src={people}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+
+                        {media.type === "bulletin-apps" && (
+                          <img
+                            src={bulletin}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
+
+                        {media.type === "google-apps" && (
+                          <img
+                            src={google}
+                            className="media-img img-fluid"
+                            alt="news-app"
+                          />
+                        )}
                       </span>
                       <span className="name-content d-flex flex-column flex-grow-1">
                         <strong>
@@ -208,8 +337,15 @@ const CompositionTable = ({ allMedia, addComposition }) => {
                             ]
                           } */}
 
-                          {media.title.split("/")[media.title.split("/").length - 1].length > 11
-                            ? media.title.split("/")[media.title.split("/").length - 1].slice(0,30) + "..."
+                          {media.title.split("/")[
+                            media.title.split("/").length - 1
+                          ].length > 20
+                            ? media.title
+                                .split("/")
+                                [media.title.split("/").length - 1].slice(
+                                  0,
+                                  40
+                                ) + "..."
                             : media.title.split("/")[
                                 media.title.split("/").length - 1
                               ]}

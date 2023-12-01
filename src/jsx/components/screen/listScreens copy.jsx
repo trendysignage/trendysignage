@@ -182,7 +182,7 @@ const ListScreen = ({ allScreens, userPermission }) => {
                                 Assign Quickplay
                               </span>
                               <span className="menu-description">
-                                Get to know more about screen info
+                                Publish on Screen as Quick Play
                               </span>
                             </div>
                           </div>
