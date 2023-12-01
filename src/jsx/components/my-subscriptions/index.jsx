@@ -4,13 +4,14 @@ import { vendorProfile } from "../../../utils/api";
 export default function Subscription() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [totalScreen, setTotalScreen] = useState(null);
 
   useEffect(() => {
     async function getVendorProfile() {
       try {
         const response = await vendorProfile();
         const subscription = response?.data?.data?.subscription;
-
+        setTotalScreen(response?.data?.data);
         if (subscription) {
           const start = new Date(subscription.startDate);
           const end = new Date(subscription.endDate);
@@ -57,6 +58,14 @@ export default function Subscription() {
           <p className="mb-0 ml-3">
             {daysRemaining !== null
               ? `${daysRemaining} Days`
+              : "Calculating..."}
+          </p>
+        </div>
+        <div className="d-flex align-items-center mt-3">
+          <h5 className="m-0">Number of screens allowed:</h5>{" "}
+          <p className="mb-0 ml-3">
+            {totalScreen?.totalScreens !== null
+              ? totalScreen?.totalScreens
               : "Calculating..."}
           </p>
         </div>

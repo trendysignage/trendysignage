@@ -102,7 +102,6 @@ const Settings = ({ permission, auth }) => {
         setShowModel={() => setShowModal(false)}
         show={showModal}
       />
-
       <AddUserModal
         open={showAddUserModel}
         setShowAddUserModel={setShowAddUserModel}

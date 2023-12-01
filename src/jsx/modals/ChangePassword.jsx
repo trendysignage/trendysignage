@@ -106,12 +106,10 @@ const ChangePassword = ({ setShowModel, show }) => {
               minLength={6}
             />
           </div>
-
           <div className="mb-4">
             <strong>
               <label className="mb-3"> New Password</label>
             </strong>
-
             <input
               type="password"
               className="form-control"

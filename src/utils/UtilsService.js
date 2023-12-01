@@ -530,14 +530,14 @@ export const handleClockApps = (data) => {
 
     return (
       <div
-        className={`basic-list-group image-preview-container media-content  d-flex justify-content-center align-items-center ${
-          prp.color
-        } ${prp.roundCorner ? "border-bg" : ""}`}
+        className={`basic-list-group image-preview-container media-content  d-flex justify-content-center align-items-center  ${
+          prp.roundCorner ? "border-bg" : ""
+        }`}
         style={{
           fontSize: "100px",
           color: "#000",
           textAlign: "center",
-          backgroundColor: "#FFEC40",
+          backgroundColor: prp?.color,
         }}
       >
         {console.log("tf", tF, date_chicago)}
