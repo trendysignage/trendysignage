@@ -149,10 +149,34 @@ const WeatherAppModal = ({ setShowUrlApp, show, mediaData, actionType }) => {
     return handleWeatherApps(JSON.stringify(prp), weatherInfo);
   };
 
-  const handlePreview = () => {
+  // const handlePreview = () => {
+  //   if (location && location.address) {
+  //     setIsRefresh(true);
+  //     setPreview(true);
+  //   } else {
+  //     setPreview(false);
+  //   }
+  // };
+  const handlePreview = async () => {
     if (location && location.address) {
       setIsRefresh(true);
-      setPreview(true);
+
+      // Fetch weather information before setting the preview state
+      try {
+        const weatherData = await getWeatherDetail(
+          location.latitude,
+          location.longitude
+        );
+
+        // Update weatherInfo state with fetched data
+        setWeatherInfo(weatherData);
+
+        // Set the preview state
+        setPreview(true);
+      } catch (error) {
+        console.error("Error fetching weather information", error);
+        setPreview(false);
+      }
     } else {
       setPreview(false);
     }

@@ -594,9 +594,9 @@ export const handleWeatherApps = (data, weatherInfo) => {
         <div className="place-date-time d-flex align-items-center justify-content-between ">
           <div className="place-date">
             <h1>
-              {/* {weatherInfo && weatherInfo.city && weatherInfo.city.name}  */}
+              {weatherInfo && weatherInfo.city && weatherInfo.city.name}
 
-              {prp.location.address}
+              {/* {prp.location.address} */}
             </h1>
             <p>
               <Moment
