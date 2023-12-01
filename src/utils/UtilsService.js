@@ -499,7 +499,7 @@ export const handleClockApps = (data) => {
           fontSize: "50px",
           color: "#000",
           textAlign: "center",
-          backgroundColor: prp?.color,
+          backgroundColor: prp?.color.value,
         }}
         // border-bg
       >
@@ -537,7 +537,7 @@ export const handleClockApps = (data) => {
           fontSize: "100px",
           color: "#000",
           textAlign: "center",
-          backgroundColor: prp?.color,
+          backgroundColor: prp?.color.value,
         }}
       >
         {console.log("tf", tF, date_chicago)}
@@ -720,7 +720,8 @@ export const handleQrApps = (data) => {
 
 export const handleRssApps = (data) => {
   console.log("data rss", data);
-  const prp = JSON.parse(data);
+  // const prp = JSON.parse(data);
+  console.log(data, "oo");
   const list = data?.urlLink?.items;
   if (data?.orientationMode == "footer") {
     return (
@@ -1149,7 +1150,7 @@ export const handleRssApps = (data) => {
           </div>
         </div>
       );
-    } else if (data.theame.value == "color-background") {
+    } else if (data?.theame?.value == "color-background") {
       htmlData = <h4>Pending</h4>;
     }
     return (
@@ -1162,7 +1163,7 @@ export const handleRssApps = (data) => {
     );
   } else {
     let htmlData = "";
-    if (data.theame.value == "classic") {
+    if (data?.theame?.value == "classic") {
       htmlData = (
         <div
           className="h-100 news-app-bg-img"
@@ -1238,7 +1239,7 @@ export const handleRssApps = (data) => {
           </div>
         </div>
       );
-    } else if (data.theame.value == "blurred") {
+    } else if (data?.theame?.value == "blurred") {
       htmlData = (
         <div
           className="h-100 news-app-bg-img"
@@ -1302,7 +1303,7 @@ export const handleRssApps = (data) => {
           </div>
         </div>
       );
-    } else if (data.theame.value == "white") {
+    } else if (data?.theame?.value == "white") {
       htmlData = (
         <div className="h-100 bg-white">
           <div>
@@ -1375,7 +1376,7 @@ export const handleRssApps = (data) => {
           </div>
         </div>
       );
-    } else if (data.theame.value == "white-background") {
+    } else if (data?.theame?.value == "white-background") {
       htmlData = (
         <div className="h-100 bg-white">
           <div>
@@ -1448,7 +1449,7 @@ export const handleRssApps = (data) => {
           </div>
         </div>
       );
-    } else if (data.theame.value == "white-center") {
+    } else if (data?.theame?.value == "white-center") {
       htmlData = (
         <div className="h-100 bg-white" style={{ padding: "20px" }}>
           <div>
@@ -1516,7 +1517,7 @@ export const handleRssApps = (data) => {
           </div>
         </div>
       );
-    } else if (data.theame.value == "bottom-load") {
+    } else if (data?.theame?.value == "bottom-load") {
       htmlData = (
         <div className="h-100  bg-white " style={{ position: "relative" }}>
           <div style={{ position: "relative", height: "100%" }}>
@@ -1591,7 +1592,7 @@ export const handleRssApps = (data) => {
           </div>
         </div>
       );
-    } else if (data.theame.value == "color-background") {
+    } else if (data?.theame?.value == "color-background") {
       htmlData = <h4>Pending</h4>;
     }
     return (
