@@ -78,6 +78,7 @@ const Integrations = ({ permission, auth }) => {
     { title: "GOOGLE SLIDES", slug: "google-slides", icon: google },
     { title: "All NEWS APP", slug: "all-news-app", icon: news },
     { title: "QUOTES", slug: "quotes", icon: quote },
+
     // { title: "STOCKS", slug: "stocks", icon: Stocks },
     // { title: "QR CODE", slug: "qr-code", icon: qr },
 
