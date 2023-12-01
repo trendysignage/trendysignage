@@ -22,6 +22,7 @@ const CompositionActions = ({
   permission,
   setIsRefresh,
 }) => {
+  console.log(permission, "permission");
   const [duplicateModal, setDuplicateModal] = useState(false);
   const [viewDetailsModal, setViewDetailsModal] = useState(false);
   const [showPublishPopUp, setShowPublishPopUp] = useState(false);
@@ -109,7 +110,7 @@ const CompositionActions = ({
           <Dropdown.Item
             href="#"
             className="dropdown-list-item"
-            disabled={permission && !permission.permission.ASSETS.edit}
+            disabled={permission && !permission.permission.QUICKPLAY.add}
             onClick={() => {
               setShowPublishPopUp(true);
             }}

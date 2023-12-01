@@ -570,7 +570,7 @@ export const handleClockApps = (data) => {
 
 export const handleWeatherApps = (data, weatherInfo) => {
   const prp = JSON.parse(data);
-  console.log(weatherInfo, "weatherInfo");
+  console.log(weatherInfo, prp, "weatherInfo");
   let timeZ =
     prp.location.timeZone && prp.location.timeZone
       ? prp.location.timeZone.timeZoneId
@@ -593,7 +593,11 @@ export const handleWeatherApps = (data, weatherInfo) => {
         {/* weather-app-bg border-bg */}
         <div className="place-date-time d-flex align-items-center justify-content-between ">
           <div className="place-date">
-            <h1>{weatherInfo && weatherInfo.city && weatherInfo.city.name}</h1>
+            <h1>
+              {/* {weatherInfo && weatherInfo.city && weatherInfo.city.name}  */}
+
+              {prp.location.address}
+            </h1>
             <p>
               <Moment
                 format={"D MMM YYYY"}
@@ -604,7 +608,7 @@ export const handleWeatherApps = (data, weatherInfo) => {
           </div>
           <div className="time">
             <p className="mb-0">
-              <Moment format={"h:m A"} date={chicago_datetime_str} />
+              <Moment format={"hh:mm A"} date={chicago_datetime_str} />
             </p>
           </div>
         </div>
